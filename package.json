@@ -1,0 +1,32 @@
+{
+  "name": "electron-next-skeleton",
+  "version": "1.0.0",
+  "main": "main/index.js",
+  "license": "MIT",
+  "repository": "leo/electron-next-skeleton",
+  "scripts": {
+    "start": "electron .",
+    "build": "next build renderer && next export renderer",
+    "dist": "npm run build && bundle"
+  },
+  "bundle": {
+    "name": "ElectronNext"
+  },
+  "devDependencies": {
+    "bundle": "^2.1.0",
+    "electron": "^2.0.8",
+    "next": "^6.1.1",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.0.1",
+    "@material-ui/icons": "^3.0.1",
+    "app-root-path": "^2.0.1",
+    "electron-is-dev": "^0.3.0",
+    "electron-next": "^3.1.3",
+    "jss": "^9.8.7",
+    "prop-types": "^15.6.2",
+    "styled-components": "^3.4.5"
+  }
+}
