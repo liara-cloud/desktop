@@ -1,5 +1,7 @@
+import electron from 'electron';
 import React, { Component, Fragment } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
+import MinimizeIcon from '@material-ui/icons/Minimize';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
@@ -35,10 +37,30 @@ const styles = {
     '&:hover': {
       backgroundColor: 'rgba(232, 17, 35, .9)',
     }
+  },
+  minimizeButton: {
+    borderRadius: 0,
+    transition: 'none',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    }
   }
 };
 
 class TitleBar extends Component {
+  componentDidMount() {
+    this.remote = electron.remote;
+    this.currentWindow = this.remote.getCurrentWindow();
+  }
+
+  handleClose = () => {
+    this.currentWindow.close();
+  }
+
+  handleMinimize = () => {
+    this.currentWindow.minimize();
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -50,7 +72,18 @@ class TitleBar extends Component {
           </Typography>
 
           <div>
-            <Button className={classes.closeButton} color="inherit">
+            <Button
+              color="inherit"
+              className={classes.minimizeButton}
+              onClick={this.handleMinimize}
+            >
+              <MinimizeIcon />
+            </Button>
+            <Button
+              color="inherit"
+              className={classes.closeButton}
+              onClick={this.handleClose}
+            >
               <CloseIcon />
             </Button>
           </div>
