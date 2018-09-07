@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -13,7 +14,7 @@ const styles = theme => ({
   }
 });
 
-function DropZone({ classes, isLoading, ...props }) {
+function DropZone({ classes, isLoading, onBrowse, ...props }) {
   return (
     <div
       className={classes.wrapper}
@@ -26,6 +27,7 @@ function DropZone({ classes, isLoading, ...props }) {
       { ! isLoading && (
         <Fragment>
         <h2>پروژه‌ی خود را بکشید و در این پنجره رها کنید.</h2>
+        <Button color="secondary" variant="raised" onClick={onBrowse}>انتخاب پوشه</Button>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="0 0 489.6 489.6" 

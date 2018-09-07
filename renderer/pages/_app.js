@@ -1,8 +1,10 @@
 import React from 'react';
+import RTL from 'jss-rtl';
+import { create } from 'jss';
 import App, { Container } from 'next/app';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider, jssPreset } from '@material-ui/core/styles';
 
 import getPageContext from '../getPageContext';
 
@@ -10,6 +12,7 @@ class MyApp extends App {
   constructor(props) {
     super(props);
     this.pageContext = getPageContext();
+    this.jss = create({ plugins: [...jssPreset().plugins, RTL()] });
   }
 
   pageContext = null;
@@ -28,6 +31,7 @@ class MyApp extends App {
       <Container>
         {/* Wrap every page in Jss and Theme providers */}
         <JssProvider
+          jss={this.jss}
           registry={this.pageContext.sheetsRegistry}
           generateClassName={this.pageContext.generateClassName}
         >

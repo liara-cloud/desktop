@@ -18,6 +18,7 @@ app.on('ready', async () => {
     height: 600,
     frame: false,
     resizable: false,
+    backgroundColor: '#1b2129'
   })
 
   const devPath = 'http://localhost:8000/start'

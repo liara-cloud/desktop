@@ -22,8 +22,25 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
+          <style>
+            {`
+              :not(input):not(textarea),
+              :not(input):not(textarea)::after,
+              :not(input):not(textarea)::before {
+                  -webkit-user-select: none;
+                  user-select: none;
+                  cursor: default;
+              }
+              input, button, textarea, :focus {
+                  outline: none; // You should add some other style for :focus to help UX/a11y
+              }
+              button, button * {
+                cursor: pointer !important;
+              }
+            `}
+          </style>
         </Head>
-        <body style={{ direction: 'rtl', fontFamily: 'IRANSans' }}>
+        <body dir="rtl" style={{ direction: 'rtl', fontFamily: 'IRANSans' }}>
           <Main />
           <NextScript />
         </body>
