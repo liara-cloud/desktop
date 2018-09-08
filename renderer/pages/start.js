@@ -8,10 +8,18 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import TextField from '@material-ui/core/TextField';
+import LeftArrow from '@material-ui/icons/KeyboardArrowLeft';
+import AddIcon from '@material-ui/icons/Add';
+import EmptyStateIcon from '@material-ui/icons/PlaylistAdd';
 
 import TitleBar from '../components/TitleBar';
 import DropZone from '../components/DropZone';
-import { TextField } from '@material-ui/core';
 
 const styles = () => ({
   wrapper: {
@@ -178,8 +186,9 @@ class Start extends Component {
   }
 
   async getProjects() {
+    this.setState({ projectsLoading: true });
     const { data: { projects } } = await axios.get('/v1/projects', this.APIConfig);
-    this.setState({ projects });
+    this.setState({ projects, projectsLoading: false });
   }
 
   showSpinner() {
@@ -235,7 +244,7 @@ class Start extends Component {
       });
     }
 
-    if( ! form.projectId.test(/^[a-zA-Z0-9][a-zA-Z0-9\-]+[a-zA-Z0-9]$/)) {
+    if( ! /^[a-zA-Z0-9][a-zA-Z0-9\-]+[a-zA-Z0-9]$/.test(form.projectId)) {
       return this.setState({
         errors: { projectId: regexErrorMessage }
       });
@@ -244,7 +253,7 @@ class Start extends Component {
     this.setState({ errors: {} });
 
     try {
-      await APIClient.post('/v1/projects', form);
+      await axios.post('/v1/projects', form, this.APIConfig);
 
       this.setState({
         from: {},
@@ -324,16 +333,65 @@ class Start extends Component {
         {currentStep === 'choose-project' && (
           <Fragment>
             {projects.length > 0 && (
-              <div>
-                لطفا یک پروژه انتخاب کنید:
-                <ul>
-                  {projects.map(project => (
-                    <li key={project._id}>{project.project_id}</li>
-                  ))}
-                </ul>
+              <Fragment>
+                <div style={{ maxHeight: 420, overflowY: 'auto', margin: 32 }}>
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">
+                      لطفا یکی از پروژه‌های‌تان را انتخاب کنید:
+                      <Button
+                        color="secondary"
+                        onClick={this.toggleCreateProjectDialog}
+                      >
+                        <AddIcon />
+                        ایجاد پروژه‌ی جدید
+                      </Button>
+                    </FormLabel>
+                    <RadioGroup
+                      name="choosedProject"
+                      value={this.state.form.choosedProject}
+                      onChange={this.handleChange}
+                    >
+                      {projects.map(project => (
+                        <FormControlLabel
+                          key={project._id}
+                          value={project._id}
+                          control={<Radio />}
+                          label={project.project_id}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+                <div style={{ padding: '0 32px 28px', display: 'flex', justifyContent: 'flex-end' }}>
+                  <Button variant="raised" color="secondary">
+                    مرحله‌ی بعد
+                    <LeftArrow />
+                  </Button>
+                </div>
+              </Fragment>
+            )}
 
-                یا یک پروژه‌ی جدید بسازید:
-                <Button color="secondary" onClick={this.toggleCreateProjectDialog}>ایجاد پروژه‌ی جدید</Button>
+            {projects.length === 0 && (
+              <div
+                style={{
+                  paddingTop: 42,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <EmptyStateIcon style={{ fontSize: 46, color: '#717171' }} />
+                <h3>شما تا الان هیچ پروژه‌ای ایجاد نکرده‌اید.</h3>
+                <Button
+                  color="secondary"
+                  variant="raised"
+                  style={{ marginTop: 16 }}
+                  onClick={this.toggleCreateProjectDialog}
+                >
+                  <AddIcon />
+                  ایجاد پروژه‌ی جدید
+                </Button>
               </div>
             )}
           </Fragment>
