@@ -1,5 +1,5 @@
 // Native
-const { format } = require('url')
+const { format } = require('url');
 
 // Packages
 const { BrowserWindow, app } = require('electron')
