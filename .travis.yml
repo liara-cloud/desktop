@@ -17,6 +17,9 @@ cache:
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
 
+before_script:
+  - npm install
+
 script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
