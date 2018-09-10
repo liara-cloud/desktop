@@ -1,20 +1,44 @@
 {
-  "name": "electron-next-skeleton",
-  "version": "1.0.0",
+  "name": "liara",
+  "version": "0.0.1",
+  "description": "The desktop interface for Liara",
   "main": "main/index.js",
   "license": "MIT",
-  "repository": "leo/electron-next-skeleton",
+  "repository": "liara-ir/desktop",
   "scripts": {
     "start": "electron .",
     "build": "next build renderer && next export renderer",
-    "dist": "npm run build && bundle"
+    "dist": "npm run build && build --mac --linux --win"
   },
-  "bundle": {
-    "name": "ElectronNext"
+  "build": {
+    "appId": "liara.desktop",
+    "files": [
+      "**/*",
+      "!renderer",
+      "renderer/out"
+    ],
+    "win": {
+      "target": [
+        "squirrel"
+      ],
+      "icon": "main/static/icons/windows.ico"
+    },
+    "squirrelWindows": {
+      "loadingGif": "main/static/install-spinner.gif"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Development"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "main/static/icons/mac.icns"
+    }
   },
   "devDependencies": {
     "bundle": "^2.1.0",
     "electron": "^2.0.8",
+    "electron-builder": "^20.28.4",
     "next": "^6.1.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"

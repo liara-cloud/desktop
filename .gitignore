@@ -1,6 +1,7 @@
 # build output
 out
 .next
+dist
 
 # dependencies
 node_modules
