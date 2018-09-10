@@ -4,16 +4,10 @@ matrix:
       osx_image: xcode9.4
       language: node_js
       node_js: "10"
-      script: npm run dist -- --mac
+      script: npm run dist -- --mac --win
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-
-    - language: csharp
-      before_script:
-        - nvm install 10
-        - npm install
-      script: npm run dist -- --win
 
     - os: linux
       language: node_js
