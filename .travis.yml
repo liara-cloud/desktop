@@ -4,27 +4,24 @@ matrix:
       osx_image: xcode9.4
       language: node_js
       node_js: "10"
+      script: npm run dist -- --mac
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
+    - language: csharp
+      script: npm run dist -- --win
+
     - os: linux
       language: node_js
       node_js: "10"
+      script: npm run dist -- --linux
 
 cache:
   directories:
     - node_modules
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
-
-script:
-  - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      npm run dist -- --linux
-    else
-      npm run dist -- --mac --win
-    fi
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
