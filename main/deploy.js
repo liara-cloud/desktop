@@ -1,6 +1,5 @@
 
-function deploy(list) {
-  console.log(list)
+function deploy() {
 }
 
 module.exports = deploy;

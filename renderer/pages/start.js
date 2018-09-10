@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { remote } from 'electron';
+import { remote, IpcRenderer } from 'electron';
 import React, { Component, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -20,6 +20,7 @@ import EmptyStateIcon from '@material-ui/icons/PlaylistAdd';
 
 import TitleBar from '../components/TitleBar';
 import DropZone from '../components/DropZone';
+import { Typography } from '@material-ui/core';
 
 const styles = () => ({
   wrapper: {
@@ -49,9 +50,13 @@ class Start extends Component {
     showSpinner: false,
     dialogMessage: '',
     dialogOptions: {},
-    currentStep: 'drop',
+
+    // currentStep: 'drop',
+    currentStep: 'deployment-type',
+
     projects: [],
     form: {},
+    deploymentType: null,
     showCreateProjectDialog: false,
   }
 
@@ -76,6 +81,7 @@ class Start extends Component {
     this.fs = remote.require('fs-extra');
     this.os = remote.require('os');
     this.path = remote.require('path');
+    this.startDeployment = remote.require('./deploy');
   }
 
   showDropZone = () => {
@@ -112,8 +118,6 @@ class Start extends Component {
   }
 
   async deploy(list) {
-    const deploy = remote.require('./deploy');
-
     if(list.length > 1) {
       this.dialog('امکان مستقر کردن چند پوشه نیست. لطفا یک پوشه انتخاب کنید.');
       return;
@@ -127,20 +131,14 @@ class Start extends Component {
       return;
     }
 
-    const projectPath = list[0];
-    const liaraJSONPath = this.path.join(projectPath, 'liara.json');
+    this.projectPath = list[0];
+    const liaraJSONPath = this.path.join(this.projectPath, 'liara.json');
     const hasLiaraJSONFile = this.fs.existsSync(liaraJSONPath);
-
-    let port;
-    let platform;
-    let projectId;
 
     // Step 1) Read liara.json
     if(hasLiaraJSONFile) {
-      let liaraJSON;
-
       try {
-        liaraJSON = await this.fs.readJSON(liaraJSONPath) || {};
+        this.liaraJSON = await this.fs.readJSON(liaraJSONPath) || {};
       } catch (error) {
         console.error(error);
         this.dialog('فایل `liara.json` دارای یک مشکل نگارشی است.', {
@@ -149,27 +147,28 @@ class Start extends Component {
         return;
       }
 
-      projectId = liaraJSON.project;
+      this.projectId = this.liaraJSON.project;
 
-      if (liaraJSON.port) {
-        port = Number(liaraJSON.port);
+      if (this.liaraJSON.port) {
+        this.port = Number(this.liaraJSON.port);
 
-        if (isNaN(port)) {
+        if (isNaN(this.port)) {
           this.dialog('فیلد `port` در فایل liara.json باید عددی باشد.');
           return;
         }
       }
 
-      platform = liaraJSON.platform;
-      if (platform && typeof platform !== 'string') {
+      this.platform = this.liaraJSON.platform;
+      if (this.platform && typeof this.platform !== 'string') {
         this.dialog('فیلد `port` در فایل liara.json باید رشته‌ای (String) باشد.');
+        return;
       }
     }
 
     this.showSpinner();
 
     // Step 2) Choose a project or create one:
-    if ( ! projectId) {
+    if ( ! this.projectId) {
       // TODO: Handle errors
       await this.getProjects();
 
@@ -182,7 +181,10 @@ class Start extends Component {
 
     // Final step:
     console.log('Deploy:', list);
-    // deploy(list);
+    // this.startDeployment({
+    //   projectPath: this.projectPath,
+    //   projectId: this.projectId 
+    // });
   }
 
   async getProjects() {
@@ -285,6 +287,50 @@ class Start extends Component {
     }
   }
 
+  handleChoosedProject = () => {
+    this.setState({ currentStep: 'deployment-type' });
+
+    // try {
+    //   this.startDeployment({
+    //     projectPath: this.projectPath,
+    //     projectId: choosedProject,
+    //     platform: this.platform,
+    //     port: this.port,
+    //   });
+
+    //   IpcRenderer.on('deployment:building-started', () => {
+    //     //
+    //   });
+
+    //   IpcRenderer.on('deployment:building-finished', () => {
+    //     //
+    //   });
+
+    //   IpcRenderer.on('deployment:creating-service', () => {
+    //     //
+    //   });
+
+    //   IpcRenderer.on('deployment:ready', () => {
+    //     //
+    //   });
+
+    //   IpcRenderer.on('deployment:failed', () => {
+    //     // handle failure
+    //   });
+
+    //   IpcRenderer.on('deployment:log', () => {
+    //     // handle failure
+    //   });
+    // }
+    // catch (err) {
+    //   console.error(err);
+    // }
+  }
+
+  chooseDeploymentType = type => {
+    this.setState({ deploymentType: type });
+  }
+
   render() {
     const { classes } = this.props;
     const {
@@ -354,8 +400,8 @@ class Start extends Component {
                       {projects.map(project => (
                         <FormControlLabel
                           key={project._id}
-                          value={project._id}
                           control={<Radio />}
+                          value={project.project_id}
                           label={project.project_id}
                         />
                       ))}
@@ -363,7 +409,12 @@ class Start extends Component {
                   </FormControl>
                 </div>
                 <div style={{ padding: '0 32px 28px', display: 'flex', justifyContent: 'flex-end' }}>
-                  <Button variant="raised" color="secondary">
+                  <Button
+                    variant="raised"
+                    color="secondary"
+                    onClick={this.handleChoosedProject}
+                    disabled={ ! this.state.form.choosedProject}
+                  >
                     مرحله‌ی بعد
                     <LeftArrow />
                   </Button>
@@ -394,6 +445,65 @@ class Start extends Component {
                 </Button>
               </div>
             )}
+          </Fragment>
+        )}
+
+        {currentStep === 'deployment-type' && (
+          <Fragment>
+            <div style={{ marginRight: 32 }}>
+              <h3>نوع پروژه:</h3>
+              <Typography variant="caption">
+                پروژه‌ی شما با کدام‌یک از تکنولوژی‌های زیر ساخته شده‌است؟
+              </Typography>
+            </div>
+            <div style={{ margin: 32, display: 'flex', justifyContent: 'center' }}>
+              <DeploymentType
+                active={this.state.deploymentType === 'laravel'}
+                onClick={this.chooseDeploymentType.bind(this, 'laravel')}
+              >
+                <img src="/static/logos/laravel2.png" width="60" />
+              </DeploymentType>
+              <DeploymentType
+                active={this.state.deploymentType === 'docker'}
+                onClick={this.chooseDeploymentType.bind(this, 'docker')}
+              >
+                <img src="/static/logos/docker.png" width="70" />
+              </DeploymentType>
+              <DeploymentType
+                active={this.state.deploymentType === 'nodejs'}
+                onClick={this.chooseDeploymentType.bind(this, 'nodejs')}
+              >
+                <img src="/static/logos/nodejs.png" width="70" />
+              </DeploymentType>
+              <DeploymentType
+                active={this.state.deploymentType === 'php'}
+                onClick={this.chooseDeploymentType.bind(this, 'php')}
+              >
+                <img src="/static/logos/php.png" width="60" />
+              </DeploymentType>
+              <DeploymentType
+                active={this.state.deploymentType === 'react'}
+                onClick={this.chooseDeploymentType.bind(this, 'react')}
+              >
+                <img src="/static/logos/react.svg" width="70" />
+              </DeploymentType>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center'
+              }}
+            >
+              <Button
+                variant="raised"
+                color="secondary"
+                onClick={this.handleDeploymentTypeSubmit}
+                disabled={ ! this.state.deploymentType}
+              >
+                ثبت و ادامه
+                <LeftArrow />
+              </Button>
+            </div>
           </Fragment>
         )}
 
@@ -435,6 +545,27 @@ class Start extends Component {
       </div>
     )
   }
+}
+
+function DeploymentType({ active, style, ...props }) {
+  return (
+    <div
+      style={{
+        width: 80,
+        height: 80,
+        padding: 6,
+        marginRight: 10,
+        borderRadius: 6,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        borderBottom: active ? '3px solid #109bfc' : 'none',
+        ...style
+      }}
+      {...props}
+    />
+  );
 }
 
 export default withStyles(styles)(Start);

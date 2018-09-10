@@ -86,10 +86,9 @@ Please specify your deployment type with --node or --docker.`);
     return 'docker';
   }
 
-  // TODO:
-  // if(files.length === 0) {
-  //   logError('Project is empty!');
-  // }
+  if(files.length === 0) {
+    logError('Project is empty!');
+  }
 
   return 'static';
 }
