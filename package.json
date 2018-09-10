@@ -8,7 +8,7 @@
   "scripts": {
     "start": "electron .",
     "build": "next build renderer && next export renderer",
-    "dist": "npm run build && build --mac --linux --win"
+    "dist": "npm run build && build"
   },
   "build": {
     "appId": "liara.desktop",
