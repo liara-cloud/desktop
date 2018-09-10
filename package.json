@@ -39,6 +39,7 @@
     "bundle": "^2.1.0",
     "electron": "^2.0.8",
     "electron-builder": "^20.28.4",
+    "electron-builder-squirrel-windows": "^20.28.3",
     "next": "^6.1.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
