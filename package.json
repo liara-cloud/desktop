@@ -18,16 +18,9 @@
       "renderer/out"
     ],
     "win": {
-      "target": [
-        "squirrel"
-      ],
       "icon": "main/static/icons/windows.ico"
     },
-    "squirrelWindows": {
-      "loadingGif": "main/static/install-spinner.gif"
-    },
     "linux": {
-      "target": "AppImage",
       "category": "Development"
     },
     "mac": {
