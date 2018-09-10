@@ -26,7 +26,7 @@ script:
         -v ${PWD}:/project \
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-        electronuserland/builder:wine \
+        electronuserland/builder:wine-mono \
         /bin/bash -c "npm install && npm run dist"
     else
       npm run dist
