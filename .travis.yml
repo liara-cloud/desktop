@@ -10,6 +10,7 @@ matrix:
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
     - language: csharp
+      before_script: nvm install 10
       script: npm run dist -- --win
 
     - os: linux
