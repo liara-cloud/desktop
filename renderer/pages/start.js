@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { remote, IpcRenderer } from 'electron';
+import { remote, ipcRenderer } from 'electron';
 import React, { Component, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -17,10 +17,11 @@ import TextField from '@material-ui/core/TextField';
 import LeftArrow from '@material-ui/icons/KeyboardArrowLeft';
 import AddIcon from '@material-ui/icons/Add';
 import EmptyStateIcon from '@material-ui/icons/PlaylistAdd';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 import TitleBar from '../components/TitleBar';
 import DropZone from '../components/DropZone';
-import { Typography } from '@material-ui/core';
+import { Typography, CircularProgress } from '@material-ui/core';
 
 const styles = () => ({
   wrapper: {
@@ -51,19 +52,24 @@ class Start extends Component {
     dialogMessage: '',
     dialogOptions: {},
 
-    // currentStep: 'drop',
-    currentStep: 'deployment-type',
+    currentStep: 'drop',
 
     projects: [],
     form: {},
     deploymentType: null,
     showCreateProjectDialog: false,
+
+    logs: [],
+
+    deploymentMessage: 'در حال مستقر کردن پروژه روی سرورهای لیارا، لطفا صبر کنید...',
   }
 
   baseURL = 'http://localhost:3000';
 
   async componentDidMount() {
     this.requireNodeModules();
+
+    this.streamEvents();
 
     const liaraConfPath = this.path.join(this.os.homedir(), '.liara.json');
 
@@ -81,7 +87,13 @@ class Start extends Component {
     this.fs = remote.require('fs-extra');
     this.os = remote.require('os');
     this.path = remote.require('path');
-    this.startDeployment = remote.require('./deploy');
+    this.deployToLiara = remote.require('./deploy');
+    this.open = remote.require('opn');
+  }
+
+  startDeployment(options) {
+    this.setState({ currentStep: 'deployment:started' });
+    this.deployToLiara(options);
   }
 
   showDropZone = () => {
@@ -288,47 +300,89 @@ class Start extends Component {
   }
 
   handleChoosedProject = () => {
-    this.setState({ currentStep: 'deployment-type' });
+    this.projectId = this.state.form.choosedProject;
 
-    // try {
-    //   this.startDeployment({
-    //     projectPath: this.projectPath,
-    //     projectId: choosedProject,
-    //     platform: this.platform,
-    //     port: this.port,
-    //   });
+    if( ! this.platform) {
+      return this.setState({ currentStep: 'deployment-type' });
+    }
 
-    //   IpcRenderer.on('deployment:building-started', () => {
-    //     //
-    //   });
-
-    //   IpcRenderer.on('deployment:building-finished', () => {
-    //     //
-    //   });
-
-    //   IpcRenderer.on('deployment:creating-service', () => {
-    //     //
-    //   });
-
-    //   IpcRenderer.on('deployment:ready', () => {
-    //     //
-    //   });
-
-    //   IpcRenderer.on('deployment:failed', () => {
-    //     // handle failure
-    //   });
-
-    //   IpcRenderer.on('deployment:log', () => {
-    //     // handle failure
-    //   });
-    // }
-    // catch (err) {
-    //   console.error(err);
-    // }
+    // TODO: Rename this method! It actually starts the deployment.
+    this.handleDeploymentTypeSubmit();
   }
 
   chooseDeploymentType = type => {
     this.setState({ deploymentType: type });
+  }
+
+  handleDeploymentTypeSubmit = () => {
+    const { form, deploymentType } = this.state;
+    const { choosedProject } = form;
+
+    try {
+      this.startDeployment({
+        projectPath: this.projectPath,
+        projectId: choosedProject,
+        platform: deploymentType || this.platform,
+        port: this.port,
+      });
+    }
+    catch (err) {
+      console.error(err);
+    }
+  }
+
+  /**
+   * @note Events will be fired after starting a deployment.
+   */
+  streamEvents() {
+    ipcRenderer.on('deployment:uploading', () => {
+      this.setState({ deploymentMessage: 'در حال آپلودکردن فایل‌ها...' });
+    });
+
+    ipcRenderer.on('deployment:building-started', () => {
+      this.setState({
+        showLogs: true,
+        currentStep: 'deployment:stream-logs',
+        deploymentMessage: 'در حال build کردن پروژه...',
+      });
+    });
+
+    ipcRenderer.on('deployment:building-finished', () => {
+      this.setState({
+        deploymentMessage: 'در حال ذخیره‌ی image پروژه...',
+      });
+    });
+
+    ipcRenderer.on('deployment:creating-service', () => {
+      this.setState({
+        deploymentMessage: 'در حال ایجاد سرویس...',
+      });
+    });
+
+    ipcRenderer.on('deployment:ready', () => {
+      this.setState({
+        currentStep: 'deployment:ready',
+        deploymentMessage: 'عملیات با موفقیت به پایان رسید.',
+      });
+    });
+
+    ipcRenderer.on('deployment:failed', () => {
+      this.setState({
+        currentStep: 'deployment:failed',
+        deploymentMessage: 'عملیات شکست خورد.',
+      });
+    });
+
+    ipcRenderer.on('deployment:log', (_, log) => {
+      this.setState(prevState => ({
+        logs: [...prevState.logs, log],
+      }));
+    });
+  }
+
+  openInBrowser = () => {
+    // TODO: Use liara.run in production
+    this.open(`http://${this.projectId}.liara.localhost`);
   }
 
   render() {
@@ -342,6 +396,7 @@ class Start extends Component {
       projects,
       errors = {}
     } = this.state;
+
     return (
       <div className={classes.wrapper}>
         <TitleBar />
@@ -470,8 +525,8 @@ class Start extends Component {
                 <img src="/static/logos/docker.png" width="70" />
               </DeploymentType>
               <DeploymentType
-                active={this.state.deploymentType === 'nodejs'}
-                onClick={this.chooseDeploymentType.bind(this, 'nodejs')}
+                active={this.state.deploymentType === 'node'}
+                onClick={this.chooseDeploymentType.bind(this, 'node')}
               >
                 <img src="/static/logos/nodejs.png" width="70" />
               </DeploymentType>
@@ -504,6 +559,54 @@ class Start extends Component {
                 <LeftArrow />
               </Button>
             </div>
+          </Fragment>
+        )}
+
+        {currentStep.startsWith('deployment:') && (
+          <Fragment>
+            {currentStep === 'deployment:started' && (
+              <div
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}
+              >
+                <img src="/static/outer-space.svg" width="400" alt=""/>
+              </div>
+            )}
+
+            {this.state.showLogs && (
+              <div style={{ flex: 1, overflowY: 'auto', direction: 'ltr', textAlign: 'left' }}>
+                <ul style={{ listStyleType: 'none', paddingLeft: 24 }}>
+                  {this.state.logs.map(log => (
+                    <li>
+                      <Typography style={{ userSelect: 'text', cursor: 'text' }}>{log.message}</Typography>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <footer style={{ borderTop: '1px solid #3e4d5f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px', backgroundColor: '#0a0f17' }}>
+              <Typography style={{ color: currentStep === 'deployment:failed' ? 'red' : undefined }}>
+                <LeftArrow style={{ verticalAlign: 'middle' }} />
+                {this.state.deploymentMessage}
+              </Typography>
+
+              {currentStep === 'deployment:ready' && (
+                <Button onClick={this.openInBrowser}>
+                  <OpenInNewIcon style={{ marginLeft: 8 }} />
+                  بازکردن پروژه
+                </Button>
+              )}
+
+              {currentStep !== 'deployment:failed' && currentStep !== 'deployment:ready' && (
+                <CircularProgress color="secondary" size={20} style={{ marginLeft: 10 }} />
+              )}
+            </footer>
           </Fragment>
         )}
 

@@ -41,14 +41,19 @@
     "@material-ui/core": "^3.0.1",
     "@material-ui/icons": "^3.0.1",
     "app-root-path": "^2.0.1",
+    "async-retry": "^1.1.4",
     "axios": "^0.18.0",
+    "bytes": "^3.0.0",
     "electron-is-dev": "^0.3.0",
     "electron-next": "https://github.com/mhemrg/electron-next.git#fix/next6",
     "fs-extra": "^7.0.0",
     "got": "^9.2.0",
+    "ignore": "^3.3.7",
     "jss": "^9.8.7",
     "jss-rtl": "^0.2.3",
+    "klaw": "^2.1.0",
+    "opn": "^5.3.0",
     "prop-types": "^15.6.2",
-    "styled-components": "^3.4.5"
+    "through2": "^2.0.3"
   }
 }

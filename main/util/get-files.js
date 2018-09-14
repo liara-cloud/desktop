@@ -1,9 +1,10 @@
-import klaw from 'klaw';
-import hash from './hash';
-import through2 from 'through2';
-import { relative, join, basename, dirname } from 'path';
-import { readFile, readFileSync, existsSync } from 'fs-extra';
-import ignore from 'ignore';
+const klaw = require('klaw');
+const ignore = require('ignore');
+const through2 = require('through2');
+const { relative, join, basename, dirname } = require('path');
+const { readFile, readFileSync, existsSync } = require('fs-extra');
+
+const hash = require('./hash');
 
 const defaultIgnores = [
   '.git',
@@ -56,7 +57,7 @@ const ignoreFiles = function (ignoreInstance, projectPath) {
   });
 };
 
-export default async function getFiles(projectPath) {
+async function getFiles(projectPath) {
   const mapHashesToFiles = new Map;
   const directories = [];
 
@@ -122,3 +123,5 @@ export default async function getFiles(projectPath) {
 
   return { files, directories, mapHashesToFiles };
 }
+
+module.exports = getFiles;

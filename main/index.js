@@ -9,11 +9,13 @@ const { resolve } = require('app-root-path')
 
 app.disableHardwareAcceleration();
 
+var mainWindow;
+
 // Prepare the renderer once the app is ready
 app.on('ready', async () => {
   await prepareNext('./renderer')
 
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     frame: false,
@@ -35,3 +37,9 @@ app.on('ready', async () => {
 
 // Quit the app once all windows are closed
 app.on('window-all-closed', app.quit)
+
+module.exports = {
+  getMainWindow() {
+    return mainWindow;
+  }
+};

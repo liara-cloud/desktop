@@ -1,12 +1,14 @@
-import hash from './hash';
+const hash = require('./hash');
 
 const dockerfiles = {
   node: new Buffer('FROM node-platform'),
   static: new Buffer('FROM static-platform'),
+  react: new Buffer('FROM static-platform'),
+  angular: new Buffer('FROM static-platform'),
   laravel: new Buffer('FROM laravel-platform'),
 };
 
-export default function ensureAppHasDockerfile(deploymentType, files, mapHashesToFiles) {
+module.exports = function ensureAppHasDockerfile(deploymentType, files, mapHashesToFiles) {
   if(deploymentType === 'docker') {
     return {
       filesWithDockerfile: files,
