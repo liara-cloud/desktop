@@ -10,7 +10,6 @@ export default function Deploy() {
   const Container = styled.div`
     width: 100%;
     padding: 25px;
-
     p {
       display: inline-block;
       padding-right: 10px;

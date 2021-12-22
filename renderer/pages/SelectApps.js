@@ -58,7 +58,7 @@ export default function SelectApps() {
       <SelectAppsStyled />
       <GlobalStyle />
       <div dir="rtl">
-        <User />
+        <User setShowApps={setShowApps} />
         <p className="title">انتخاب برنامه</p>
         <p className="caption">
           ﺑﺮﻧﺎﻣﻪﺍﯼ ﮐﻪ ﻣﯽﺧﻮﺍﻫﯿﺪ ﺩﺭ ﺁﻥ ﺩﯾﭙﻠﻮﯼ ﮐﻨﯿﺪ ﺭﺍ ﺍﻧﺘﺨﺎﺏ ﮐﻨﯿﺪ.

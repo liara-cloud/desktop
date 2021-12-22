@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Liara } from "../components/icon";
 import Layout from "../components/Layout";
 import Button from "../components/styled/Button";
-import GlobalStyle from "../components/styled/globalStyle";
 import Logo from "../components/styled/Logo";
 
 const Home = () => {

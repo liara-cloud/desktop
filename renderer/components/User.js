@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Fragment } from "react/cjs/react.production.min";
 import styled from "styled-components";
 import { ArrowBottom, German, Iran } from "../components/icon";
-export default function User(props) {
+export default function User({ setShowApps }) {
   const UserItem = styled.div`
     display: flex;
     justify-content: center;
@@ -125,6 +125,10 @@ export default function User(props) {
   const handleMenu = () => {
     setMenu(!menu);
   };
+
+  if (menu === true) {
+    setShowApps(false);
+  }
 
   return (
     <Fragment>
