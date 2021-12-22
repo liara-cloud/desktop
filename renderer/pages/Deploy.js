@@ -31,7 +31,7 @@ export default function Deploy() {
     textarea {
       ${(props) =>
         props.variant === "error" ? ` height: 219px;` : ` height: 251px;`}
-      width: 280px;
+      width: 285px;
       background: #fafafa;
       border: 1px solid #e8e8e8;
       border-radius: 15px;
@@ -45,12 +45,12 @@ export default function Deploy() {
     div {
       display: flex;
       justify-content: space-between;
-      width: 277px;
+      width: 285px;
       margin: 25px auto 0px;
     }
   `;
 
-  const [status, setStatus] = useState("success");
+  const [status, setStatus] = useState("deploy");
   // deploy - error - success
 
   if (status === "deploy") {
