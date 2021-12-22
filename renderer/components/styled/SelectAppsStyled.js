@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
         padding-right  : 25px;
         padding-left  : 25px;
         margin: 0px auto;
-        mar
+        
 
     }
     

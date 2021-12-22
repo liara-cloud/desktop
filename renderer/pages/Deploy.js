@@ -1,6 +1,7 @@
-import React from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { BlueCircle } from "../components/icon";
+import { BlueCircle, GreenCircle, RedCircle } from "../components/icon";
 import Layout from "../components/Layout";
 import Button from "../components/styled/Button";
 import User from "../components/User";
@@ -13,12 +14,24 @@ export default function Deploy() {
     p {
       display: inline-block;
       padding-right: 10px;
-      padding-bottom: 24px;
+      ${(props) =>
+        props.variant === "error"
+          ? `padding-bottom: 5px;`
+          : `padding-bottom: 24px;`}
+      font-size: 14px;
       margin-block-start: 0em !important ;
     }
+    span {
+      display: inline-block;
+      color: #999;
+      font-size: 12px;
+      line-height: 21px;
+      margin-bottom: 20px;
+    }
     textarea {
+      ${(props) =>
+        props.variant === "error" ? ` height: 219px;` : ` height: 251px;`}
       width: 280px;
-      height: 251px;
       background: #fafafa;
       border: 1px solid #e8e8e8;
       border-radius: 15px;
@@ -29,24 +42,91 @@ export default function Deploy() {
       padding: 10px;
       white-space: break-spaces;
     }
+    div {
+      display: flex;
+      justify-content: space-between;
+      width: 277px;
+      margin: 25px auto 0px;
+    }
   `;
 
-  return (
-    <Layout>
-      <div dir="rtl">
-        <User />
-        <Container>
-          <BlueCircle />
-          <p>در حال استقرار</p>
+  const [status, setStatus] = useState("success");
+  // deploy - error - success
 
-          <textarea
-            placeholder="> Fetching the source code: 0%"
-            spellcheck="false"
-          ></textarea>
+  if (status === "deploy") {
+    return (
+      <Layout>
+        <div dir="rtl">
+          <User />
+          <Container>
+            <BlueCircle />
+            <p>در حال استقرار</p>
 
-          <Button cancle>لغو</Button>
-        </Container>
-      </div>
-    </Layout>
-  );
+            <textarea
+              placeholder="> Fetching the source code: 0%"
+              spellcheck="false"
+            ></textarea>
+
+            <Button cancle>لغو</Button>
+          </Container>
+        </div>
+      </Layout>
+    );
+  }
+  if (status === "error") {
+    return (
+      <Layout>
+        <div dir="rtl">
+          <User />
+          <Container variant="error">
+            <RedCircle />
+            <p>ﺍﺳﺘﻘﺮﺍﺭ ﺑﺎ ﺧﻄﺎ ﻣﻮﺍﺟﻪ ﺷﺪ</p>
+            <span>
+              ﺩﺭ ﺻﻮﺭﺕ ﻧﯿﺎﺯ ﺑﻪ ﭘﺸﺘﯿﺒﺎﻧﯽ، ﻻﮒﻫﺎﯼ ﺍﯾﻦ ﺍﺳﺘﻘﺮﺍﺭ ﺭﺍ ﺩﺭﯾﺎﻓﺖ ﻭ ﺩﺭ ﺗﯿﮑﺖ
+              ﭘﯿﻮﺳﺖ ﮐﻨﯿﺪ.
+            </span>
+            <textarea
+              placeholder="> Fetching the source code: 0%"
+              spellcheck="false"
+            ></textarea>
+
+            <div className="btn-container">
+              <Link href="/Deploy">
+                <Button main>دریافت لاگ</Button>
+              </Link>
+              <Link href="/Draggable">
+                <Button main>استقرار جدید</Button>
+              </Link>
+            </div>
+          </Container>
+        </div>
+      </Layout>
+    );
+  }
+  if (status === "success") {
+    return (
+      <Layout>
+        <div dir="rtl">
+          <User />
+          <Container>
+            <GreenCircle />
+            <p>ﺍﺳﺘﻘﺮﺍﺭ ﺍﻧﺠﺎﻡ ﺷﺪ</p>
+            <textarea
+              placeholder="> Fetching the source code: 0%"
+              spellcheck="false"
+            ></textarea>
+
+            <div className="btn-container">
+              <Link href="/Draggable">
+                <Button main>نمایش در مرورگر</Button>
+              </Link>
+              <Link href="/Deploy">
+                <Button main>دریافت لاگ</Button>
+              </Link>
+            </div>
+          </Container>
+        </div>
+      </Layout>
+    );
+  }
 }
