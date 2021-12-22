@@ -154,7 +154,7 @@ export function RedCircle() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="4.25" cy="3.75" r="3.75" fill="#0070F3" />
+      <circle cx="4.25" cy="3.75" r="3.75" fill="#EA5167" />
     </svg>
   );
 }
