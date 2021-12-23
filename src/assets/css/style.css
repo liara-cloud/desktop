@@ -1,0 +1,428 @@
+/* index */
+.register {
+  line-height: 50px;
+  margin-right: 50%;
+  font-size: 14px;
+  display: inline-block;
+  transform: translateX(50%);
+}
+.register a {
+  padding-right: 5px;
+  text-decoration: none;
+  color: black;
+}
+
+/* Layout */
+.version {
+  color: #999;
+  font-size: 12px;
+  position: fixed;
+  bottom: 10px;
+  left: 15px;
+  font-wight: 200;
+}
+.support {
+  color: #999;
+  font-size: 12px;
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  font-wight: 200;
+}
+
+/* btn */
+.btn {
+  color: white;
+  width: 208px;
+  height: 38px;
+  cursor: pointer;
+  font-family: iranyekan;
+  font-weight: 400;
+  font-size: 16px;
+  border-radius: 7.5px;
+  border: none;
+  background: #0070f3;
+  outline: none;
+  margin-right: 50%;
+  transform: translateX(50%);
+}
+.btn.select {
+  margin-right: auto;
+  font-size: 16px;
+  -webkit-transform: inherit;
+  -ms-transform: inherit;
+  transform: inherit;
+  width: 104px;
+  height: 38px;
+}
+.btn a {
+  font-weight: 400;
+  color: white;
+  text-decoration: none;
+}
+
+.btn.main {
+  width: 125px !important;
+  height: 34px !important;
+  margin-right: 0px;
+  font-size: 14px;
+  transform: inherit;
+}
+
+.btn.disabled a {
+  color: #999999 !important;
+}
+.btn.disabled {
+  background: #e8e8e8;
+  color: #999999 !important;
+}
+.btn.cancle a {
+  color: #fff !important;
+}
+.btn.cancle {
+  background: #ea5167;
+  color: #fff !important;
+  margin-right: 50%;
+  width: 125px;
+  height: 34px;
+  font-size: 14px;
+  transform: translateX(50%);
+  margin-top: 25px;
+}
+
+/* DragDrop */
+.drag-drop {
+  width: 300px;
+  overflow: hidden;
+  height: 379px;
+  border-radius: 15px;
+  margin: 23px auto;
+  position: relative;
+  border: 1px dashed #999999;
+}
+.drag-drop label {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.drag-drop label :hover {
+  display: none;
+}
+.drag-drop label svg {
+  display: none;
+}
+.drag-drop label span {
+  display: none;
+}
+
+.select-projct {
+  position: absolute;
+  top: 30%;
+  line-height: 50px;
+  font-size: 18px;
+  white-space: nowrap;
+  z-index: -1;
+  right: 50%;
+  text-align: center;
+  transform: translateX(50%);
+}
+
+/* logo */
+.logo {
+  font-size: 22px;
+  text-align: center;
+  margin-top: 120px;
+  height: 40px;
+  display: flex;
+  margin-bottom: 10px;
+  text-align: center;
+  justify-content: center;
+}
+.logo span {
+  padding-right: 10px;
+}
+
+/* SelectAppsStyled */
+.title {
+  padding-right: 25px;
+  font-size: 14px;
+  color: #303030;
+  margin-top: 30px;
+}
+.caption {
+  padding-right: 25px;
+  margin-top: 7px;
+  font-size: 12px;
+  color: #999999;
+}
+.port {
+  width: 300px;
+  height: 34px;
+  background: #fafbfc;
+  border: 1px solid #e8e8e8;
+  border-radius: 7.5px;
+  margin-right: 50%;
+  transform: translateX(50%);
+  margin-top: 24px;
+  line-height: 34px;
+  margin-bottom: 88px;
+  direction: ltr;
+  padding-right: 10px;
+  font-size: 14px;
+  outline: none;
+  font-family: iranyekan;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-right: 25px;
+  padding-left: 25px;
+  margin: 0px auto;
+}
+
+/* AppsItem */
+.box {
+  background: #fafafa;
+  width: 300px;
+  border: 1px solid #e8e8e8;
+  border-radius: 7.5px;
+  font-size: 14px;
+  position: absolute;
+  top: 220px;
+  right: 50%;
+  transform: translateX(50%);
+  z-index: 10;
+}
+
+.item {
+  width: 290px;
+  height: 34px;
+  padding-right: 32px;
+  transition: 0.3s;
+  position: relative;
+  margin: 5px auto;
+  border-radius: 7.5px;
+  line-height: 34px;
+  cursor: pointer;
+}
+.item:hover {
+  color: #fff !important ;
+  background: #0070f3;
+}
+.item svg {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+}
+
+/* User */
+.user-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: 0.3s;
+  margin-bottom: 5px;
+  margin-top: 19px;
+}
+.user-item img {
+  border-radius: 50%;
+  margin-left: 10px;
+  width: 32px;
+  height: 32px;
+}
+.user-item p {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.user-item span {
+  cursor: pointer;
+}
+.user-item .region {
+  position: absolute;
+  right: 50px;
+  top: 22px;
+}
+.user-item .region svg {
+  border-radius: 50%;
+}
+
+.user-item.menu-item {
+  border-radius: 7.5px;
+  width: 189px;
+  height: 45px;
+  line-height: 45px;
+  margin-right: 50% !important;
+  transform: translateX(50%);
+  margin-bottom: 5px !important;
+}
+.user-item.menu-item:hover {
+  background-color: #0070f3;
+  color: #fff;
+  transition: 0.2s;
+  transition: 0.3s;
+}
+.user-item.menu-item .region {
+  position: absolute;
+  right: 40px;
+  top: 15px;
+}
+.user-item.carrent {
+  height: 45px;
+  color: #0070f3;
+  margin-top: 3px !important;
+}
+/* Menu */
+.menu {
+  position: absolute;
+  left: 50%;
+  z-index: 3;
+  transform: translateX(-50%);
+  transition: all 0.2s;
+  background: #fafafa;
+  width: 208px;
+  height: 200px;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+}
+.menu a.exit {
+  border-radius: 7.5px;
+  transition: 0.3s;
+  text-align: center;
+  display: inline-block;
+  margin-right: 50%;
+  transform: translateX(50%);
+  color: #303030;
+  text-decoration: none;
+  width: 189px;
+  font-size: 14px;
+  height: 45px;
+  line-height: 45px;
+}
+.menu a.exit:hover {
+  background-color: #0070f3;
+  color: #fff;
+}
+.add {
+  transition: 0.3s;
+  white-space: nowrap;
+  background: #e8e8e8;
+  height: 45px;
+  width: 189px;
+  text-align: center;
+  line-height: 45px;
+  border-radius: 7.5px;
+  color: #303030;
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-block;
+  margin-right: 50%;
+  transform: translateX(50%);
+  marign-top: 5px;
+  margin-bottom: 5px;
+}
+.add:hover {
+  background-color: #0070f3;
+  color: #fff;
+}
+/* Deploy */
+
+div.deploy {
+  width: 100%;
+  padding: 25px;
+}
+
+div.deploy p {
+  display: inline-block;
+  padding-right: 10px;
+  font-size: 14px;
+  padding-bottom: 24px;
+}
+div.deploy span {
+  display: inline-block;
+  color: #999;
+  font-size: 12px;
+  line-height: 25px;
+  margin-bottom: 20px;
+}
+div.deploy textarea {
+  height: 276px;
+  font-family: iranyekan;
+  width: 300px;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 15px;
+  resize: none;
+  font-size: 12px;
+  direction: ltr;
+  outline: none;
+  padding: 10px;
+  white-space: nowrap;
+}
+
+div.deploy .btn-container {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  padding: 0;
+  margin: 20px auto 0px;
+}
+
+div.deploy.error p {
+  padding-bottom: 5px;
+}
+div.deploy.error textarea {
+  height: 224px;
+  white-space: nowrap;
+}
+
+/* SelectApps */
+.apps {
+  width: 300px;
+  height: 34px;
+  background: #fafbfc;
+  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  border-radius: 7.5px;
+  margin-right: 50%;
+  transform: translateX(50%);
+  margin-top: 24px;
+  line-height: 34px;
+  margin-bottom: 55px;
+  padding-right: 8px;
+  font-size: 14px;
+}
+.apps span.left-icon {
+  float: left;
+  padding-left: 10px;
+  padding-top: 2px;
+}
+.apps span.name {
+  margin-top: -5px;
+  position: absolute;
+  top: 6px;
+  right: 38px;
+}
+
+.apps span.selected svg {
+  margin-top: 6px;
+}
+
+.deploy-icon {
+  animation: deploy 0.5s infinite alternate-reverse;
+}
+
+@keyframes deploy {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

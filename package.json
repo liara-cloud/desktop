@@ -1,35 +1,45 @@
 {
-  "private": true,
-  "productName": "liara",
-  "main": "main/index.js",
+  "name": "liara",
+  "version": "1.0.0",
+  "description": "Liara deploy app",
+  "author": "tcerdaITBA",
+  "license": "MIT",
+  "main": "main.js",
   "scripts": {
-    "clean": "rimraf dist renderer/.next renderer/out",
-    "start": "electron .",
-    "build": "next build renderer && next export renderer",
-    "pack-app": "npm run build && electron-builder --dir",
-    "dist": "npm run build && electron-builder"
-  },
-  "build": {
-    "asar": true,
-    "files": [
-      "main",
-      "renderer/out"
-    ]
+    "prod": "webpack --config webpack.build.config.js && electron --noDevServer .",
+    "dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.config.js",
+    "build": "webpack --config webpack.build.config.js",
+    "package": "webpack --config webpack.build.config.js",
+    "postpackage": "electron-packager ./ --out=./builds --overwrite"
   },
   "devDependencies": {
-    "electron": "^12.0.2",
-    "electron-builder": "^22.10.5",
-    "electron-packager": "^15.4.0",
-    "next": "latest",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^1.0.0",
+    "dotenv-webpack": "^1.5.7",
+    "electron": "^3.0.4",
+    "electron-packager": "^12.2.0",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.4",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
-    "electron-is-dev": "^1.1.0",
-    "electron-next": "^3.1.5",
+    "ajv": "^6.5.4",
+    "dotenv": "^6.1.0",
     "react-drag-drop-files": "^2.2.2",
-    "react-router": "^6.2.1",
-    "react-router-dom": "^6.2.1",
-    "styled-components": "^5.3.3"
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "reactstrap": "^6.5.0",
+    "typeface-ibm-plex-sans": "0.0.61"
   }
 }

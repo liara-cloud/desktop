@@ -1,50 +1,12 @@
-import Link from "next/link";
 import React, { useState } from "react";
-import styled from "styled-components";
-import AppsItem from "../components/AppsItem";
-import { ArrowBottom, Node, Tick } from "../components/icon";
-import Layout from "../components/Layout";
-import Button from "../components/styled/Button";
-import GlobalStyle from "../components/styled/globalStyle";
-import SelectAppsStyled from "../components/styled/SelectAppsStyled";
-import User from "../components/User";
+import { Link } from "react-router-dom";
+import AppsItem from "./AppsItem";
+import { ArrowBottom, Node, Tick } from "./icon";
+import Layout from "./Layout";
+import User from "./User";
 
-export default function SelectApps() {
-  const Apps = styled.div`
-    width: 290px;
-    height: 34px;
-    background: #fafbfc;
-    cursor: pointer;
-    border: 1px solid #e8e8e8;
-    border-radius: 7.5px;
-    margin-right: 50%;
-    transform: translateX(50%);
-    margin-top: 24px;
-    line-height: 34px;
-    margin-bottom: 55px;
-    padding-right: 8px;
-    font-size: 14px;
-    span.left-icon {
-      float: left;
-      padding-left: 10px;
-      padding-top: 2px;
-    }
-    logo svg {
-      margin-top: 10px;
-    }
-    name {
-      margin-top: -5px;
-      position: absolute;
-      top: 6px;
-      right: 38px;
-    }
-    span.selected {
-      svg {
-        margin-top: 6px;
-      }
-    }
-  `;
 
+function SelectApps() {
   const data = [
     { name: "node-app", svg: <Node /> },
     { name: "my-admin-app", svg: <Node /> },
@@ -55,15 +17,13 @@ export default function SelectApps() {
 
   return (
     <Layout>
-      <SelectAppsStyled />
-      <GlobalStyle />
       <div dir="rtl">
         <User setShowApps={setShowApps} />
         <p className="title">انتخاب برنامه</p>
         <p className="caption">
           ﺑﺮﻧﺎﻣﻪﺍﯼ ﮐﻪ ﻣﯽﺧﻮﺍﻫﯿﺪ ﺩﺭ ﺁﻥ ﺩﯾﭙﻠﻮﯼ ﮐﻨﯿﺪ ﺭﺍ ﺍﻧﺘﺨﺎﺏ ﮐﻨﯿﺪ.
         </p>
-        <Apps onClick={() => setShowApps(!showApps)}>
+        <div className="apps" onClick={() => setShowApps(!showApps)}>
           {selected === "" ? (
             <>
               ﺑﺮﻧﺎﻣﻪﺍﯼ ﺍﻧﺘﺨﺎﺏ ﻧﺸﺪﻩ
@@ -74,13 +34,13 @@ export default function SelectApps() {
           ) : (
             <>
               <span className="selected">{selected.svg}</span>
-              <name>{selected.name}</name>
+              <span className="name">{selected.name}</span>
               <span className="left-icon">
                 <Tick />
               </span>
             </>
           )}
-        </Apps>
+        </div>
         {showApps && (
           <AppsItem
             dataApp={data}
@@ -92,14 +52,19 @@ export default function SelectApps() {
         <p className="caption">ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.</p>
         <input className="port" type="number" placeholder="80" />
         <div className="btn-container">
-          <Link href="/Deploy">
-            <Button main>بعدی</Button>
+          <Link to="/Deploy">
+            <button className="btn main" >
+              بعدی
+            </button>
           </Link>
-          <Link href="/Draggable">
-            <Button main>قبلی</Button>
+          <Link to="/Draggable">
+            <button className="btn main" >
+              قبلی
+            </button>
           </Link>
         </div>
       </div>
     </Layout>
   );
 }
+export default SelectApps;

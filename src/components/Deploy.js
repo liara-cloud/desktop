@@ -1,55 +1,11 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
-import styled from "styled-components";
 import { BlueCircle, GreenCircle, RedCircle } from "../components/icon";
 import Layout from "../components/Layout";
-import Button from "../components/styled/Button";
 import User from "../components/User";
 
 export default function Deploy() {
-  const Container = styled.div`
-    width: 100%;
-    padding: 25px;
-    p {
-      display: inline-block;
-      padding-right: 10px;
-      ${(props) =>
-        props.variant === "error"
-          ? `padding-bottom: 5px;`
-          : `padding-bottom: 24px;`}
-      font-size: 14px;
-      margin-block-start: 0em !important ;
-    }
-    span {
-      display: inline-block;
-      color: #999;
-      font-size: 12px;
-      line-height: 21px;
-      margin-bottom: 20px;
-    }
-    textarea {
-      ${(props) =>
-        props.variant === "error" ? ` height: 219px;` : ` height: 251px;`}
-      width: 285px;
-      background: #fafafa;
-      border: 1px solid #e8e8e8;
-      border-radius: 15px;
-      resize: none;
-      font-size: 12px;
-      direction: ltr;
-      outline: none;
-      padding: 10px;
-      white-space: break-spaces;
-    }
-    div {
-      display: flex;
-      justify-content: space-between;
-      width: 285px;
-      margin: 25px auto 0px;
-    }
-  `;
-
-  const [status, setStatus] = useState("deploy");
+  const [status, setStatus] = useState("error");
   // deploy - error - success
 
   if (status === "deploy") {
@@ -57,17 +13,17 @@ export default function Deploy() {
       <Layout>
         <div dir="rtl">
           <User />
-          <Container>
-            <BlueCircle />
+          <div className="deploy">
+            <span className="deploy-icon">
+              <BlueCircle />
+            </span>
             <p>در حال استقرار</p>
-
             <textarea
               placeholder="> Fetching the source code: 0%"
               spellcheck="false"
             ></textarea>
-
-            <Button cancle>لغو</Button>
-          </Container>
+            <button className="btn cancle">لغو</button>
+          </div>
         </div>
       </Layout>
     );
@@ -77,7 +33,7 @@ export default function Deploy() {
       <Layout>
         <div dir="rtl">
           <User />
-          <Container variant="error">
+          <div className="deploy error">
             <RedCircle />
             <p>ﺍﺳﺘﻘﺮﺍﺭ ﺑﺎ ﺧﻄﺎ ﻣﻮﺍﺟﻪ ﺷﺪ</p>
             <span>
@@ -90,14 +46,14 @@ export default function Deploy() {
             ></textarea>
 
             <div className="btn-container">
-              <Link href="/Deploy">
-                <Button main>دریافت لاگ</Button>
+              <Link to="/Deploy">
+                <button className="btn main">دریافت لاگ</button>
               </Link>
-              <Link href="/Draggable">
-                <Button main>استقرار جدید</Button>
+              <Link to="/Draggable">
+                <button className="btn main">استقرار جدید</button>
               </Link>
             </div>
-          </Container>
+          </div>
         </div>
       </Layout>
     );
@@ -107,7 +63,7 @@ export default function Deploy() {
       <Layout>
         <div dir="rtl">
           <User />
-          <Container>
+          <div className="deploy ">
             <GreenCircle />
             <p>ﺍﺳﺘﻘﺮﺍﺭ ﺍﻧﺠﺎﻡ ﺷﺪ</p>
             <textarea
@@ -116,14 +72,14 @@ export default function Deploy() {
             ></textarea>
 
             <div className="btn-container">
-              <Link href="/Draggable">
-                <Button main>نمایش در مرورگر</Button>
+              <Link to="/Draggable">
+                <button className="btn main">نمایش در مرورگر</button>
               </Link>
-              <Link href="/Deploy">
-                <Button main>دریافت لاگ</Button>
+              <Link to="/Deploy">
+                <button className="btn main">دریافت لاگ</button>
               </Link>
             </div>
-          </Container>
+          </div>
         </div>
       </Layout>
     );
