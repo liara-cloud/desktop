@@ -10,7 +10,7 @@
   "browserslist": [
     "last 10 versions"
   ],
-  "main": "main/main.js",
+  "main": "backend/main.js",
   "scripts": {
     "prod": "cross-env NODE_ENV=production webpack --mode production --config webpack.build.config.js && electron --noDevServer .",
     "start": "cross-env NODE_ENV=development webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.config.js --mode development",

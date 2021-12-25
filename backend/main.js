@@ -31,24 +31,20 @@ function createMainWindow() {
     },
   });
 
-  let indexPath;
+  const urlFormatOptions = {
+    protocol: "file:",
+    pathname: path.join(__dirname, "dist", "index.html"),
+    slashes: true,
+  };
 
   if (isDev && process.argv.indexOf("--noDevServer") === -1) {
-    indexPath = url.format({
-      protocol: "http:",
-      host: "localhost:8080",
-      pathname: "index.html",
-      slashes: true,
-    });
-  } else {
-    indexPath = url.format({
-      protocol: "file:",
-      pathname: path.join(__dirname, "dist", "index.html"),
-      slashes: true,
-    });
+    urlFormatOptions.protocol = "http:";
+    urlFormatOptions.host = "localhost:8080";
+    urlFormatOptions.pathname = "index.html";
+    urlFormatOptions.slashes = true;
   }
 
-  mainWindow.loadURL(indexPath);
+  mainWindow.loadURL(url.format(urlFormatOptions));
 
   // Don't show until we are ready and loaded
   mainWindow.once("ready-to-show", () => {
