@@ -25,7 +25,7 @@ function Layout(props) {
             <LiaraLight />
           </span>
 
-          <p className="nav-text">laira</p>
+          <p className="nav-text">liara</p>
         </div>
         <div className="right">
           <button
