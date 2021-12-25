@@ -4,22 +4,22 @@ import "../assets/css/navbar.css";
 import { withRouter } from "react-router";
 const remote = require("electron").remote;
 function Layout(props) {
-  useEffect(() => {
-    minimize.current.addEventListener("click", function (e) {
-      var window = remote.getCurrentWindow();
-      window.minimize();
-    });
+  // useEffect(() => {
+  //   minimize.current.addEventListener("click", function (e) {
+  //     var window = remote.getCurrentWindow();
+  //     window.minimize();
+  //   });
 
-    close.current.addEventListener("click", function (e) {
-      var window = remote.getCurrentWindow();
-      window.close();
-    });
-  }, []);
-  const minimize = useRef();
-  const close = useRef();
+  //   close.current.addEventListener("click", function (e) {
+  //     var window = remote.getCurrentWindow();
+  //     window.close();
+  //   });
+  // }, []);
+  // const minimize = useRef();
+  // const close = useRef();
   return (
     <>
-      <div id="menu-bar">
+      {/* <div id="menu-bar">
         <div className="left" role="menu">
           <span className="nav-logo">
             <LiaraLight />
@@ -39,7 +39,7 @@ function Layout(props) {
             <Time />
           </button>
         </div>
-      </div>
+      </div> */}
       <div>
         {props.children}
         <p className="version">نسخه 1.0.0</p>
