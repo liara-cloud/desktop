@@ -1,10 +1,15 @@
+const os = require("os");
+const path = require("path");
 const { readFileSync } = require("fs");
 
 const { getUser } = require("./get.account");
 
-exports.readLiaraJson = async (path) => {
+exports.GLOBAL_CONF_PATH = path.join(os.homedir(), ".liara.json");
+
+exports.readLiaraJson = async () => {
   try {
-    const content = JSON.parse(readFileSync(path).toString("utf-8")) || {};
+    const content =
+      JSON.parse(readFileSync(this.GLOBAL_CONF_PATH).toString("utf-8")) || {};
     const contentKeys = Object.keys(content);
     if (
       !contentKeys.includes("accounts") &&
@@ -24,7 +29,6 @@ exports.readLiaraJson = async (path) => {
         content.accounts[key]["fullname"] = user.fullname;
         content.accounts[key]["avatar"] = user.avatar;
       }
-
       return {
         accounts: content.accounts,
         current: content.current,

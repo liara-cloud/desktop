@@ -1,8 +1,9 @@
 const path = require("path");
 const url = require("url");
 
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 
+const { readLiaraJson } = require("./utils/account.management");
 let mainWindow;
 
 let isDev = process.env.NODE_ENV === "development" ? "development" : undefined;
@@ -75,5 +76,9 @@ app.on("activate", () => {
   }
 });
 
+ipcMain.on("synchronous-login", async (event, arg) => {
+  console.log(arg);
+  event.returnValue = await readLiaraJson();
+});
 // Stop error
 app.allowRendererProcessReuse = true;
