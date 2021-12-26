@@ -1,17 +1,11 @@
 const path = require("path");
 const url = require("url");
+
 const { app, BrowserWindow } = require("electron");
 
 let mainWindow;
 
-let isDev = false;
-
-if (
-  process.env.NODE_ENV !== undefined &&
-  process.env.NODE_ENV === "development"
-) {
-  isDev = true;
-}
+let isDev = process.env.NODE_ENV === "development" ? "development" : undefined;
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({
