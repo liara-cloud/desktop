@@ -1,4 +1,4 @@
-const { execSync } = require("child_process");
+const { exec } = require("child_process");
 
 const awaitTimeout = (delay) => {
   let timeout;
@@ -16,9 +16,13 @@ const awaitTimeout = (delay) => {
 
 const awaitExec = (command, timeoutClear) =>
   new Promise((resolve, reject) => {
-    // TODO Handling Error
-    resolve(execSync(command, { encoding: "utf-8" }));
-    timeoutClear.cancel();
+    exec(command, (err, stdout, stderr) => {
+      // TODO Handling Error
+      timeoutClear.cancel();
+      resolve(stdout);
+    });
+    // resolve(execSync(command, { encoding: "utf-8" }));
+    // timeoutClear.cancel();
   });
 
 exports.execPromise = (command, { timeout }) => {

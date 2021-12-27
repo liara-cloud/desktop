@@ -2,18 +2,24 @@ const { sentry } = require("./configs/sentry");
 const path = require("path");
 const url = require("url");
 
-const { app, BrowserWindow, ipcMain, crashReporter } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  crashReporter,
+  shell,
+} = require("electron");
 
 const { readLiaraJson } = require("./utils/account.management");
 const { envConfig } = require("./configs/envConfig");
+const { startServer } = require("./server/startServer.js");
+const { createEncodedUrl } = require("./utils/urlEncoder.js");
 
 let mainWindow;
 
 let isDev = process.env.NODE_ENV === "development" ? "development" : undefined;
 
 function createMainWindow() {
-  crashReporter.start({ submitURL: envConfig.DSN });
-  console.log(path.join(__dirname, "configs", "sentry.js"));
   mainWindow = new BrowserWindow({
     width: 366,
     minWidth: 366,
@@ -28,7 +34,7 @@ function createMainWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      preload: path.join(__dirname, "configs", "sentry.js"),
+      // preload: path.join(__dirname, "configs", "sentry.js"),
     },
   });
 
@@ -87,8 +93,13 @@ ipcMain.on("asynchronous-login", async (event, arg) => {
   event.sender.send = await readLiaraJson();
 });
 ipcMain.on("open-console", async (event, arg) => {
-  //1) find open port
-  //2) open console
+  const httpServer = await startServer();
+  const encodedUrl = createEncodedUrl(httpServer.address().port);
+  shell.openExternal(encodedUrl);
+  // End
+  if (Object.keys(await readLiaraJson()).length === 0) {
+    httpServer.close();
+  }
 });
 // Stop error
 app.allowRendererProcessReuse = true;

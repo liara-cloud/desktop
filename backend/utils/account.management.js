@@ -1,15 +1,13 @@
-const os = require("os");
-const path = require("path");
-const { readFileSync } = require("fs");
+const { readFile } = require("fs/promises");
 
 const { getUser } = require("./get.account");
-
-exports.GLOBAL_CONF_PATH = path.join(os.homedir(), ".liara.json");
+const { envConfig } = require("../configs/envConfig");
 
 exports.readLiaraJson = async () => {
   try {
     const content =
-      JSON.parse(readFileSync(this.GLOBAL_CONF_PATH).toString("utf-8")) || {};
+      JSON.parse(await readFile(envConfig.GLOBAL_CONF_PATH)) || {};
+
     const contentKeys = Object.keys(content);
     if (
       !contentKeys.includes("accounts") &&
@@ -38,6 +36,7 @@ exports.readLiaraJson = async () => {
     }
     return {};
   } catch (error) {
+    console.log(error);
     return {};
   }
 };
