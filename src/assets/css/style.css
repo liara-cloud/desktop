@@ -96,7 +96,7 @@
   overflow: hidden;
   height: 379px;
   border-radius: 15px;
-  margin: 23px auto;
+  margin: 25px;
   position: relative;
   border: 1px dashed #999999;
 }
@@ -362,7 +362,7 @@ div.deploy span {
 div.deploy textarea {
   height: 276px;
   font-family: iranyekan;
-  width: 285px;
+  width: 300px;
   background: #fafafa;
   border: 1px solid #e8e8e8;
   border-radius: 15px;
@@ -377,7 +377,7 @@ div.deploy textarea {
 div.deploy .btn-container {
   display: flex;
   justify-content: space-between;
-  width: 285px;
+  width: 300px;
   padding: 0;
   margin: 20px auto 0px;
 }

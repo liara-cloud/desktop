@@ -15,11 +15,11 @@ function createMainWindow() {
   crashReporter.start({ submitURL: envConfig.DSN });
   console.log(path.join(__dirname, "configs", "sentry.js"));
   mainWindow = new BrowserWindow({
-    width: 350,
-    minWidth: 350,
+    width: 366,
+    minWidth: 366,
     autoHideMenuBar: true,
     maximizable: false,
-    maxWidth: 350,
+    maxWidth: 366,
     height: 550,
     minHeight: 550,
     maxHeight: 550,
