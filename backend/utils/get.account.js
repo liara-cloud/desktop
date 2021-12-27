@@ -5,6 +5,5 @@ exports.getUser = async (apiToken) => {
   const response = await axios.get(baseUrl, {
     headers: { Authorization: `Bearer ${apiToken}` },
   });
-
   return response.data.user;
 };

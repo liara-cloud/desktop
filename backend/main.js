@@ -1,14 +1,19 @@
+const { sentry } = require("./configs/sentry");
 const path = require("path");
 const url = require("url");
 
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, crashReporter } = require("electron");
 
 const { readLiaraJson } = require("./utils/account.management");
+const { envConfig } = require("./configs/envConfig");
+
 let mainWindow;
 
 let isDev = process.env.NODE_ENV === "development" ? "development" : undefined;
 
 function createMainWindow() {
+  crashReporter.start({ submitURL: envConfig.DSN });
+  console.log(path.join(__dirname, "configs", "sentry.js"));
   mainWindow = new BrowserWindow({
     width: 350,
     minWidth: 350,
@@ -23,6 +28,7 @@ function createMainWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      preload: path.join(__dirname, "configs", "sentry.js"),
     },
   });
 
@@ -76,9 +82,13 @@ app.on("activate", () => {
   }
 });
 
-ipcMain.on("synchronous-login", async (event, arg) => {
+ipcMain.on("asynchronous-login", async (event, arg) => {
   console.log(arg);
-  event.returnValue = await readLiaraJson();
+  event.sender.send = await readLiaraJson();
+});
+ipcMain.on("open-console", async (event, arg) => {
+  //1) find open port
+  //2) open console
 });
 // Stop error
 app.allowRendererProcessReuse = true;

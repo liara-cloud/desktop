@@ -31,9 +31,12 @@ exports.readLiaraJson = async () => {
       }
       return {
         accounts: content.accounts,
-        current: content.current,
+        current: Object.keys(content.accounts).includes(content.current)
+          ? content.current
+          : null,
       };
     }
+    return {};
   } catch (error) {
     return {};
   }
