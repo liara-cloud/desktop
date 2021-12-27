@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 import User from "../components/User";
 
 export default function Deploy() {
-  const [status, setStatus] = useState("error");
+  const [status, setStatus] = useState("deploy");
   // deploy - error - success
 
   if (status === "deploy") {
@@ -19,6 +19,7 @@ export default function Deploy() {
             </span>
             <p>در حال استقرار</p>
             <textarea
+              readOnly
               placeholder="> Fetching the source code: 0%"
               spellcheck="false"
             ></textarea>
