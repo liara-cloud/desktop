@@ -12,6 +12,24 @@ const User = ({ setShowApps }) => {
   if (menu === true && setShowApps) {
     setShowApps(false);
   }
+  const userDate = [
+    {
+      id: 1,
+      name: "نام و نام خانوادگی",
+      region: <Iran />,
+      class: "carrent",
+      email: "test@test.com",
+      img_src: person,
+    },
+    {
+      id: 2,
+      name: "نام و نام خانوادگی",
+      region: <German />,
+      class: "menu-item",
+      email: "iamking.amirali@respect.com",
+      img_src: person,
+    },
+  ];
 
   return (
     <>
@@ -26,20 +44,18 @@ const User = ({ setShowApps }) => {
         {menu && (
           <>
             <div className="menu">
-              <div className="user-item carrent" style={{ margin: 0 }}>
-                <img src={person} />
-                <span className="region">
-                  <Iran />
-                </span>
-                <p>نام و نام خانوادگی</p>
-              </div>
-              <div className="user-item menu-item" style={{ margin: 0 }}>
-                <img src={person} />
-                <p>نام و نام خانوادگی</p>
-                <span className="region">
-                  <German />
-                </span>
-              </div>
+              {userDate.map((item) => (
+                <div
+                  key={item.id}
+                  className={`user-item ${item.class}`}
+                  style={{ margin: 0 }}
+                >
+                  <img src={item.img_src} />
+                  <span className="region">{item.region}</span>
+                  <p>{item.name}</p>
+                </div>
+              ))}
+
               <a className="add" href="#">
                 افزودن حساب کاربری
               </a>

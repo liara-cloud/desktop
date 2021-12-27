@@ -13,7 +13,7 @@ function SelectApps() {
   ];
 
   const [showApps, setShowApps] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("");   
 
   return (
     <Layout>

@@ -256,6 +256,7 @@
   border-radius: 7.5px;
   width: 189px;
   height: 45px;
+  position: relative;
   line-height: 45px;
   margin-right: 50% !important;
   transform: translateX(50%);
@@ -291,6 +292,19 @@
   border: 1px solid #e8e8e8;
   border-radius: 10px;
 }
+
+.tooltip {
+  position: absolute;
+  font-size: 12px;
+  color: #fff;
+  background: #666;
+  padding: 10px 10px;
+  line-height: 15px;
+  border-radius: 7.5px;
+  z-index: 9999;
+  top: -40px;
+}
+
 .menu a.exit {
   border-radius: 7.5px;
   transition: 0.3s;
