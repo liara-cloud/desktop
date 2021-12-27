@@ -2795,14 +2795,15 @@
   "resolved" "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz"
   "version" "1.1.1"
 
-"electron-devtools-installer@^3.0.0":
-  "integrity" "sha512-zll3w/8PvnPiGmL5tBtgSSoSjWnUljsOjJYsYYU12PKLljzWyfD6S75LKTZFn21VYxVbae2OwmjM5uFStLp6nQ=="
-  "resolved" "https://registry.npmjs.org/electron-devtools-installer/-/electron-devtools-installer-3.0.0.tgz"
-  "version" "3.0.0"
+"electron-devtools-installer@^3.1.1":
+  "integrity" "sha512-t3UczsYugm4OAbqvdImMCImIMVdFzJAHgbwHpkl5jmfu1izVgUcP/mnrPqJIpEeCK1uZGpt+yHgWEN+9EwoYhQ=="
+  "resolved" "https://registry.npmjs.org/electron-devtools-installer/-/electron-devtools-installer-3.2.0.tgz"
+  "version" "3.2.0"
   dependencies:
     "rimraf" "^3.0.2"
     "semver" "^7.2.1"
-    "unzip-crx" "^0.2.0"
+    "tslib" "^2.1.0"
+    "unzip-crx-3" "^0.2.0"
 
 "electron-notarize@^0.2.0":
   "integrity" "sha512-oZ6/NhKeXmEKNROiFmRNfytqu3cxqC95sjooG7kBXQVEUSQkZnbiAhxVh5jXngL881G197pbwpeVPJyM7Ikmxw=="
@@ -4244,9 +4245,9 @@
     "graceful-fs" "^4.1.6"
 
 "jszip@^3.1.0":
-  "integrity" "sha512-gZAOYuPl4EhPTXT0GjhI3o+ZAz3su6EhLrKUoAivcKqyqC7laS5JEv4XWZND9BgcDcF83vI85yGbDmDR6UhrIg=="
-  "resolved" "https://registry.npmjs.org/jszip/-/jszip-3.4.0.tgz"
-  "version" "3.4.0"
+  "integrity" "sha512-ghL0tz1XG9ZEmRMcEN2vt7xabrDdqHHeykgARpmZ0BiIctWxM47Vt63ZO2dnp4QYt/xJVLLy5Zv1l/xRdh2byg=="
+  "resolved" "https://registry.npmjs.org/jszip/-/jszip-3.7.1.tgz"
+  "version" "3.7.1"
   dependencies:
     "lie" "~3.3.0"
     "pako" "~1.0.2"
@@ -6641,6 +6642,11 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.11.1.tgz"
   "version" "1.11.1"
 
+"tslib@^2.1.0":
+  "integrity" "sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz"
+  "version" "2.3.1"
+
 "tslib@^2.2.0":
   "integrity" "sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz"
@@ -6744,9 +6750,9 @@
     "has-value" "^0.3.1"
     "isobject" "^3.0.0"
 
-"unzip-crx@^0.2.0":
-  "integrity" "sha1-TAuqi9rHViVnVL7KeEPBPXuFjBg="
-  "resolved" "https://registry.npmjs.org/unzip-crx/-/unzip-crx-0.2.0.tgz"
+"unzip-crx-3@^0.2.0":
+  "integrity" "sha512-0+JiUq/z7faJ6oifVB5nSwt589v1KCduqIJupNVDoWSXZtWDmjDGO3RAEOvwJ07w90aoXoP4enKsR7ecMrJtWQ=="
+  "resolved" "https://registry.npmjs.org/unzip-crx-3/-/unzip-crx-3-0.2.0.tgz"
   "version" "0.2.0"
   dependencies:
     "jszip" "^3.1.0"
