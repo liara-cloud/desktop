@@ -15,7 +15,7 @@ exports.startServer = async (event) => {
           buffers.push(chunk);
         }
         const data = JSON.parse(Buffer.concat(buffers).toString());
-        event.sender.send = await updateLiaraJson(data);
+        event.sender.send("open-console", await updateLiaraJson(data));
         server.close();
       }
       res.end();
