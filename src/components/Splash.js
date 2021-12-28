@@ -1,22 +1,27 @@
 import { ipcRenderer } from "electron";
-import React from "react";
-import Redirect from "react-router/Redirect";
+import React, { Component } from "react";
 
-export default function Splash() {
-  const liaraData = [];
-  ipcRenderer.on("asynchronous-login", (event, arg) => {
-    liaraData.push(arg);
-  });
-
-  ipcRenderer.send("asynchronous-login", "hello :)");
-  // ipcRenderer.send("open-console", "bye :)");
-
-  if (1 === 1) {
-    console.log(liaraData);
+class Splash extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      liaraData: "",
+    };
   }
-  return (
-    <div className="splash">
-      <div id="spinner"></div>
-    </div>
-  );
+
+  componentDidMount() {
+    ipcRenderer.on("asynchronous-login", (event, arg) => {
+      this.setState({ liaraData: arg });
+    });
+
+    ipcRenderer.send("asynchronous-login", "hello :)");
+    // ipcRenderer.send("open-console", "bye :)");
+  }
+
+  render() {
+    console.log(this.state.liaraData);
+    return <div style={{ textAlign: "center", marginTop: "50%" }}>splash</div>;
+  }
 }
+
+export default Splash;

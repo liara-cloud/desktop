@@ -2,7 +2,6 @@ import React from "react";
 import { MemoryRouter, Switch, Route } from "react-router";
 import "../assets/css/App.css";
 import "../assets/css/style.css";
-import "../assets/css/splash.css";
 import Draggable from "./Draggable";
 import SelectApps from "./SelectApps";
 import Deploy from "./Deploy";
