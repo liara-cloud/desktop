@@ -11,11 +11,11 @@ exports.deploy = (event, args) => {
   );
 
   child.stdout.on("data", (data) => {
-    event.sender.send("send-logs", data);
+    event.sender.send("send-logs", data.toString());
   });
 
   child.stderr.on("data", (data) => {
-    event.sender.send("send-logs", data);
+    event.sender.send("send-logs", data.toString());
   });
 
   child.on("error", (err) => {

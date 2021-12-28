@@ -10,7 +10,8 @@ exports.readLiaraJson = async () => {
 
     const contentKeys = Object.keys(content);
     if (
-      !contentKeys.includes("accounts") &&
+      (!contentKeys.includes("accounts") ||
+        Object.keys(content.accounts).length == 0) &&
       contentKeys.includes("api_token") &&
       contentKeys.includes("region")
     ) {
