@@ -2,14 +2,28 @@ const http = require("http");
 
 const getPort = require("get-port");
 
-const { httpServer } = require("./httpServer");
+const { updateLiaraJson } = require("../utils/update-liara.account");
 
-exports.startServer = async () => {
+exports.startServer = async (event) => {
   const port = await getPort();
-  const server = http.createServer(httpServer).listen(port);
+  console.log(port);
+  const server = http
+    .createServer(async (req, res) => {
+      const buffers = [];
+      if (req.url === "/callback" && req.method === "POST") {
+        for await (const chunk of req) {
+          buffers.push(chunk);
+        }
+        const data = JSON.parse(Buffer.concat(buffers).toString());
+        event.sender.send = await updateLiaraJson(data);
+        server.close();
+      }
+      res.end();
+    })
+    .listen(port);
   return server;
 };
 
-(async function () {
-  await module.exports.startServer();
-})();
+// (async function () {
+//   await module.exports.startServer();
+// })();

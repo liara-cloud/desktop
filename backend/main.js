@@ -90,7 +90,7 @@ app.on("activate", () => {
 
 ipcMain.on("asynchronous-login", async (event, arg) => {
   console.log(arg);
-  event.sender.send("asynchronous-login", await readLiaraJson);
+  event.sender.send("asynchronous-login", await readLiaraJson());
 });
 ipcMain.on("open-console", async (event, arg) => {
   const httpServer = await startServer();
