@@ -1,9 +1,13 @@
+import { ipcRenderer } from "electron";
 import React from "react";
 import { Link } from "react-router-dom";
+import Redirect from "react-router/Redirect";
 import { Liara } from "./icon";
 import Layout from "./Layout";
 
-const Home = () => {
+const Login = () => {
+
+
   return (
     <Layout>
       <div dir="rtl">
@@ -25,4 +29,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;

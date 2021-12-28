@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ArrowBottom, German, Iran } from "./icon";
 import person from "../assets/images/person.jpg";
+import { ipcRenderer } from "electron";
 
 const User = ({ setShowApps }) => {
   const [menu, setMenu] = useState(false);
@@ -12,6 +13,10 @@ const User = ({ setShowApps }) => {
   if (menu === true && setShowApps) {
     setShowApps(false);
   }
+
+
+
+  
   const userDate = [
     {
       id: 1,
