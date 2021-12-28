@@ -19,13 +19,13 @@ let mainWindow;
 
 let isDev = process.env.NODE_ENV === "development" ? "development" : undefined;
 
-function createMainWindow() {
+async function createMainWindow() {
   mainWindow = new BrowserWindow({
-    width: 366,
-    minWidth: 366,
+    width: 350,
+    minWidth: 350,
     autoHideMenuBar: true,
     maximizable: false,
-    maxWidth: 366,
+    maxWidth: 350,
     height: 550,
     minHeight: 550,
     maxHeight: 550,
@@ -90,16 +90,12 @@ app.on("activate", () => {
 
 ipcMain.on("asynchronous-login", async (event, arg) => {
   console.log(arg);
-  event.sender.send = await readLiaraJson();
+  event.sender.send("asynchronous-login", await readLiaraJson);
 });
 ipcMain.on("open-console", async (event, arg) => {
   const httpServer = await startServer();
   const encodedUrl = createEncodedUrl(httpServer.address().port);
-  shell.openExternal(encodedUrl);
-  // End
-  if (Object.keys(await readLiaraJson()).length === 0) {
-    httpServer.close();
-  }
+  await shell.openExternal(encodedUrl);
 });
 // Stop error
 app.allowRendererProcessReuse = true;
