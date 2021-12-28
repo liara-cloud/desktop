@@ -93,7 +93,7 @@ ipcMain.on("asynchronous-login", async (event, arg) => {
   event.sender.send("asynchronous-login", await readLiaraJson());
 });
 ipcMain.on("open-console", async (event, arg) => {
-  const httpServer = await startServer();
+  const httpServer = await startServer(event);
   const encodedUrl = createEncodedUrl(httpServer.address().port);
   await shell.openExternal(encodedUrl);
 });

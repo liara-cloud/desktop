@@ -14,7 +14,8 @@ exports.startServer = async (event) => {
         for await (const chunk of req) {
           buffers.push(chunk);
         }
-        const data = JSON.parse(Buffer.concat(buffers).toString());
+        const data = JSON.parse(Buffer.concat(buffers).toString() || "{}");
+        // console.log(await updateLiaraJson(data));
         event.sender.send("open-console", await updateLiaraJson(data));
         server.close();
       }
