@@ -6,7 +6,6 @@ const { updateLiaraJson } = require("../utils/update-liara.account");
 
 exports.startServer = async (event) => {
   const port = await getPort();
-  console.log(port);
   const server = http
     .createServer(async (req, res) => {
       const buffers = [];
@@ -15,7 +14,6 @@ exports.startServer = async (event) => {
           buffers.push(chunk);
         }
         const data = JSON.parse(Buffer.concat(buffers).toString() || "{}");
-        // console.log(await updateLiaraJson(data));
         event.sender.send("open-console", await updateLiaraJson(data));
         server.close();
       }
@@ -24,7 +22,3 @@ exports.startServer = async (event) => {
     .listen(port);
   return server;
 };
-
-// (async function () {
-//   await module.exports.startServer();
-// })();

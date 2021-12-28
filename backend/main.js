@@ -14,6 +14,7 @@ const { readLiaraJson } = require("./utils/account.management");
 const { envConfig } = require("./configs/envConfig");
 const { startServer } = require("./server/startServer.js");
 const { createEncodedUrl } = require("./utils/urlEncoder.js");
+const { deploy } = require("./utils/deploy");
 
 let mainWindow;
 
@@ -89,13 +90,15 @@ app.on("activate", () => {
 });
 
 ipcMain.on("asynchronous-login", async (event, arg) => {
-  console.log(arg);
   event.sender.send("asynchronous-login", await readLiaraJson());
 });
 ipcMain.on("open-console", async (event, arg) => {
   const httpServer = await startServer(event);
   const encodedUrl = createEncodedUrl(httpServer.address().port);
   await shell.openExternal(encodedUrl);
+});
+ipcMain.on("send-logs", async (event, arg) => {
+  deploy(event, arg);
 });
 // Stop error
 app.allowRendererProcessReuse = true;
