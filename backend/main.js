@@ -1,4 +1,9 @@
-const { sentry } = require("./configs/sentry");
+const Sentry = require("@sentry/electron");
+
+Sentry.init({
+  dsn: "https://741a1b1949d749558159bfc1b7e95878@sentry.liara.ir/15",
+});
+
 const path = require("path");
 const url = require("url");
 
@@ -10,8 +15,8 @@ const {
   shell,
 } = require("electron");
 
-const { readLiaraJson } = require("./utils/account.management");
 const { envConfig } = require("./configs/envConfig");
+const { readLiaraJson } = require("./utils/account.management");
 const { startServer } = require("./server/startServer.js");
 const { createEncodedUrl } = require("./utils/urlEncoder.js");
 const { deploy } = require("./utils/deploy");
@@ -93,7 +98,12 @@ ipcMain.on("asynchronous-login", async (event, arg) => {
   event.sender.send("asynchronous-login", await readLiaraJson());
 });
 ipcMain.on("open-console", async (event, arg) => {
-  const httpServer = await startServer(event);
+  let httpServer;
+  if (!envConfig.OPEN_PORT) {
+    httpServer = await startServer(event);
+    const encodedUrl = createEncodedUrl(httpServer.address().port);
+    await shell.openExternal(encodedUrl);
+  }
   const encodedUrl = createEncodedUrl(httpServer.address().port);
   await shell.openExternal(encodedUrl);
 });
