@@ -6,4 +6,6 @@ exports.envConfig = {
   LIARA_LOGIN_PAGE: "https://console.liara.ir/login",
   LIARA_GET_ME: "https://api.iran.liara.ir/v1/me",
   GLOBAL_CONF_PATH: path.join(os.homedir(), ".liara.json"),
+  OPEN_PORT: undefined,
+  PLATFORM: process.platform,
 };

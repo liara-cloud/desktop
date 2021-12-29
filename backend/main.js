@@ -27,11 +27,11 @@ let isDev = process.env.NODE_ENV === "development" ? "development" : undefined;
 
 async function createMainWindow() {
   mainWindow = new BrowserWindow({
-    width: 350,
-    minWidth: 350,
+    width: envConfig.PLATFORM === "darwin" ? 350 : 366,
+    minWidth: 366,
     autoHideMenuBar: true,
     maximizable: false,
-    maxWidth: 350,
+    maxWidth: 366,
     height: 550,
     minHeight: 550,
     maxHeight: 550,
