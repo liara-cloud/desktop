@@ -7,17 +7,20 @@ import SelectApps from "./SelectApps";
 import Deploy from "./Deploy";
 import Splash from "./Splash";
 import Login from "./login";
+import { ContaxtAPI } from "./contaxtApi/Contaxt";
 
 const App = () => (
-  <MemoryRouter>
-    <Switch>
-      <Route path="/Draggable" component={Draggable} />
-      <Route exact path="/" component={Splash} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/Deploy" component={Deploy} />
-      <Route path="/SelectApps" component={SelectApps} />
-    </Switch>
-  </MemoryRouter>
+  <ContaxtAPI>
+    <MemoryRouter>
+      <Switch>
+        <Route path="/Draggable" component={Draggable} />
+        <Route exact path="/" component={Splash} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/Deploy" component={Deploy} />
+        <Route path="/SelectApps" component={SelectApps} />
+      </Switch>
+    </MemoryRouter>
+  </ContaxtAPI>
 );
 
 export default App;

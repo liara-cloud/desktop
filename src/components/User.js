@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ArrowBottom, German, Iran } from "./icon";
 import person from "../assets/images/person.jpg";
 import { ipcRenderer } from "electron";
+import { Context } from "./contaxtApi/Contaxt";
 
 const User = ({ setShowApps }) => {
   const [menu, setMenu] = useState(false);
-
+  const context = useContext(Context);
+  const { accounts, account } = context;
+  console.log(account, accounts);
   const handleMenu = () => {
     setMenu(!menu);
   };
@@ -14,9 +17,6 @@ const User = ({ setShowApps }) => {
     setShowApps(false);
   }
 
-
-
-  
   const userDate = [
     {
       id: 1,
@@ -60,7 +60,7 @@ const User = ({ setShowApps }) => {
                   <p>{item.name}</p>
                 </div>
               ))}
-                        
+
               <a className="add" href="#">
                 افزودن حساب کاربری
               </a>
