@@ -5,13 +5,14 @@ import { Context } from "./contaxtApi/Contaxt";
 function Splash(props) {
   const context = useContext(Context);
   const { cliLoginUser, accounts, account } = context;
+
+  console.log(Object.entries(account).length);
   useEffect(() => {
     cliLoginUser();
-    if (accounts.length === 0 && account === null) {
-        props.history.push("/login");
-    }
-    if (accounts !== [] && account !== {}) {
-        props.history.push("/Draggable");
+    if (accounts.length == 0 || Object.entries(account).length == 0) {
+      props.history.push("/login");
+    } else if (accounts.length != 0 || Object.entries(account).length != 0) {
+      props.history.push("/Draggable");
     }
   }, []);
 
