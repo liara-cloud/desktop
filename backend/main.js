@@ -96,6 +96,7 @@ app.on("window-all-closed", () => {
 
 app.on("activate", () => {
   if (mainWindow === null) {
+    appElements.tray = new TrayMenu();
     createMainWindow();
   }
 });

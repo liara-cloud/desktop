@@ -5,7 +5,7 @@ const getPort = require("get-port");
 const { updateLiaraJson } = require("../utils/update-liara.account");
 const { envConfig } = require("../configs/envConfig");
 
-exports.startServer = async () => {
+exports.startServer = async (event) => {
   const port = await getPort();
   envConfig.OPEN_PORT = port;
   const server = http
@@ -16,7 +16,7 @@ exports.startServer = async () => {
           buffers.push(chunk);
         }
         const data = JSON.parse(Buffer.concat(buffers).toString() || "{}");
-        // event.sender.send("open-console", await updateLiaraJson(data));
+        event.sender.send("open-console", await updateLiaraJson(data));
         server.close();
       }
       res.end();

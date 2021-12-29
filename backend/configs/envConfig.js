@@ -8,4 +8,5 @@ exports.envConfig = {
   GLOBAL_CONF_PATH: path.join(os.homedir(), ".liara.json"),
   OPEN_PORT: undefined,
   PLATFORM: process.platform,
+  IS_DEV: process.env.NODE_ENV === "development" ? true : false,
 };
