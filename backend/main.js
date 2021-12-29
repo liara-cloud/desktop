@@ -20,11 +20,14 @@ const { readLiaraJson } = require("./utils/account.management");
 const { startServer } = require("./server/startServer.js");
 const { createEncodedUrl } = require("./utils/urlEncoder.js");
 const { deploy } = require("./utils/deploy");
+const TrayMenu = require("../src/components/tray");
 
 let mainWindow;
 
-let isDev = process.env.NODE_ENV === "development" ? "development" : undefined;
-
+const appElements = {
+  tray: null,
+  windows: [],
+};
 async function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: envConfig.PLATFORM === "darwin" ? 350 : 366,
@@ -50,7 +53,7 @@ async function createMainWindow() {
     slashes: true,
   };
 
-  if (isDev && process.argv.indexOf("--noDevServer") === -1) {
+  if (envConfig.IS_DEV && process.argv.indexOf("--noDevServer") === -1) {
     urlFormatOptions.protocol = "http:";
     urlFormatOptions.host = "localhost:8080";
     urlFormatOptions.pathname = "index.html";
@@ -64,7 +67,7 @@ async function createMainWindow() {
     mainWindow.show();
 
     // Open devtools if dev
-    if (isDev) {
+    if (envConfig.IS_DEV) {
       const {
         default: installExtension,
         REACT_DEVELOPER_TOOLS,
@@ -80,7 +83,10 @@ async function createMainWindow() {
   mainWindow.on("closed", () => (mainWindow = null));
 }
 
-app.on("ready", createMainWindow);
+app.on("ready", () => {
+  appElements.tray = new TrayMenu();
+  createMainWindow();
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
