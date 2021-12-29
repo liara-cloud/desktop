@@ -28,11 +28,10 @@ class Splash extends Component {
       console.log("liara");
       this.props.history.push("/login");
     }
-    // if (this.state.accounts !== [] && this.state.account !== {}) {
-    //   console.log("hello");
-    //   // this.props.history.push("/Draggable");
-    //   console.log(this.state.accounts , this.state.account);
-    // }
+    if (this.state.accounts !== [] && this.state.account !== {}) {
+      console.log("hello");
+      this.props.history.push("/Draggable");
+    }
   }
   // componentWillUnmount() {}
   render() {
