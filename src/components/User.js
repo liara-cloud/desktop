@@ -17,24 +17,24 @@ const User = ({ setShowApps }) => {
     setShowApps(false);
   }
 
-  const userDate = [
-    {
-      id: 1,
-      name: "نام و نام خانوادگی",
-      region: <Iran />,
-      class: "carrent",
-      email: "test@test.com",
-      img_src: person,
-    },
-    {
-      id: 2,
-      name: "نام و نام خانوادگی",
-      region: <German />,
-      class: "menu-item",
-      email: "iamking.amirali@respect.com",
-      img_src: person,
-    },
-  ];
+  // const userDate = [
+  //   {
+  //     id: 1,
+  //     name: "نام و نام خانوادگی",
+  //     region: <Iran />,
+  //     class: "carrent",
+  //     email: "test@test.com",
+  //     img_src: person,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "نام و نام خانوادگی",
+  //     region: <German />,
+  //     class: "menu-item",
+  //     email: "iamking.amirali@respect.com",
+  //     img_src: person,
+  //   },
+  // ];
 
   return (
     <>
@@ -49,17 +49,29 @@ const User = ({ setShowApps }) => {
         {menu && (
           <>
             <div className="menu">
-              {userDate.map((item) => (
+              {/* {accounts.map((item) => (
                 <div
                   key={item.id}
                   className={`user-item ${item.class}`}
                   style={{ margin: 0 }}
                 >
-                  <img src={item.img_src} />
-                  <span className="region">{item.region}</span>
-                  <p>{item.name}</p>
+                  <img src={item.avatar} />
+                  <span className="region">
+                    {item.region == "iran" ? <Iran /> : <German />}
+                  </span>
+                  <p>{item.fullname}</p>
                 </div>
-              ))}
+              ))} */}
+
+              {Object.entries(account).length != 0 && (
+                <div className={`user-item current`} style={{ margin: 0 }}>
+                  <img src={account.avatar} />
+                  <span className="region">
+                    {account.region == "iran" ? <Iran /> : <German />}
+                  </span>
+                  <p>{account.fullname}</p>
+                </div>
+              )}
 
               <a className="add" href="#">
                 افزودن حساب کاربری

@@ -273,10 +273,15 @@
   right: 40px;
   top: 15px;
 }
-.user-item.carrent {
+.user-item.current {
   height: 45px;
+  margin-top: -3px !important;
   color: #0070f3;
   margin-top: 3px !important;
+}
+.user-item.current p {
+  width: 97px;
+  line-height: 20px;
 }
 /* Menu */
 .menu {
@@ -287,7 +292,7 @@
   transition: all 0.2s;
   background: #fafafa;
   width: 208px;
-  height: 200px;
+  padding: 5px;
   background: #fafafa;
   border: 1px solid #e8e8e8;
   border-radius: 10px;

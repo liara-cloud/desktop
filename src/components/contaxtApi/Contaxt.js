@@ -18,11 +18,10 @@ export const ContaxtAPI = (props) => {
       }
     });
     ipcRenderer.send("asynchronous-login", "liara-cloud");
-  
   };
 
   return (
-    <Context.Provider value={{ cliLoginUser , accounts , account , current }}>
+    <Context.Provider value={{ cliLoginUser, accounts, account, current }}>
       {props.children}
     </Context.Provider>
   );
