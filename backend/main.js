@@ -1,26 +1,16 @@
-const Sentry = require("@sentry/electron");
-
-Sentry.init({
-  dsn: "https://741a1b1949d749558159bfc1b7e95878@sentry.liara.ir/15",
-});
-
 const path = require("path");
 const url = require("url");
 
-const {
-  app,
-  BrowserWindow,
-  ipcMain,
-  crashReporter,
-  shell,
-} = require("electron");
+const { sentry } = require("./configs/sentry");
+
+const { app, BrowserWindow, ipcMain, shell } = require("electron");
 
 const { envConfig } = require("./configs/envConfig");
 const { readLiaraJson } = require("./utils/account.management");
 const { startServer } = require("./server/startServer.js");
 const { createEncodedUrl } = require("./utils/urlEncoder.js");
 const { deploy } = require("./utils/deploy");
-const TrayMenu = require("../src/components/tray");
+const TrayMenu = require("./tray");
 
 let mainWindow;
 
@@ -43,7 +33,6 @@ async function createMainWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      // preload: path.join(__dirname, "configs", "sentry.js"),
     },
   });
 
@@ -79,25 +68,20 @@ async function createMainWindow() {
       mainWindow.webContents.openDevTools();
     }
   });
-
   mainWindow.on("closed", () => (mainWindow = null));
 }
 
-app.on("ready", () => {
+app.whenReady().then(() => {
   appElements.tray = new TrayMenu();
   createMainWindow();
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+    mainWindow.show();
+  });
 });
-
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
-  }
-});
-
-app.on("activate", () => {
-  if (mainWindow === null) {
-    appElements.tray = new TrayMenu();
-    createMainWindow();
   }
 });
 

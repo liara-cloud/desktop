@@ -1,4 +1,4 @@
-const { app, Tray, Menu, nativeImage } = require("electron");
+const { app, Tray, Menu, nativeImage, BrowserWindow } = require("electron");
 
 class TrayMenu {
   iconPath = "/src/assets/images/liara-t.png";
@@ -18,11 +18,9 @@ class TrayMenu {
   createMenu() {
     const contextMenu = Menu.buildFromTemplate([
       {
-        label: "test",
+        label: "Open Liara Desktop",
         type: "normal",
-        click: () => {
-          // TODO
-        },
+        click: async () => app.emit("activate"),
       },
       {
         label: "Quit",
