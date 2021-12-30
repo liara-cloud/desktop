@@ -6,7 +6,12 @@ import { Liara } from "./icon";
 import Layout from "./Layout";
 
 const Login = () => {
-
+  const openConsole = () => {
+    ipcRenderer.on("open-console", (event, arg) => {
+      console.log(arg);
+    });
+    ipcRenderer.send("open-console", "liara-cloud");
+  };
 
   return (
     <Layout>
@@ -16,9 +21,9 @@ const Login = () => {
           <span>سرویس ابری لیارا</span>
         </div>
         <div>
-          <Link to="/Draggable">
-            <button className="btn">ورود با مرورگر</button>
-          </Link>
+          <button onClick={openConsole} className="btn">
+            ورود با مرورگر
+          </button>
         </div>
         <span className="register">
           حساب ندارید؟
