@@ -72,6 +72,20 @@ const User = ({ setShowApps }) => {
                   <p>{account.fullname}</p>
                 </div>
               )}
+              {accounts.length != [] &&
+                accounts.map((item) => (
+                  <div
+                    key={item.email}
+                    className={`user-item current`}
+                    style={{ margin: 0 }}
+                  >
+                    <img src={item.avatar} />
+                    <span className="region">
+                      {item.region == "iran" ? <Iran /> : <German />}
+                    </span>
+                    <p>{item.fullname}</p>
+                  </div>
+                ))}
 
               <a className="add" href="#">
                 افزودن حساب کاربری
