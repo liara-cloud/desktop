@@ -1,14 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ArrowBottom, German, Iran } from "./icon";
 import person from "../assets/images/person.jpg";
-import { ipcRenderer } from "electron";
 import { Context } from "./contaxtApi/Contaxt";
 
 const User = ({ setShowApps }) => {
   const [menu, setMenu] = useState(false);
   const context = useContext(Context);
-  const { accounts, account } = context;
-  console.log(account, accounts);
+  const { account, accounts, current } = context.cliUSer;
+  console.log({ account, accounts, current });
   const handleMenu = () => {
     setMenu(!menu);
   };
@@ -16,25 +15,6 @@ const User = ({ setShowApps }) => {
   if (menu === true && setShowApps) {
     setShowApps(false);
   }
-
-  // const userDate = [
-  //   {
-  //     id: 1,
-  //     name: "نام و نام خانوادگی",
-  //     region: <Iran />,
-  //     class: "carrent",
-  //     email: "test@test.com",
-  //     img_src: person,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "نام و نام خانوادگی",
-  //     region: <German />,
-  //     class: "menu-item",
-  //     email: "iamking.amirali@respect.com",
-  //     img_src: person,
-  //   },
-  // ];
 
   return (
     <>
@@ -49,20 +29,6 @@ const User = ({ setShowApps }) => {
         {menu && (
           <>
             <div className="menu">
-              {/* {accounts.map((item) => (
-                <div
-                  key={item.id}
-                  className={`user-item ${item.class}`}
-                  style={{ margin: 0 }}
-                >
-                  <img src={item.avatar} />
-                  <span className="region">
-                    {item.region == "iran" ? <Iran /> : <German />}
-                  </span>
-                  <p>{item.fullname}</p>
-                </div>
-              ))} */}
-
               {Object.entries(account).length != 0 && (
                 <div className={`user-item current`} style={{ margin: 0 }}>
                   <img src={account.avatar} />
@@ -76,7 +42,7 @@ const User = ({ setShowApps }) => {
                 accounts.map((item) => (
                   <div
                     key={item.email}
-                    className={`user-item current`}
+                    className={`user-item menu-item`}
                     style={{ margin: 0 }}
                   >
                     <img src={item.avatar} />

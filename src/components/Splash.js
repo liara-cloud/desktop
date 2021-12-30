@@ -1,18 +1,20 @@
-import { ipcRenderer } from "electron";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { withRouter } from "react-router";
 import { Context } from "./contaxtApi/Contaxt";
 function Splash(props) {
   const context = useContext(Context);
-  const { cliLoginUser, accounts, account } = context;
-
-  console.log(Object.entries(account).length);
+  const { cliLoginUser, cliUSer } = context;
   useEffect(() => {
     cliLoginUser();
-    if (accounts.length == 0 || Object.entries(account).length == 0) {
-      props.history.push("/login");
-    } else if (accounts.length != 0 || Object.entries(account).length != 0) {
+    if (
+      cliUSer.accounts.length == 0 ||
+      Object.entries(cliUSer.account).length == 0
+    ) {
       props.history.push("/Draggable");
+    } else if (
+      cliUSer.accounts.length != 0 ||
+      Object.entries(cliUSer.account).length != 0
+    ) {
     }
   }, []);
 

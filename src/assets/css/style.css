@@ -283,6 +283,10 @@
   width: 97px;
   line-height: 20px;
 }
+.user-item.menu-item p {
+  width: 97px;
+  line-height: 20px;
+}
 /* Menu */
 .menu {
   position: absolute;

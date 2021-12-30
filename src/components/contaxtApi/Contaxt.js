@@ -1,27 +1,35 @@
 import { ipcRenderer } from "electron";
-import React, { Component, createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 
 export const Context = createContext();
 
 export const ContaxtAPI = (props) => {
-  const [accounts, setAccounts] = useState([]);
-  const [account, setAccount] = useState({});
-  const [current, setCurrent] = useState("");
+  const [cliUSer, setCliUser] = useState({
+    accounts: [],
+    account: {},
+    current: "",
+  });
 
   const cliLoginUser = () => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       if (arg.accounts !== undefined) {
-        setAccounts(Object.values(arg.accounts));
-        setCurrent(arg.current);
+        setCliUser({
+          ...cliUSer,
+          accounts: Object.values(arg.accounts),
+          current: arg.current,
+        });
       } else {
-        setAccount(arg);
+        setCliUser({
+          ...cliUSer,
+          account: arg,
+        });
       }
     });
     ipcRenderer.send("asynchronous-login", "liara-cloud");
   };
 
   return (
-    <Context.Provider value={{ cliLoginUser, accounts, account, current }}>
+    <Context.Provider value={{ cliLoginUser, cliUSer }}>
       {props.children}
     </Context.Provider>
   );
