@@ -5,22 +5,20 @@ import "../assets/css/style.css";
 import Draggable from "./Draggable";
 import SelectApps from "./SelectApps";
 import Deploy from "./Deploy";
-import Splash from "./Splash";
 import Login from "./login";
-import { ContaxtAPI } from "./contaxtApi/Contaxt";
+import { ContextAPI } from "./contextApi/Context";
 
 const App = () => (
-  <ContaxtAPI>
+  <ContextAPI>
     <MemoryRouter>
       <Switch>
         <Route path="/Draggable" component={Draggable} />
-        <Route exact path="/" component={Splash} />
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Login} />
         <Route exact path="/Deploy" component={Deploy} />
         <Route path="/SelectApps" component={SelectApps} />
       </Switch>
     </MemoryRouter>
-  </ContaxtAPI>
+  </ContextAPI>
 );
 
 export default App;

@@ -1,15 +1,22 @@
 import { ipcRenderer } from "electron";
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { withRouter } from "react-router";
+import { Context } from "./contextApi/Context";
 import { Liara } from "./icon";
 import Layout from "./Layout";
 
-const Login = () => {
-  const openConsole = () => {
-    ipcRenderer.on("open-console", (event, arg) => {
-      console.log(arg);
-    });
-    ipcRenderer.send("open-console", "liara-cloud");
-  };
+const Login = (props) => {
+  const context = useContext(Context);
+  const { cliUser, openConsole } = context;
+
+  useEffect(() => {
+    if (
+      Object.values(cliUser.accounts).length != 0 ||
+      Object.entries(cliUser.account).length != 0
+    ) {
+      props.history.push("/Draggable");
+    }
+  }, [cliUser]);
 
   return (
     <Layout>
@@ -32,4 +39,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);

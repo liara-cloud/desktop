@@ -1,21 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ArrowBottom, German, Iran } from "./icon";
 import person from "../assets/images/person.jpg";
-import { Context } from "./contaxtApi/Contaxt";
+import { Context } from "./contextApi/Context";
 
 const User = ({ setShowApps }) => {
   const [menu, setMenu] = useState(false);
   const context = useContext(Context);
-  const { account, accounts, current } = context.cliUSer;
-  console.log({ account, accounts, current });
+  const { account, accounts, current } = context.cliUser;
+  // console.log(Object.entries(accounts));
+  // console.log(Object.entries(accounts).filter((name) => name == current));
   const handleMenu = () => {
     setMenu(!menu);
   };
-
   if (menu === true && setShowApps) {
     setShowApps(false);
   }
-
+  
   return (
     <>
       <div dir="rtl">
@@ -39,10 +39,16 @@ const User = ({ setShowApps }) => {
                 </div>
               )}
               {accounts.length != [] &&
-                accounts.map((item) => (
+                Object.values(accounts).map((item) => (
                   <div
                     key={item.email}
-                    className={`user-item menu-item`}
+                    className={`user-item menu-item ${
+                      // item.filter((name) => name == current)
+                      // ? `current`
+                      // : `menu-item`
+                      ``
+                    }
+                     `}
                     style={{ margin: 0 }}
                   >
                     <img src={item.avatar} />
