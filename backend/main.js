@@ -93,7 +93,7 @@ ipcMain.on("open-console", async (event, arg) => {
   if (!envConfig.OPEN_PORT) {
     httpServer = await startServer(event);
     const encodedUrl = createEncodedUrl(httpServer.address().port);
-    await shell.openExternal(encodedUrl);
+    return await shell.openExternal(encodedUrl);
   }
   const encodedUrl = createEncodedUrl(httpServer.address().port);
   await shell.openExternal(encodedUrl);
