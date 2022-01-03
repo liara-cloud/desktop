@@ -17,7 +17,6 @@ function SelectApps() {
 
   const api_token = Object.values(accounts).filter((item) => item.current)["0"]
     .api_token;
-  console.log(api_token);
 
   useEffect(() => {
     axios
@@ -33,7 +32,6 @@ function SelectApps() {
         console.error(error);
       });
   }, []);
-  console.log(data);
 
   return (
     <Layout>
