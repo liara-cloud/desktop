@@ -1,4 +1,6 @@
+const os = require("os");
 const path = require("path");
+
 const { createLogger, transports, format } = require("winston");
 
 const logger = createLogger({
@@ -12,7 +14,7 @@ const logger = createLogger({
   transports: [
     new transports.File({
       level: "debug",
-      filename: "logs/.log",
+      filename: `${os.tmpdir}/liara-desktop.log`,
       format: format.combine(
         // Render in one line in your log file.
         // If you use prettyPrint() here it will be really
