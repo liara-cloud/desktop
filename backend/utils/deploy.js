@@ -1,4 +1,5 @@
 const { spawn } = require("child_process");
+const logger = require("../configs/logger");
 
 exports.deploy = (event, args) => {
   const { app, path, port } = args;
@@ -10,6 +11,7 @@ exports.deploy = (event, args) => {
     }
   );
 
+  logger.info("Deployment started");
   child.stdout.on("data", (data) => {
     event.sender.send("send-logs", data.toString());
   });
@@ -19,6 +21,7 @@ exports.deploy = (event, args) => {
   });
 
   child.on("error", (err) => {
+    logger.error("Deployment Failed");
     event.sender.send("send-logs", "Failed to start deployment");
   });
 

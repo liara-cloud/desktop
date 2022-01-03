@@ -2,6 +2,7 @@ const { readFile } = require("fs/promises");
 
 const { getUser } = require("./get.account");
 const { envConfig } = require("../configs/envConfig");
+const logger = require("../configs/logger");
 
 exports.readLiaraJson = async () => {
   try {
@@ -37,7 +38,7 @@ exports.readLiaraJson = async () => {
     }
     return {};
   } catch (error) {
-    console.log(error);
+    logger.error("Not Found: .liara.json");
     return {};
   }
 };

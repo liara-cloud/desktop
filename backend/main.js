@@ -11,6 +11,7 @@ const { startServer } = require("./server/startServer.js");
 const { createEncodedUrl } = require("./utils/urlEncoder.js");
 const { deploy } = require("./utils/deploy");
 const TrayMenu = require("./tray");
+const logger = require("./configs/logger");
 
 let mainWindow;
 
@@ -86,20 +87,28 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.on("asynchronous-login", async (event, arg) => {
+  logger.info("Request from IPCRenderer recieved. channle=asynchronous-login");
   event.sender.send("asynchronous-login", await readLiaraJson());
+  logger.info("Response from IPCMain sent. channle=asynchronous-login");
 });
 ipcMain.on("open-console", async (event, arg) => {
+  logger.info("Request from IPCRenderer recieved. channle=open-console");
   let httpServer;
   if (!envConfig.OPEN_PORT) {
     httpServer = await startServer(event);
     const encodedUrl = createEncodedUrl(httpServer.address().port);
+    logger.info("Response from IPCMain sent. channle=open-console");
+
     return await shell.openExternal(encodedUrl);
   }
   const encodedUrl = createEncodedUrl(httpServer.address().port);
   await shell.openExternal(encodedUrl);
+  logger.info("Response from IPCMain sent. channle=open-console");
 });
 ipcMain.on("send-logs", async (event, arg) => {
+  logger.info("Request from IPCRenderer recieved. channle=send-logs");
   deploy(event, arg);
+  logger.info("Response from IPCMain sent. channle=send-logs");
 });
 // Stop error
 app.allowRendererProcessReuse = true;

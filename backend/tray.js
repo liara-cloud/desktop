@@ -10,7 +10,6 @@ class TrayMenu {
   }
   createNativeImage() {
     const path = `${app.getAppPath()}${this.iconPath}`;
-    console.log(path);
     const image = nativeImage.createFromPath(path);
     image.setTemplateImage(true);
     return image;
