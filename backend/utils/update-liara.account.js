@@ -3,7 +3,11 @@ const { readFile, writeFile } = require("fs/promises");
 const { envConfig } = require("../configs/envConfig");
 
 const mergeContent = async (content, data) => {
-  const newContent = Object.assign(content, data);
+  const fixData = data.reduce(function (target, key, index) {
+    target[`account_${index}`] = key;
+    return target;
+  }, {});
+  const newContent = Object.assign(content, { accounts: fixData });
   await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(newContent));
   return newContent;
 };
