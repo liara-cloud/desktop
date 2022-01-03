@@ -93,15 +93,13 @@ ipcMain.on("asynchronous-login", async (event, arg) => {
 });
 ipcMain.on("open-console", async (event, arg) => {
   logger.info("Request from IPCRenderer recieved. channle=open-console");
-  let httpServer;
   if (!envConfig.OPEN_PORT) {
-    httpServer = await startServer(event);
+    const httpServer = await startServer(event);
     const encodedUrl = createEncodedUrl(httpServer.address().port);
     logger.info("Response from IPCMain sent. channle=open-console");
-
     return await shell.openExternal(encodedUrl);
   }
-  const encodedUrl = createEncodedUrl(httpServer.address().port);
+  const encodedUrl = createEncodedUrl(envConfig.OPEN_PORT);
   await shell.openExternal(encodedUrl);
   logger.info("Response from IPCMain sent. channle=open-console");
 });
