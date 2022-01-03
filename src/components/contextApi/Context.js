@@ -7,16 +7,13 @@ export const ContextAPI = (props) => {
   const [cliUser, setcliUser] = useState({
     accounts: [],
     account: {},
-    current: "",
   });
-  
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       if (arg.accounts !== undefined) {
         setcliUser({
           ...cliUser,
           accounts: arg.accounts,
-          current: arg.current,
         });
       } else {
         setcliUser({

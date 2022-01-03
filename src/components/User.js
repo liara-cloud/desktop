@@ -6,7 +6,7 @@ import { Context } from "./contextApi/Context";
 const User = ({ setShowApps }) => {
   const [menu, setMenu] = useState(false);
   const context = useContext(Context);
-  const { account, accounts, current } = context.cliUser;
+  const { account, accounts } = context.cliUser;
   // console.log(Object.entries(accounts));
   // console.log(Object.entries(accounts).filter((name) => name == current));
   const handleMenu = () => {
@@ -15,13 +15,15 @@ const User = ({ setShowApps }) => {
   if (menu === true && setShowApps) {
     setShowApps(false);
   }
-  
+  const currentUser = Object.values(accounts).filter((item) => item.current)[
+    "0"
+  ];
   return (
     <>
       <div dir="rtl">
         <div className="user-item" onClick={handleMenu}>
-          <img src={person} />
-          <p>نام و نام خانوادگی</p>
+          <img src={currentUser.avatar} />
+          <p>{currentUser.fullname}</p>
           <span>
             <ArrowBottom />
           </span>
@@ -39,14 +41,11 @@ const User = ({ setShowApps }) => {
                 </div>
               )}
               {accounts.length != [] &&
-                Object.values(accounts).map((item) => (
+                Object.values(accounts).map((item, index) => (
                   <div
-                    key={item.email}
-                    className={`user-item menu-item ${
-                      // item.filter((name) => name == current)
-                      // ? `current`
-                      // : `menu-item`
-                      ``
+                    key={index}
+                    className={`user-item  ${
+                      item.current ? `current` : `menu-item`
                     }
                      `}
                     style={{ margin: 0 }}
