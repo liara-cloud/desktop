@@ -13,21 +13,27 @@ exports.deploy = (event, args) => {
 
   logger.info("Deployment started");
   child.stdout.on("data", (data) => {
-    event.sender.send("send-logs", data.toString());
+    event.sender.send("send-logs", { log: data.toString(), status: "success" });
   });
 
   child.stderr.on("data", (data) => {
-    event.sender.send("send-logs", data.toString());
+    event.sender.send("send-logs", { log: data.toString(), status: "success" });
   });
 
   child.on("error", (err) => {
     logger.error("Deployment Failed");
-    event.sender.send("send-logs", "Failed to start deployment");
+    event.sender.send("send-logs", {
+      log: "Failed to start deployment",
+      status: "error",
+    });
   });
 
   child.on("close", (code) => {
     if (code !== 0) {
-      event.sender.send("send-logs", `deploy process exited with code ${code}`);
+      event.sender.send("send-logs", {
+        log: `deploy process exited with code ${code}`,
+        status: "error",
+      });
     }
   });
 };

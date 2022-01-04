@@ -30,7 +30,6 @@ exports.removeAccount = async (email, region) => {
     logger.info("Liara.json updated with remove account");
     return content;
   } catch (error) {
-    console.log(error);
     logger.error(error);
     return {};
   }

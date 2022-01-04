@@ -17,10 +17,15 @@ exports.readLiaraJson = async () => {
       contentKeys.includes("region")
     ) {
       const user = await getUser(content.api_token);
-      content["fullname"] = user.fullname;
-      content["email"] = user.email;
-      content["avatar"] = user.avatar;
+      const account = { account_0: {} };
+      account.account_0["fullname"] = user.fullname;
+      account.account_0["email"] = user.email;
+      account.account_0["avatar"] = user.avatar;
+      account.account_0["region"] = content.region;
+      account.account_0["api_token"] = content.api_token;
+      account.account_0["current"] = true;
       delete content.current;
+      content["accounts"] = account;
       return content;
     }
     if (Object.keys(content.accounts).length !== 0) {

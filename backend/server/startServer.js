@@ -6,6 +6,7 @@ const logger = require("../configs/logger");
 const { updateLiaraJson } = require("../utils/update-liara.account");
 const { envConfig } = require("../configs/envConfig");
 const { headers } = require("../configs/headers");
+
 exports.startServer = async (event) => {
   const port = await getPort();
   envConfig.OPEN_PORT = port;
