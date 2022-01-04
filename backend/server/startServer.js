@@ -8,7 +8,6 @@ const { envConfig } = require("../configs/envConfig");
 
 exports.startServer = async (event) => {
   const port = await getPort();
-  console.log(port);
   envConfig.OPEN_PORT = port;
   logger.info(`server start listening on port: ${port}`);
   const server = http
@@ -19,7 +18,8 @@ exports.startServer = async (event) => {
           "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
           "Access-Control-Allow-Headers": "*",
         };
-        return res.writeHead(200, headers);
+        res.writeHead(200, headers);
+        return res.end();
       }
       const buffers = [];
       if (req.url === "/callback" && req.method === "POST") {

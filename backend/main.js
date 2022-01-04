@@ -12,6 +12,7 @@ const { createEncodedUrl } = require("./utils/urlEncoder.js");
 const { deploy } = require("./utils/deploy");
 const TrayMenu = require("./tray");
 const logger = require("./configs/logger");
+const { chanegCurrentAccount } = require("./utils/changeCurrent");
 
 let mainWindow;
 
@@ -108,6 +109,12 @@ ipcMain.on("deploy", async (event, arg) => {
   deploy(event, arg);
   logger.info("Response from IPCMain sent. channle=deploy");
 });
-ipcMain.on("change-current", (event, arg) => {});
+ipcMain.on("change-current", (event, arg) => {
+  const { email, region } = arg;
+  event.sender.send(
+    "change-current",
+    await chanegCurrentAccount(email, region)
+  );
+});
 // Stop error
 app.allowRendererProcessReuse = true;
