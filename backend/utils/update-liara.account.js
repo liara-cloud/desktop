@@ -4,6 +4,13 @@ const { envConfig } = require("../configs/envConfig");
 const logger = require("../configs/logger");
 
 const mergeContent = async (content, data) => {
+  // convert token to api_token
+  data.map((obj) => {
+    obj["api_token"] = obj.token;
+    delete obj.token;
+    return obj;
+  });
+
   const fixData = data.reduce(function (target, key, index) {
     target[`account_${index}`] = key;
     return target;

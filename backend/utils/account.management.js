@@ -28,10 +28,12 @@ exports.readLiaraJson = async () => {
         const user = await getUser(value.api_token);
         content.accounts[key]["fullname"] = user.fullname;
         content.accounts[key]["avatar"] = user.avatar;
-        content.accounts[key]["current"] = false;
 
-        if (content.current == key) {
-          content.accounts[key]["current"] = true;
+        if (!content.accounts[key]["current"]) {
+          content.accounts[key]["current"] = false;
+          if (content.current == key) {
+            content.accounts[key]["current"] = true;
+          }
         }
       }
       return {

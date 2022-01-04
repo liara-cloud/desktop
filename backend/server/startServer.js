@@ -6,8 +6,9 @@ const logger = require("../configs/logger");
 const { updateLiaraJson } = require("../utils/update-liara.account");
 const { envConfig } = require("../configs/envConfig");
 
-exports.startServer = async (event) => {
+exports.startServer = async () => {
   const port = await getPort();
+  console.log(port);
   envConfig.OPEN_PORT = port;
   logger.info(`server start listening on port: ${port}`);
   const server = http
@@ -18,7 +19,7 @@ exports.startServer = async (event) => {
           "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
           "Access-Control-Allow-Headers": "*",
         };
-        res.writeHead(200, headers);
+        return res.writeHead(200, headers);
       }
       const buffers = [];
       if (req.url === "/callback" && req.method === "POST") {
@@ -26,11 +27,12 @@ exports.startServer = async (event) => {
           buffers.push(chunk);
         }
         const data = JSON.parse(Buffer.concat(buffers).toString() || "{}");
-        event.sender.send("open-console", await updateLiaraJson(data));
+        await updateLiaraJson(data);
+        // event.sender.send("open-console", await updateLiaraJson(data));
         logger.info("liara.json updated with new credentials");
         logger.info("POST request recieved and server closed");
+        res.end();
       }
-      res.end();
       server.close();
     })
     .listen(port);
