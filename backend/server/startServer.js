@@ -6,7 +6,7 @@ const logger = require("../configs/logger");
 const { updateLiaraJson } = require("../utils/update-liara.account");
 const { envConfig } = require("../configs/envConfig");
 
-exports.startServer = async () => {
+exports.startServer = async (event) => {
   const port = await getPort();
   console.log(port);
   envConfig.OPEN_PORT = port;
@@ -27,8 +27,7 @@ exports.startServer = async () => {
           buffers.push(chunk);
         }
         const data = JSON.parse(Buffer.concat(buffers).toString() || "{}");
-        await updateLiaraJson(data);
-        // event.sender.send("open-console", await updateLiaraJson(data));
+        event.sender.send("open-console", await updateLiaraJson(data));
         logger.info("liara.json updated with new credentials");
         logger.info("POST request recieved and server closed");
         res.end();
