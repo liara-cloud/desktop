@@ -13,6 +13,7 @@ const { deploy } = require("./utils/deploy");
 const TrayMenu = require("./tray");
 const logger = require("./configs/logger");
 const { chanegCurrentAccount } = require("./utils/changeCurrent");
+const { removeAccount } = require("./utils/removeAccount");
 
 let mainWindow;
 
@@ -109,12 +110,16 @@ ipcMain.on("deploy", async (event, arg) => {
   deploy(event, arg);
   logger.info("Response from IPCMain sent. channle=deploy");
 });
-ipcMain.on("change-current", (event, arg) => {
+ipcMain.on("change-current", async (event, arg) => {
   const { email, region } = arg;
   event.sender.send(
     "change-current",
     await chanegCurrentAccount(email, region)
   );
+});
+ipcMain.on("remove-account", async (event, arg) => {
+  const { email, region } = arg;
+  event.sender.send("remove-account", await removeAccount(email, region));
 });
 // Stop error
 app.allowRendererProcessReuse = true;
