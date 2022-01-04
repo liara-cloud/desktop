@@ -95,18 +95,18 @@ ipcMain.on("open-console", async (event, arg) => {
   logger.info("Request from IPCRenderer recieved. channle=open-console");
   if (!envConfig.OPEN_PORT) {
     const httpServer = await startServer(event);
-    const encodedUrl = createEncodedUrl(httpServer.address().port);
+    const encodedUrl = createEncodedUrl(httpServer.address().port, arg.page);
     logger.info("Response from IPCMain sent. channle=open-console");
     return await shell.openExternal(encodedUrl);
   }
-  const encodedUrl = createEncodedUrl(envConfig.OPEN_PORT);
+  const encodedUrl = createEncodedUrl(envConfig.OPEN_PORT, arg.page);
   await shell.openExternal(encodedUrl);
   logger.info("Response from IPCMain sent. channle=open-console");
 });
-ipcMain.on("send-logs", async (event, arg) => {
-  logger.info("Request from IPCRenderer recieved. channle=send-logs");
+ipcMain.on("deploy", async (event, arg) => {
+  logger.info("Request from IPCRenderer recieved. channle=deploy");
   deploy(event, arg);
-  logger.info("Response from IPCMain sent. channle=send-logs");
+  logger.info("Response from IPCMain sent. channle=deploy");
 });
 // Stop error
 app.allowRendererProcessReuse = true;

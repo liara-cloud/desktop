@@ -20,10 +20,10 @@ exports.startServer = async (event) => {
         const data = JSON.parse(Buffer.concat(buffers).toString() || "{}");
         event.sender.send("open-console", await updateLiaraJson(data));
         logger.info("liara.json updated with new credentials");
-        server.close();
         logger.info("POST request recieved and server closed");
       }
       res.end();
+      server.close();
     })
     .listen(port);
   return server;
