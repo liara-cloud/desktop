@@ -16,6 +16,7 @@ exports.startServer = async (event) => {
       if (req.method === "OPTIONS") {
         res.writeHead(200, headers);
         return res.end();
+
       }
       const buffers = [];
       if (req.url === "/callback" && req.method === "POST") {
@@ -29,7 +30,7 @@ exports.startServer = async (event) => {
         res.writeHead(200, headers);
         res.end();
       }
-      server.close();
+      // server.close();
     })
     .listen(port);
   return server;

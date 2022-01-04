@@ -13,11 +13,12 @@ function SelectApps() {
 
   const context = useContext(Context);
   const { account, accounts } = context.cliUser;
-  const { selected, setSelected, port, setPort, deploy } = context;
+  const { selected, setSelected, port, setPort, deploy, current } = context;
 
   const api_token = Object.values(accounts).filter((item) => item.current)["0"]
     .api_token;
-
+  console.log(api_token);
+  console.log(current);
   useEffect(() => {
     axios
       .get("https://api.iran.liara.ir/v1/projects", {
@@ -31,7 +32,7 @@ function SelectApps() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [current]);
 
   return (
     <Layout>
@@ -44,24 +45,33 @@ function SelectApps() {
         <div className="apps" onClick={() => setShowApps(!showApps)}>
           {selected === "" ? (
             <>
-              ﺑﺮﻧﺎﻣﻪﺍﯼ ﺍﻧﺘﺨﺎﺏ ﻧﺸﺪﻩ
+              {data.length > 0
+                ? "برنامه ای انتخاب نشده"
+                : "برنامه ای وجود ندارد"}
               <span className="left-icon">
                 <ArrowBottom />
               </span>
             </>
           ) : (
             <>
-              <img
-                className="icon-platform"
-                src={
-                  require(`../assets/images/svg/${selected.type}.svg`).default
-                }
-              />
+              {data.length > 0 ? (
+                <>
+                  <img
+                    className="icon-platform"
+                    src={
+                      require(`../assets/images/svg/${selected.type}.svg`)
+                        .default
+                    }
+                  />
 
-              <span className="name">{selected.project_id}</span>
-              <span className="left-icon">
-                <Tick />
-              </span>
+                  <span className="name">{selected.project_id}</span>
+                  <span className="left-icon">
+                    <Tick />
+                  </span>
+                </>
+              ) : (
+                "برنامه ای وجود ندارد"
+              )}
             </>
           )}
         </div>

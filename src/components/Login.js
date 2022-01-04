@@ -1,5 +1,4 @@
-import { ipcRenderer } from "electron";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router";
 import { Context } from "./contextApi/Context";
 import { Liara } from "./icon";
@@ -7,17 +6,20 @@ import Layout from "./Layout";
 
 const Login = (props) => {
   const context = useContext(Context);
-  const { cliUser, openConsole } = context;
+  const { cliUser, openConsoleLogin, openConsoleRegister } = context;
+
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     if (
       Object.values(cliUser.accounts).length != 0 ||
       Object.entries(cliUser.account).length != 0
     ) {
-      // props.history.push("/Draggable");
+      // setCheck(true);
+      props.history.push("/Draggable");
     }
   }, [cliUser]);
-
+  
   return (
     <Layout>
       <div dir="rtl">
@@ -26,11 +28,15 @@ const Login = (props) => {
           <span>سرویس ابری لیارا</span>
         </div>
         <div>
-          <button onClick={openConsole} className="btn">
+          <button
+            className={`btn`}
+            onClick={openConsoleLogin}
+            // disabled={check}
+          >
             ورود با مرورگر
           </button>
         </div>
-        <span className="register">
+        <span onClick={openConsoleRegister} className="register">
           حساب ندارید؟
           <a href="#">عضو شوید</a>
         </span>

@@ -53,7 +53,7 @@ async function createMainWindow() {
   }
 
   mainWindow.loadURL(url.format(urlFormatOptions));
-
+  
   // Don't show until we are ready and loaded
   mainWindow.once("ready-to-show", () => {
     mainWindow.show();

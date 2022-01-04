@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { ArrowBottom, German, Iran } from "./icon";
 import person from "../assets/images/person.jpg";
 import { Context } from "./contextApi/Context";
+import { ipcRenderer } from "electron";
 
 const User = ({ setShowApps }) => {
   const [menu, setMenu] = useState(false);
   const context = useContext(Context);
   const { account, accounts } = context.cliUser;
+  const { handleChangeCurrent , current } = context;
   const handleMenu = () => {
     setMenu(!menu);
   };
@@ -16,6 +18,7 @@ const User = ({ setShowApps }) => {
   const currentUser = Object.values(accounts).filter((item) => item.current)[
     "0"
   ];
+  console.log(currentUser);
   return (
     <>
       <div dir="rtl">
@@ -41,6 +44,9 @@ const User = ({ setShowApps }) => {
               {accounts.length != [] &&
                 Object.values(accounts).map((item, index) => (
                   <div
+                    onClick={() => {
+                      handleChangeCurrent(item.email, item.region);
+                    }}
                     key={index}
                     className={`user-item  ${
                       item.current ? `current` : `menu-item`

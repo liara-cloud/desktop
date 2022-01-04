@@ -12,13 +12,26 @@ export const ContextAPI = (props) => {
   const [port, setPort] = useState("");
   const [selected, setSelected] = useState("");
   const [log, setLog] = useState("");
+  const [current, setCurrent] = useState("");
+
+  // const checkAccounts = () => {
+  //   const checkValue = Object.values(cliUser.accounts).length == 0;
+  //   setInterval(() => {
+  //     checkValue && ipcRenderer.send("asynchronous-login", "liara-cloud");
+  //   }, 5000);
+  // };
+
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
+      // console.log(arg);
       if (arg.accounts !== undefined) {
         setcliUser({
           ...cliUser,
           accounts: arg.accounts,
         });
+        setCurrent(
+          Object.values(arg.accounts).filter((item) => item.current)["0"]
+        );
       } else {
         setcliUser({
           ...cliUser,
@@ -27,14 +40,41 @@ export const ContextAPI = (props) => {
       }
     });
     ipcRenderer.send("asynchronous-login", "liara-cloud");
-  }, []);
+  }, [handleChangeCurrent]);
+
   // TODO:
-  const openConsole = () => {
+  const openConsoleLogin = () => {
     ipcRenderer.on("open-console", (event, arg) => {
       console.log(arg);
     });
-    ipcRenderer.send("open-console", "liara-cloud");
+    ipcRenderer.send("open-console", { page: "login" });
   };
+  const openConsoleRegister = () => {
+    ipcRenderer.on("open-console", (event, arg) => {
+      console.log(arg);
+    });
+    ipcRenderer.send("open-console", { page: "register" });
+  };
+
+  const handleChangeCurrent = (email, region) => {
+    ipcRenderer.on("change-current", (event, arg) => {
+      setcliUser({
+        ...cliUser,
+        accounts: arg.accounts,
+      });
+      setCurrent(
+        Object.values(arg.accounts).filter((item) => item.current)["0"]
+      );
+      console.log(
+        Object.values(arg.accounts).filter((item) => item.current)["0"]
+      );
+    });
+    ipcRenderer.send("change-current", {
+      email,
+      region,
+    });
+  };
+
   let data = [];
   const deploy = () => {
     ipcRenderer.on("send-logs", (event, arg) => {
@@ -48,12 +88,12 @@ export const ContextAPI = (props) => {
     });
   };
 
-
   return (
     <Context.Provider
       value={{
         cliUser,
-        openConsole,
+        openConsoleLogin,
+        openConsoleRegister,
         file,
         setFile,
         port,
@@ -62,6 +102,9 @@ export const ContextAPI = (props) => {
         setSelected,
         log,
         deploy,
+        handleChangeCurrent,
+        current,
+        setCurrent,
       }}
     >
       {props.children}
