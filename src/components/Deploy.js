@@ -1,12 +1,17 @@
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BlueCircle, GreenCircle, RedCircle } from "../components/icon";
 import Layout from "../components/Layout";
 import User from "../components/User";
+import { Context } from "./contextApi/Context";
 
 export default function Deploy() {
   const [status, setStatus] = useState("deploy");
   // deploy - error - success
+
+  const context = useContext(Context);
+  const { log } = context;
+  
 
   if (status === "deploy") {
     return (
@@ -20,8 +25,9 @@ export default function Deploy() {
             <p>در حال استقرار</p>
             <textarea
               readOnly
-              placeholder="> Fetching the source code: 0%"
-              spellcheck="false"
+              value={log}
+              placeholder="> Fetching the log code: 0%"
+              spellCheck="false"
             ></textarea>
             <button className="btn cancle">لغو</button>
           </div>
@@ -42,8 +48,10 @@ export default function Deploy() {
               ﭘﯿﻮﺳﺖ ﮐﻨﯿﺪ.
             </span>
             <textarea
-              placeholder="> Fetching the source code: 0%"
-              spellcheck="false"
+              readOnly
+              value={log}
+              placeholder="> Fetching the log code: 0%"
+              spellCheck="false"
             ></textarea>
 
             <div className="btn-container">
@@ -68,8 +76,10 @@ export default function Deploy() {
             <GreenCircle />
             <p>ﺍﺳﺘﻘﺮﺍﺭ ﺍﻧﺠﺎﻡ ﺷﺪ</p>
             <textarea
-              placeholder="> Fetching the source code: 0%"
-              spellcheck="false"
+              readOnly
+              value={log}
+              placeholder="> Fetching the log code: 0%"
+              spellCheck="false"
             ></textarea>
 
             <div className="btn-container">

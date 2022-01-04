@@ -7,8 +7,6 @@ const User = ({ setShowApps }) => {
   const [menu, setMenu] = useState(false);
   const context = useContext(Context);
   const { account, accounts } = context.cliUser;
-  // console.log(Object.entries(accounts));
-  // console.log(Object.entries(accounts).filter((name) => name == current));
   const handleMenu = () => {
     setMenu(!menu);
   };

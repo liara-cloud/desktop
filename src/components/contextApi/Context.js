@@ -8,6 +8,10 @@ export const ContextAPI = (props) => {
     accounts: [],
     account: {},
   });
+  const [file, setFile] = useState("");
+  const [port, setPort] = useState("");
+  const [selected, setSelected] = useState("");
+  const [log, setLog] = useState("");
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       if (arg.accounts !== undefined) {
@@ -24,7 +28,6 @@ export const ContextAPI = (props) => {
     });
     ipcRenderer.send("asynchronous-login", "liara-cloud");
   }, []);
-
   // TODO:
   const openConsole = () => {
     ipcRenderer.on("open-console", (event, arg) => {
@@ -32,9 +35,35 @@ export const ContextAPI = (props) => {
     });
     ipcRenderer.send("open-console", "liara-cloud");
   };
+  let data = [];
+  const deploy = () => {
+    ipcRenderer.on("send-logs", (event, arg) => {
+      data += arg;
+      setLog(data.toString());
+    });
+    ipcRenderer.send("send-logs", {
+      app: selected.project_id,
+      port,
+      path: file,
+    });
+  };
+
 
   return (
-    <Context.Provider value={{ cliUser, openConsole }}>
+    <Context.Provider
+      value={{
+        cliUser,
+        openConsole,
+        file,
+        setFile,
+        port,
+        setPort,
+        selected,
+        setSelected,
+        log,
+        deploy,
+      }}
+    >
       {props.children}
     </Context.Provider>
   );

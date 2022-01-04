@@ -5,6 +5,7 @@ export default function AppsItem({ dataApp, setSelected, setShowApps }) {
     <div className="box">
       {dataApp.map((item) => (
         <div
+          key={item.project_id}
           className="item"
           key={item.name}
           onClick={() => setSelected(item) + setShowApps(false)}

@@ -14,7 +14,7 @@ const Login = (props) => {
       Object.values(cliUser.accounts).length != 0 ||
       Object.entries(cliUser.account).length != 0
     ) {
-      props.history.push("/Draggable");
+      // props.history.push("/Draggable");
     }
   }, [cliUser]);
 
@@ -32,7 +32,7 @@ const Login = (props) => {
         </div>
         <span className="register">
           حساب ندارید؟
-          <a href="#">وارد شوید</a>
+          <a href="#">عضو شوید</a>
         </span>
       </div>
     </Layout>

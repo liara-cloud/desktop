@@ -9,11 +9,11 @@ import User from "./User";
 
 function SelectApps() {
   const [showApps, setShowApps] = useState(false);
-  const [selected, setSelected] = useState("");
   const [data, setData] = useState("");
 
   const context = useContext(Context);
   const { account, accounts } = context.cliUser;
+  const { selected, setSelected, port, setPort, deploy } = context;
 
   const api_token = Object.values(accounts).filter((item) => item.current)["0"]
     .api_token;
@@ -74,10 +74,18 @@ function SelectApps() {
         )}
         <p className="title">ﺗﻌﯿﯿﻦ ﭘﻮﺭﺕ</p>
         <p className="caption">ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.</p>
-        <input className="port" type="number" placeholder="80" />
+        <input
+          value={port}
+          onChange={(e) => setPort(e.target.value)}
+          className="port"
+          type="number"
+          placeholder="80"
+        />
         <div className="btn-container">
           <Link to="/Deploy">
-            <button className="btn main">بعدی</button>
+            <button className="btn main" onClick={() => deploy()}>
+              بعدی
+            </button>
           </Link>
           <Link to="/Draggable">
             <button className="btn main">قبلی</button>

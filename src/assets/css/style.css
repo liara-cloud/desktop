@@ -245,8 +245,8 @@
 }
 .user-item .region {
   position: absolute;
-  right: 50px;
-  top: 22px;
+  top: 25px;
+  right: 44px;
 }
 .user-item .region svg {
   border-radius: 50%;
@@ -393,7 +393,6 @@ div.deploy textarea {
   direction: ltr;
   outline: none;
   padding: 10px;
-  white-space: nowrap;
 }
 
 div.deploy .btn-container {
@@ -409,7 +408,6 @@ div.deploy.error p {
 }
 div.deploy.error textarea {
   height: 224px;
-  white-space: nowrap;
 }
 
 /* SelectApps */

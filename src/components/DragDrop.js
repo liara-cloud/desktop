@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { withRouter } from "react-router";
+import { Context } from "./contextApi/Context";
 
 function DragDrop(props) {
-  const [file, setFile] = useState("");
+  const context = useContext(Context);
+  const { file, setFile } = context;
   const handleChange = (file) => {
-    setFile(file);
+    setFile(file.path);
   };
   file !== "" && props.history.push("/SelectApps");
   return (
