@@ -12,6 +12,14 @@ exports.startServer = async (event) => {
   logger.info(`server start listening on port: ${port}`);
   const server = http
     .createServer(async (req, res) => {
+      if (req.method === "OPTIONS") {
+        const headers = {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+          "Access-Control-Allow-Headers": "*",
+        };
+        res.writeHead(200, headers);
+      }
       const buffers = [];
       if (req.url === "/callback" && req.method === "POST") {
         for await (const chunk of req) {

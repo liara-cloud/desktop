@@ -4,6 +4,7 @@ const path = require("path");
 exports.envConfig = {
   DSN: "https://741a1b1949d749558159bfc1b7e95878@sentry.liara.ir/15",
   LIARA_LOGIN_PAGE: "http://localhost:3000/login",
+  LIARA_REGISTER_PAGE: "https://console.liara.ir/register",
   LIARA_GET_ME: "https://api.iran.liara.ir/v1/me",
   GLOBAL_CONF_PATH: path.join(os.homedir(), ".liara.json"),
   OPEN_PORT: undefined,

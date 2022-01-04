@@ -108,5 +108,6 @@ ipcMain.on("deploy", async (event, arg) => {
   deploy(event, arg);
   logger.info("Response from IPCMain sent. channle=deploy");
 });
+ipcMain.on("change-current", (event, arg) => {});
 // Stop error
 app.allowRendererProcessReuse = true;
