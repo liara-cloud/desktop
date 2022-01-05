@@ -30,14 +30,17 @@ exports.deploy = (event, args) => {
 
   child.on("close", (code) => {
     if (code !== 0) {
-      return event.sender.send("deploy", {
+     event.sender.send("deploy", {
         log: `Deploy process exited with code ${code}`,
         status: "error",
       });
     }
-    event.sender.send("deploy", {
-      log: `Deployment is completed successfully `,
-      status: "done",
-    });
+    if (code == 0) {
+
+      event.sender.send("deploy", {
+        log: `Deployment is completed successfully `,
+        status: "done",
+      });
+    }
   });
 };

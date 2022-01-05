@@ -1338,6 +1338,11 @@
   dependencies:
     "color-convert" "^1.9.0"
 
+"ansi-up@^1.0.0":
+  "integrity" "sha1-I1qiW5X5lykfL2M16VSFyuM5o1Y="
+  "resolved" "https://registry.npmjs.org/ansi-up/-/ansi-up-1.0.0.tgz"
+  "version" "1.0.0"
+
 "anymatch@^2.0.0":
   "integrity" "sha512-5teOsQWABXHHBFP9y3skS5P3d/WfWXpv3FUpy+LorMrNYaT9pI4oLMQX7jzQ2KklNpGpWHzdCXTDT2Y3XGlZBw=="
   "resolved" "https://registry.npmjs.org/anymatch/-/anymatch-2.0.0.tgz"

@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BlueCircle, GreenCircle, RedCircle } from "../components/icon";
 import Layout from "../components/Layout";
 import User from "../components/User";
 import { Context } from "./contextApi/Context";
+import { AnsiUp } from "ansi-up";
+
 
 export default function Deploy() {
   const [status, setStatus] = useState("deploy");
@@ -11,7 +13,16 @@ export default function Deploy() {
 
   const context = useContext(Context);
   const { log } = context;
-  console.log(log);
+  console.log(log.status);
+
+  var ansi_up = new AnsiUp();
+  console.log(log.text);
+  var html = ansi_up.ansi_to_html(log.text);
+
+  useEffect(() => {
+    log.status === "error" && setStatus("error");
+    log.status === "done" && setStatus("success");
+  }, [log.status]);
 
   if (status === "deploy") {
     return (
@@ -25,7 +36,7 @@ export default function Deploy() {
             <p>در حال استقرار</p>
             <textarea
               readOnly
-              value={log.text}
+              value={html}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
             ></textarea>
@@ -49,7 +60,7 @@ export default function Deploy() {
             </span>
             <textarea
               readOnly
-              value={log.text}
+              value={html}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
             ></textarea>
@@ -77,7 +88,7 @@ export default function Deploy() {
             <p>ﺍﺳﺘﻘﺮﺍﺭ ﺍﻧﺠﺎﻡ ﺷﺪ</p>
             <textarea
               readOnly
-              value={log.text}
+              value={html}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
             ></textarea>
