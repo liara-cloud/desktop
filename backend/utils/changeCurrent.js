@@ -13,6 +13,7 @@ exports.chanegCurrentAccount = async (email, region) => {
         value.current = false;
         if (value.region == region && value.email == email && OneCurrent) {
           value.current = true;
+          content.current = key;
           OneCurrent = false;
         }
       }

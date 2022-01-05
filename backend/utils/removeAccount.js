@@ -24,6 +24,7 @@ exports.removeAccount = async (email, region) => {
             content.current == null;
           }
           Object.values(content.accounts)[0].current = true;
+          content.current = Object.keys(content.accounts)[0];
         }
       }
     }

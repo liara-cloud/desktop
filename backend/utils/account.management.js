@@ -44,6 +44,8 @@ exports.readLiaraJson = async () => {
           content.accounts[key]["current"] = false;
           if (content.current == key) {
             content.accounts[key]["current"] = true;
+            content.current = accountName;
+            content.api_token = user.api_token;
           }
         }
         content.accounts[accountName] = content.accounts[key];
