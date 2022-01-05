@@ -4,51 +4,37 @@ import React, { createContext, useEffect, useState } from "react";
 export const Context = createContext();
 
 export const ContextAPI = (props) => {
-  const [cliUser, setcliUser] = useState({
-    accounts: [],
-    account: {},
-  });
+  // State
+  const [accounts, setAccounts] = useState([]);
   const [file, setFile] = useState("");
   const [port, setPort] = useState("");
   const [selected, setSelected] = useState("");
   const [log, setLog] = useState("");
   const [current, setCurrent] = useState("");
 
-  // const checkAccounts = () => {
-  //   const checkValue = Object.values(cliUser.accounts).length == 0;
-  //   setInterval(() => {
-  //     checkValue && ipcRenderer.send("asynchronous-login", "liara-cloud");
-  //   }, 5000);
-  // };
-
+  // TODO : GET user from .liara.json
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
-      // console.log(arg);
       if (arg.accounts !== undefined) {
-        setcliUser({
-          ...cliUser,
-          accounts: arg.accounts,
-        });
+        setAccounts(arg.accounts);
+
         setCurrent(
           Object.values(arg.accounts).filter((item) => item.current)["0"]
         );
-      } else {
-        setcliUser({
-          ...cliUser,
-          account: arg,
-        });
       }
     });
     ipcRenderer.send("asynchronous-login", "liara-cloud");
-  }, [handleChangeCurrent]);
+  }, []);
 
-  // TODO:
+  // TODO : this func for open Login page in CONSOLE.LIARA.IR
   const openConsoleLogin = () => {
     ipcRenderer.on("open-console", (event, arg) => {
-      console.log(arg);
+      setAccounts(arg.accounts);
     });
     ipcRenderer.send("open-console", { page: "login" });
   };
+
+  // TODO : this func for open Register page in CONSOLE.LIARA.IR
   const openConsoleRegister = () => {
     ipcRenderer.on("open-console", (event, arg) => {
       console.log(arg);
@@ -56,12 +42,10 @@ export const ContextAPI = (props) => {
     ipcRenderer.send("open-console", { page: "register" });
   };
 
+  // TODO : this func for Change current user
   const handleChangeCurrent = (email, region) => {
     ipcRenderer.on("change-current", (event, arg) => {
-      setcliUser({
-        ...cliUser,
-        accounts: arg.accounts,
-      });
+      setAccounts(arg.accounts);
       setCurrent(
         Object.values(arg.accounts).filter((item) => item.current)["0"]
       );
@@ -75,13 +59,24 @@ export const ContextAPI = (props) => {
     });
   };
 
+  // TODO : this func for remove current account  from .liara.json
+  const handleExit = (email, region) => {
+    ipcRenderer.on("remove-account", (event, arg) => {
+      console.log(arg);
+      setAccounts(arg.accounts);
+    });
+    ipcRenderer.send("remove-account", { email, region });
+  };
+
+  // TODO : this func for deploy app & get logs
   let data = [];
   const deploy = () => {
-    ipcRenderer.on("send-logs", (event, arg) => {
-      data += arg;
-      setLog(data.toString());
+    ipcRenderer.on("deploy", (event, arg) => {
+      data += arg.log;
+      setLog({ text: data.toString(), status: arg.status });
+      console.log(arg);
     });
-    ipcRenderer.send("send-logs", {
+    ipcRenderer.send("deploy", {
       app: selected.project_id,
       port,
       path: file,
@@ -91,20 +86,24 @@ export const ContextAPI = (props) => {
   return (
     <Context.Provider
       value={{
-        cliUser,
+        // State
+        accounts,
+        file,
+        port,
+        selected,
+        log,
+        current,
+
+        // setState & functions
         openConsoleLogin,
         openConsoleRegister,
-        file,
         setFile,
-        port,
         setPort,
-        selected,
         setSelected,
-        log,
         deploy,
         handleChangeCurrent,
-        current,
         setCurrent,
+        handleExit,
       }}
     >
       {props.children}

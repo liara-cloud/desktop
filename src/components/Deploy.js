@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BlueCircle, GreenCircle, RedCircle } from "../components/icon";
 import Layout from "../components/Layout";
 import User from "../components/User";
@@ -11,7 +11,7 @@ export default function Deploy() {
 
   const context = useContext(Context);
   const { log } = context;
-  
+  console.log(log);
 
   if (status === "deploy") {
     return (
@@ -25,7 +25,7 @@ export default function Deploy() {
             <p>در حال استقرار</p>
             <textarea
               readOnly
-              value={log}
+              value={log.text}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
             ></textarea>
@@ -49,7 +49,7 @@ export default function Deploy() {
             </span>
             <textarea
               readOnly
-              value={log}
+              value={log.text}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
             ></textarea>
@@ -77,7 +77,7 @@ export default function Deploy() {
             <p>ﺍﺳﺘﻘﺮﺍﺭ ﺍﻧﺠﺎﻡ ﺷﺪ</p>
             <textarea
               readOnly
-              value={log}
+              value={log.text}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
             ></textarea>

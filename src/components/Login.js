@@ -6,20 +6,17 @@ import Layout from "./Layout";
 
 const Login = (props) => {
   const context = useContext(Context);
-  const { cliUser, openConsoleLogin, openConsoleRegister } = context;
+  const { accounts, openConsoleLogin, openConsoleRegister } = context;
 
   const [check, setCheck] = useState(false);
 
   useEffect(() => {
-    if (
-      Object.values(cliUser.accounts).length != 0 ||
-      Object.entries(cliUser.account).length != 0
-    ) {
+    if (Object.values(accounts).length != 0) {
       // setCheck(true);
       props.history.push("/Draggable");
     }
-  }, [cliUser]);
-  
+  }, [accounts]);
+
   return (
     <Layout>
       <div dir="rtl">

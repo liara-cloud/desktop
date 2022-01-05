@@ -7,8 +7,13 @@ import { ipcRenderer } from "electron";
 const User = ({ setShowApps }) => {
   const [menu, setMenu] = useState(false);
   const context = useContext(Context);
-  const { account, accounts } = context.cliUser;
-  const { handleChangeCurrent , current } = context;
+  const {
+    accounts,
+    handleChangeCurrent,
+    current,
+    openConsoleLogin,
+    handleExit,
+  } = context;
   const handleMenu = () => {
     setMenu(!menu);
   };
@@ -18,7 +23,7 @@ const User = ({ setShowApps }) => {
   const currentUser = Object.values(accounts).filter((item) => item.current)[
     "0"
   ];
-  console.log(currentUser);
+
   return (
     <>
       <div dir="rtl">
@@ -32,15 +37,6 @@ const User = ({ setShowApps }) => {
         {menu && (
           <>
             <div className="menu">
-              {Object.entries(account).length != 0 && (
-                <div className={`user-item current`} style={{ margin: 0 }}>
-                  <img src={account.avatar} />
-                  <span className="region">
-                    {account.region == "iran" ? <Iran /> : <German />}
-                  </span>
-                  <p>{account.fullname}</p>
-                </div>
-              )}
               {accounts.length != [] &&
                 Object.values(accounts).map((item, index) => (
                   <div
@@ -62,10 +58,13 @@ const User = ({ setShowApps }) => {
                   </div>
                 ))}
 
-              <a className="add" href="#">
+              <span onClick={() => openConsoleLogin()} className="add" href="#">
                 افزودن حساب کاربری
-              </a>
-              <a className="exit" href="/SelectApps">
+              </span>
+              <a
+                onClick={() => handleExit(current.email, current.region)}
+                className="exit"
+              >
                 خروج
               </a>
             </div>

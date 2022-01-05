@@ -12,13 +12,11 @@ function SelectApps() {
   const [data, setData] = useState("");
 
   const context = useContext(Context);
-  const { account, accounts } = context.cliUser;
-  const { selected, setSelected, port, setPort, deploy, current } = context;
+  const { accounts, selected, setSelected, port, setPort, deploy, current } =
+    context;
 
   const api_token = Object.values(accounts).filter((item) => item.current)["0"]
     .api_token;
-  console.log(api_token);
-  console.log(current);
   useEffect(() => {
     axios
       .get("https://api.iran.liara.ir/v1/projects", {
@@ -45,9 +43,7 @@ function SelectApps() {
         <div className="apps" onClick={() => setShowApps(!showApps)}>
           {selected === "" ? (
             <>
-              {data.length > 0
-                ? "برنامه ای انتخاب نشده"
-                : "برنامه ای وجود ندارد"}
+              برنامه ای انتخاب نشده
               <span className="left-icon">
                 <ArrowBottom />
               </span>
@@ -75,12 +71,17 @@ function SelectApps() {
             </>
           )}
         </div>
-        {showApps && (
-          <AppsItem
-            dataApp={data}
-            setShowApps={setShowApps}
-            setSelected={setSelected}
-          />
+        {showApps && data.length > 0 && (
+          <div className="box">
+            {data.map((item) => (
+              <AppsItem
+                key={item.project_id}
+                item={item}
+                setShowApps={setShowApps}
+                setSelected={setSelected}
+              />
+            ))}
+          </div>
         )}
         <p className="title">ﺗﻌﯿﯿﻦ ﭘﻮﺭﺕ</p>
         <p className="caption">ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.</p>

@@ -276,6 +276,7 @@
 .user-item.current {
   height: 45px;
   margin-top: -3px !important;
+  width: 195px;
   color: #0070f3;
   margin-top: 3px !important;
 }
