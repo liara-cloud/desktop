@@ -16,7 +16,7 @@ exports.removeAccount = async (email, region) => {
     ) {
       content = {};
     }
-    if (Object.keys(content.accounts).length !== 0) {
+    if (content.accounts && Object.keys(content.accounts).length !== 0) {
       for (const [key, value] of Object.entries(content.accounts)) {
         if (value.email == email && value.region == region) {
           delete content.accounts[key];
