@@ -17,13 +17,17 @@ exports.readLiaraJson = async () => {
       contentKeys.includes("region")
     ) {
       const user = await getUser(content.api_token);
-      const account = { account_0: {} };
-      account.account_0["fullname"] = user.fullname;
-      account.account_0["email"] = user.email;
-      account.account_0["avatar"] = user.avatar;
-      account.account_0["region"] = content.region;
-      account.account_0["api_token"] = content.api_token;
-      account.account_0["current"] = true;
+      const account = {};
+      const accountName = `${user.email.split("@")[0]}_${content.region}`;
+      account[accountName] = {};
+      console.log(accountName);
+      console.log(account);
+      account[accountName]["fullname"] = user.fullname;
+      account[accountName]["email"] = user.email;
+      account[accountName]["avatar"] = user.avatar;
+      account[accountName]["region"] = content.region;
+      account[accountName]["api_token"] = content.api_token;
+      account[accountName]["current"] = true;
       delete content.current;
       content["accounts"] = account;
       return content;
@@ -31,6 +35,9 @@ exports.readLiaraJson = async () => {
     if (Object.keys(content.accounts).length !== 0) {
       for (const [key, value] of Object.entries(content.accounts)) {
         const user = await getUser(value.api_token);
+        const accountName = `${user.email.split("@")[0]}_${
+          content.accounts[key]["region"]
+        }`;
         content.accounts[key]["fullname"] = user.fullname;
         content.accounts[key]["avatar"] = user.avatar;
 
@@ -40,6 +47,17 @@ exports.readLiaraJson = async () => {
             content.accounts[key]["current"] = true;
           }
         }
+        content.accounts[accountName] = content.accounts[key];
+        delete content.accounts[key];
+      }
+      let hasCurrent = false;
+      for (const [key, value] of Object.entries(content.accounts)) {
+        if (value.current) {
+          hasCurrent = true;
+        }
+      }
+      if (!hasCurrent) {
+        Object.values(content.accounts)[0].current = true;
       }
       return {
         accounts: content.accounts,
