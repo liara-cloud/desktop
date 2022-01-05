@@ -5,7 +5,7 @@ exports.deploy = (event, args) => {
   const { app, path, port } = args;
   const child = spawn(
     "liara deploy",
-    [`--app=${app} --port=${port} --path=${path}`],
+    [`--app=${app} --port=${port} --path=${path} --detach`],
     {
       shell: true,
     }
@@ -30,10 +30,14 @@ exports.deploy = (event, args) => {
 
   child.on("close", (code) => {
     if (code !== 0) {
-      event.sender.send("deploy", {
-        log: `deploy process exited with code ${code}`,
+      return event.sender.send("deploy", {
+        log: `Deploy process exited with code ${code}`,
         status: "error",
       });
     }
+    event.sender.send("deploy", {
+      log: `Deployment is completed successfully `,
+      status: "done",
+    });
   });
 };
