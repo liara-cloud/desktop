@@ -49,7 +49,9 @@ exports.readLiaraJson = async () => {
           }
         }
         content.accounts[accountName] = content.accounts[key];
-        delete content.accounts[key];
+        if (key !== accountName) {
+          delete content.accounts[key];
+        }
       }
       let hasCurrent = false;
       for (const [key, value] of Object.entries(content.accounts)) {
@@ -67,6 +69,7 @@ exports.readLiaraJson = async () => {
     }
     return {};
   } catch (error) {
+    console.log(error);
     logger.error("Not Found: .liara.json");
     return {};
   }
