@@ -21,10 +21,12 @@ exports.removeAccount = async (email, region) => {
         if (value.email == email && value.region == region) {
           delete content.accounts[key];
           if (content.current == key) {
-            content.current == null;
+            content.current = null;
           }
-          Object.values(content.accounts)[0].current = true;
-          content.current = Object.keys(content.accounts)[0];
+          if (Object.values(content.accounts).length !== 0) {
+            Object.values(content.accounts)[0].current = true;
+            content.current = Object.keys(content.accounts)[0];
+          }
         }
       }
     }
