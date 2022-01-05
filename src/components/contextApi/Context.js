@@ -74,7 +74,6 @@ export const ContextAPI = (props) => {
     ipcRenderer.on("deploy", (event, arg) => {
       data += arg.log;
       setLog({ text: data.toString(), status: arg.status });
-      console.log(arg);
     });
     ipcRenderer.send("deploy", {
       app: selected.project_id,

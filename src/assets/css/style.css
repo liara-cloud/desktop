@@ -382,7 +382,7 @@ div.deploy span {
   line-height: 25px;
   margin-bottom: 20px;
 }
-div.deploy textarea {
+div.deploy pre {
   height: 276px;
   font-family: iranyekan;
   width: 300px;
@@ -393,6 +393,7 @@ div.deploy textarea {
   font-size: 12px;
   direction: ltr;
   outline: none;
+  overflow: scroll;
   padding: 10px;
 }
 
@@ -407,8 +408,9 @@ div.deploy .btn-container {
 div.deploy.error p {
   padding-bottom: 5px;
 }
-div.deploy.error textarea {
+div.deploy.error pre {
   height: 224px;
+  overflow: scroll;
 }
 
 /* SelectApps */

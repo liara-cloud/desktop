@@ -1,27 +1,29 @@
 import { Link } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BlueCircle, GreenCircle, RedCircle } from "../components/icon";
 import Layout from "../components/Layout";
 import User from "../components/User";
 import { Context } from "./contextApi/Context";
 import { AnsiUp } from "ansi-up";
 
-
 export default function Deploy() {
   const [status, setStatus] = useState("deploy");
   // deploy - error - success
+
+  const ref = useRef();
 
   const context = useContext(Context);
   const { log } = context;
   console.log(log.status);
 
   var ansi_up = new AnsiUp();
-  console.log(log.text);
+
   var html = ansi_up.ansi_to_html(log.text);
 
   useEffect(() => {
     log.status === "error" && setStatus("error");
     log.status === "done" && setStatus("success");
+    console.log(ref.current);
   }, [log.status]);
 
   if (status === "deploy") {
@@ -34,12 +36,13 @@ export default function Deploy() {
               <BlueCircle />
             </span>
             <p>در حال استقرار</p>
-            <textarea
+            <pre
               readOnly
-              value={html}
+              ref={ref}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
-            ></textarea>
+              dangerouslySetInnerHTML={{ __html: html }}
+            ></pre>
             <button className="btn cancle">لغو</button>
           </div>
         </div>
@@ -58,12 +61,12 @@ export default function Deploy() {
               ﺩﺭ ﺻﻮﺭﺕ ﻧﯿﺎﺯ ﺑﻪ ﭘﺸﺘﯿﺒﺎﻧﯽ، ﻻﮒﻫﺎﯼ ﺍﯾﻦ ﺍﺳﺘﻘﺮﺍﺭ ﺭﺍ ﺩﺭﯾﺎﻓﺖ ﻭ ﺩﺭ ﺗﯿﮑﺖ
               ﭘﯿﻮﺳﺖ ﮐﻨﯿﺪ.
             </span>
-            <textarea
+            <pre
               readOnly
-              value={html}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
-            ></textarea>
+              dangerouslySetInnerHTML={{ __html: html }}
+            ></pre>
 
             <div className="btn-container">
               <Link to="/Deploy">
@@ -86,12 +89,12 @@ export default function Deploy() {
           <div className="deploy ">
             <GreenCircle />
             <p>ﺍﺳﺘﻘﺮﺍﺭ ﺍﻧﺠﺎﻡ ﺷﺪ</p>
-            <textarea
+            <pre
               readOnly
-              value={html}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
-            ></textarea>
+              dangerouslySetInnerHTML={{ __html: html }}
+            ></pre>
 
             <div className="btn-container">
               <Link to="/Draggable">
