@@ -1,4 +1,4 @@
-const { readFile } = require("fs/promises");
+const { readFile, writeFile } = require("fs/promises");
 
 const { getUser } = require("./get.account");
 const { envConfig } = require("../configs/envConfig");
@@ -20,8 +20,6 @@ exports.readLiaraJson = async () => {
       const account = {};
       const accountName = `${user.email.split("@")[0]}_${content.region}`;
       account[accountName] = {};
-      console.log(accountName);
-      console.log(account);
       account[accountName]["fullname"] = user.fullname;
       account[accountName]["email"] = user.email;
       account[accountName]["avatar"] = user.avatar;
@@ -30,6 +28,7 @@ exports.readLiaraJson = async () => {
       account[accountName]["current"] = true;
       delete content.current;
       content["accounts"] = account;
+      await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
       return content;
     }
     if (Object.keys(content.accounts).length !== 0) {
@@ -59,6 +58,7 @@ exports.readLiaraJson = async () => {
       if (!hasCurrent) {
         Object.values(content.accounts)[0].current = true;
       }
+      await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
       return {
         accounts: content.accounts,
       };
