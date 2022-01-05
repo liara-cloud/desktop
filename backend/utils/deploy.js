@@ -29,7 +29,7 @@ exports.deploy = (event, args) => {
   });
 
   child.on("close", (code) => {
-    if (code !== 0) {
+    if (code == 2) {
       event.sender.send("deploy", {
         log: `Deploy process exited with code ${code}`,
         status: "error",
