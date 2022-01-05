@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ArrowBottom, German, Iran } from "./icon";
-import person from "../assets/images/person.jpg";
 import { Context } from "./contextApi/Context";
-import { ipcRenderer } from "electron";
+import { withRouter } from "react-router";
 
-const User = ({ setShowApps }) => {
+const User = (props, { setShowApps }) => {
   const [menu, setMenu] = useState(false);
   const context = useContext(Context);
   const {
@@ -14,22 +13,32 @@ const User = ({ setShowApps }) => {
     openConsoleLogin,
     handleExit,
   } = context;
+
+  useEffect(() => {
+    if (Object.values(accounts).length === 0) {
+      props.history.push("/");
+    }
+  }, [accounts]);
   const handleMenu = () => {
     setMenu(!menu);
   };
   if (menu === true && setShowApps) {
     setShowApps(false);
   }
-  const currentUser = Object.values(accounts).filter((item) => item.current)[
-    "0"
-  ];
+
+  const changeCurrent = () => {}
+
 
   return (
     <>
       <div dir="rtl">
         <div className="user-item" onClick={handleMenu}>
-          <img src={currentUser.avatar} />
-          <p>{currentUser.fullname}</p>
+          {current !== undefined && (
+            <>
+              <img src={current.avatar} />
+              <p>{current.fullname}</p>
+            </>
+          )}
           <span>
             <ArrowBottom />
           </span>
@@ -37,26 +46,25 @@ const User = ({ setShowApps }) => {
         {menu && (
           <>
             <div className="menu">
-              {accounts.length != [] &&
-                Object.values(accounts).map((item, index) => (
-                  <div
-                    onClick={() => {
-                      handleChangeCurrent(item.email, item.region);
-                    }}
-                    key={index}
-                    className={`user-item  ${
-                      item.current ? `current` : `menu-item`
-                    }
+              {Object.values(accounts).map((item, index) => (
+                <div
+                  onClick={() => {
+                    handleChangeCurrent(item.email, item.region);
+                  }}
+                  key={index}
+                  className={`user-item  ${
+                    item.current ? `current` : `menu-item`
+                  }
                      `}
-                    style={{ margin: 0 }}
-                  >
-                    <img src={item.avatar} />
-                    <span className="region">
-                      {item.region == "iran" ? <Iran /> : <German />}
-                    </span>
-                    <p>{item.fullname}</p>
-                  </div>
-                ))}
+                  style={{ margin: 0 }}
+                >
+                  <img src={item.avatar} />
+                  <span className="region">
+                    {item.region == "iran" ? <Iran /> : <German />}
+                  </span>
+                  <p>{item.fullname}</p>
+                </div>
+              ))}
 
               <span onClick={() => openConsoleLogin()} className="add" href="#">
                 افزودن حساب کاربری
@@ -76,4 +84,4 @@ const User = ({ setShowApps }) => {
   );
 };
 
-export default User;
+export default withRouter(User);

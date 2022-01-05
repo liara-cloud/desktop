@@ -11,7 +11,7 @@ export const ContextAPI = (props) => {
   const [selected, setSelected] = useState("");
   const [log, setLog] = useState("");
   const [current, setCurrent] = useState("");
-
+  
   // TODO : GET user from .liara.json
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
@@ -30,6 +30,9 @@ export const ContextAPI = (props) => {
   const openConsoleLogin = () => {
     ipcRenderer.on("open-console", (event, arg) => {
       setAccounts(arg.accounts);
+      setCurrent(
+        Object.values(arg.accounts).filter((item) => item.current)["0"]
+      );
     });
     ipcRenderer.send("open-console", { page: "login" });
   };
@@ -49,9 +52,9 @@ export const ContextAPI = (props) => {
       setCurrent(
         Object.values(arg.accounts).filter((item) => item.current)["0"]
       );
-      console.log(
-        Object.values(arg.accounts).filter((item) => item.current)["0"]
-      );
+
+      
+
     });
     ipcRenderer.send("change-current", {
       email,
@@ -63,6 +66,9 @@ export const ContextAPI = (props) => {
   const handleExit = (email, region) => {
     ipcRenderer.on("remove-account", (event, arg) => {
       console.log(arg);
+      setCurrent(
+        Object.values(arg.accounts).filter((item) => item.current)["0"]
+      );
       setAccounts(arg.accounts);
     });
     ipcRenderer.send("remove-account", { email, region });
@@ -70,16 +76,29 @@ export const ContextAPI = (props) => {
 
   // TODO : this func for deploy app & get logs
   let data = [];
+
   const deploy = () => {
     ipcRenderer.on("deploy", (event, arg) => {
       data += arg.log;
-      setLog({ text: data.toString(), status: arg.status });
+      setLog({ text: data, status: arg.status });
     });
     ipcRenderer.send("deploy", {
       app: selected.project_id,
       port,
       path: file,
     });
+  };
+
+  // TODO : Clear deploy info
+  const clearInfo = () => {
+    // Clear File path
+    setFile("");
+
+    // Clear port number
+    setPort("");
+
+    // clear selected app
+    setSelected("");
   };
 
   return (
@@ -103,6 +122,7 @@ export const ContextAPI = (props) => {
         handleChangeCurrent,
         setCurrent,
         handleExit,
+        clearInfo,
       }}
     >
       {props.children}

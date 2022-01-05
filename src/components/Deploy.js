@@ -13,17 +13,17 @@ export default function Deploy() {
   const ref = useRef();
 
   const context = useContext(Context);
-  const { log } = context;
-  console.log(log.status);
+  const { log, clearInfo } = context;
 
   var ansi_up = new AnsiUp();
 
-  var html = ansi_up.ansi_to_html(log.text);
-
+  var html = ansi_up.ansi_to_html(
+    log.text == undefined ? "Deploy..." : log.text
+  );
+  console.log(log);
   useEffect(() => {
     log.status === "error" && setStatus("error");
     log.status === "done" && setStatus("success");
-    console.log(ref.current);
   }, [log.status]);
 
   if (status === "deploy") {
@@ -73,7 +73,9 @@ export default function Deploy() {
                 <button className="btn main">دریافت لاگ</button>
               </Link>
               <Link to="/Draggable">
-                <button className="btn main">استقرار جدید</button>
+                <button className="btn main" onClick={clearInfo()}>
+                  استقرار جدید
+                </button>
               </Link>
             </div>
           </div>

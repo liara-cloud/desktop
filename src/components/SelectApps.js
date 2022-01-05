@@ -12,8 +12,16 @@ function SelectApps() {
   const [data, setData] = useState("");
 
   const context = useContext(Context);
-  const { accounts, selected, setSelected, port, setPort, deploy, current } =
-    context;
+  const {
+    accounts,
+    selected,
+    setSelected,
+    port,
+    setPort,
+    deploy,
+    current,
+    setFile,
+  } = context;
 
   const api_token = Object.values(accounts).filter((item) => item.current)["0"]
     .api_token;
@@ -99,7 +107,9 @@ function SelectApps() {
             </button>
           </Link>
           <Link to="/Draggable">
-            <button className="btn main">قبلی</button>
+            <button className="btn main" onClick={() => setFile("")}>
+              قبلی
+            </button>
           </Link>
         </div>
       </div>
