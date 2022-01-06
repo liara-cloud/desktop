@@ -20,12 +20,19 @@ function SelectApps() {
     setPort,
     deploy,
     current,
+    disabled,
     setFile,
+    defaultPort,
   } = context;
 
-  const api_token = Object.values(accounts).filter((item) => item.current)["0"]
-    .api_token;
   useEffect(() => {
+    if (Object.values(accounts).length == 0) {
+      props.history.push("/");
+    }
+
+    const api_token = Object.values(accounts).filter((item) => item.current)[
+      "0"
+    ].api_token;
     axios
       .get("https://api.iran.liara.ir/v1/projects", {
         headers: {
@@ -91,16 +98,27 @@ function SelectApps() {
             ))}
           </div>
         )}
-        <p className="title">ﺗﻌﯿﯿﻦ ﭘﻮﺭﺕ</p>
-        <p className="caption">ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.</p>
-        <input
-          value={port}
-          onChange={(e) => setPort(e.target.value)}
-          className="port"
-          type="number"
-          placeholder="80"
-        />
-        <div className="btn-container">
+        {defaultPort.length === 0 && (
+          <>
+            <p className="title">ﺗﻌﯿﯿﻦ ﭘﻮﺭﺕ</p>
+            <p className="caption">ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.</p>
+            <input
+              value={port}
+              disabled={disabled}
+              onChange={(e) => setPort(e.target.value)}
+              className="port"
+              type="number"
+              placeholder="80"
+            />
+          </>
+        )}
+        <div
+          className="btn-container"
+          style={{
+            position: "absolute",
+            bottom: 55,
+          }}
+        >
           <Link to="/Deploy">
             <button className="btn main" onClick={() => deploy()}>
               بعدی

@@ -26,9 +26,6 @@ const User = (props, { setShowApps }) => {
     setShowApps(false);
   }
 
-  const changeCurrent = () => {}
-
-
   return (
     <>
       <div dir="rtl">

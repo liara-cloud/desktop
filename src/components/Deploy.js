@@ -102,7 +102,11 @@ export default function Deploy() {
               <Link to="/Draggable">
                 <button className="btn main">نمایش در مرورگر</button>
               </Link>
-              <Link to="/Deploy">
+              <Link
+                to="/Deploy"
+                onClick={() => {
+                }}
+              >
                 <button className="btn main">دریافت لاگ</button>
               </Link>
             </div>

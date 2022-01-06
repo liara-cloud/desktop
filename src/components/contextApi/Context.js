@@ -10,9 +10,9 @@ export const ContextAPI = (props) => {
   const [port, setPort] = useState("");
   const [selected, setSelected] = useState("");
   const [log, setLog] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const [current, setCurrent] = useState("");
-  
-  // TODO : GET user from .liara.json
+
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       if (arg.accounts !== undefined) {
@@ -26,7 +26,6 @@ export const ContextAPI = (props) => {
     ipcRenderer.send("asynchronous-login", "liara-cloud");
   }, []);
 
-  // TODO : this func for open Login page in CONSOLE.LIARA.IR
   const openConsoleLogin = () => {
     ipcRenderer.on("open-console", (event, arg) => {
       setAccounts(arg.accounts);
@@ -37,7 +36,6 @@ export const ContextAPI = (props) => {
     ipcRenderer.send("open-console", { page: "login" });
   };
 
-  // TODO : this func for open Register page in CONSOLE.LIARA.IR
   const openConsoleRegister = () => {
     ipcRenderer.on("open-console", (event, arg) => {
       console.log(arg);
@@ -45,16 +43,12 @@ export const ContextAPI = (props) => {
     ipcRenderer.send("open-console", { page: "register" });
   };
 
-  // TODO : this func for Change current user
   const handleChangeCurrent = (email, region) => {
     ipcRenderer.on("change-current", (event, arg) => {
       setAccounts(arg.accounts);
       setCurrent(
         Object.values(arg.accounts).filter((item) => item.current)["0"]
       );
-
-      
-
     });
     ipcRenderer.send("change-current", {
       email,
@@ -62,7 +56,6 @@ export const ContextAPI = (props) => {
     });
   };
 
-  // TODO : this func for remove current account  from .liara.json
   const handleExit = (email, region) => {
     ipcRenderer.on("remove-account", (event, arg) => {
       console.log(arg);
@@ -74,7 +67,6 @@ export const ContextAPI = (props) => {
     ipcRenderer.send("remove-account", { email, region });
   };
 
-  // TODO : this func for deploy app & get logs
   let data = [];
 
   const deploy = () => {
@@ -82,6 +74,7 @@ export const ContextAPI = (props) => {
       data += arg.log;
       setLog({ text: data, status: arg.status });
     });
+
     ipcRenderer.send("deploy", {
       app: selected.project_id,
       port,
@@ -89,17 +82,37 @@ export const ContextAPI = (props) => {
     });
   };
 
-  // TODO : Clear deploy info
   const clearInfo = () => {
-    // Clear File path
     setFile("");
 
-    // Clear port number
     setPort("");
 
-    // clear selected app
     setSelected("");
   };
+
+  // check default port
+  const port_type = [
+    { name: "static", port: 80 },
+    { name: "react", port: 80 },
+    { name: "vue", port: 80 },
+    { name: "angular", port: 80 },
+    { name: "laravel", port: 80 },
+    { name: "wordpress", port: 80 },
+    { name: "django", port: 80 },
+    { name: "flask", port: 8000 },
+    { name: "php", port: 80 },
+    { name: "netcore", port: 80 },
+  ];
+  const defaultPort = port_type.filter((item) => item.name === selected.type);
+  useEffect(() => {
+    if (defaultPort.length != 0) {
+      setDisabled(true);
+      setPort(defaultPort["0"].port);
+    } else {
+      setDisabled(false);
+      setPort("");
+    }
+  }, [selected]);
 
   return (
     <Context.Provider
@@ -110,7 +123,9 @@ export const ContextAPI = (props) => {
         port,
         selected,
         log,
+        disabled,
         current,
+        defaultPort,
 
         // setState & functions
         openConsoleLogin,
