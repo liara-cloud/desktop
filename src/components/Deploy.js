@@ -13,7 +13,7 @@ export default function Deploy() {
   const ref = useRef();
 
   const context = useContext(Context);
-  const { log, clearInfo } = context;
+  const { log, clearInfo, cancel } = context;
 
   var ansi_up = new AnsiUp();
 
@@ -43,7 +43,9 @@ export default function Deploy() {
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
             ></pre>
-            <button className="btn cancle">لغو</button>
+            <button className="btn cancle" onClick={() => cancel()}>
+              لغو
+            </button>
           </div>
         </div>
       </Layout>
@@ -102,11 +104,7 @@ export default function Deploy() {
               <Link to="/Draggable">
                 <button className="btn main">نمایش در مرورگر</button>
               </Link>
-              <Link
-                to="/Deploy"
-                onClick={() => {
-                }}
-              >
+              <Link to="/Deploy" onClick={() => {}}>
                 <button className="btn main">دریافت لاگ</button>
               </Link>
             </div>

@@ -6,7 +6,7 @@ exports.envConfig = {
   LIARA_LOGIN_PAGE: "http://localhost:3000/login",
   LIARA_REGISTER_PAGE: "http://localhost:3000/register",
   LIARA_GET_ME_IRAN: "https://api.iran.liara.ir/v1/me",
-  LIARA_GET_ME_GERMANY: "https://api.liara.com/v1/me",
+  LIARA_GET_ME_GERMANY: "https://api.liara.ir/v1/me",
   GLOBAL_CONF_PATH: path.join(os.homedir(), ".liara.json"),
   OPEN_PORT: undefined,
   PLATFORM: process.platform,

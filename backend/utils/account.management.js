@@ -16,7 +16,7 @@ exports.readLiaraJson = async () => {
       contentKeys.includes("api_token") &&
       contentKeys.includes("region")
     ) {
-      const user = await getUser(content.api_token);
+      const user = await getUser(content.api_token, content.region);
       const account = {};
       const accountName = `${user.email.split("@")[0]}_${content.region}`;
       account[accountName] = {};
@@ -33,7 +33,7 @@ exports.readLiaraJson = async () => {
     }
     if (Object.keys(content.accounts).length !== 0) {
       for (const [key, value] of Object.entries(content.accounts)) {
-        const user = await getUser(value.api_token);
+        const user = await getUser(value.api_token, value.region);
         const accountName = `${user.email.split("@")[0]}_${
           content.accounts[key]["region"]
         }`;

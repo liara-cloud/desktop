@@ -81,6 +81,19 @@ export const ContextAPI = (props) => {
       path: file,
     });
   };
+  const cancel = () => {
+    ipcRenderer.on("deploy", (event, arg) => {
+      data += arg.log;
+      setLog({ text: data, status: arg.status });
+    });
+    console.log(file, port);
+    ipcRenderer.send("deploy", {
+      app: selected.project_id,
+      port,
+      path: file,
+      cancel: true,
+    });
+  };
 
   const clearInfo = () => {
     setFile("");
@@ -138,6 +151,7 @@ export const ContextAPI = (props) => {
         setCurrent,
         handleExit,
         clearInfo,
+        cancel,
       }}
     >
       {props.children}

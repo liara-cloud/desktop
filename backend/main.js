@@ -9,7 +9,7 @@ const { envConfig } = require("./configs/envConfig");
 const { readLiaraJson } = require("./utils/account.management");
 const { startServer } = require("./server/startServer.js");
 const { createEncodedUrl } = require("./utils/urlEncoder.js");
-const { deploy } = require("./utils/deploy");
+const { deploy, eventEmmit } = require("./utils/deploy");
 const TrayMenu = require("./tray");
 const logger = require("./configs/logger");
 const { chanegCurrentAccount } = require("./utils/changeCurrent");
@@ -107,9 +107,12 @@ ipcMain.on("open-console", async (event, arg) => {
   logger.info("Response from IPCMain sent. channle=open-console");
 });
 ipcMain.on("deploy", async (event, arg) => {
-  logger.info("Request from IPCRenderer recieved. channle=deploy");
+  if (arg.cancel) {
+    return eventEmmit.emit("cancel-deploy");
+  }
+  logger.info("Request from IPCRenderer recieved. channle=deploy deploy=true");
   deploy(event, arg);
-  logger.info("Response from IPCMain sent. channle=deploy");
+  logger.info("Response from IPCMain sent. channle=deploy deploy=true");
 });
 ipcMain.on("change-current", async (event, arg) => {
   const { email, region } = arg;

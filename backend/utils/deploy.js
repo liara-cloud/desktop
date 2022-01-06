@@ -1,6 +1,9 @@
 const { spawn } = require("child_process");
+const { EventEmitter } = require("events");
+
 const logger = require("../configs/logger");
 
+exports.eventEmmit = new EventEmitter();
 exports.logs = [];
 exports.deploy = (event, args) => {
   const { app, path, port } = args;
@@ -47,5 +50,13 @@ exports.deploy = (event, args) => {
         status: "done",
       });
     }
+  });
+
+  this.eventEmmit.on("cancel-deploy", () => {
+    child.kill(9);
+    event.sender.send("deploy", {
+      log: "Deployment cancelled successfully",
+      status: "cancel",
+    });
   });
 };
