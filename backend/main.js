@@ -14,6 +14,7 @@ const TrayMenu = require("./tray");
 const logger = require("./configs/logger");
 const { chanegCurrentAccount } = require("./utils/changeCurrent");
 const { removeAccount } = require("./utils/removeAccount");
+const { sendLogToUser } = require("./dialog");
 
 let mainWindow;
 
@@ -23,7 +24,7 @@ const appElements = {
 };
 async function createMainWindow() {
   mainWindow = new BrowserWindow({
-    width: envConfig.PLATFORM === "darwin" ? 350 : 366,
+    width: envConfig.PLATFORM === "win32" ? 366 : 350,
     minWidth: 366,
     autoHideMenuBar: true,
     maximizable: false,
@@ -120,6 +121,10 @@ ipcMain.on("change-current", async (event, arg) => {
 ipcMain.on("remove-account", async (event, arg) => {
   const { email, region } = arg;
   event.sender.send("remove-account", await removeAccount(email, region));
+});
+
+ipcMain.on("show-dialog", (event, arg) => {
+  sendLogToUser();
 });
 // Stop error
 app.allowRendererProcessReuse = true;

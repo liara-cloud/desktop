@@ -5,7 +5,7 @@ const logger = require("../configs/logger");
 
 exports.getUser = async (apiToken) => {
   logger.info("Start to get user data");
-  const response = await axios.get(envConfig.LIARA_GET_ME, {
+  const response = await axios.get(envConfig.LIARA_GET_ME_IRAN, {
     headers: { Authorization: `Bearer ${apiToken}` },
   });
   logger.info(`Get User Data: ${response.data.user}`);
