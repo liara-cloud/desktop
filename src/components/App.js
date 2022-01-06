@@ -5,7 +5,7 @@ import "../assets/css/style.css";
 import Draggable from "./Draggable";
 import SelectApps from "./SelectApps";
 import Deploy from "./Deploy";
-import Login from "./login";
+import Login from "./Login";
 import { ContextAPI } from "./contextApi/Context";
 
 const App = () => (
