@@ -158,6 +158,19 @@ export function RedCircle() {
     </svg>
   );
 }
+export function GreyCircle() {
+  return (
+    <svg
+      width="8"
+      height="8"
+      viewBox="0 0 8 8"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="4.25" cy="3.75" r="3.75" fill="#999999" />
+    </svg>
+  );
+}
 export function Time() {
   return (
     <svg

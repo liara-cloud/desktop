@@ -119,11 +119,15 @@ function SelectApps() {
             bottom: 55,
           }}
         >
-          <Link to="/Deploy">
-            <button className="btn main" onClick={() => deploy()}>
-              بعدی
-            </button>
-          </Link>
+          {port != "" && selected != "" ? (
+            <Link to="/Deploy">
+              <button className="btn main" onClick={() => deploy()}>
+                بعدی
+              </button>
+            </Link>
+          ) : (
+            <button className="btn main">بعدی</button>
+          )}
           <Link to="/Draggable">
             <button className="btn main" onClick={() => setFile("")}>
               قبلی

@@ -228,6 +228,12 @@
   margin-bottom: 5px;
   margin-top: 19px;
 }
+.center-current-item {
+  width: max-content;
+  margin-right: 50%;
+  transform: translateX(50%);
+}
+
 .user-item img {
   border-radius: 50%;
   margin-left: 10px;

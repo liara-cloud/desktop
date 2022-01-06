@@ -3,15 +3,18 @@ import { ArrowBottom, German, Iran } from "./icon";
 import { Context } from "./contextApi/Context";
 import { withRouter } from "react-router";
 
-const User = (props, { setShowApps }) => {
+const User = (props) => {
   const [menu, setMenu] = useState(false);
   const context = useContext(Context);
   const {
     accounts,
     handleChangeCurrent,
     current,
+    setShowApps,
     openConsoleLogin,
     handleExit,
+    isDeploy,
+    setIsDeploy,
   } = context;
 
   useEffect(() => {
@@ -28,8 +31,8 @@ const User = (props, { setShowApps }) => {
 
   return (
     <>
-      <div dir="rtl">
-        <div className="user-item" onClick={handleMenu}>
+      <div dir="rtl" style={isDeploy ? { opacity: "0.7" } : {}}>
+        <div className="user-item center-current-item" onClick={handleMenu}>
           {current !== undefined && (
             <>
               <img src={current.avatar} />
@@ -40,7 +43,7 @@ const User = (props, { setShowApps }) => {
             <ArrowBottom />
           </span>
         </div>
-        {menu && (
+        {menu && isDeploy === false && (
           <>
             <div className="menu">
               {Object.values(accounts).map((item, index) => (

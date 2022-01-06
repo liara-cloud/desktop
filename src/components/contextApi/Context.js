@@ -12,6 +12,9 @@ export const ContextAPI = (props) => {
   const [log, setLog] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [current, setCurrent] = useState("");
+  const [showApps, setShowApps] = useState(false);
+  const [status, setStatus] = useState("deploy");
+  const [isDeploy, setIsDeploy] = useState(false);
 
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
@@ -70,11 +73,11 @@ export const ContextAPI = (props) => {
   let data = [];
 
   const deploy = () => {
+    setIsDeploy(true);
     ipcRenderer.on("deploy", (event, arg) => {
       data += arg.log;
       setLog({ text: data, status: arg.status });
     });
-
     ipcRenderer.send("deploy", {
       app: selected.project_id,
       port,
@@ -95,12 +98,18 @@ export const ContextAPI = (props) => {
     });
   };
 
+  const serveLog = () => {
+    ipcRenderer.send("show-dialog", "liara-cloud");
+  };
+
   const clearInfo = () => {
     setFile("");
 
     setPort("");
 
     setSelected("");
+
+    setStatus("");
   };
 
   // check default port
@@ -138,9 +147,14 @@ export const ContextAPI = (props) => {
         log,
         disabled,
         current,
+        showApps,
         defaultPort,
+        status,
+        isDeploy,
 
         // setState & functions
+        setIsDeploy,
+        setShowApps,
         openConsoleLogin,
         openConsoleRegister,
         setFile,
@@ -152,6 +166,8 @@ export const ContextAPI = (props) => {
         handleExit,
         clearInfo,
         cancel,
+        serveLog,
+        setStatus,
       }}
     >
       {props.children}
