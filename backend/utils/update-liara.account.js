@@ -11,7 +11,7 @@ const mergeContent = async (content, data) => {
     return obj;
   });
 
-  const fixData = data.reduce(function (target, key, index) {
+  const fixData = data.reduce(function (target, key) {
     const accountName = `${key.email.split("@")[0]}_${key.region}`;
     target[accountName] = key;
     if (key.current == true) {
@@ -43,35 +43,3 @@ exports.updateLiaraJson = async (data) => {
     return await mergeContent({}, data);
   }
 };
-
-(async () => {
-  const data = [
-    {
-      fullname: "علی قلی",
-      region: "iran",
-      avatar: "//www.gravatar.com/avatar/09e040dc8d02631fc9974006e5c1504a?d=mp",
-      email: "aligholi8220@gmail.com",
-      token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MWEyOGU4ZDQyMGU0NTAwMTFhM2EyNTYiLCJpYXQiOjE2NDExMDkwMDR9.eFLrQkYtYG4Ahum2rCokHdEN0ZW7TYA8ruG_5lndrYc",
-      current: false,
-    },
-    {
-      avatar: "//www.gravatar.com/avatar/a18391f95368f90280e844cd37777a0f?d=mp",
-      token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MWQxNTY4ZmZiYjNlN2I1NmEyMTlmMTAiLCJpYXQiOjE2NDExMDkxMzV9.1b1cubbTZmeK7vzRb2XBHLiNV3MDv5qcqrmSvgSw1Ag",
-      email: "testtestte2sat@gmail.com",
-      region: "iran",
-      fullname: "لیارا قلی تست",
-      current: true,
-    },
-    {
-      avatar: "new avatar",
-      token: "new token",
-      email: "new email",
-      region: "iran",
-      fullname: "my name",
-      current: "iran",
-    },
-  ];
-  await this.updateLiaraJson(data);
-})();

@@ -26,6 +26,7 @@ exports.removeAccount = async (email, region) => {
           if (Object.values(content.accounts).length !== 0) {
             Object.values(content.accounts)[0].current = true;
             content.current = Object.keys(content.accounts)[0];
+            content.api_token = Object.values(content.accounts)[0]["api_token"];
           }
         }
       }
