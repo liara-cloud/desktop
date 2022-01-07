@@ -24,16 +24,16 @@ const appElements = {
 };
 async function createMainWindow() {
   mainWindow = new BrowserWindow({
-    width: envConfig.PLATFORM === "win32" ? 366 : 350,
-    minWidth: 366,
+    width: 350,
+    minWidth: 350,
     autoHideMenuBar: true,
     maximizable: false,
-    maxWidth: 366,
+    maxWidth: 350,
     height: 550,
     minHeight: 550,
     maxHeight: 550,
     show: false,
-    frame: envConfig === "win32" ? false : true,
+    frame: true,
     icon: `${__dirname}/assets/icon.png`,
     webPreferences: {
       nodeIntegration: true,

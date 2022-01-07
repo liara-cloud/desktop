@@ -53,7 +53,7 @@ exports.deploy = (event, args) => {
   });
 
   this.eventEmmit.on("cancel-deploy", () => {
-    spawn("taskkill", ["/pid", child.pid, "/f", "/t"]);
+    child.kill(9);
     event.sender.send("deploy", {
       log: "Deployment cancelled successfully",
       status: "cancel",

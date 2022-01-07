@@ -6,41 +6,42 @@ import { ipcRenderer } from "electron";
 
 function Layout(props) {
   useEffect(() => {
-    minimize.current.addEventListener("click", function (e) {
-      ipcRenderer.invoke("frame", "minimize");
-    });
-
-    close.current.addEventListener("click", function (e) {
-      ipcRenderer.invoke("frame", "close");
-      // var window = remote.getCurrentWindow();
-      // window.close();
-    });
+    if (minimize.current && close.current) {
+      minimize.current.addEventListener("click", function (e) {
+        ipcRenderer.invoke("frame", "minimize");
+      });
+      close.current.addEventListener("click", function (e) {
+        ipcRenderer.invoke("frame", "close");
+      });
+    }
   }, []);
   const minimize = useRef();
   const close = useRef();
   return (
     <>
-      <div id="menu-bar">
-        <div className="left" role="menu">
-          <span className="nav-logo">
-            <LiaraLight />
-          </span>
+      {window.navigator.platform != "MacIntel" && (
+        <div id="menu-bar">
+          <div className="left" role="menu">
+            <span className="nav-logo">
+              <LiaraLight />
+            </span>
 
-          <p className="nav-text">liara</p>
+            <p className="nav-text">liara</p>
+          </div>
+          <div className="right">
+            <button
+              ref={minimize}
+              className="menubar-btn navitem"
+              id="minimize-btn"
+            >
+              <Minimize />
+            </button>
+            <button ref={close} className="menubar-btn navitem" id="close-btn">
+              <Time />
+            </button>
+          </div>
         </div>
-        <div className="right">
-          <button
-            ref={minimize}
-            className="menubar-btn navitem"
-            id="minimize-btn"
-          >
-            <Minimize />
-          </button>
-          <button ref={close} className="menubar-btn navitem" id="close-btn">
-            <Time />
-          </button>
-        </div>
-      </div>
+      )}
       <div>
         {props.children}
         <p className="version">نسخه 1.0.0</p>
