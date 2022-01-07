@@ -7,8 +7,7 @@ import { ArrowBottom, Node, Tick } from "./icon";
 import Layout from "./Layout";
 import User from "./User";
 
-function SelectApps() {
-  const [showApps, setShowApps] = useState(false);
+function SelectApps(props) {
   const [data, setData] = useState("");
 
   const context = useContext(Context);
@@ -18,12 +17,39 @@ function SelectApps() {
     setSelected,
     port,
     setPort,
+    showApps,
+    setShowApps,
     deploy,
     current,
     disabled,
     setFile,
     defaultPort,
+    clearInfo,
   } = context;
+
+  //  keyCode - Use keyboard keys
+  //  Enter(13) & Backspace(8)
+
+  document.addEventListener("keydown", (event) => {
+    let unicode = event.keyCode;
+    if (
+      props.history.location.pathname === "/SelectApps" &&
+      port != "" &&
+      selected != ""
+    ) {
+      if (unicode === 13) {
+        props.history.push("/Deploy");
+        deploy();
+      }
+    } else if ((props.history.location.pathname = "/SelectApps")) {
+      if (unicode === 8) {
+        clearInfo();
+        props.history.push("/Draggable");
+      }
+    }
+  });
+
+  // ***************
 
   useEffect(() => {
     if (Object.values(accounts).length == 0) {
@@ -33,15 +59,18 @@ function SelectApps() {
     const api_token = Object.values(accounts).filter((item) => item.current)[
       "0"
     ].api_token;
+
     axios
       .get("https://api.iran.liara.ir/v1/projects", {
         headers: {
           Authorization: `Bearer ${api_token}`,
         },
       })
+
       .then((res) => {
         setData(res.data.projects);
       })
+
       .catch((error) => {
         console.error(error);
       });
@@ -50,13 +79,16 @@ function SelectApps() {
   return (
     <Layout>
       <div dir="rtl">
-        <User setShowApps={setShowApps} />
+        <User />
         <p className="title">انتخاب برنامه</p>
         <p className="caption">
           ﺑﺮﻧﺎﻣﻪﺍﯼ ﮐﻪ ﻣﯽﺧﻮﺍﻫﯿﺪ ﺩﺭ ﺁﻥ ﺩﯾﭙﻠﻮﯼ ﮐﻨﯿﺪ ﺭﺍ ﺍﻧﺘﺨﺎﺏ ﮐﻨﯿﺪ.
         </p>
-        <div className="apps" onClick={() => setShowApps(!showApps)}>
-          {selected === "" ? (
+        <div
+          className="apps"
+          onClick={() => setShowApps(!showApps) + console.log(showApps)}
+        >
+          {selected === "" && data.length > 0 ? (
             <>
               برنامه ای انتخاب نشده
               <span className="left-icon">

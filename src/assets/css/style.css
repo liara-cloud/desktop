@@ -474,3 +474,116 @@ div.deploy.error pre {
     opacity: 1;
   }
 }
+
+/* spinner */
+.spinner-box {
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+}
+.spinner {
+  --color: #0070f3;
+  --fade-color: #0071f373;
+  --scale: 1;
+  --x-speed: 1;
+  display: inline-block;
+  width: 46px;
+  height: 46px;
+  animation: ps-spin calc(15s / var(--x-speed)) linear infinite;
+}
+
+@keyframes ps-spin {
+  from {
+    transform: scale(var(--scale)) rotateZ(0);
+  }
+  to {
+    transform: scale(var(--scale)) rotateZ(-360deg);
+  }
+}
+.spinner span {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.spinner span::before,
+.spinner span::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.3);
+  background-color: rgba(var(--color) / 50%);
+  border-radius: 50%;
+  animation: ps-spinner-scale calc(1.2s / var(--x-speed)) linear infinite;
+}
+
+@keyframes ps-spinner-scale {
+  0% {
+    background-color: var(--fade-color);
+    transform: translateY(-50%) scale(0.3);
+  }
+  25% {
+    background-color: var(--color);
+    transform: translateY(-50%) scale(1);
+  }
+  80% {
+    background-color: var(--fade-color);
+    transform: translateY(-50%) scale(0.3);
+  }
+  100% {
+    background-color: var(--fade-color);
+    transform: translateY(-50%) scale(0.3);
+  }
+}
+
+.spinner span::before {
+  left: 0;
+}
+
+.spinner span::after {
+  right: 0;
+}
+
+.spinner span:first-of-type {
+  transform: rotateZ(-45deg);
+}
+
+.spinner span:last-of-type {
+  transform: rotateZ(45deg);
+}
+
+.spinner span:nth-of-type(2) {
+  transform: rotateZ(90deg);
+}
+
+.spinner span:nth-of-type(3)::after {
+  animation-delay: calc(0.15s / var(--x-speed));
+}
+.spinner span:last-of-type::after {
+  animation-delay: calc(0.3s / var(--x-speed));
+}
+.spinner span:nth-of-type(2)::after {
+  animation-delay: calc(0.45s / var(--x-speed));
+}
+.spinner span:first-of-type::before {
+  animation-delay: calc(0.6s / var(--x-speed));
+}
+.spinner span:nth-of-type(3)::before {
+  animation-delay: calc(0.75s / var(--x-speed));
+}
+.spinner span:last-of-type::before {
+  animation-delay: calc(0.9s / var(--x-speed));
+}
+.spinner span:nth-of-type(2)::before {
+  animation-delay: calc(1.05s / var(--x-speed));
+}

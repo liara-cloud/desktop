@@ -18,7 +18,8 @@ export default function Deploy() {
 
   const context = useContext(Context);
 
-  const { log, clearInfo, status, setStatus, serveLog, setIsDeploy } = context;
+  const { log, clearInfo, status, setStatus, serveLog, setIsDeploy, cancel } =
+    context;
   var ansi_up = new AnsiUp();
 
   var html = ansi_up.ansi_to_html(
@@ -31,6 +32,9 @@ export default function Deploy() {
       setIsDeploy(false);
     } else if (log.status === "done") {
       setStatus("success");
+      setIsDeploy(false);
+    } else if (log.status === "cancel") {
+      setStatus("cancel");
       setIsDeploy(false);
     }
   }, [log.status]);
@@ -108,12 +112,10 @@ export default function Deploy() {
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
             ></pre>
-
             <div className="btn-container">
               <Link to="/Draggable">
                 <button className="btn main">نمایش در مرورگر</button>
               </Link>
-
               <button className="btn main " onClick={() => serveLog()}>
                 دریافت لاگ
               </button>

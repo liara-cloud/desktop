@@ -84,6 +84,7 @@ export const ContextAPI = (props) => {
       path: file,
     });
   };
+
   const cancel = () => {
     ipcRenderer.on("deploy", (event, arg) => {
       data += arg.log;
@@ -109,7 +110,7 @@ export const ContextAPI = (props) => {
 
     setSelected("");
 
-    setStatus("");
+    setStatus("deploy");
   };
 
   // check default port

@@ -8,18 +8,33 @@ const Login = (props) => {
   const context = useContext(Context);
   const { accounts, openConsoleLogin, openConsoleRegister } = context;
 
-  const [check, setCheck] = useState(false);
+  const [check, setCheck] = useState(true);
 
   useEffect(() => {
+    console.log(Object.values(accounts));
     if (Object.values(accounts).length != 0) {
-      // setCheck(true);
       props.history.push("/Draggable");
     }
   }, [accounts]);
 
+  setTimeout(() => {
+    setCheck(false);
+  }, 2500);
+
   return (
     <Layout>
       <div dir="rtl">
+        {check && (  
+          <div className="spinner-box">
+            <span className="spinner">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+        )}
+
         <div className="logo">
           <Liara />
           <span>سرویس ابری لیارا</span>

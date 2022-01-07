@@ -14,6 +14,7 @@ const User = (props) => {
     openConsoleLogin,
     handleExit,
     isDeploy,
+    showApps,
     setIsDeploy,
   } = context;
 
@@ -25,7 +26,8 @@ const User = (props) => {
   const handleMenu = () => {
     setMenu(!menu);
   };
-  if (menu === true && setShowApps) {
+
+  if (menu === true && showApps === true) {
     setShowApps(false);
   }
 

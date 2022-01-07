@@ -12,6 +12,7 @@ exports.deploy = (event, args) => {
     [`--app=${app} --port=${port} --path=${path} --detach`],
     {
       shell: true,
+      detached: true,
     }
   );
 
@@ -53,7 +54,7 @@ exports.deploy = (event, args) => {
   });
 
   this.eventEmmit.on("cancel-deploy", () => {
-    child.kill(9);
+    child.kill();
     event.sender.send("deploy", {
       log: "Deployment cancelled successfully",
       status: "cancel",
