@@ -18,7 +18,7 @@ export default function Deploy() {
 
   const context = useContext(Context);
 
-  const { log, clearInfo, status, setStatus, serveLog, setIsDeploy, cancel } =
+  const { cancel, log, clearInfo, status, setStatus, serveLog, setIsDeploy } =
     context;
   var ansi_up = new AnsiUp();
 

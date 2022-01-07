@@ -4,7 +4,7 @@ const url = require("url");
 const { sentry } = require("./configs/sentry");
 
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
-
+const remoteMain = require("@electron/remote/main").initialize();
 const { envConfig } = require("./configs/envConfig");
 const { readLiaraJson } = require("./utils/account.management");
 const { startServer } = require("./server/startServer.js");
@@ -33,7 +33,7 @@ async function createMainWindow() {
     minHeight: 550,
     maxHeight: 550,
     show: false,
-    frame: envConfig === "win32" ? false : true,
+    frame: envConfig === "win32" ? false : false,
     icon: `${__dirname}/assets/icon.png`,
     webPreferences: {
       nodeIntegration: true,
@@ -74,6 +74,7 @@ async function createMainWindow() {
     }
   });
   mainWindow.on("closed", () => (mainWindow = null));
+  remoteMain.enable(mainWindow.webContents);
 }
 
 app.whenReady().then(() => {
@@ -139,5 +140,10 @@ ipcMain.on("console", async (event, args) => {
     return await shell.openExternal(envConfig.LIARA_TICKET_PAGE);
   }
 });
+
+// minimize.current.addEventListener("click", function (e) {
+//   var window = remote.getCurrentWindow();
+//   window.minimize();
+// });
 // Stop error
 app.allowRendererProcessReuse = true;

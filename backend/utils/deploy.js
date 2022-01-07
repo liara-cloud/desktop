@@ -12,7 +12,6 @@ exports.deploy = (event, args) => {
     [`--app=${app} --port=${port} --path=${path} --detach`],
     {
       shell: true,
-      detached: true,
     }
   );
 

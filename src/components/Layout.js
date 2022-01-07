@@ -2,7 +2,10 @@ import React, { memo, useEffect, useRef } from "react";
 import { ArrowBottom, LiaraLight, Minimize, Time } from "./icon";
 import "../assets/css/navbar.css";
 import { withRouter } from "react-router";
-const remote = require("electron").remote;
+const remote = require("@electron/remote");
+const remoteMain = remote.require("@electron/remote/main");
+
+console.log(remote.BrowserWindow);
 function Layout(props) {
   // useEffect(() => {
   //   minimize.current.addEventListener("click", function (e) {
