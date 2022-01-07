@@ -6,14 +6,13 @@ const logger = require("../configs/logger");
 exports.getUser = async (apiToken, region) => {
   try {
     logger.info("Start to get user data");
-    const response = await axios.get(
+    const url =
       region === "iran"
         ? envConfig.LIARA_GET_ME_IRAN
-        : envConfig.LIARA_GET_ME_GERMANY,
-      {
-        headers: { Authorization: `Bearer ${apiToken}` },
-      }
-    );
+        : envConfig.LIARA_GET_ME_GERMANY;
+    const response = await axios.get(url, {
+      headers: { Authorization: `Bearer ${apiToken}` },
+    });
     logger.info(`Get User Data: ${response.data.user}`);
     return response.data.user;
   } catch (error) {

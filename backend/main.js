@@ -33,6 +33,7 @@ async function createMainWindow() {
     minHeight: 550,
     maxHeight: 550,
     show: false,
+    frame: envConfig === "win32" ? false : true,
     icon: `${__dirname}/assets/icon.png`,
     webPreferences: {
       nodeIntegration: true,
@@ -128,6 +129,15 @@ ipcMain.on("remove-account", async (event, arg) => {
 
 ipcMain.on("show-dialog", (event, arg) => {
   sendLogToUser();
+});
+
+ipcMain.on("console", async (event, args) => {
+  if (args.url) {
+    return await shell.openExternal();
+  }
+  if (args.support) {
+    return await shell.openExternal(envConfig.LIARA_TICKET_PAGE);
+  }
 });
 // Stop error
 app.allowRendererProcessReuse = true;
