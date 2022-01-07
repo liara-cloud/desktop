@@ -14,7 +14,7 @@ exports.removeAccount = async (email, region) => {
       contentKeys.includes("api_token") &&
       contentKeys.includes("region")
     ) {
-      content = {};
+      content = { accounts: {} };
     }
     if (content.accounts && Object.keys(content.accounts).length !== 0) {
       for (const [key, value] of Object.entries(content.accounts)) {
@@ -29,7 +29,7 @@ exports.removeAccount = async (email, region) => {
             content.api_token = Object.values(content.accounts)[0]["api_token"];
           }
           if (Object.values(content.accounts).length == 0) {
-            content = {};
+            content = { accounts: {} };
           }
         }
       }

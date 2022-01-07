@@ -53,7 +53,7 @@ exports.deploy = (event, args) => {
   });
 
   this.eventEmmit.on("cancel-deploy", () => {
-    child.kill(9);
+    child.kill("SIGINT");
     event.sender.send("deploy", {
       log: "Deployment cancelled successfully",
       status: "cancel",
