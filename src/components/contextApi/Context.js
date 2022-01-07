@@ -15,6 +15,7 @@ export const ContextAPI = (props) => {
   const [showApps, setShowApps] = useState(false);
   const [status, setStatus] = useState("deploy");
   const [isDeploy, setIsDeploy] = useState(false);
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
@@ -61,7 +62,9 @@ export const ContextAPI = (props) => {
 
   const handleExit = (email, region) => {
     ipcRenderer.on("remove-account", (event, arg) => {
-      console.log(arg);
+      if (Object.values(arg.accounts).length === 0) {
+        clearInfo();
+      }
       setCurrent(
         Object.values(arg.accounts).filter((item) => item.current)["0"]
       );
@@ -73,15 +76,34 @@ export const ContextAPI = (props) => {
   let data = [];
 
   const deploy = () => {
-    setIsDeploy(true);
     ipcRenderer.on("deploy", (event, arg) => {
       data += arg.log;
+      if (arg.log.includes("http") && arg.log.includes("liara.run")) {
+      }
       setLog({ text: data, status: arg.status });
+      // console.log(arg);
     });
     ipcRenderer.send("deploy", {
       app: selected.project_id,
       port,
       path: file,
+    });
+  };
+
+  const openSupport = () => {
+    ipcRenderer.on("console", (event, arg) => {
+      console.log(arg);
+    });
+    ipcRenderer.send("console", {
+      support: true,
+    });
+  };
+  const openInBrowser = (url) => {
+    ipcRenderer.on("console", (event, arg) => {
+      console.log(arg);
+    });
+    ipcRenderer.send("console", {
+      url,
     });
   };
 
@@ -111,6 +133,8 @@ export const ContextAPI = (props) => {
     setSelected("");
 
     setStatus("deploy");
+
+    setLog("");
   };
 
   // check default port
@@ -169,6 +193,8 @@ export const ContextAPI = (props) => {
         cancel,
         serveLog,
         setStatus,
+        openSupport,
+        openInBrowser,
       }}
     >
       {props.children}

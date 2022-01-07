@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useContext, useEffect, useRef } from "react";
 import { ArrowBottom, LiaraLight, Minimize, Time } from "./icon";
 import "../assets/css/navbar.css";
 import { withRouter } from "react-router";
@@ -46,7 +46,7 @@ function Layout(props) {
         {props.children}
         <p className="version">نسخه 1.0.0</p>
         {props.location.pathname !== "/" && (
-          <a className="support" href="#">
+          <a className="support" onClick={() => openSupport()}>
             ارتباط با پشتیبانی
           </a>
         )}

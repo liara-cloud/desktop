@@ -7,11 +7,9 @@ import Layout from "./Layout";
 const Login = (props) => {
   const context = useContext(Context);
   const { accounts, openConsoleLogin, openConsoleRegister } = context;
-
   const [check, setCheck] = useState(true);
 
   useEffect(() => {
-    console.log(Object.values(accounts));
     if (Object.values(accounts).length != 0) {
       props.history.push("/Draggable");
     }
@@ -24,7 +22,7 @@ const Login = (props) => {
   return (
     <Layout>
       <div dir="rtl">
-        {check && (  
+        {check && (
           <div className="spinner-box">
             <span className="spinner">
               <span></span>

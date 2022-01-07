@@ -41,7 +41,7 @@ function SelectApps(props) {
         props.history.push("/Deploy");
         deploy();
       }
-    } else if ((props.history.location.pathname = "/SelectApps")) {
+    } else if (props.history.location.pathname === "/SelectApps") {
       if (unicode === 8) {
         clearInfo();
         props.history.push("/Draggable");

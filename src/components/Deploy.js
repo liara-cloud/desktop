@@ -25,7 +25,7 @@ export default function Deploy() {
   var html = ansi_up.ansi_to_html(
     log.text == undefined ? "Deploy..." : log.text
   );
-  console.log(log);
+
   useEffect(() => {
     if (log.status === "error") {
       setStatus("error");
