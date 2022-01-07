@@ -4,7 +4,7 @@ const url = require("url");
 const { sentry } = require("./configs/sentry");
 
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
-const remoteMain = require("@electron/remote/main").initialize();
+const remoteMain = require("@electron/remote/main");
 const { envConfig } = require("./configs/envConfig");
 const { readLiaraJson } = require("./utils/account.management");
 const { startServer } = require("./server/startServer.js");
@@ -33,7 +33,7 @@ async function createMainWindow() {
     minHeight: 550,
     maxHeight: 550,
     show: false,
-    frame: envConfig === "win32" ? false : false,
+    frame: envConfig === "win32" ? false : true,
     icon: `${__dirname}/assets/icon.png`,
     webPreferences: {
       nodeIntegration: true,
@@ -74,7 +74,6 @@ async function createMainWindow() {
     }
   });
   mainWindow.on("closed", () => (mainWindow = null));
-  remoteMain.enable(mainWindow.webContents);
 }
 
 app.whenReady().then(() => {
@@ -141,9 +140,10 @@ ipcMain.on("console", async (event, args) => {
   }
 });
 
-// minimize.current.addEventListener("click", function (e) {
-//   var window = remote.getCurrentWindow();
-//   window.minimize();
-// });
+// Frame
+ipcMain.handle("frame", (event, args) => {
+  if (args === "minimize") mainWindow.minimize();
+  if (args === "close") mainWindow.hide();
+});
 // Stop error
 app.allowRendererProcessReuse = true;

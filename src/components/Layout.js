@@ -2,27 +2,25 @@ import React, { memo, useEffect, useRef } from "react";
 import { ArrowBottom, LiaraLight, Minimize, Time } from "./icon";
 import "../assets/css/navbar.css";
 import { withRouter } from "react-router";
-const remote = require("@electron/remote");
-const remoteMain = remote.require("@electron/remote/main");
+import { ipcRenderer } from "electron";
 
-console.log(remote.BrowserWindow);
 function Layout(props) {
-  // useEffect(() => {
-  //   minimize.current.addEventListener("click", function (e) {
-  //     var window = remote.getCurrentWindow();
-  //     window.minimize();
-  //   });
+  useEffect(() => {
+    minimize.current.addEventListener("click", function (e) {
+      ipcRenderer.invoke("frame", "minimize");
+    });
 
-  //   close.current.addEventListener("click", function (e) {
-  //     var window = remote.getCurrentWindow();
-  //     window.close();
-  //   });
-  // }, []);
-  // const minimize = useRef();
-  // const close = useRef();
+    close.current.addEventListener("click", function (e) {
+      ipcRenderer.invoke("frame", "close");
+      // var window = remote.getCurrentWindow();
+      // window.close();
+    });
+  }, []);
+  const minimize = useRef();
+  const close = useRef();
   return (
     <>
-      {/* <div id="menu-bar">
+      <div id="menu-bar">
         <div className="left" role="menu">
           <span className="nav-logo">
             <LiaraLight />
@@ -42,7 +40,7 @@ function Layout(props) {
             <Time />
           </button>
         </div>
-      </div> */}
+      </div>
       <div>
         {props.children}
         <p className="version">نسخه 1.0.0</p>
