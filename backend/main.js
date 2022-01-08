@@ -133,7 +133,7 @@ ipcMain.on("show-dialog", (event, arg) => {
 
 ipcMain.on("console", async (event, args) => {
   if (args.url) {
-    return await shell.openExternal();
+    return await shell.openExternal(args.url);
   }
   if (args.support) {
     return await shell.openExternal(envConfig.LIARA_TICKET_PAGE);

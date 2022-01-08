@@ -98,10 +98,21 @@ export const ContextAPI = (props) => {
       support: true,
     });
   };
-  const openInBrowser = (url) => {
+
+  // `https://${selected.project_id}.iran.liara.run`
+  // `https://${selected.project_id}.liara.run`
+
+  console.log(selected.project_id);
+
+  const openInBrowser = () => {
     ipcRenderer.on("console", (event, arg) => {
       console.log(arg);
     });
+    const url =
+      current.region === "iran"
+        ? `https://${selected.project_id}.iran.liara.run`
+        : `https://${selected.project_id}.liara.run`;
+    console.log(url);
     ipcRenderer.send("console", {
       url,
     });

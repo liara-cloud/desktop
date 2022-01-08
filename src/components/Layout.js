@@ -3,8 +3,11 @@ import { ArrowBottom, LiaraLight, Minimize, Time } from "./icon";
 import "../assets/css/navbar.css";
 import { withRouter } from "react-router";
 import { ipcRenderer } from "electron";
+import { Context } from "./contextApi/Context";
 
 function Layout(props) {
+  const context = useContext(Context);
+  const { openSupport } = context;
   useEffect(() => {
     if (minimize.current && close.current) {
       minimize.current.addEventListener("click", function (e) {

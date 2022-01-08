@@ -18,8 +18,16 @@ export default function Deploy() {
 
   const context = useContext(Context);
 
-  const { cancel, log, clearInfo, status, setStatus, serveLog, setIsDeploy } =
-    context;
+  const {
+    cancel,
+    log,
+    clearInfo,
+    status,
+    setStatus,
+    serveLog,
+    setIsDeploy,
+    openInBrowser,
+  } = context;
   var ansi_up = new AnsiUp();
 
   var html = ansi_up.ansi_to_html(
@@ -113,9 +121,10 @@ export default function Deploy() {
               dangerouslySetInnerHTML={{ __html: html }}
             ></pre>
             <div className="btn-container">
-              <Link to="/Draggable">
-                <button className="btn main">نمایش در مرورگر</button>
-              </Link>
+              <button className="btn main" onClick={() => openInBrowser()}>
+                نمایش در مرورگر
+              </button>
+
               <button className="btn main " onClick={() => serveLog()}>
                 دریافت لاگ
               </button>
