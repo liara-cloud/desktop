@@ -6,19 +6,15 @@ const { showNotification } = require("../notify");
 
 exports.eventEmmit = new EventEmitter();
 exports.logs = [];
+
 exports.deploy = (event, args) => {
   const { app, path, port } = args;
 
-  const child = spawn("./node_modules/.bin/liara", [
-    "deploy",
-    `--app`,
-    app,
-    `--port`,
-    port,
-    `--path`,
-    path,
-    `--detach`,
-  ]);
+  const child = spawn(
+    "./node_modules/.bin/liara",
+    ["deploy", `--app`, app, `--port`, port, `--path`, path, `--detach`],
+    { killSignal: 2 }
+  );
 
   logger.info("Deployment started");
   child.stdout.on("data", (data) => {
@@ -60,7 +56,8 @@ exports.deploy = (event, args) => {
   });
 
   this.eventEmmit.on("cancel-deploy", () => {
-    child.kill("SIGTERM");
+    child.stdin.pause();
+    child.kill("SIGINT");
     event.sender.send("deploy", {
       log: "Deployment cancelled successfully",
       status: "cancel",
