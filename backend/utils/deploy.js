@@ -1,5 +1,6 @@
 const { spawn } = require("child_process");
 const { EventEmitter } = require("events");
+const { envConfig } = require("../configs/envConfig");
 
 const logger = require("../configs/logger");
 const { showNotification } = require("../notify");
@@ -9,11 +10,20 @@ exports.logs = [];
 
 exports.deploy = (event, args) => {
   const { app, path, port } = args;
-
+  const liara =
+    envConfig.PLATFORM === "win32"
+      ? ".\\liara.cmd"
+      : "./node_modules/.bin/liara";
   const child = spawn(
-    "./node_modules/.bin/liara",
+    liara,
     ["deploy", `--app`, app, `--port`, port, `--path`, path, `--detach`],
-    { killSignal: 2 }
+    {
+      killSignal: 2,
+      cwd:
+        envConfig.PLATFORM === "win32"
+          ? "C:\\Users\\Ali\\Documents\\GitHub\\desktop\\node_modules\\.bin"
+          : undefined,
+    }
   );
 
   logger.info("Deployment started");
