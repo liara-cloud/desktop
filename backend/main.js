@@ -33,7 +33,7 @@ async function createMainWindow() {
     minHeight: 550,
     maxHeight: 550,
     show: false,
-    frame: envConfig.PLATFORM === "win32" ? false : true,
+    frame: false,
     icon: `${__dirname}/assets/icon.png`,
     webPreferences: {
       nodeIntegration: true,

@@ -68,12 +68,7 @@ exports.readLiaraJson = async () => {
     }
     return {};
   } catch (error) {
-    console.log(error);
     logger.error("Not Found: .liara.json");
     return {};
   }
 };
-
-(async () => {
-  console.log(await this.readLiaraJson());
-})();
