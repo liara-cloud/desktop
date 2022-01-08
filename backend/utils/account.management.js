@@ -26,10 +26,10 @@ exports.readLiaraJson = async () => {
       account[accountName]["region"] = content.region;
       account[accountName]["api_token"] = content.api_token;
       account[accountName]["current"] = true;
-      delete content.current;
+      content.current = accountName;
       content["accounts"] = account;
       await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
-      return content;
+      return content.accounts;
     }
     if (Object.keys(content.accounts).length !== 0) {
       for (const [key, value] of Object.entries(content.accounts)) {
@@ -62,14 +62,18 @@ exports.readLiaraJson = async () => {
       if (!hasCurrent) {
         Object.values(content.accounts)[0].current = true;
       }
-      await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
       return {
         accounts: content.accounts,
       };
     }
     return {};
   } catch (error) {
+    console.log(error);
     logger.error("Not Found: .liara.json");
     return {};
   }
 };
+
+(async () => {
+  console.log(await this.readLiaraJson());
+})();
