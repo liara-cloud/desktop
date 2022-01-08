@@ -15,7 +15,6 @@ const User = (props) => {
     handleExit,
     isDeploy,
     showApps,
-    setIsDeploy,
   } = context;
 
   useEffect(() => {

@@ -1,5 +1,5 @@
-import React, { memo, useContext, useEffect, useRef } from "react";
-import { ArrowBottom, LiaraLight, Minimize, Time } from "./icon";
+import React, {  useContext, useEffect, useRef } from "react";
+import { LiaraLight, Minimize, Time } from "./icon";
 import "../assets/css/navbar.css";
 import { withRouter } from "react-router";
 import { ipcRenderer } from "electron";
@@ -20,9 +20,8 @@ function Layout(props) {
   }, []);
   const minimize = useRef();
   const close = useRef();
-  console.log(window.navigator.platform);
   const isMac = window.navigator.platform === "MacIntel";
-  return ( 
+  return (
     <>
       <div id="menu-bar" className={isMac && `mac_menu-bar`}>
         {isMac ? (

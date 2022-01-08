@@ -15,13 +15,11 @@ export const ContextAPI = (props) => {
   const [showApps, setShowApps] = useState(false);
   const [status, setStatus] = useState("deploy");
   const [isDeploy, setIsDeploy] = useState(false);
-  const [url, setUrl] = useState("");
 
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       if (arg.accounts !== undefined) {
         setAccounts(arg.accounts);
-
         setCurrent(
           Object.values(arg.accounts).filter((item) => item.current)["0"]
         );
@@ -81,7 +79,7 @@ export const ContextAPI = (props) => {
       if (arg.log.includes("http") && arg.log.includes("liara.run")) {
       }
       setLog({ text: data, status: arg.status });
-      // console.log(arg);
+    
     });
     ipcRenderer.send("deploy", {
       app: selected.project_id,
@@ -102,7 +100,6 @@ export const ContextAPI = (props) => {
   // `https://${selected.project_id}.iran.liara.run`
   // `https://${selected.project_id}.liara.run`
 
-
   const openInBrowser = () => {
     ipcRenderer.on("console", (event, arg) => {
       console.log(arg);
@@ -111,18 +108,16 @@ export const ContextAPI = (props) => {
       current.region === "iran"
         ? `https://${selected.project_id}.iran.liara.run`
         : `https://${selected.project_id}.liara.run`;
-  
+
     ipcRenderer.send("console", {
       url,
     });
   };
-
   const cancel = () => {
     ipcRenderer.on("deploy", (event, arg) => {
       data += arg.log;
       setLog({ text: data, status: arg.status });
     });
-   
     ipcRenderer.send("deploy", {
       app: selected.project_id,
       port,
