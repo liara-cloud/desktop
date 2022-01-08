@@ -22,7 +22,6 @@ exports.deploy = (event, args) => {
 
   logger.info("Deployment started");
   child.stdout.on("data", (data) => {
-    console.log(data.toString());
     this.logs.push(data.toString());
     event.sender.send("deploy", { log: data.toString(), status: "success" });
   });
@@ -33,7 +32,6 @@ exports.deploy = (event, args) => {
   });
 
   child.on("error", (err) => {
-    console.log(err);
     logger.error("Deployment Failed");
     this.logs.push("Failed to start deployment");
 
