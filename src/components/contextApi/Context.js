@@ -102,7 +102,6 @@ export const ContextAPI = (props) => {
   // `https://${selected.project_id}.iran.liara.run`
   // `https://${selected.project_id}.liara.run`
 
-  console.log(selected.project_id);
 
   const openInBrowser = () => {
     ipcRenderer.on("console", (event, arg) => {
@@ -112,7 +111,7 @@ export const ContextAPI = (props) => {
       current.region === "iran"
         ? `https://${selected.project_id}.iran.liara.run`
         : `https://${selected.project_id}.liara.run`;
-    console.log(url);
+  
     ipcRenderer.send("console", {
       url,
     });
@@ -123,7 +122,7 @@ export const ContextAPI = (props) => {
       data += arg.log;
       setLog({ text: data, status: arg.status });
     });
-    console.log(file, port);
+   
     ipcRenderer.send("deploy", {
       app: selected.project_id,
       port,

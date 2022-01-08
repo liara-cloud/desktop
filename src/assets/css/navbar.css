@@ -65,3 +65,11 @@ button.navitem:hover {
   padding-bottom: 0px;
   margin-bottom: 3px;
 }
+
+.mac_menu-bar {
+  direction: rtl;
+}
+.mac_menu-bar .center {
+  margin-right: 50%;
+  transform: translateX(50%);
+}
