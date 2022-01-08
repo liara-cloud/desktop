@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@electron/remote": "^2.0.1",
+    "@liara/cli": "^2.21.2",
     "@sentry/electron": "^2.5.4",
     "@sentry/react": "^6.16.1",
     "ansi-up": "^1.0.0",

@@ -15,7 +15,7 @@ const logger = require("./configs/logger");
 const { chanegCurrentAccount } = require("./utils/changeCurrent");
 const { removeAccount } = require("./utils/removeAccount");
 const { sendLogToUser } = require("./dialog");
-
+const { showNotification } = require("./notify");
 let mainWindow;
 
 const appElements = {

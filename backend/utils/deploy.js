@@ -2,21 +2,27 @@ const { spawn } = require("child_process");
 const { EventEmitter } = require("events");
 
 const logger = require("../configs/logger");
+const { showNotification } = require("../notify");
 
 exports.eventEmmit = new EventEmitter();
 exports.logs = [];
 exports.deploy = (event, args) => {
   const { app, path, port } = args;
-  const child = spawn(
-    "liara deploy",
-    [`--app=${app} --port=${port} --path=${path} --detach`],
-    {
-      shell: true,
-    }
-  );
+
+  const child = spawn("./node_modules/.bin/liara", [
+    "deploy",
+    `--app`,
+    app,
+    `--port`,
+    port,
+    `--path`,
+    path,
+    `--detach`,
+  ]);
 
   logger.info("Deployment started");
   child.stdout.on("data", (data) => {
+    console.log(data.toString());
     this.logs.push(data.toString());
     event.sender.send("deploy", { log: data.toString(), status: "success" });
   });
@@ -27,6 +33,7 @@ exports.deploy = (event, args) => {
   });
 
   child.on("error", (err) => {
+    console.log(err);
     logger.error("Deployment Failed");
     this.logs.push("Failed to start deployment");
 
@@ -39,12 +46,14 @@ exports.deploy = (event, args) => {
   child.on("close", (code) => {
     if (code == 2) {
       this.logs.push(`Deploy process exited with code ${code}`);
+      showNotification("error");
       event.sender.send("deploy", {
         log: `Deploy process exited with code ${code}`,
         status: "error",
       });
     }
     if (code == 0) {
+      showNotification("done");
       event.sender.send("deploy", {
         log: "",
         status: "done",
@@ -53,7 +62,7 @@ exports.deploy = (event, args) => {
   });
 
   this.eventEmmit.on("cancel-deploy", () => {
-    child.kill("SIGINT");
+    child.kill("SIGTERM");
     event.sender.send("deploy", {
       log: "Deployment cancelled successfully",
       status: "cancel",
