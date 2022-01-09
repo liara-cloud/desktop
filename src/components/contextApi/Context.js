@@ -85,6 +85,7 @@ export const ContextAPI = (props) => {
       app: selected.project_id,
       port,
       path: file,
+      region: current.region,
     });
   };
 

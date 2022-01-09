@@ -8,9 +8,8 @@ const { showNotification } = require("../notify");
 exports.eventEmmit = new EventEmitter();
 exports.logs = [];
 
-let child;
 exports.deploy = (event, args) => {
-  const { app, path, port } = args;
+  const { app, path, port, region } = args;
   const liara =
     envConfig.PLATFORM === "win32"
       ? ".\\liara.cmd"
@@ -19,7 +18,9 @@ exports.deploy = (event, args) => {
     liara,
     ["deploy", `--app`, app, `--port`, port, `--path`, path, `--detach`],
     {
-      killSignal: 2,
+      // killSignal: 2,
+      detached: true,
+      windowsHide: true,
       cwd:
         envConfig.PLATFORM === "win32"
           ? "C:\\Users\\Ali\\Documents\\GitHub\\desktop\\node_modules\\.bin"
@@ -59,7 +60,7 @@ exports.deploy = (event, args) => {
       });
     }
     if (code == 0) {
-      showNotification("done");
+      showNotification("done", app, region);
       event.sender.send("deploy", {
         log: "",
         status: "done",
