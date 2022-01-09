@@ -87,10 +87,7 @@ function SelectApps(props) {
         <p className="caption">
           ﺑﺮﻧﺎﻣﻪﺍﯼ ﮐﻪ ﻣﯽﺧﻮﺍﻫﯿﺪ ﺩﺭ ﺁﻥ ﺩﯾﭙﻠﻮﯼ ﮐﻨﯿﺪ ﺭﺍ ﺍﻧﺘﺨﺎﺏ ﮐﻨﯿﺪ.
         </p>
-        <div
-          className="apps"
-          onClick={() => setShowApps(!showApps) + console.log(showApps)}
-        >
+        <div className="apps" onClick={() => setShowApps(!showApps)}>
           {selected === "" && data.length > 0 ? (
             <>
               برنامه ای انتخاب نشده

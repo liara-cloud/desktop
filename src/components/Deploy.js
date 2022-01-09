@@ -13,7 +13,7 @@ import { AnsiUp } from "ansi-up";
 
 export default function Deploy() {
   // deploy - error - success - cancel
-  const ref = useRef();
+  const preRef = useRef();
   const context = useContext(Context);
   const {
     cancel,
@@ -44,6 +44,20 @@ export default function Deploy() {
     }
   }, [log.status]);
 
+  useEffect(() => {
+    if (!preRef.current) {
+      preRef.current = true;
+    } else {
+      const isScrolledToBottom =
+        preRef.current.scrollHeight - preRef.current.clientHeight <=
+        preRef.current.scrollTop + 1;
+      if (!isScrolledToBottom) {
+        preRef.current.scrollTop =
+          preRef.current.scrollHeight - preRef.current.clientHeight;
+      }
+    }
+  });
+
   if (status === "deploy") {
     return (
       <Layout>
@@ -56,7 +70,7 @@ export default function Deploy() {
             <p>در حال استقرار</p>
             <pre
               readOnly
-              ref={ref}
+              ref={preRef}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
@@ -82,6 +96,7 @@ export default function Deploy() {
               ﭘﯿﻮﺳﺖ ﮐﻨﯿﺪ.
             </span>
             <pre
+              ref={preRef}
               readOnly
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
@@ -116,6 +131,7 @@ export default function Deploy() {
             <p>ﺍﺳﺘﻘﺮﺍﺭ ﺍﻧﺠﺎﻡ ﺷﺪ</p>
             <pre
               readOnly
+              ref={preRef}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
@@ -152,6 +168,7 @@ export default function Deploy() {
             <p>ﺍﺳﺘﻘﺮﺍﺭ لغو ﺷﺪ</p>
             <pre
               readOnly
+              ref={preRef}
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
