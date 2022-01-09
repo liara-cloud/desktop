@@ -18,7 +18,7 @@ const Login = (props) => {
   setTimeout(() => {
     setCheck(false);
   }, 2500);
-
+  
   return (
     <Layout>
       <div dir="rtl">

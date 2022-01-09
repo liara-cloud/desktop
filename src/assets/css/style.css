@@ -207,15 +207,16 @@
   right: 50%;
   transform: translateX(50%);
   z-index: 10;
+  overflow: scroll;
 }
 
 .item {
-  width: 290px;
+  width: 287px;
   height: 34px;
   padding-right: 32px;
   transition: 0.3s;
   position: relative;
-  margin: 5px auto;
+  margin: 5px;
   border-radius: 7.5px;
   line-height: 34px;
   cursor: pointer;
@@ -311,6 +312,7 @@
   background: #fafafa;
   border: 1px solid #e8e8e8;
   border-radius: 10px;
+  top: 95px;
 }
 
 .tooltip {

@@ -119,7 +119,7 @@ function SelectApps(props) {
           )}
         </div>
         {showApps && data.length > 0 && (
-          <div className="box">
+          <div className="box" style={data.length > 5 ? { height: 165 } : {}}>
             {data.map((item) => (
               <AppsItem
                 key={item.project_id}
