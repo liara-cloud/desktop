@@ -38,12 +38,14 @@ async function createMainWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      webSecurity: false,
+      allowRunningInsecureContent: true,
     },
   });
 
   const urlFormatOptions = {
     protocol: "file:",
-    pathname: path.join(__dirname, "dist", "index.html"),
+    pathname: path.join(__dirname, "..", "dist", "index.html"),
     slashes: true,
   };
 
@@ -89,7 +91,6 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
-
 ipcMain.on("asynchronous-login", async (event, arg) => {
   logger.info("Request from IPCRenderer recieved. channle=asynchronous-login");
   event.sender.send("asynchronous-login", await readLiaraJson());
