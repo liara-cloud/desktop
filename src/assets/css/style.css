@@ -203,7 +203,7 @@
   border-radius: 7.5px;
   font-size: 14px;
   position: absolute;
-  top: 220px;
+  top: 230px;
   right: 50%;
   transform: translateX(50%);
   z-index: 10;
@@ -231,19 +231,35 @@
 }
 
 /* User */
-.user-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  transition: 0.3s;
-  margin-bottom: 5px;
-  margin-top: 19px;
-}
 .center-current-item {
   width: max-content;
   margin-right: 50%;
   transform: translateX(50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  margin-top: 23px;
+}
+.center-current-item p {
+  padding-left: 5px;
+}
+
+.center-current-item img {
+  border-radius: 50%;
+  margin-left: 10px;
+  width: 32px;
+  height: 32px;
+}
+
+.user-item {
+  height: 45px;
+  display: flex;
+  padding-right: 7px;
+  align-items: center;
+  position: relative;
+  width: 189px;
+  font-size: 14px;
 }
 
 .user-item img {
@@ -252,60 +268,36 @@
   width: 32px;
   height: 32px;
 }
-.user-item p {
-  display: inline-block;
-  margin-left: 5px;
-  font-size: 14px;
-  cursor: pointer;
-}
-.user-item span {
-  cursor: pointer;
-}
+
 .user-item .region {
   position: absolute;
   top: 25px;
-  right: 44px;
+  right: 30px;
 }
+
 .user-item .region svg {
   border-radius: 50%;
 }
-
 .user-item.menu-item {
   border-radius: 7.5px;
-  width: 189px;
-  height: 45px;
   position: relative;
-  line-height: 45px;
-  margin-right: 50% !important;
-  transform: translateX(50%);
+  margin-right: 10px;
+  margin-right: 3px !important;
   margin-bottom: 5px !important;
+  transition: 0.3s;
 }
 .user-item.menu-item:hover {
   background-color: #0070f3;
-  color: #fff;
-  transition: 0.2s;
-  transition: 0.3s;
-}
-.user-item.menu-item .region {
-  position: absolute;
-  right: 40px;
-  top: 15px;
+  color: white;
 }
 .user-item.current {
+  margin-bottom: 5px !important;
+  margin-right: 3px !important;
   height: 45px;
-  margin-top: -3px !important;
   width: 195px;
   color: #0070f3;
-  margin-top: 3px !important;
 }
-.user-item.current p {
-  width: 97px;
-  line-height: 20px;
-}
-.user-item.menu-item p {
-  width: 97px;
-  line-height: 20px;
-}
+
 /* Menu */
 .menu {
   position: absolute;
@@ -444,7 +436,7 @@ div.deploy.error pre {
   transform: translateX(50%);
   margin-top: 24px;
   line-height: 34px;
-  margin-bottom: 55px;
+  margin-bottom: 62px;
   padding-right: 8px;
   font-size: 14px;
 }
