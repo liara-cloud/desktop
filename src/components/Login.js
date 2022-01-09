@@ -6,8 +6,8 @@ import Layout from "./Layout";
 
 const Login = (props) => {
   const context = useContext(Context);
-  const { accounts, openConsoleLogin, openConsoleRegister } = context;
-  const [check, setCheck] = useState(true);
+  const { accounts, openConsoleLogin, openConsoleRegister, check, setCheck } =
+    context;
 
   useEffect(() => {
     if (Object.values(accounts).length != 0) {
@@ -22,14 +22,9 @@ const Login = (props) => {
   return (
     <Layout>
       <div dir="rtl">
-        {check && (
-          <div className="spinner-box">
-            <span className="spinner">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
+        {check && check && (
+          <div className="load-container">
+            <span className="load"></span> <span className="background"></span>
           </div>
         )}
 

@@ -13,11 +13,8 @@ import { AnsiUp } from "ansi-up";
 
 export default function Deploy() {
   // deploy - error - success - cancel
-
   const ref = useRef();
-
   const context = useContext(Context);
-
   const {
     cancel,
     log,
@@ -64,7 +61,7 @@ export default function Deploy() {
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
             ></pre>
-            <button className="btn cancle" onClick={() => cancel()}>
+            <button className="btn main cancel " onClick={() => cancel()}>
               لغو
             </button>
           </div>
@@ -92,11 +89,14 @@ export default function Deploy() {
             ></pre>
 
             <div className="btn-container">
-              <button className="btn main" onClick={() => serveLog()}>
+              <button className="btn main primary" onClick={() => serveLog()}>
                 دریافت لاگ
               </button>
               <Link to="/Draggable">
-                <button className="btn main" onClick={() => clearInfo()}>
+                <button
+                  className="btn main primary"
+                  onClick={() => clearInfo()}
+                >
                   استقرار جدید
                 </button>
               </Link>
@@ -121,13 +121,21 @@ export default function Deploy() {
               dangerouslySetInnerHTML={{ __html: html }}
             ></pre>
             <div className="btn-container">
-              <button className="btn main" onClick={() => openInBrowser()}>
+              <button
+                className="btn main primary"
+                onClick={() => openInBrowser()}
+              >
                 نمایش در مرورگر
               </button>
 
-              <button className="btn main " onClick={() => serveLog()}>
-                دریافت لاگ
-              </button>
+              <Link to="/Draggable">
+                <button
+                  className="btn main primary"
+                  onClick={() => clearInfo()}
+                >
+                  استقرار جدید
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -150,12 +158,15 @@ export default function Deploy() {
             ></pre>
 
             <div className="btn-container">
-              <button className="btn main" onClick={() => serveLog()}>
+              <button className="btn main primary" onClick={() => serveLog()}>
                 دریافت لاگ
               </button>
 
               <Link to="/Draggable">
-                <button className="btn main" onClick={() => clearInfo()}>
+                <button
+                  className="btn main primary"
+                  onClick={() => clearInfo()}
+                >
                   استقرار جدید
                 </button>
               </Link>

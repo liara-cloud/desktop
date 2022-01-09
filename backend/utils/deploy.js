@@ -8,6 +8,7 @@ const { showNotification } = require("../notify");
 exports.eventEmmit = new EventEmitter();
 exports.logs = [];
 
+let child;
 exports.deploy = (event, args) => {
   const { app, path, port } = args;
   const liara =
@@ -38,6 +39,7 @@ exports.deploy = (event, args) => {
   });
 
   child.on("error", (err) => {
+    console.log(err);
     logger.error("Deployment Failed");
     this.logs.push("Failed to start deployment");
 

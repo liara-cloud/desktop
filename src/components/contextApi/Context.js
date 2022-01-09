@@ -15,6 +15,7 @@ export const ContextAPI = (props) => {
   const [showApps, setShowApps] = useState(false);
   const [status, setStatus] = useState("deploy");
   const [isDeploy, setIsDeploy] = useState(false);
+  const [check, setCheck] = useState(true);
 
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
@@ -79,7 +80,6 @@ export const ContextAPI = (props) => {
       if (arg.log.includes("http") && arg.log.includes("liara.run")) {
       }
       setLog({ text: data, status: arg.status });
-    
     });
     ipcRenderer.send("deploy", {
       app: selected.project_id,
@@ -181,8 +181,10 @@ export const ContextAPI = (props) => {
         defaultPort,
         status,
         isDeploy,
+        check,
 
         // setState & functions
+        setCheck,
         setIsDeploy,
         setShowApps,
         openConsoleLogin,

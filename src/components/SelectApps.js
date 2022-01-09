@@ -24,11 +24,12 @@ function SelectApps(props) {
     disabled,
     setFile,
     defaultPort,
-    clearInfo,
+    check,
+    setCheck,
   } = context;
 
   //  keyCode - Use keyboard keys
-  //  Enter(13) & Backspace(8)
+  //  Enter(13)
 
   document.addEventListener("keydown", (event) => {
     let unicode = event.keyCode;
@@ -41,17 +42,13 @@ function SelectApps(props) {
         props.history.push("/Deploy");
         deploy();
       }
-    } else if (props.history.location.pathname === "/SelectApps") {
-      if (unicode === 8) {
-        clearInfo();
-        props.history.push("/Draggable");
-      }
     }
   });
 
   // ***************
 
   useEffect(() => {
+    setCheck(true);
     if (Object.values(accounts).length == 0) {
       props.history.push("/");
     }
@@ -69,6 +66,7 @@ function SelectApps(props) {
 
       .then((res) => {
         setData(res.data.projects);
+        setCheck(false);
       })
 
       .catch((error) => {
@@ -79,6 +77,11 @@ function SelectApps(props) {
   return (
     <Layout>
       <div dir="rtl">
+        {check && check && (
+          <div className="load-container">
+            <span className="load"></span> <span className="background"></span>
+          </div>
+        )}
         <User />
         <p className="title">انتخاب برنامه</p>
         <p className="caption">
@@ -153,15 +156,15 @@ function SelectApps(props) {
         >
           {port != "" && selected != "" ? (
             <Link to="/Deploy">
-              <button className="btn main" onClick={() => deploy()}>
+              <button className="btn main primary" onClick={() => deploy()}>
                 بعدی
               </button>
             </Link>
           ) : (
-            <button className="btn main">بعدی</button>
+            <button className="btn main primary">بعدی</button>
           )}
           <Link to="/Draggable">
-            <button className="btn main" onClick={() => setFile("")}>
+            <button className="btn main primary" onClick={() => setFile("")}>
               قبلی
             </button>
           </Link>
