@@ -63,7 +63,11 @@ const User = (props) => {
                   <span className="region">
                     {item.region == "iran" ? <Iran /> : <German />}
                   </span>
-                  <p>{item.fullname}</p>
+                  <p style={{ whiteSpace: "nowrap" }}>
+                    {item.fullname.length >= 15
+                      ? item.fullname.slice(0, 15)+"..."
+                      : item.fullname}
+                  </p>
                 </div>
               ))}
 
