@@ -4,7 +4,6 @@ const url = require("url");
 const { sentry } = require("./configs/sentry");
 
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
-const remoteMain = require("@electron/remote/main");
 const { envConfig } = require("./configs/envConfig");
 const { readLiaraJson } = require("./utils/account.management");
 const { startServer } = require("./server/startServer.js");
@@ -15,7 +14,7 @@ const logger = require("./configs/logger");
 const { chanegCurrentAccount } = require("./utils/changeCurrent");
 const { removeAccount } = require("./utils/removeAccount");
 const { sendLogToUser } = require("./dialog");
-const { showNotification } = require("./notify");
+
 let mainWindow;
 
 const appElements = {
@@ -40,6 +39,7 @@ async function createMainWindow() {
       contextIsolation: false,
       webSecurity: false,
       allowRunningInsecureContent: true,
+      preload: "Users/vashian/Documents/liara/desktop/dist/main.js",
     },
   });
 

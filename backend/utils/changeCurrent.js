@@ -17,12 +17,13 @@ exports.chanegCurrentAccount = async (email, region) => {
           OneCurrent = false;
         }
       }
-      content.current == null;
+      // content.current = null;
     }
     await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
     logger.info("Liara.json updated with new current");
     return content;
   } catch (error) {
+    console.log(error);
     logger.error(error);
     return {};
   }

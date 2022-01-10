@@ -1,4 +1,4 @@
-const { spawn } = require("child_process");
+const { fork } = require("child_process");
 const { EventEmitter } = require("events");
 const { envConfig } = require("../configs/envConfig");
 
@@ -11,19 +11,15 @@ exports.logs = [];
 exports.deploy = (event, args) => {
   const { app, path, port, region } = args;
   const liara =
-    envConfig.PLATFORM === "win32"
-      ? ".\\liara.cmd"
-      : "./node_modules/.bin/liara";
-  const child = spawn(
+    envConfig.PLATFORM === "win32" ? ".\\liara" : "./node_modules/.bin/liara";
+  const child = fork(
     liara,
     ["deploy", `--app`, app, `--port`, port, `--path`, path, `--detach`],
     {
-      // killSignal: 2,
-      detached: true,
-      windowsHide: true,
+      stdio: ["pipe", "pipe", "pipe", "ipc"],
       cwd:
         envConfig.PLATFORM === "win32"
-          ? "C:\\Users\\Ali\\Documents\\GitHub\\desktop\\node_modules\\.bin"
+          ? `${process.cwd()}\\node_modules\\.bin`
           : undefined,
     }
   );
@@ -40,6 +36,9 @@ exports.deploy = (event, args) => {
   });
 
   child.on("error", (err) => {
+    if (err.message == "Channel closed") {
+      return "";
+    }
     console.log(err);
     logger.error("Deployment Failed");
     this.logs.push("Failed to start deployment");
@@ -69,10 +68,9 @@ exports.deploy = (event, args) => {
   });
 
   this.eventEmmit.on("cancel-deploy", () => {
-    child.stdin.pause();
-    child.kill("SIGINT");
+    child.send({ message: "cancel" });
     event.sender.send("deploy", {
-      log: "Deployment cancelled successfully",
+      log: "",
       status: "cancel",
     });
   });
