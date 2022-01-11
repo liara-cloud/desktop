@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ArrowBottom, German, Iran } from "./icon";
-import { Context } from "./contextApi/Context";
-import { withRouter } from "react-router";
+import React, { useContext, useEffect, useState } from 'react';
+import { ArrowBottom, German, Iran } from './icon';
+import { Context } from './contextApi/Context';
+import { withRouter } from 'react-router';
 
 const User = (props) => {
   const [menu, setMenu] = useState(false);
@@ -19,7 +19,7 @@ const User = (props) => {
 
   useEffect(() => {
     if (Object.values(accounts).length === 0) {
-      props.history.push("/");
+      props.history.push('/');
     }
   }, [accounts]);
   const handleMenu = () => {
@@ -32,11 +32,11 @@ const User = (props) => {
 
   return (
     <>
-      <div dir="rtl" style={isDeploy ? { opacity: "0.7" } : {}}>
+      <div dir="rtl" style={isDeploy ? { opacity: '0.7' } : {}}>
         <div className="center-current-item " onClick={handleMenu}>
           {current !== undefined && (
             <>
-              <img src={current.avatar} />
+              <img src={`http://${current.avatar}`} />
               <p>{current.fullname}</p>
             </>
           )}
@@ -59,13 +59,13 @@ const User = (props) => {
                      `}
                   style={{ margin: 0 }}
                 >
-                  <img src={item.avatar} />
+                  <img src={`http://${item.avatar}`} />
                   <span className="region">
-                    {item.region == "iran" ? <Iran /> : <German />}
+                    {item.region == 'iran' ? <Iran /> : <German />}
                   </span>
-                  <p style={{ whiteSpace: "nowrap" }}>
+                  <p style={{ whiteSpace: 'nowrap' }}>
                     {item.fullname.length >= 15
-                      ? item.fullname.slice(0, 15)+"..."
+                      ? item.fullname.slice(0, 15) + '...'
                       : item.fullname}
                   </p>
                 </div>

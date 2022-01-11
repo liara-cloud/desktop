@@ -40,14 +40,15 @@ async function createMainWindow() {
       contextIsolation: false,
       webSecurity: false,
       allowRunningInsecureContent: true,
-      preload: '/Users/vashian/Documents/liara/desktop/dist/main.js',
     },
   });
-  console.log(app.getVersion());
   const urlFormatOptions = {
     protocol: 'file:',
+    // host: 'http:',
     pathname: path.join(__dirname, '..', 'dist', 'index.html'),
     slashes: true,
+    mode: 'no-cors',
+    webSecurity: false,
   };
 
   if (envConfig.IS_DEV && process.argv.indexOf('--noDevServer') === -1) {
@@ -56,6 +57,7 @@ async function createMainWindow() {
     urlFormatOptions.pathname = 'index.html';
     urlFormatOptions.slashes = true;
   }
+
   mainWindow.loadURL(url.format(urlFormatOptions));
 
   // Don't show until we are ready and loaded

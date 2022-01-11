@@ -1,8 +1,8 @@
-const { readFile, writeFile } = require("fs/promises");
+const { readFile, writeFile } = require('fs/promises');
 
-const { getUser } = require("./get.account");
-const { envConfig } = require("../configs/envConfig");
-const logger = require("../configs/logger");
+const { getUser } = require('./get.account');
+const { envConfig } = require('../configs/envConfig');
+const logger = require('../configs/logger');
 
 exports.readLiaraJson = async () => {
   try {
@@ -11,39 +11,39 @@ exports.readLiaraJson = async () => {
 
     const contentKeys = Object.keys(content);
     if (
-      (!contentKeys.includes("accounts") ||
+      (!contentKeys.includes('accounts') ||
         Object.keys(content.accounts).length == 0) &&
-      contentKeys.includes("api_token") &&
-      contentKeys.includes("region")
+      contentKeys.includes('api_token') &&
+      contentKeys.includes('region')
     ) {
       const user = await getUser(content.api_token, content.region);
       const account = {};
-      const accountName = `${user.email.split("@")[0]}_${content.region}`;
+      const accountName = `${user.email.split('@')[0]}_${content.region}`;
       account[accountName] = {};
-      account[accountName]["fullname"] = user.fullname;
-      account[accountName]["email"] = user.email;
-      account[accountName]["avatar"] = user.avatar;
-      account[accountName]["region"] = content.region;
-      account[accountName]["api_token"] = content.api_token;
-      account[accountName]["current"] = true;
+      account[accountName]['fullname'] = user.fullname;
+      account[accountName]['email'] = user.email;
+      account[accountName]['avatar'] = user.avatar;
+      account[accountName]['region'] = content.region;
+      account[accountName]['api_token'] = content.api_token;
+      account[accountName]['current'] = true;
       content.current = accountName;
-      content["accounts"] = account;
+      content['accounts'] = account;
       await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
       return content.accounts;
     }
     if (Object.keys(content.accounts).length !== 0) {
       for (const [key, value] of Object.entries(content.accounts)) {
         const user = await getUser(value.api_token, value.region);
-        const accountName = `${user.email.split("@")[0]}_${
-          content.accounts[key]["region"]
+        const accountName = `${user.email.split('@')[0]}_${
+          content.accounts[key]['region']
         }`;
-        content.accounts[key]["fullname"] = user.fullname;
-        content.accounts[key]["avatar"] = user.avatar;
+        content.accounts[key]['fullname'] = user.fullname;
+        content.accounts[key]['avatar'] = user.avatar;
 
-        if (!content.accounts[key]["current"]) {
-          content.accounts[key]["current"] = false;
+        if (!content.accounts[key]['current']) {
+          content.accounts[key]['current'] = false;
           if (content.current == key) {
-            content.accounts[key]["current"] = true;
+            content.accounts[key]['current'] = true;
             content.current = accountName;
             content.api_token = user.api_token;
           }
@@ -68,7 +68,7 @@ exports.readLiaraJson = async () => {
     }
     return {};
   } catch (error) {
-    logger.error("Not Found: .liara.json");
+    logger.error('Not Found: .liara.json');
     return {};
   }
 };
