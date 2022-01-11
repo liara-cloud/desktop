@@ -1,19 +1,20 @@
-const path = require("path");
-const url = require("url");
+const path = require('path');
+const url = require('url');
 
-const { sentry } = require("./configs/sentry");
+const { sentry } = require('./configs/sentry');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { autoUpdater } = require('electron-updater');
 
-const { app, BrowserWindow, ipcMain, shell } = require("electron");
-const { envConfig } = require("./configs/envConfig");
-const { readLiaraJson } = require("./utils/account.management");
-const { startServer } = require("./server/startServer.js");
-const { createEncodedUrl } = require("./utils/urlEncoder.js");
-const { deploy, eventEmmit } = require("./utils/deploy");
-const TrayMenu = require("./tray");
-const logger = require("./configs/logger");
-const { chanegCurrentAccount } = require("./utils/changeCurrent");
-const { removeAccount } = require("./utils/removeAccount");
-const { sendLogToUser } = require("./dialog");
+const { envConfig } = require('./configs/envConfig');
+const { readLiaraJson } = require('./utils/account.management');
+const { startServer } = require('./server/startServer.js');
+const { createEncodedUrl } = require('./utils/urlEncoder.js');
+const { deploy, eventEmmit } = require('./utils/deploy');
+const TrayMenu = require('./tray');
+const logger = require('./configs/logger');
+const { chanegCurrentAccount } = require('./utils/changeCurrent');
+const { removeAccount } = require('./utils/removeAccount');
+const { sendLogToUser } = require('./dialog');
 
 let mainWindow;
 
@@ -39,27 +40,27 @@ async function createMainWindow() {
       contextIsolation: false,
       webSecurity: false,
       allowRunningInsecureContent: true,
-      preload: "Users/vashian/Documents/liara/desktop/dist/main.js",
+      preload: '/Users/vashian/Documents/liara/desktop/dist/main.js',
     },
   });
-
+  console.log(app.getVersion());
   const urlFormatOptions = {
-    protocol: "file:",
-    pathname: path.join(__dirname, "..", "dist", "index.html"),
+    protocol: 'file:',
+    pathname: path.join(__dirname, '..', 'dist', 'index.html'),
     slashes: true,
   };
 
-  if (envConfig.IS_DEV && process.argv.indexOf("--noDevServer") === -1) {
-    urlFormatOptions.protocol = "http:";
-    urlFormatOptions.host = "localhost:8080";
-    urlFormatOptions.pathname = "index.html";
+  if (envConfig.IS_DEV && process.argv.indexOf('--noDevServer') === -1) {
+    urlFormatOptions.protocol = 'http:';
+    urlFormatOptions.host = 'localhost:8080';
+    urlFormatOptions.pathname = 'index.html';
     urlFormatOptions.slashes = true;
   }
-
   mainWindow.loadURL(url.format(urlFormatOptions));
 
   // Don't show until we are ready and loaded
-  mainWindow.once("ready-to-show", () => {
+  mainWindow.once('ready-to-show', () => {
+    autoUpdater.checkForUpdatesAndNotify();
     mainWindow.show();
 
     // Open devtools if dev
@@ -67,72 +68,72 @@ async function createMainWindow() {
       const {
         default: installExtension,
         REACT_DEVELOPER_TOOLS,
-      } = require("electron-devtools-installer");
+      } = require('electron-devtools-installer');
 
       installExtension(REACT_DEVELOPER_TOOLS).catch((err) =>
-        console.log("Error loading React DevTools: ", err)
+        console.log('Error loading React DevTools: ', err)
       );
       mainWindow.webContents.openDevTools();
     }
   });
-  mainWindow.on("closed", () => (mainWindow = null));
+  mainWindow.on('closed', () => (mainWindow = null));
 }
 
 app.whenReady().then(() => {
   appElements.tray = new TrayMenu();
   createMainWindow();
-  app.on("activate", () => {
+  app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
     mainWindow.show();
   });
 });
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
-ipcMain.on("asynchronous-login", async (event, arg) => {
-  logger.info("Request from IPCRenderer recieved. channle=asynchronous-login");
-  event.sender.send("asynchronous-login", await readLiaraJson());
-  logger.info("Response from IPCMain sent. channle=asynchronous-login");
+ipcMain.on('asynchronous-login', async (event, arg) => {
+  logger.info('Request from IPCRenderer recieved. channle=asynchronous-login');
+  event.sender.send('asynchronous-login', await readLiaraJson());
+  logger.info('Response from IPCMain sent. channle=asynchronous-login');
 });
-ipcMain.on("open-console", async (event, arg) => {
-  logger.info("Request from IPCRenderer recieved. channle=open-console");
+ipcMain.on('open-console', async (event, arg) => {
+  logger.info('Request from IPCRenderer recieved. channle=open-console');
   if (!envConfig.OPEN_PORT) {
     const httpServer = await startServer(event);
     const encodedUrl = createEncodedUrl(httpServer.address().port, arg.page);
-    logger.info("Response from IPCMain sent. channle=open-console");
+    logger.info('Response from IPCMain sent. channle=open-console');
     return await shell.openExternal(encodedUrl);
   }
   const encodedUrl = createEncodedUrl(envConfig.OPEN_PORT, arg.page);
   await shell.openExternal(encodedUrl);
-  logger.info("Response from IPCMain sent. channle=open-console");
+  logger.info('Response from IPCMain sent. channle=open-console');
 });
-ipcMain.on("deploy", async (event, arg) => {
+ipcMain.on('deploy', async (event, arg) => {
   if (arg.cancel) {
-    return eventEmmit.emit("cancel-deploy");
+    return eventEmmit.emit('cancel-deploy');
   }
-  logger.info("Request from IPCRenderer recieved. channle=deploy deploy=true");
+  logger.info('Request from IPCRenderer recieved. channle=deploy deploy=true');
   deploy(event, arg);
-  logger.info("Response from IPCMain sent. channle=deploy deploy=true");
+  logger.info('Response from IPCMain sent. channle=deploy deploy=true');
 });
-ipcMain.on("change-current", async (event, arg) => {
+ipcMain.on('change-current', async (event, arg) => {
   const { email, region } = arg;
   event.sender.send(
-    "change-current",
+    'change-current',
     await chanegCurrentAccount(email, region)
   );
 });
-ipcMain.on("remove-account", async (event, arg) => {
+ipcMain.on('remove-account', async (event, arg) => {
   const { email, region } = arg;
-  event.sender.send("remove-account", await removeAccount(email, region));
+  event.sender.send('remove-account', await removeAccount(email, region));
 });
 
-ipcMain.on("show-dialog", (event, arg) => {
+ipcMain.on('show-dialog', (event, arg) => {
   sendLogToUser();
 });
 
-ipcMain.on("console", async (event, args) => {
+ipcMain.on('console', async (event, args) => {
   if (args.url) {
     return await shell.openExternal(args.url);
   }
@@ -142,9 +143,28 @@ ipcMain.on("console", async (event, args) => {
 });
 
 // Frame
-ipcMain.handle("frame", (event, args) => {
-  if (args === "minimize") mainWindow.minimize();
-  if (args === "close") mainWindow.hide();
+ipcMain.handle('frame', (event, args) => {
+  if (args === 'minimize') mainWindow.minimize();
+  if (args === 'close') mainWindow.hide();
+});
+
+// version
+ipcMain.on('app_version', (event) => {
+  event.sender.send('app_version', { version: app.getVersion() });
+});
+
+//update
+autoUpdater.on('update-available', () => {
+  mainWindow.webContents.send('update_available');
+});
+autoUpdater.on('update-downloaded', () => {
+  mainWindow.webContents.send('update_downloaded');
+});
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
+});
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
 });
 // Stop error
 app.allowRendererProcessReuse = true;
