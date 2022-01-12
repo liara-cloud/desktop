@@ -16,7 +16,7 @@ const User = (props) => {
     isDeploy,
     showApps,
   } = context;
-
+  
   useEffect(() => {
     if (Object.values(accounts).length === 0) {
       props.history.push('/');

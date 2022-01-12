@@ -34,7 +34,7 @@ async function createMainWindow() {
     maxHeight: 550,
     show: false,
     frame: false,
-    icon: `${__dirname}/assets/icon.png`,
+    icon: `${__dirname}/assets/icon.ico`,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

@@ -1,5 +1,5 @@
+import { FileUploader } from "@liara/react-drag-drop-files";
 import React, { useContext, useState } from "react";
-import { FileUploader } from "react-drag-drop-files";
 import { withRouter } from "react-router";
 import { Context } from "./contextApi/Context";
 
@@ -13,7 +13,7 @@ function DragDrop(props) {
   return (
     <>
       <div dir="rtl" className="drag-drop">
-        <FileUploader handleChange={handleChange} name="file" />
+        <FileUploader onlyDirectory="true" handleChange={handleChange} name="file" />
         <div className="select-projct">
           <p>پروژه رو در اینجا رها کنید</p>
           <span>
