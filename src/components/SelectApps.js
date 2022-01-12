@@ -31,19 +31,20 @@ function SelectApps(props) {
   //  keyCode - Use keyboard keys
   //  Enter(13)
 
-  document.addEventListener("keydown", (event) => {
-    let unicode = event.keyCode;
-    if (
-      props.history.location.pathname === "/SelectApps" &&
-      port != "" &&
-      selected != ""
-    ) {
-      if (unicode === 13) {
-        props.history.push("/Deploy");
-        deploy();
-      }
-    }
-  });
+  // document.addEventListener("keyup", (event) => {
+  //   let unicode = event.keyCode;
+  //   if (
+  //     props.history.location.pathname === "/SelectApps" &&
+  //     port != "" &&
+  //     selected != ""
+  //   ) {
+  //     if (unicode === 13) {
+  //       props.history.push("/Deploy");
+  //       deploy();
+  //       console.log(port)
+  //     }
+  //   }
+  // });
 
   // ***************
 

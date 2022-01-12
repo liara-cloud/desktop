@@ -6,23 +6,28 @@ import Layout from "./Layout";
 
 const Login = (props) => {
   const context = useContext(Context);
-  const { accounts, openConsoleLogin, openConsoleRegister, check, setCheck } =
-    context;
-
+  const {
+    accounts,
+    openConsoleLogin,
+    openConsoleRegister,
+    check,
+    setCheck,
+    loading,
+  } = context;
   useEffect(() => {
+    if (loading) return;
     if (Object.values(accounts).length != 0) {
       props.history.push("/Draggable");
     }
+    // if (Object.values(accounts).length == 0) {
+    //   setCheck(false);
+    // }
   }, [accounts]);
 
-  setTimeout(() => {
-    setCheck(false);
-  }, 2500);
-  
   return (
     <Layout>
       <div dir="rtl">
-        {check && check && (
+        {loading && (
           <div className="load-container">
             <span className="load"></span> <span className="background"></span>
           </div>

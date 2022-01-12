@@ -3,8 +3,13 @@ import React, { createContext, useEffect, useState } from "react";
 
 export const Context = createContext();
 
+function delay(seconds) {
+  return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+}
+
 export const ContextAPI = (props) => {
   // State
+  const [loading, setLoading] = useState(true);
   const [accounts, setAccounts] = useState([]);
   const [file, setFile] = useState("");
   const [port, setPort] = useState("");
@@ -19,15 +24,33 @@ export const ContextAPI = (props) => {
 
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
-      if (arg.accounts !== undefined) {
-        setAccounts(arg.accounts);
-        setCurrent(
-          Object.values(arg.accounts).filter((item) => item.current)["0"]
-        );
-      }
+      delay(3).then(() => {
+        setLoading(false);
+        if (arg.accounts !== undefined) {
+          setAccounts(arg.accounts);
+          setCurrent(
+            Object.values(arg.accounts).filter((item) => item.current)["0"]
+          );
+        }
+      });
     });
     ipcRenderer.send("asynchronous-login", "liara-cloud");
   }, []);
+
+  // useEffect(() => {
+  //   return async () => {
+  //     ipcRenderer.on("asynchronous-login", (event, arg) => {
+  //       setLoading(false);
+  //       if (arg.accounts !== undefined) {
+  //         setAccounts(arg.accounts);
+  //         setCurrent(
+  //           Object.values(arg.accounts).filter((item) => item.current)["0"]
+  //         );
+  //       }
+  //     });
+  //     ipcRenderer.send("asynchronous-login", "liara-cloud");
+  //   };
+  // }, []);
 
   const openConsoleLogin = () => {
     ipcRenderer.on("open-console", (event, arg) => {
@@ -171,6 +194,7 @@ export const ContextAPI = (props) => {
     <Context.Provider
       value={{
         // State
+        loading,
         accounts,
         file,
         port,
