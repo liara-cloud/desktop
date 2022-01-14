@@ -28,6 +28,7 @@
     "@sentry/electron": "^2.5.4",
     "@sentry/react": "^6.16.1",
     "ansi-up": "^1.0.0",
+    "app-root-dir": "^1.0.2",
     "axios": "^0.24.0",
     "electron-updater": "^4.6.1",
     "get-port": "^5.1.1",

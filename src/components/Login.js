@@ -19,9 +19,11 @@ const Login = (props) => {
     if (Object.values(accounts).length != 0) {
       props.history.push("/Draggable");
     }
+    
     // if (Object.values(accounts).length == 0) {
     //   setCheck(false);
     // }
+
   }, [accounts]);
 
   return (

@@ -139,8 +139,6 @@ export const ContextAPI = (props) => {
   };
   const cancel = () => {
     ipcRenderer.on("deploy", (event, arg) => {
-      data += arg.log;
-      setLog({ text: data, status: arg.status });
     });
     ipcRenderer.send("deploy", {
       app: selected.project_id,

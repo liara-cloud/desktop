@@ -43,7 +43,6 @@ export default function Deploy() {
       setIsDeploy(false);
     }
   }, [log.status]);
-
   useEffect(() => {
     if (!preRef.current) {
       preRef.current = true;
@@ -102,7 +101,6 @@ export default function Deploy() {
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
             ></pre>
-
             <div className="btn-container">
               <button className="btn main primary" onClick={() => serveLog()}>
                 دریافت لاگ
@@ -143,7 +141,6 @@ export default function Deploy() {
               >
                 نمایش در مرورگر
               </button>
-
               <Link to="/Draggable">
                 <button
                   className="btn main primary"
@@ -163,7 +160,7 @@ export default function Deploy() {
       <Layout>
         <div dir="rtl">
           <User />
-          <div className="deploy ">
+          <div className="deploy">
             <GreyCircle />
             <p>ﺍﺳﺘﻘﺮﺍﺭ لغو ﺷﺪ</p>
             <pre
@@ -173,7 +170,6 @@ export default function Deploy() {
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
             ></pre>
-
             <div className="btn-container">
               <button className="btn main primary" onClick={() => serveLog()}>
                 دریافت لاگ

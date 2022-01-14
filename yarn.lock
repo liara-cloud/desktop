@@ -1609,6 +1609,11 @@
     "micromatch" "^3.1.4"
     "normalize-path" "^2.1.1"
 
+"app-root-dir@^1.0.2":
+  "integrity" "sha1-OBh+wt6nV3//Az/8sSFyaS/24Rg="
+  "resolved" "https://registry.npmjs.org/app-root-dir/-/app-root-dir-1.0.2.tgz"
+  "version" "1.0.2"
+
 "aproba@^1.1.1":
   "integrity" "sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw=="
   "resolved" "https://registry.npmjs.org/aproba/-/aproba-1.2.0.tgz"

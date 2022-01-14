@@ -1,5 +1,7 @@
-const { fork } = require("child_process");
+const { spawn } = require("child_process");
 const { EventEmitter } = require("events");
+const appRootDir = require('app-root-dir').get();
+
 const { envConfig } = require("../configs/envConfig");
 
 const logger = require("../configs/logger");
@@ -11,18 +13,19 @@ exports.logs = [];
 exports.deploy = (event, args) => {
   const { app, path, port, region } = args;
   const liara =
-    envConfig.PLATFORM === "win32" ? ".\\liara" : "./node_modules/.bin/liara";
-  const child = fork(
-    liara,
-    ["deploy", `--app`, app, `--port`, port, `--path`, path, `--detach`],
-    {
-      stdio: ["pipe", "pipe", "pipe", "ipc"],
-      cwd:
-        envConfig.PLATFORM === "win32"
-          ? `${process.cwd()}\\node_modules\\.bin`
-          : undefined,
-    }
-  );
+  envConfig.PLATFORM === 'win32'
+    ? `${appRootDir}\\node_modules\\@liara\\cli\\bin\\run`
+    : `${appRootDir}/node_modules/@liara/cli/bin/run`;
+const child = spawn(
+  process.execPath,
+  [liara, 'deploy', `--app`, app, `--port`, port, `--path`, path, `--detach`],
+  {
+    env: {
+      ELECTRON_RUN_AS_NODE: 1,
+    },
+    stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
+  }
+);
 
   logger.info("Deployment started");
   child.stdout.on("data", (data) => {
