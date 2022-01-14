@@ -22,10 +22,10 @@ function SelectApps(props) {
     deploy,
     current,
     disabled,
-    setFile,
     defaultPort,
     check,
     setCheck,
+    clearInfo
   } = context;
 
   //  keyCode - Use keyboard keys
@@ -162,7 +162,7 @@ function SelectApps(props) {
             <button className="btn main primary">بعدی</button>
           )}
           <Link to="/Draggable">
-            <button className="btn main primary" onClick={() => setFile("")}>
+            <button className="btn main primary" onClick={() => clearInfo()}>
               قبلی
             </button>
           </Link>
