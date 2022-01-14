@@ -1,4 +1,5 @@
 import React from "react";
+import PlatformIcon from "./PlatformIcon";
 
 export default function AppsItem({ item, setSelected, setShowApps }) {
   return (
@@ -8,11 +9,14 @@ export default function AppsItem({ item, setSelected, setShowApps }) {
       key={item.name}
       onClick={() => setSelected(item) + setShowApps(false)}
     >
-      <img
+      {/* <img
         className="icon-platform"
-        src={require(`../assets/images/svg/${item.type}.svg`).default}
-      />
+        src={require(`@liara/platformicons/svg/${item.type}.svg`).default}
+      /> */}
+     
+     <PlatformIcon platform={item.type} />
       {item.project_id}
     </div>
   );
 }
+

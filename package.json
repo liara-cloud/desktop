@@ -23,6 +23,7 @@
   "dependencies": {
     "@electron/remote": "^2.0.1",
     "@liara/cli": "^2.21.2",
+    "@liara/platformicons": "^2.11.0",
     "@liara/react-drag-drop-files": "^2.2.4",
     "@sentry/electron": "^2.5.4",
     "@sentry/react": "^6.16.1",
@@ -33,7 +34,7 @@
     "raven": "^2.6.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-   "react-router": "^4.3.1",
+    "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "winston": "^3.3.3"
   },
