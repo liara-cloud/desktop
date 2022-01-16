@@ -44,9 +44,8 @@ async function createMainWindow() {
   });
   const urlFormatOptions = {
     protocol: 'file:',
-    // host: 'http:',
     pathname: path.join(__dirname, '..', 'dist', 'index.html'),
-    slashes: true,
+    slashes: false,
     mode: 'no-cors',
     webSecurity: false,
   };

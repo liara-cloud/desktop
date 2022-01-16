@@ -1,33 +1,30 @@
-const os = require("os");
-const { writeFile } = require("fs/promises");
-const path = require("path");
-const { dialog } = require("electron");
+const os = require('os');
+const { writeFile } = require('fs/promises');
+const path = require('path');
+const { dialog } = require('electron');
 
-const { envConfig } = require("./configs/envConfig");
-const { logs } = require("./utils/deploy");
+const { envConfig } = require('./configs/envConfig');
+const { logs } = require('./utils/deploy');
 
 exports.sendLogToUser = async () => {
-  console.log(path.join(os.homedir(), "/Desktop"));
+  console.log(path.join(os.homedir(), '/Desktop'));
   const file = await dialog.showSaveDialog({
-    title: "Select the File Path to save",
+    title: 'Select the File Path to save',
     defaultPath: path.join(
       os.homedir(),
-      envConfig.PLATFORM === "win32"
-        ? "\\Desktop\\deploy.log"
-        : "/Desktop/deploy.log"
+      envConfig.PLATFORM === 'win32'
+        ? '\\Desktop\\liara-logs.txt'
+        : '/Desktop/liara-logs.txt'
     ),
-    buttonLabel: "Save",
+    buttonLabel: 'Save',
     filters: [
       {
-        extensions: ["log"],
+        extensions: ['txt'],
       },
     ],
   });
-  console.log(file.canceled);
-  console.log(file.filePath.toString());
+
   if (!file.canceled) {
-    console.log(file.filePath.toString());
-    console.log(logs);
-    await writeFile(file.filePath.toString(), logs.toString());
+    await writeFile(file.filePath.toString(), JSON.stringify(logs));
   }
 };
