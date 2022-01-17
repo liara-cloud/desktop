@@ -1,7 +1,7 @@
 {
   "name": "liara",
   "productName": "liara",
-  "version": "0.0.3",
+  "version": "1.0.1",
   "description": "The desktop interface for Liara",
   "license": "MIT",
   "engines": {
