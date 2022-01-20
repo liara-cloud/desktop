@@ -1,4 +1,4 @@
-const { spawn } = require('child_process');
+const { fork } = require('child_process');
 const { EventEmitter } = require('events');
 
 const appRootDir = require('app-root-dir').get();
@@ -14,11 +14,12 @@ exports.deploy = (event, args) => {
   const { app, path, port, region } = args;
   const liara =
     envConfig.PLATFORM === 'win32'
-      ? `C:\\Users\\devops\\Desktop\\liara-cli\\liara-cli-master\\bin\\run`
-      : './node_modules/.bin/liara';
-  const child = spawn(
-    process.execPath,
-    [liara, 'deploy', `--app`, app, `--port`, port, `--path`, path, `--detach`],
+      ? `${appRootDir}\\node_modules\\@liara\\cli\\bin\\run`
+      : `${appRootDir}/node_modules/@liara/cli/bin/run`;
+
+  const child = fork(
+    liara,
+    ['deploy', `--app`, app, `--port`, port, `--path`, path, `--detach`],
     {
       stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
     }
@@ -34,8 +35,16 @@ exports.deploy = (event, args) => {
     }
   });
 
+  child.on('error', (err) => {
+    logger.error(err);
+    if (err.message == 'Channel closed') {
+      return;
+    }
+  });
+
   child.on('message', (message) => {
     this.logs.push(message);
+    console.log(message);
     event.sender.send('deploy', message);
   });
 

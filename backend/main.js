@@ -4,6 +4,7 @@ const url = require('url');
 const { sentry } = require('./configs/sentry');
 const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const { autoUpdater } = require('electron-updater');
+const appRootDir = require('app-root-dir').get();
 
 const { envConfig } = require('./configs/envConfig');
 const { readLiaraJson } = require('./utils/account.management');
@@ -15,6 +16,7 @@ const logger = require('./configs/logger');
 const { chanegCurrentAccount } = require('./utils/changeCurrent');
 const { removeAccount } = require('./utils/removeAccount');
 const { sendLogToUser } = require('./dialog');
+const { isDirecoty } = require('./utils/check-upload-directory');
 
 let mainWindow;
 
@@ -34,20 +36,19 @@ async function createMainWindow() {
     maxHeight: 550,
     show: false,
     frame: false,
-    icon: `${__dirname}/assets/icon.ico`,
+    icon:
+      envConfig.PLATFORM === 'darwin'
+        ? `${appRootDir}/assets/888.icns`
+        : `${appRootDir}/assets/icon2.ico`,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      webSecurity: false,
-      allowRunningInsecureContent: true,
     },
   });
   const urlFormatOptions = {
     protocol: 'file:',
     pathname: path.join(__dirname, '..', 'dist', 'index.html'),
-    slashes: false,
-    mode: 'no-cors',
-    webSecurity: false,
+    slashes: true,
   };
 
   if (envConfig.IS_DEV && process.argv.indexOf('--noDevServer') === -1) {
@@ -56,12 +57,13 @@ async function createMainWindow() {
     urlFormatOptions.pathname = 'index.html';
     urlFormatOptions.slashes = true;
   }
-
+  if (envConfig.PLATFORM === 'win32') app.setAppUserModelId('liara');
   mainWindow.loadURL(url.format(urlFormatOptions));
+  autoUpdater.checkForUpdatesAndNotify();
 
   // Don't show until we are ready and loaded
   mainWindow.once('ready-to-show', () => {
-    autoUpdater.checkForUpdatesAndNotify();
+    // autoUpdater.checkForUpdatesAndNotify();
     mainWindow.show();
 
     // Open devtools if dev
@@ -77,7 +79,15 @@ async function createMainWindow() {
       mainWindow.webContents.openDevTools();
     }
   });
-  mainWindow.on('closed', () => (mainWindow = null));
+  mainWindow.on('close', (e) => {
+    if (!appElements.tray.runInBackground) {
+      mainWindow = null;
+      app.quit();
+      return;
+    }
+    e.preventDefault();
+    mainWindow.hide();
+  });
 }
 
 app.whenReady().then(() => {
@@ -89,48 +99,53 @@ app.whenReady().then(() => {
   });
 });
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  // if (process.platform !== 'darwin') {
+  //   app.quit();
+  // }
 });
-ipcMain.on('asynchronous-login', async (event, arg) => {
+
+ipcMain.on('asynchronous-login', async (event, args) => {
   logger.info('Request from IPCRenderer recieved. channle=asynchronous-login');
   event.sender.send('asynchronous-login', await readLiaraJson());
   logger.info('Response from IPCMain sent. channle=asynchronous-login');
 });
-ipcMain.on('open-console', async (event, arg) => {
+
+ipcMain.on('open-console', async (event, args) => {
   logger.info('Request from IPCRenderer recieved. channle=open-console');
   if (!envConfig.OPEN_PORT) {
     const httpServer = await startServer(event);
-    const encodedUrl = createEncodedUrl(httpServer.address().port, arg.page);
+    const encodedUrl = createEncodedUrl(httpServer.address().port, args.page);
     logger.info('Response from IPCMain sent. channle=open-console');
     return await shell.openExternal(encodedUrl);
   }
-  const encodedUrl = createEncodedUrl(envConfig.OPEN_PORT, arg.page);
+  const encodedUrl = createEncodedUrl(envConfig.OPEN_PORT, args.page);
   await shell.openExternal(encodedUrl);
   logger.info('Response from IPCMain sent. channle=open-console');
 });
-ipcMain.on('deploy', async (event, arg) => {
-  if (arg.cancel) {
+
+ipcMain.on('deploy', async (event, args) => {
+  if (args.cancel) {
     return eventEmmit.emit('cancel-deploy');
   }
   logger.info('Request from IPCRenderer recieved. channle=deploy deploy=true');
-  deploy(event, arg);
+  deploy(event, args);
   logger.info('Response from IPCMain sent. channle=deploy deploy=true');
 });
-ipcMain.on('change-current', async (event, arg) => {
-  const { email, region } = arg;
+
+ipcMain.on('change-current', async (event, args) => {
+  const { email, region } = args;
   event.sender.send(
     'change-current',
     await chanegCurrentAccount(email, region)
   );
 });
-ipcMain.on('remove-account', async (event, arg) => {
-  const { email, region } = arg;
+
+ipcMain.on('remove-account', async (event, args) => {
+  const { email, region } = args;
   event.sender.send('remove-account', await removeAccount(email, region));
 });
 
-ipcMain.on('show-dialog', (event, arg) => {
+ipcMain.on('show-dialog', (event, args) => {
   sendLogToUser();
 });
 
@@ -143,10 +158,15 @@ ipcMain.on('console', async (event, args) => {
   }
 });
 
+ipcMain.on('is-directory', async (event, args) => {
+  event.sender.send(await isDirecoty(args.path));
+});
+
 // Frame
 ipcMain.handle('frame', (event, args) => {
+  console.log(appElements.tray.runInBackground);
   if (args === 'minimize') mainWindow.minimize();
-  if (args === 'close') mainWindow.hide();
+  if (args === 'close') mainWindow.close();
 });
 
 // version
@@ -156,16 +176,19 @@ ipcMain.on('app_version', (event) => {
 
 //update
 autoUpdater.on('update-available', () => {
+  console.log('update-available');
   mainWindow.webContents.send('update_available');
 });
+autoUpdater.on('download-progress', (progressObj) => {
+  console.log(progressObj);
+});
 autoUpdater.on('update-downloaded', () => {
+  console.log('update-downloaded');
   mainWindow.webContents.send('update_downloaded');
 });
 ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
-ipcMain.on('restart_app', () => {
-  autoUpdater.quitAndInstall();
-});
+
 // Stop error
 app.allowRendererProcessReuse = true;

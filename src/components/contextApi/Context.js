@@ -1,5 +1,5 @@
-import { ipcRenderer } from "electron";
-import React, { createContext, useEffect, useState } from "react";
+import { ipcRenderer } from 'electron';
+import React, { createContext, useEffect, useState } from 'react';
 
 export const Context = createContext();
 
@@ -11,30 +11,30 @@ export const ContextAPI = (props) => {
   // State
   const [loading, setLoading] = useState(true);
   const [accounts, setAccounts] = useState([]);
-  const [file, setFile] = useState("");
-  const [port, setPort] = useState("");
-  const [selected, setSelected] = useState("");
-  const [log, setLog] = useState("");
+  const [file, setFile] = useState('');
+  const [port, setPort] = useState('');
+  const [selected, setSelected] = useState('');
+  const [log, setLog] = useState('');
   const [disabled, setDisabled] = useState(false);
-  const [current, setCurrent] = useState("");
+  const [current, setCurrent] = useState('');
   const [showApps, setShowApps] = useState(false);
-  const [status, setStatus] = useState("deploy");
+  const [status, setStatus] = useState('deploy');
   const [isDeploy, setIsDeploy] = useState(false);
   const [check, setCheck] = useState(true);
 
   useEffect(() => {
-    ipcRenderer.on("asynchronous-login", (event, arg) => {
+    ipcRenderer.on('asynchronous-login', (event, arg) => {
       delay(3).then(() => {
         setLoading(false);
         if (arg.accounts !== undefined) {
           setAccounts(arg.accounts);
           setCurrent(
-            Object.values(arg.accounts).filter((item) => item.current)["0"]
+            Object.values(arg.accounts).filter((item) => item.current)['0']
           );
         }
       });
     });
-    ipcRenderer.send("asynchronous-login", "liara-cloud");
+    ipcRenderer.send('asynchronous-login', 'liara-cloud');
   }, []);
 
   // useEffect(() => {
@@ -53,58 +53,58 @@ export const ContextAPI = (props) => {
   // }, []);
 
   const openConsoleLogin = () => {
-    ipcRenderer.on("open-console", (event, arg) => {
+    ipcRenderer.on('open-console', (event, arg) => {
       setAccounts(arg.accounts);
       setCurrent(
-        Object.values(arg.accounts).filter((item) => item.current)["0"]
+        Object.values(arg.accounts).filter((item) => item.current)['0']
       );
     });
-    ipcRenderer.send("open-console", { page: "login" });
+    ipcRenderer.send('open-console', { page: 'login' });
   };
 
   const openConsoleRegister = () => {
-    ipcRenderer.on("open-console", (event, arg) => {
+    ipcRenderer.on('open-console', (event, arg) => {
       console.log(arg);
     });
-    ipcRenderer.send("open-console", { page: "register" });
+    ipcRenderer.send('open-console', { page: 'register' });
   };
 
   const handleChangeCurrent = (email, region) => {
-    ipcRenderer.on("change-current", (event, arg) => {
+    ipcRenderer.on('change-current', (event, arg) => {
       setAccounts(arg.accounts);
       setCurrent(
-        Object.values(arg.accounts).filter((item) => item.current)["0"]
+        Object.values(arg.accounts).filter((item) => item.current)['0']
       );
     });
-    ipcRenderer.send("change-current", {
+    ipcRenderer.send('change-current', {
       email,
       region,
     });
   };
 
   const handleExit = (email, region) => {
-    ipcRenderer.on("remove-account", (event, arg) => {
+    ipcRenderer.on('remove-account', (event, arg) => {
       if (Object.values(arg.accounts).length === 0) {
         clearInfo();
       }
       setCurrent(
-        Object.values(arg.accounts).filter((item) => item.current)["0"]
+        Object.values(arg.accounts).filter((item) => item.current)['0']
       );
       setAccounts(arg.accounts);
     });
-    ipcRenderer.send("remove-account", { email, region });
+    ipcRenderer.send('remove-account', { email, region });
   };
 
   let data = [];
 
   const deploy = () => {
-    ipcRenderer.on("deploy", (event, arg) => {
+    ipcRenderer.on('deploy', (event, arg) => {
       data += arg.log;
-      if (arg.log.includes("http") && arg.log.includes("liara.run")) {
+      if (arg.log.includes('http') && arg.log.includes('liara.run')) {
       }
       setLog({ text: data, status: arg.status });
     });
-    ipcRenderer.send("deploy", {
+    ipcRenderer.send('deploy', {
       app: selected.project_id,
       port,
       path: file,
@@ -113,10 +113,10 @@ export const ContextAPI = (props) => {
   };
 
   const openSupport = () => {
-    ipcRenderer.on("console", (event, arg) => {
+    ipcRenderer.on('console', (event, arg) => {
       console.log(arg);
     });
-    ipcRenderer.send("console", {
+    ipcRenderer.send('console', {
       support: true,
     });
   };
@@ -125,22 +125,21 @@ export const ContextAPI = (props) => {
   // `https://${selected.project_id}.liara.run`
 
   const openInBrowser = () => {
-    ipcRenderer.on("console", (event, arg) => {
+    ipcRenderer.on('console', (event, arg) => {
       console.log(arg);
     });
     const url =
-      current.region === "iran"
+      current.region === 'iran'
         ? `https://${selected.project_id}.iran.liara.run`
         : `https://${selected.project_id}.liara.run`;
 
-    ipcRenderer.send("console", {
+    ipcRenderer.send('console', {
       url,
     });
   };
   const cancel = () => {
-    ipcRenderer.on("deploy", (event, arg) => {
-    });
-    ipcRenderer.send("deploy", {
+    ipcRenderer.on('deploy', (event, arg) => {});
+    ipcRenderer.send('deploy', {
       app: selected.project_id,
       port,
       path: file,
@@ -149,42 +148,42 @@ export const ContextAPI = (props) => {
   };
 
   const serveLog = () => {
-    ipcRenderer.send("show-dialog", "liara-cloud");
+    ipcRenderer.send('show-dialog', 'liara-cloud');
   };
 
   const clearInfo = () => {
-    setFile("");
+    setFile('');
 
-    setPort("");
+    setPort('');
 
-    setSelected("");
+    setSelected('');
 
-    setStatus("deploy");
+    setStatus('deploy');
 
-    setLog("");
+    setLog('');
   };
 
   // check default port
   const port_type = [
-    { name: "static", port: 80 },
-    { name: "react", port: 80 },
-    { name: "vue", port: 80 },
-    { name: "angular", port: 80 },
-    { name: "laravel", port: 80 },
-    { name: "wordpress", port: 80 },
-    { name: "django", port: 80 },
-    { name: "flask", port: 8000 },
-    { name: "php", port: 80 },
-    { name: "netcore", port: 80 },
+    { name: 'static', port: 80 },
+    { name: 'react', port: 80 },
+    { name: 'vue', port: 80 },
+    { name: 'angular', port: 80 },
+    { name: 'laravel', port: 80 },
+    { name: 'wordpress', port: 80 },
+    { name: 'django', port: 80 },
+    { name: 'flask', port: 8000 },
+    { name: 'php', port: 80 },
+    { name: 'netcore', port: 80 },
   ];
   const defaultPort = port_type.filter((item) => item.name === selected.type);
   useEffect(() => {
     if (defaultPort.length != 0) {
       setDisabled(true);
-      setPort(defaultPort["0"].port);
+      setPort(defaultPort['0'].port);
     } else {
       setDisabled(false);
-      setPort("");
+      setPort('');
     }
   }, [selected]);
 
