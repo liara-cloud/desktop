@@ -11,7 +11,6 @@ const { readLiaraJson } = require('./utils/account.management');
 const { startServer } = require('./server/startServer.js');
 const { createEncodedUrl } = require('./utils/urlEncoder.js');
 const { deploy, eventEmmit } = require('./utils/deploy');
-const TrayMenu = require('./tray');
 const logger = require('./configs/logger');
 const { chanegCurrentAccount } = require('./utils/changeCurrent');
 const { removeAccount } = require('./utils/removeAccount');
@@ -19,11 +18,6 @@ const { sendLogToUser } = require('./dialog');
 const { isDirecoty } = require('./utils/check-upload-directory');
 
 let mainWindow;
-
-const appElements = {
-  tray: null,
-  windows: [],
-};
 async function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 350,
@@ -80,31 +74,19 @@ async function createMainWindow() {
     }
   });
   mainWindow.on('close', (e) => {
-    if (!appElements.tray.runInBackground) {
-      mainWindow = null;
-      app.quit();
-      return;
-    }
-    e.preventDefault();
-    mainWindow.hide();
+    mainWindow = null;
   });
 }
 
 app.whenReady().then(() => {
-  appElements.tray = new TrayMenu();
   createMainWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
     mainWindow.show();
   });
 });
-app.on('window-all-closed', () => {
-  // if (process.platform !== 'darwin') {
-  //   app.quit();
-  // }
-});
 
-ipcMain.on('asynchronous-login', async (event, args) => {
+ipcMain.on('asynchronous-login', async (event) => {
   logger.info('Request from IPCRenderer recieved. channle=asynchronous-login');
   event.sender.send('asynchronous-login', await readLiaraJson());
   logger.info('Response from IPCMain sent. channle=asynchronous-login');
@@ -145,7 +127,7 @@ ipcMain.on('remove-account', async (event, args) => {
   event.sender.send('remove-account', await removeAccount(email, region));
 });
 
-ipcMain.on('show-dialog', (event, args) => {
+ipcMain.on('show-dialog', () => {
   sendLogToUser();
 });
 
@@ -164,7 +146,6 @@ ipcMain.on('is-directory', async (event, args) => {
 
 // Frame
 ipcMain.handle('frame', (event, args) => {
-  console.log(appElements.tray.runInBackground);
   if (args === 'minimize') mainWindow.minimize();
   if (args === 'close') mainWindow.close();
 });

@@ -16,7 +16,6 @@ exports.deploy = (event, args) => {
     envConfig.PLATFORM === 'win32'
       ? `${appRootDir}\\node_modules\\@liara\\cli\\bin\\run`
       : `${appRootDir}/node_modules/@liara/cli/bin/run`;
-
   const child = fork(
     liara,
     ['deploy', `--app`, app, `--port`, port, `--path`, path, `--detach`],
@@ -41,7 +40,6 @@ exports.deploy = (event, args) => {
       return;
     }
   });
-
   child.on('message', (message) => {
     this.logs.push(message);
     console.log(message);

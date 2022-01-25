@@ -1,6 +1,6 @@
 {
   "name": "liara",
-  "version": "0.9.0",
+  "version": "1.0.9",
   "engines": {
     "node": ">=9.0.0",
     "npm": ">=5.0.0",
@@ -9,6 +9,7 @@
   "browserslist": [
     "last 10 versions"
   ],
+  "author": "test test <test@test.com> (http://test.test.com/)",
   "main": "backend/main.js",
   "description": "The desktop interface for Liara",
   "scripts": {
@@ -18,7 +19,7 @@
     "package": "npm run build",
     "postpackage": "electron-packager ./ --out=./release-builds",
     "builder": "electron-builder build --publish never",
-    "deploy": "electron-builder build  --publish always"
+    "deploy": "electron-builder build --publish always"
   },
   "dependencies": {
     "@liara/platformicons": "^2.11.0",
