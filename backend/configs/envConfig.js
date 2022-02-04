@@ -1,16 +1,21 @@
-const os = require("os");
-const path = require("path");
+const os = require('os');
+const path = require('path');
 
 exports.envConfig = {
-  DSN: "https://741a1b1949d749558159bfc1b7e95878@sentry.liara.ir/15",
-  LIARA_LOGIN_PAGE: "http://localhost:3000/login",
-  LIARA_REGISTER_PAGE: "http://localhost:3000/register",
-  LIARA_GET_ME_IRAN: "http://api.iran.liara.ir/v1/me",
-  LIARA_GET_ME_GERMANY: "http://api.liara.ir/v1/me",
-  LIARA_TICKET_PAGE: "https://console.liara.ir/tickets/create",
-  LIARA_LOG_PAGE: "https://console.liara.ir/apps/{app-placeholder}/logs",
-  GLOBAL_CONF_PATH: path.join(os.homedir(), ".liara.json"),
+  REGION_API_URL: {
+    iran: 'https://api.iran.liara.ir',
+    germany: 'https://api.liara.ir',
+  },
+  MAX_SOURCE_SIZE: 200 * 1024 * 1024, // 200 MB
+  DSN: 'https://741a1b1949d749558159bfc1b7e95878@sentry.liara.ir/15',
+  LIARA_LOGIN_PAGE: 'http://localhost:3000/login',
+  LIARA_REGISTER_PAGE: 'http://localhost:3000/register',
+  LIARA_GET_ME_IRAN: 'http://api.iran.liara.ir/v1/me',
+  LIARA_GET_ME_GERMANY: 'http://api.liara.ir/v1/me',
+  LIARA_TICKET_PAGE: 'https://console.liara.ir/tickets/create',
+  LIARA_LOG_PAGE: 'https://console.liara.ir/apps/{app-placeholder}/logs',
+  GLOBAL_CONF_PATH: path.join(os.homedir(), '.liara.json'),
   OPEN_PORT: undefined,
   PLATFORM: process.platform,
-  IS_DEV: process.env.NODE_ENV === "development" ? true : false,
+  IS_DEV: process.env.NODE_ENV === 'development' ? true : false,
 };
