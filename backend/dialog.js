@@ -1,13 +1,12 @@
 const os = require('os');
-const { writeFile } = require('fs/promises');
 const path = require('path');
 const { dialog } = require('electron');
+const { writeFile } = require('fs/promises');
 
+const { logs } = require('./deploy/deploy');
 const { envConfig } = require('./configs/envConfig');
-const { logs } = require('./utils/deploy');
 
 exports.sendLogToUser = async () => {
-  console.log(path.join(os.homedir(), '/Desktop'));
   const file = await dialog.showSaveDialog({
     title: 'Select the File Path to save',
     defaultPath: path.join(
@@ -25,6 +24,6 @@ exports.sendLogToUser = async () => {
   });
 
   if (!file.canceled) {
-    await writeFile(file.filePath.toString(), JSON.stringify(logs));
+    await writeFile(file.filePath.toString(),logs.join('\n'));
   }
 };
