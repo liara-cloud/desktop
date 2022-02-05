@@ -7,7 +7,7 @@ module.exports = (api_token, region) => {
     headers: {
       Authorization: `Bearer ${api_token}`,
     },
-    prefixUrl: envConfig.REGION_API_URL[region],
+    prefixUrl: envConfig.REGIO_API_URL[region],
   };
 
   return got.extend(config);

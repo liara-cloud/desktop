@@ -1,16 +1,18 @@
-const got = require('./got-instance')
+const generateLog = require('./log');
+const got = require('./got-instance');
 const {logs, release} = require('./deploy');
-const {default: cancelDeployment} = require('@liara/cli/lib/services/cancel-deployment');
 const logger = require('../configs/logger');
+const {default: cancelDeployment} = require('@liara/cli/lib/services/cancel-deployment');
 
 const cancelDeploy = async (event, args) => {
-  const { api_token, region } = args;
+  const { api_token, region, app } = args;
+  event.sender.send('deploy',generateLog('Canceling Deployment', 'build', 'pending'));
   const retryOptions = {
     retries: 3,
     onRetry: (error, attempt) => {
       logger.push(error)
       logs.push(`${attempt}: Could not cancel  retrying...`);
-      event.sender.send(generateLog(`${attempt}: Could not cancel  retrying...`, 'build', 'error'));
+      event.sender.send('deploy',generateLog(`${attempt}: Could not cancel  retrying...`, 'build', 'error'));
     },
   };
   if (release.id) {
