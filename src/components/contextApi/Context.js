@@ -22,6 +22,7 @@ export const ContextAPI = (props) => {
   const [isDeploy, setIsDeploy] = useState(false);
   const [check, setCheck] = useState(true);
   const [online, setOnline] = useState(true);
+  const [checkDirectory, setCheckDirectory] = useState("");
 
   window.addEventListener("offline", () => {
     setOnline(false);
@@ -59,6 +60,15 @@ export const ContextAPI = (props) => {
       console.log(arg);
     });
     ipcRenderer.send("open-console", { page: "register" });
+  };
+
+  const checkIsDirectory = (path) => {
+    ipcRenderer.on("is-directory", (event, arg) => {
+      setCheckDirectory(arg);
+    });
+    ipcRenderer.send("is-directory", {
+      path,
+    });
   };
 
   const handleChangeCurrent = (email, region) => {
@@ -153,6 +163,7 @@ export const ContextAPI = (props) => {
     setStatus("deploy");
 
     setLog("");
+    setCheckDirectory("");
   };
 
   // check default port
@@ -197,7 +208,7 @@ export const ContextAPI = (props) => {
         isDeploy,
         check,
         online,
-
+        checkDirectory,
         // setState & functions
         setCheck,
         setIsDeploy,
@@ -217,6 +228,8 @@ export const ContextAPI = (props) => {
         setStatus,
         openSupport,
         openInBrowser,
+        checkIsDirectory,
+        setCheckDirectory,
       }}
     >
       {props.children}

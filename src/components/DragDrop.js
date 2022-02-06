@@ -2,18 +2,39 @@ import { FileUploader } from "@liara/react-drag-drop-files";
 import React, { useContext, useState } from "react";
 import { withRouter } from "react-router";
 import { Context } from "./contextApi/Context";
+import { Folder } from "./icon";
 
 function DragDrop(props) {
   const context = useContext(Context);
-  const { file, setFile } = context;
+  const { file, setFile, checkIsDirectory, checkDirectory, setCheckDirectory } =
+    context;
   const handleChange = (file) => {
     setFile(file.path);
+    checkIsDirectory(file.path);
   };
-  file !== "" && props.history.push("/SelectApps");
+  checkDirectory.isDirectory && props.history.push("/SelectApps");
+  // file !== "" && props.history.push("/SelectApps");
+
+  if (checkDirectory.isDirectory == false) {
+    setTimeout(() => {
+      setCheckDirectory("");
+    }, 3000);
+  }
+
   return (
     <>
-      <div dir="rtl" className="drag-drop">
-        <FileUploader onlyDirectory="true" handleChange={handleChange} name="file" />
+      <div
+        dir="rtl"
+        className="drag-drop"
+        style={
+          checkDirectory.isDirectory == false ? { borderColor: "#ea5167" } : {}
+        }
+      >
+        <FileUploader
+          onlyDirectory="true"
+          handleChange={handleChange}
+          name="file"
+        />
         <div className="select-projct">
           <p>پروژه رو در اینجا رها کنید</p>
           <span>
@@ -22,6 +43,11 @@ function DragDrop(props) {
           </span>
         </div>
       </div>
+      {checkDirectory.isDirectory == false && (
+        <div className="alert-directory">
+          <p>( خطا در شناسایی فولدر پروژه )</p>
+        </div>
+      )}
     </>
   );
 }

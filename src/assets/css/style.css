@@ -548,3 +548,19 @@ div.deploy.error pre {
   left: 50%;
   transform: translateX(-50%);
 } */
+
+/* alert */
+.alert-directory {
+  color: #ea5167;
+  padding: 10px 25px;
+  position: fixed;
+  top: 82%;
+  border-radius: 12px;
+  right: 4px;
+  text-align: center;
+  font-size: 13px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  z-index: 10;
+}
