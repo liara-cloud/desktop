@@ -1,8 +1,8 @@
 const os = require('os');
 const path = require('path');
-const { dialog } = require('electron');
-const { writeFile } = require('fs/promises');
 
+const { dialog } = require('electron');
+const { writeFile } = require('fs-extra');
 const { logs } = require('./deploy/deploy');
 const { envConfig } = require('./configs/envConfig');
 
@@ -24,6 +24,6 @@ exports.sendLogToUser = async () => {
   });
 
   if (!file.canceled) {
-    await writeFile(file.filePath.toString(),logs.join('\n'));
+    await writeFile(file.filePath.toString(), logs.join('\n'));
   }
 };

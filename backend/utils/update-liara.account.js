@@ -1,18 +1,17 @@
-const { readFile, writeFile } = require("fs/promises");
-
-const { envConfig } = require("../configs/envConfig");
-const logger = require("../configs/logger");
+const logger = require('../configs/logger');
+const { readFile, writeFile } = require('fs-extra');
+const { envConfig } = require('../configs/envConfig');
 
 const mergeContent = async (content, data) => {
   // convert token to api_token
   data.map((obj) => {
-    obj["api_token"] = obj.token;
+    obj['api_token'] = obj.token;
     delete obj.token;
     return obj;
   });
 
   const fixData = data.reduce(function (target, key) {
-    const accountName = `${key.email.split("@")[0]}_${key.region}`;
+    const accountName = `${key.email.split('@')[0]}_${key.region}`;
     target[accountName] = key;
     if (key.current == true) {
       content.current = accountName;
@@ -30,7 +29,7 @@ const mergeContent = async (content, data) => {
     newContent = Object.assign(content, { accounts: fixData });
   }
   await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(newContent));
-  logger.info("Liara.json updated with new credentials");
+  logger.info('Liara.json updated with new credentials');
   return newContent;
 };
 

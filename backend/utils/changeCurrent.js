@@ -1,8 +1,7 @@
-const { readFile, writeFile } = require('fs/promises');
-
-const { envConfig } = require('../configs/envConfig');
 const logger = require('../configs/logger');
 const { getUser } = require('./get-account');
+const { readFile, writeFile } = require('fs-extra');
+const { envConfig } = require('../configs/envConfig');
 
 exports.chanegCurrentAccount = async (email, region) => {
   try {
