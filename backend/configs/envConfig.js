@@ -19,8 +19,10 @@ exports.envConfig = {
   DSN: 'https://741a1b1949d749558159bfc1b7e95878@sentry.liara.ir/15',
   LIARA_LOG_PAGE: 'https://console.liara.ir/apps/{app-placeholder}/logs',
 
-  OPEN_PORT: undefined,
+  ARCH: process.arch,
   PLATFORM: process.platform,
+  OPEN_PORT: undefined,
+  APP_VERSION: undefined,
   GLOBAL_CONF_PATH: path.join(os.homedir(), '.liara.json'),
   IS_DEV: process.env.NODE_ENV === 'development' ? true : false,
 };
