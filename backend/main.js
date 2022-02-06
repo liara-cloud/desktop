@@ -1,21 +1,22 @@
-const path = require('path');
 const url = require('url');
+const path = require('path');
 
-const { sentry } = require('./configs/sentry');
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
-const { autoUpdater } = require('electron-updater');
+const {sentry} = require('./configs/sentry');
 const appRootDir = require('app-root-dir').get();
+const {autoUpdater} = require('electron-updater');
+const {app, BrowserWindow, ipcMain, shell} = require('electron');
 
-const { envConfig } = require('./configs/envConfig');
-const { readLiaraJson } = require('./utils/account.management');
-const { startServer } = require('./server/startServer.js');
-const { createEncodedUrl } = require('./utils/urlEncoder.js');
-const { deploy, eventEmmit } = require('./utils/deploy');
 const logger = require('./configs/logger');
-const { chanegCurrentAccount } = require('./utils/changeCurrent');
-const { removeAccount } = require('./utils/removeAccount');
-const { sendLogToUser } = require('./dialog');
-const { isDirecoty } = require('./utils/check-upload-directory');
+const {sendLogToUser} = require('./dialog');
+const {deploy} = require('./deploy/deploy')
+const {envConfig} = require('./configs/envConfig');
+const {removeAccount} = require('./utils/removeAccount');
+const {startServer} = require('./server/startServer.js');
+const cancelDeploy = require('./deploy/cancel-deployment');
+const {createEncodedUrl} = require('./utils/urlEncoder.js');
+const {readLiaraJson} = require('./utils/account.management');
+const {isDirecoty} = require('./utils/check-upload-directory');
+const {chanegCurrentAccount} = require('./utils/changeCurrent');
 
 let mainWindow;
 async function createMainWindow() {
@@ -106,11 +107,35 @@ ipcMain.on('open-console', async (event, args) => {
 });
 
 ipcMain.on('deploy', async (event, args) => {
+  // const test = {
+  //   config: {
+  //     app: 'abc',
+  //     port: 3000,
+  //     platform: 'node',
+  //     message: 'hi',
+  //     node: { "version": "14" },
+  //     disks: [
+  //       {
+  //         name: "data",
+  //         mountTo: "uploads"
+  //       }
+  //       ],
+  //     healthCheck: {
+  //       timeout: 15,
+  //       command: "curl --fail http://localhost:3000 || exit 1"
+  //     }
+  //   },
+  //   path: 'C:\\Users\\devops\\Desktop\\nodejs-getting-started-master',
+  //   region: 'iran',
+  //   api_token:
+  //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MWM4MTYyYzNkZTI0ZTdiNzAwODIyYmQiLCJpYXQiOjE2NDM3ODQ2MjZ9.ZielTXpN3SqUlTG_Y1hUkwFA5sBTxvDxUPABuVCJy0k',
+  // }
   if (args.cancel) {
-    return eventEmmit.emit('cancel-deploy');
+    return await cancelDeploy(event, args)
   }
   logger.info('Request from IPCRenderer recieved. channle=deploy deploy=true');
-  deploy(event, args);
+
+  await deploy(event, args);
   logger.info('Response from IPCMain sent. channle=deploy deploy=true');
 });
 
@@ -141,7 +166,7 @@ ipcMain.on('console', async (event, args) => {
 });
 
 ipcMain.on('is-directory', async (event, args) => {
-  event.sender.send(await isDirecoty(args.path));
+  event.sender.send('is-directory', await isDirecoty(args.path));
 });
 
 // Frame
