@@ -6,7 +6,7 @@ exports.envConfig = {
     germany: 'https://api.liara.run',
     iran: 'https://api.iran.liara.run',
   },
-  REGIO_API_URL: {
+  REGION_API_URL: {
     germany: 'https://api.liara.ir',
     iran: 'https://api.iran.liara.ir',
   },
@@ -18,7 +18,7 @@ exports.envConfig = {
   LIARA_TICKET_PAGE: 'https://console.liara.ir/tickets/create',
   DSN: 'https://741a1b1949d749558159bfc1b7e95878@sentry.liara.ir/15',
   LIARA_LOG_PAGE: 'https://console.liara.ir/apps/{app-placeholder}/logs',
-  
+
   OPEN_PORT: undefined,
   PLATFORM: process.platform,
   GLOBAL_CONF_PATH: path.join(os.homedir(), '.liara.json'),

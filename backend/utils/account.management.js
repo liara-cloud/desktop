@@ -1,6 +1,6 @@
 const { readFile, writeFile } = require('fs/promises');
 
-const { getUser } = require('./get.account');
+const { getUser } = require('./get-account');
 const { envConfig } = require('../configs/envConfig');
 const logger = require('../configs/logger');
 
