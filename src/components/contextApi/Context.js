@@ -21,10 +21,19 @@ export const ContextAPI = (props) => {
   const [status, setStatus] = useState('deploy');
   const [isDeploy, setIsDeploy] = useState(false);
   const [check, setCheck] = useState(true);
+  const [online, setOnline] = useState(true)
 
+  
+  window.addEventListener('offline' , () => {
+    setOnline(false)
+  })
+ 
+  window.addEventListener('online' , () => {
+    setOnline(true)
+  })
+ 
   useEffect(() => {
-    ipcRenderer.on('asynchronous-login', (event, arg) => {
-      delay(3).then(() => {
+    ipcRenderer.on("asynchronous-login", (event, arg) => {
         setLoading(false);
         if (arg.accounts !== undefined) {
           setAccounts(arg.accounts);
@@ -32,25 +41,9 @@ export const ContextAPI = (props) => {
             Object.values(arg.accounts).filter((item) => item.current)['0']
           );
         }
-      });
     });
     ipcRenderer.send('asynchronous-login', 'liara-cloud');
   }, []);
-
-  // useEffect(() => {
-  //   return async () => {
-  //     ipcRenderer.on("asynchronous-login", (event, arg) => {
-  //       setLoading(false);
-  //       if (arg.accounts !== undefined) {
-  //         setAccounts(arg.accounts);
-  //         setCurrent(
-  //           Object.values(arg.accounts).filter((item) => item.current)["0"]
-  //         );
-  //       }
-  //     });
-  //     ipcRenderer.send("asynchronous-login", "liara-cloud");
-  //   };
-  // }, []);
 
   const openConsoleLogin = () => {
     ipcRenderer.on('open-console', (event, arg) => {
@@ -204,6 +197,7 @@ export const ContextAPI = (props) => {
         status,
         isDeploy,
         check,
+        online,
 
         // setState & functions
         setCheck,

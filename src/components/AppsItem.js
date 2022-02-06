@@ -12,8 +12,7 @@ export default function AppsItem({ item, setSelected, setShowApps }) {
       {/* <img
         className="icon-platform"
         src={require(`@liara/platformicons/svg/${item.type}.svg`).default}
-      /> */}
-     
+      /> */} 
      <PlatformIcon platform={item.type} />
       {item.project_id}
     </div>

@@ -1,5 +1,5 @@
-import React, {  useContext, useEffect, useRef } from "react";
-import { LiaraLight, Minimize, Time } from "./icon";
+import React, { useContext, useEffect, useRef } from "react";
+import { LiaraLight, Minimize, Time, Warning } from "./icon";
 import "../assets/css/navbar.css";
 import { withRouter } from "react-router";
 import { ipcRenderer } from "electron";
@@ -7,7 +7,7 @@ import { Context } from "./contextApi/Context";
 
 function Layout(props) {
   const context = useContext(Context);
-  const { openSupport } = context;
+  const { online, loading } = context;
   useEffect(() => {
     if (minimize.current && close.current) {
       minimize.current.addEventListener("click", function (e) {
@@ -23,6 +23,16 @@ function Layout(props) {
   const isMac = window.navigator.platform === "MacIntel";
   return (
     <>
+      {!online && !loading && (
+        <>
+          <div className="offline">
+            <div className="warning-text">
+              <Warning />
+              <p> لطفا دسترسی به اینترنت خود را بررسی کنید </p>
+            </div>
+          </div>
+        </>
+      )}
       <div id="menu-bar" className={isMac && `mac_menu-bar`}>
         {isMac ? (
           <div className="center" role="menu">
@@ -33,7 +43,6 @@ function Layout(props) {
             <span className="nav-logo">
               <LiaraLight />
             </span>
-
             <p className="nav-text">liara</p>
           </div>
         )}

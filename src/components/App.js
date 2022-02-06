@@ -8,17 +8,19 @@ import Deploy from "./Deploy";
 import Login from "./Login";
 import { ContextAPI } from "./contextApi/Context";
 
-const App = () => (
-  <ContextAPI>
-    <MemoryRouter>
-      <Switch>
-        <Route path="/Draggable" component={Draggable} />
-        <Route exact path="/" component={Login} />
-        <Route exact path="/Deploy" component={Deploy} />
-        <Route path="/SelectApps" component={SelectApps} />
-      </Switch>
-    </MemoryRouter>
-  </ContextAPI>
-);
+const App = () => {
 
+  return (
+    <ContextAPI>
+      <MemoryRouter>
+        <Switch>
+          <Route path="/Draggable" component={Draggable} />
+          <Route exact path="/" component={Login} />
+          <Route exact path="/Deploy" component={Deploy} />
+          <Route path="/SelectApps" component={SelectApps} />
+        </Switch>
+      </MemoryRouter>
+    </ContextAPI>
+  );
+};
 export default App;
