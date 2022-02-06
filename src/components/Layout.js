@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { LiaraLight, Minimize, Time, Warning } from "./icon";
 import "../assets/css/navbar.css";
 import { withRouter } from "react-router";
@@ -6,6 +6,8 @@ import { ipcRenderer } from "electron";
 import { Context } from "./contextApi/Context";
 
 function Layout(props) {
+  const [version, setVersion] = useState("");
+
   const context = useContext(Context);
   const { online, loading } = context;
   useEffect(() => {
@@ -17,6 +19,11 @@ function Layout(props) {
         ipcRenderer.invoke("frame", "close");
       });
     }
+    //
+    ipcRenderer.on("app_version", (event, arg) => {
+      setVersion(arg.version);
+    });
+    ipcRenderer.send("app_version", "liara-cloud");
   }, []);
   const minimize = useRef();
   const close = useRef();
@@ -62,7 +69,7 @@ function Layout(props) {
 
       <div>
         {props.children}
-        <p className="version">نسخه 1.0.0</p>
+        <p className="version">نسخه {version}</p>
         {props.location.pathname !== "/" && (
           <a className="support" onClick={() => openSupport()}>
             ارتباط با پشتیبانی

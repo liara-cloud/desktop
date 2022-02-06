@@ -33,7 +33,7 @@ export default function Deploy() {
 
   useEffect(() => {
     if (log.status === "error") {
-      setStatus("error");
+      setStatus("error");  
       setIsDeploy(false);
     } else if (log.status === "done") {
       setStatus("success");
