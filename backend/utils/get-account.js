@@ -1,7 +1,5 @@
-const { default: axios } = require('axios');
 const logger = require('../configs/logger');
 const gotInstance = require('../deploy/got-instance');
-const { envConfig } = require('../configs/envConfig');
 
 exports.getUser = async (apiToken, region) => {
   try {
