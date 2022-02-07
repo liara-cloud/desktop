@@ -6,14 +6,28 @@ import { Folder } from "./icon";
 
 function DragDrop(props) {
   const context = useContext(Context);
-  const { file, setFile, checkIsDirectory, checkDirectory, setCheckDirectory } =
-    context;
+  const {
+    file,
+    setFile,
+    checkIsDirectory,
+    checkDirectory,
+    setCheckDirectory,
+    setPort,
+    setSelected,
+    selected,
+  } = context;
   const handleChange = (file) => {
     setFile(file.path);
     checkIsDirectory(file.path);
   };
   checkDirectory.isDirectory && props.history.push("/SelectApps");
-  // file !== "" && props.history.push("/SelectApps");
+
+  if (checkDirectory.config !== undefined && checkDirectory.config !== false) {
+    setSelected({
+      project_id: checkDirectory.config.app,
+      type: checkDirectory.config.platform,
+    });
+  }
 
   if (checkDirectory.isDirectory == false) {
     setTimeout(() => {

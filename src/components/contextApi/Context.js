@@ -65,6 +65,7 @@ export const ContextAPI = (props) => {
   const checkIsDirectory = (path) => {
     ipcRenderer.on("is-directory", (event, arg) => {
       setCheckDirectory(arg);
+      console.log(arg.config !== undefined && arg.config !== false);
     });
     ipcRenderer.send("is-directory", {
       path,
@@ -99,19 +100,40 @@ export const ContextAPI = (props) => {
 
   let data = [];
 
+  // ipcRenderer.send("deploy", {
+  //   app: selected.project_id,
+  //   port,
+  //   path: file,
+  //   region: current.region,
+  // });
+
   const deploy = () => {
     ipcRenderer.on("deploy", (event, arg) => {
+      console.log(arg);
       data += arg.log;
       if (arg.log.includes("http") && arg.log.includes("liara.run")) {
       }
       setLog({ text: data, status: arg.status });
     });
-    ipcRenderer.send("deploy", {
-      app: selected.project_id,
-      port,
-      path: file,
-      region: current.region,
-    });
+    if (
+      checkDirectory.config !== undefined &&
+      checkDirectory.config !== false
+    ) {
+      return ipcRenderer.send("deploy", {
+        path: file,
+        region: current.region,
+        api_token: current.api_token,
+        config: checkDirectory.config,
+      });
+    }
+    if (checkDirectory.IsDirectory) {
+      return ipcRenderer.send("deploy", {
+        path: file,
+        region: current.region,
+        api_token: current.api_token,
+        config: { app: selected.project_id, port },
+      });
+    }
   };
 
   const openSupport = () => {

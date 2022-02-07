@@ -25,7 +25,8 @@ function SelectApps(props) {
     defaultPort,
     check,
     setCheck,
-    clearInfo
+    clearInfo,
+    checkDirectory,
   } = context;
 
   //  keyCode - Use keyboard keys
@@ -50,7 +51,8 @@ function SelectApps(props) {
 
   useEffect(() => {
     setCheck(true);
-    if (Object.values(accounts).length == 0) {s
+    if (Object.values(accounts).length == 0) {
+      s;
       props.history.push("/");
     }
 
@@ -74,6 +76,11 @@ function SelectApps(props) {
         console.error(error);
       });
   }, [current]);
+
+  const val =
+    checkDirectory.config !== undefined && checkDirectory.config !== false
+      ? checkDirectory.config.port
+      : port;
 
   return (
     <Layout>
@@ -136,7 +143,7 @@ function SelectApps(props) {
             <p className="title">ﺗﻌﯿﯿﻦ ﭘﻮﺭﺕ</p>
             <p className="caption">ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.</p>
             <input
-              value={port}
+              value={val}
               disabled={disabled}
               onChange={(e) => setPort(e.target.value)}
               className="port"
