@@ -175,12 +175,7 @@ function SelectApps(props) {
               </button>
             </Link>
           ) : (
-            <button
-              onClick={() => console.log(selected, port)}
-              className="btn main primary"
-            >
-              بعدی
-            </button>
+            <button className="btn main primary">بعدی</button>
           )}
           <Link to="/Draggable">
             <button className="btn main primary" onClick={() => clearInfo()}>

@@ -84,7 +84,6 @@ export default function Deploy() {
   if (status === "upload-progress") {
     return (
       <Layout>
-        {console.log(log)}
         <div dir="rtl">
           <User />
           <div className="deploy">
