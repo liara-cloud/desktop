@@ -1,5 +1,5 @@
 import { FileUploader } from "@liara/react-drag-drop-files";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router";
 import { Context } from "./contextApi/Context";
 import { Folder } from "./icon";
@@ -20,14 +20,16 @@ function DragDrop(props) {
     setFile(file.path);
     checkIsDirectory(file.path);
   };
-  checkDirectory.isDirectory && props.history.push("/SelectApps");
 
   if (checkDirectory.config !== undefined && checkDirectory.config !== false) {
     setSelected({
       project_id: checkDirectory.config.app,
       type: checkDirectory.config.platform,
     });
+    setPort(checkDirectory.config.port);
   }
+
+  checkDirectory.isDirectory && props.history.push("/SelectApps");
 
   if (checkDirectory.isDirectory == false) {
     setTimeout(() => {

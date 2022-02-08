@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   BlueCircle,
   GreenCircle,
@@ -10,9 +10,9 @@ import Layout from "../components/Layout";
 import User from "../components/User";
 import { Context } from "./contextApi/Context";
 import { AnsiUp } from "ansi-up";
+import Progress from "./Progress";
 
 export default function Deploy() {
-  // deploy - error - success - cancel
   const preRef = useRef();
   const context = useContext(Context);
   const {
@@ -22,8 +22,12 @@ export default function Deploy() {
     status,
     setStatus,
     serveLog,
+    position,
+    error,
     setIsDeploy,
     openInBrowser,
+    progressValue,
+    cancelDeploy,
   } = context;
   var ansi_up = new AnsiUp();
 
@@ -32,32 +36,27 @@ export default function Deploy() {
   );
 
   useEffect(() => {
-    if (log.status === "error") {
-      setStatus("error");  
-      setIsDeploy(false);
-    } else if (log.status === "done") {
-      setStatus("success");
-      setIsDeploy(false);
-    } else if (log.status === "cancel") {
-      setStatus("cancel");
+    if (log.state) {
+      setStatus(log.state);
       setIsDeploy(false);
     }
-  }, [log.status]);
-  useEffect(() => {
-    if (!preRef.current) {
-      preRef.current = true;
-    } else {
-      const isScrolledToBottom =
-        preRef.current.scrollHeight - preRef.current.clientHeight <=
-        preRef.current.scrollTop + 1;
-      if (!isScrolledToBottom) {
-        preRef.current.scrollTop =
-          preRef.current.scrollHeight - preRef.current.clientHeight;
-      }
-    }
-  });
+  }, [log.state, log.status]);
 
-  if (status === "deploy") {
+  // useEffect(() => {
+  //   if (!preRef.current) {
+  //     preRef.current = true;
+  //   } else {
+  //     const isScrolledToBottom =
+  //       preRef.current.scrollHeight - preRef.current.clientHeight <=
+  //       preRef.current.scrollTop + 1;
+  //     if (!isScrolledToBottom) {
+  //       preRef.current.scrollTop =
+  //         preRef.current.scrollHeight - preRef.current.clientHeight;
+  //     }
+  //   }
+  // });
+
+  if (status === "preparation-build") {
     return (
       <Layout>
         <div dir="rtl">
@@ -66,7 +65,7 @@ export default function Deploy() {
             <span className="deploy-icon">
               <BlueCircle />
             </span>
-            <p>در حال استقرار</p>
+            <p>در حال آماده سازی</p>
             <pre
               readOnly
               ref={preRef}
@@ -82,7 +81,30 @@ export default function Deploy() {
       </Layout>
     );
   }
-  if (status === "error") {
+  if (status === "upload-progress") {
+    return (
+      <Layout>
+        {console.log(log)}
+        <div dir="rtl">
+          <User />
+          <div className="deploy">
+            <span className="deploy-icon" style={{ marginBottom: "0" }}>
+              <BlueCircle />{" "}
+            </span>
+            <p style={{ paddingBottom: "0" }}>در حال آپلود سورس کد</p>
+            <span>
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت ایپسوم
+            </span>
+          </div>
+          <Progress value={progressValue} />
+          <button className="btn main cancel" onClick={() => cancel()}>
+            لغو
+          </button>
+        </div>
+      </Layout>
+    );
+  }
+  if (error) {
     return (
       <Layout>
         <div dir="rtl">
@@ -119,14 +141,16 @@ export default function Deploy() {
       </Layout>
     );
   }
-  if (status === "success") {
+  if (status === "build") {
     return (
       <Layout>
         <div dir="rtl">
           <User />
           <div className="deploy ">
-            <GreenCircle />
-            <p>ﺍﺳﺘﻘﺮﺍﺭ ﺍﻧﺠﺎﻡ ﺷﺪ</p>
+            <span className="deploy-icon" style={{ marginBottom: "0" }}>
+              <BlueCircle />{" "}
+            </span>
+            <p>در حال ساخت</p>
             <pre
               readOnly
               ref={preRef}
@@ -134,28 +158,66 @@ export default function Deploy() {
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
             ></pre>
-            <div className="btn-container">
-              <button
-                className="btn main primary"
-                onClick={() => openInBrowser()}
-              >
-                نمایش در مرورگر
-              </button>
-              <Link to="/Draggable">
-                <button
-                  className="btn main primary"
-                  onClick={() => clearInfo()}
-                >
-                  استقرار جدید
-                </button>
-              </Link>
-            </div>
+            <button className="btn main cancel" onClick={() => cancel()}>
+              لغو
+            </button>
           </div>
         </div>
       </Layout>
     );
   }
-  if (status === "cancel") {
+  if (status === "publish") {
+    return (
+      <Layout>
+        <div dir="rtl">
+          <User />
+          <div className="deploy ">
+            {position === "finish" ? (
+              <>
+                <GreenCircle />
+                <p>استقرار انجام شد</p>
+              </>
+            ) : (
+              <>
+                <span className="deploy-icon" style={{ marginBottom: "0" }}>
+                  <BlueCircle />
+                </span>
+                <p>در حال انتشار</p>
+              </>
+            )}
+
+            <pre
+              readOnly
+              ref={preRef}
+              placeholder="> Fetching the log code: 0%"
+              spellCheck="false"
+              dangerouslySetInnerHTML={{ __html: html }}
+            ></pre>
+
+            {position === "finish" ? (
+              <div className="btn-container">
+                <button
+                  className="btn main primary"
+                  onClick={() => openInBrowser()}
+                >
+                  نمایش در مرورگر
+                </button>
+                <Link to="/Draggable">
+                  <button
+                    className="btn main primary"
+                    onClick={() => clearInfo()}
+                  >
+                    استقرار جدید
+                  </button>
+                </Link>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+  if (cancelDeploy) {
     return (
       <Layout>
         <div dir="rtl">

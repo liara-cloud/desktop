@@ -11,10 +11,10 @@ exports.envConfig = {
     iran: 'https://api.iran.liara.ir',
   },
   MAX_SOURCE_SIZE: 200 * 1024 * 1024, // 200 MB
-  LIARA_LOGIN_PAGE: 'http://localhost:3000/login',
+  LIARA_LOGIN_PAGE: 'http://localhost:3001/login',
   LIARA_GET_ME_GERMANY: 'http://api.liara.ir/v1/me',
   LIARA_GET_ME_IRAN: 'http://api.iran.liara.ir/v1/me',
-  LIARA_REGISTER_PAGE: 'http://localhost:3000/register',
+  LIARA_REGISTER_PAGE: 'http://localhost:3001/register',
   LIARA_TICKET_PAGE: 'https://console.liara.ir/tickets/create',
   DSN: 'https://741a1b1949d749558159bfc1b7e95878@sentry.liara.ir/15',
   LIARA_LOG_PAGE: 'https://console.liara.ir/apps/{app-placeholder}/logs',

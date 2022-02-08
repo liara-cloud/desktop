@@ -18,11 +18,15 @@ export const ContextAPI = (props) => {
   const [disabled, setDisabled] = useState(false);
   const [current, setCurrent] = useState("");
   const [showApps, setShowApps] = useState(false);
-  const [status, setStatus] = useState("deploy");
+  const [status, setStatus] = useState("preparation-build");
   const [isDeploy, setIsDeploy] = useState(false);
+  const [progressValue, setProgressValue] = useState(0);
   const [check, setCheck] = useState(true);
   const [online, setOnline] = useState(true);
   const [checkDirectory, setCheckDirectory] = useState("");
+  const [position, setPosition] = useState("");
+  const [error, setError] = useState(false);
+  const [cancelDeploy, setCancelDeploy] = useState(false);
 
   window.addEventListener("offline", () => {
     setOnline(false);
@@ -65,7 +69,6 @@ export const ContextAPI = (props) => {
   const checkIsDirectory = (path) => {
     ipcRenderer.on("is-directory", (event, arg) => {
       setCheckDirectory(arg);
-      console.log(arg.config !== undefined && arg.config !== false);
     });
     ipcRenderer.send("is-directory", {
       path,
@@ -99,21 +102,20 @@ export const ContextAPI = (props) => {
   };
 
   let data = [];
-
-  // ipcRenderer.send("deploy", {
-  //   app: selected.project_id,
-  //   port,
-  //   path: file,
-  //   region: current.region,
-  // });
-
   const deploy = () => {
     ipcRenderer.on("deploy", (event, arg) => {
-      console.log(arg);
       data += arg.log;
-      if (arg.log.includes("http") && arg.log.includes("liara.run")) {
-      }
-      setLog({ text: data, status: arg.status });
+
+      console.log(arg);
+
+      // Check state
+      arg.state == "upload-progress" && setProgressValue(arg.percent);
+      arg.state == "publish" && setPosition(arg.status);
+      // Check status
+      arg.status === "error" && setError(true);
+      arg.status === "cancel" && setCancelDeploy(true);
+
+      setLog({ text: data, state: arg.state, status: arg.status });
     });
     if (
       checkDirectory.config !== undefined &&
@@ -126,7 +128,7 @@ export const ContextAPI = (props) => {
         config: checkDirectory.config,
       });
     }
-    if (checkDirectory.IsDirectory) {
+    if (checkDirectory.isDirectory) {
       return ipcRenderer.send("deploy", {
         path: file,
         region: current.region,
@@ -145,8 +147,8 @@ export const ContextAPI = (props) => {
     });
   };
 
-  // `https://${selected.project_id}.iran.liara.run`
-  // `https://${selected.project_id}.liara.run`
+  // `https://${selected.project_id}.iran.liara.run`              -- iran
+  // `https://${selected.project_id}.liara.run`                   -- german
 
   const openInBrowser = () => {
     ipcRenderer.on("console", (event, arg) => {
@@ -164,6 +166,8 @@ export const ContextAPI = (props) => {
   const cancel = () => {
     ipcRenderer.on("deploy", (event, arg) => {});
     ipcRenderer.send("deploy", {
+      region: current.region,
+      api_token: current.api_token,
       app: selected.project_id,
       port,
       path: file,
@@ -182,7 +186,7 @@ export const ContextAPI = (props) => {
 
     setSelected("");
 
-    setStatus("deploy");
+    setStatus("preparation-build");
 
     setLog("");
     setCheckDirectory("");
@@ -231,6 +235,10 @@ export const ContextAPI = (props) => {
         check,
         online,
         checkDirectory,
+        progressValue,
+        position,
+        error,
+        cancelDeploy,
         // setState & functions
         setCheck,
         setIsDeploy,

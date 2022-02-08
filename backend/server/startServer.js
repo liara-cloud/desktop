@@ -16,7 +16,6 @@ exports.startServer = async (event) => {
       if (req.method === "OPTIONS") {
         res.writeHead(200, headers);
         return res.end();
-
       }
       const buffers = [];
       if (req.url === "/callback" && req.method === "POST") {
@@ -24,6 +23,7 @@ exports.startServer = async (event) => {
           buffers.push(chunk);
         }
         const data = JSON.parse(Buffer.concat(buffers).toString() || "{}");
+        console.log(data);
         event.sender.send("open-console", await updateLiaraJson(data));
         logger.info("liara.json updated with new credentials");
         logger.info("POST request recieved and server closed");

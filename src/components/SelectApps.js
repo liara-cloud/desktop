@@ -9,6 +9,7 @@ import User from "./User";
 
 function SelectApps(props) {
   const [data, setData] = useState("");
+  const [isconfigPort, setisConfigPort] = useState(true);
 
   const context = useContext(Context);
   const {
@@ -52,7 +53,6 @@ function SelectApps(props) {
   useEffect(() => {
     setCheck(true);
     if (Object.values(accounts).length == 0) {
-      s;
       props.history.push("/");
     }
 
@@ -78,9 +78,18 @@ function SelectApps(props) {
   }, [current]);
 
   const val =
-    checkDirectory.config !== undefined && checkDirectory.config !== false
+    checkDirectory.config.port !== undefined &&
+    checkDirectory.config.port !== false
       ? checkDirectory.config.port
       : port;
+
+  if (
+    checkDirectory.config.port !== undefined &&
+    checkDirectory.config.port !== false &&
+    isconfigPort
+  ) {
+    setPort(checkDirectory.config.port);
+  }
 
   return (
     <Layout>
@@ -145,7 +154,7 @@ function SelectApps(props) {
             <input
               value={val}
               disabled={disabled}
-              onChange={(e) => setPort(e.target.value)}
+              onChange={(e) => setPort(e.target.value) + setisConfigPort(false)}
               className="port"
               type="number"
               placeholder="80"
@@ -166,7 +175,12 @@ function SelectApps(props) {
               </button>
             </Link>
           ) : (
-            <button className="btn main primary">بعدی</button>
+            <button
+              onClick={() => console.log(selected, port)}
+              className="btn main primary"
+            >
+              بعدی
+            </button>
           )}
           <Link to="/Draggable">
             <button className="btn main primary" onClick={() => clearInfo()}>
