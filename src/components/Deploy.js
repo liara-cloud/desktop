@@ -27,7 +27,7 @@ export default function Deploy() {
     setIsDeploy,
     openInBrowser,
     progressValue,
-    cancelDeploy,
+    isCancel,
   } = context;
   var ansi_up = new AnsiUp();
 
@@ -141,6 +141,40 @@ export default function Deploy() {
       </Layout>
     );
   }
+  if (isCancel) {
+    return (
+      <Layout>
+        <div dir="rtl">
+          <User />
+          <div className="deploy">
+            <GreyCircle />
+            <p>ﺍﺳﺘﻘﺮﺍﺭ لغو ﺷﺪ</p>
+            <pre
+              readOnly
+              ref={preRef}
+              placeholder="> Fetching the log code: 0%"
+              spellCheck="false"
+              dangerouslySetInnerHTML={{ __html: html }}
+            ></pre>
+            <div className="btn-container">
+              <button className="btn main primary" onClick={() => serveLog()}>
+                دریافت لاگ
+              </button>
+
+              <Link to="/Draggable">
+                <button
+                  className="btn main primary"
+                  onClick={() => clearInfo()}
+                >
+                  استقرار جدید
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
   if (status === "build") {
     return (
       <Layout>
@@ -212,40 +246,6 @@ export default function Deploy() {
                 </Link>
               </div>
             ) : null}
-          </div>
-        </div>
-      </Layout>
-    );
-  }
-  if (cancelDeploy) {
-    return (
-      <Layout>
-        <div dir="rtl">
-          <User />
-          <div className="deploy">
-            <GreyCircle />
-            <p>ﺍﺳﺘﻘﺮﺍﺭ لغو ﺷﺪ</p>
-            <pre
-              readOnly
-              ref={preRef}
-              placeholder="> Fetching the log code: 0%"
-              spellCheck="false"
-              dangerouslySetInnerHTML={{ __html: html }}
-            ></pre>
-            <div className="btn-container">
-              <button className="btn main primary" onClick={() => serveLog()}>
-                دریافت لاگ
-              </button>
-
-              <Link to="/Draggable">
-                <button
-                  className="btn main primary"
-                  onClick={() => clearInfo()}
-                >
-                  استقرار جدید
-                </button>
-              </Link>
-            </div>
           </div>
         </div>
       </Layout>

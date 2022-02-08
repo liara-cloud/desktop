@@ -26,7 +26,7 @@ export const ContextAPI = (props) => {
   const [checkDirectory, setCheckDirectory] = useState("");
   const [position, setPosition] = useState("");
   const [error, setError] = useState(false);
-  const [cancelDeploy, setCancelDeploy] = useState(false);
+  const [isCancel, setIsCancel] = useState(false);
 
   window.addEventListener("offline", () => {
     setOnline(false);
@@ -113,7 +113,7 @@ export const ContextAPI = (props) => {
       arg.state == "publish" && setPosition(arg.status);
       // Check status
       arg.status === "error" && setError(true);
-      arg.status === "cancel" && setCancelDeploy(true);
+      arg.status == "cancel" && setIsCancel(true);
 
       setLog({ text: data, state: arg.state, status: arg.status });
     });
@@ -238,7 +238,7 @@ export const ContextAPI = (props) => {
         progressValue,
         position,
         error,
-        cancelDeploy,
+        isCancel,
         // setState & functions
         setCheck,
         setIsDeploy,
