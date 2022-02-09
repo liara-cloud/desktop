@@ -2,22 +2,17 @@ const { Notification, shell, BrowserWindow } = require('electron');
 const { envConfig } = require('./configs/envConfig');
 const appRootDir = require('app-root-dir').get();
 
-exports.showNotification = (status, url='') => {
+exports.showNotification = (status, url = '') => {
   const body = {
     success: 'عملیات استقرار با موفقیت انجام شد',
     error: 'عملیات استقرار با خطا مواجه شد',
-    cancel: 'عملیات استقرار متوقف شد'
-  }
+    cancel: 'عملیات استقرار متوقف شد',
+  };
 
-  // const url =
-  //   region === 'iran'
-  //     ? `https://${app}.iran.liara.run`
-  //     : `https://${app}.liara.run`;
   if (!Notification.isSupported()) {
     return '';
   }
   const notify = new Notification({
-    
     title: 'لیارا',
     body: body[status],
     icon:
