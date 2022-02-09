@@ -9,7 +9,7 @@ import User from "./User";
 
 function SelectApps(props) {
   const [data, setData] = useState("");
-  const [isconfigPort, setisConfigPort] = useState(true);
+  const [isconfigPort, setIsConfigPort] = useState(true);
 
   const context = useContext(Context);
   const {
@@ -79,17 +79,10 @@ function SelectApps(props) {
 
   const val =
     checkDirectory.config.port !== undefined &&
-    checkDirectory.config.port !== false
-      ? checkDirectory.config.port
-      : port;
-
-  if (
-    checkDirectory.config.port !== undefined &&
     checkDirectory.config.port !== false &&
     isconfigPort
-  ) {
-    setPort(checkDirectory.config.port);
-  }
+      ? checkDirectory.config.port
+      : port;
 
   return (
     <Layout>
@@ -154,7 +147,7 @@ function SelectApps(props) {
             <input
               value={val}
               disabled={disabled}
-              onChange={(e) => setPort(e.target.value) + setisConfigPort(false)}
+              onChange={(e) => setPort(e.target.value) + setIsConfigPort(false)}
               className="port"
               type="number"
               placeholder="80"
