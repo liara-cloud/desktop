@@ -1,6 +1,7 @@
 const logger = require('../configs/logger');
 const { readFile, writeFile } = require('fs-extra');
 const { envConfig } = require('../configs/envConfig');
+const { readLiaraJson } = require('./account-management');
 
 exports.removeAccount = async (email, region) => {
   try {
@@ -18,7 +19,7 @@ exports.removeAccount = async (email, region) => {
     }
     await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
     logger.info('Liara.json updated with remove account');
-    return content.accounts;
+    return await readLiaraJson();
   } catch (error) {
     logger.error(error);
     return {};
