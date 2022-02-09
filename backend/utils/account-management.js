@@ -1,12 +1,11 @@
-const { readFile } = require('fs-extra');
 const logger = require('../configs/logger');
 const { getUser } = require('./get-account');
+const { readFile, writeFile } = require('fs-extra');
 const { envConfig } = require('../configs/envConfig');
 
 exports.readLiaraJson = async () => {
   try {
-    const content =
-      JSON.parse(await readFile(envConfig.GLOBAL_CONF_PATH)) || {};
+    const content = JSON.parse(await readFile(envConfig.GLOBAL_CONF_PATH)) || {};
 
     if (
       content.region &&
@@ -15,35 +14,34 @@ exports.readLiaraJson = async () => {
     ) {
       const user = await getUser(content.api_token, content.region);
       const accountName = `${user.email.split('@')[0]}_${content.region}`;
-      return [
-        {
-          [accountName]: {
-            email: user.email,
-            avatar: user.avatar,
-            region: content.region,
-            fullname: user.fullname,
-            api_token: content.api_token,
-            current: true,
-          },
+      const account = {
+        [accountName]: {
+          email: user.email,
+          avatar: user.avatar,
+          region: content.region,
+          fullname: user.fullname,
+          api_token: content.api_token,
+          current: true,
         },
-      ];
+      };
+      content.accounts = account;
+      content.current = accountName;
+      await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
+      return [account];
     }
     if (Object.keys(content.accounts).length) {
-      let hasCurrent = Object.keys(content.accounts).find(
-        (key) => key === content.current
-      );
-
       const accounts = Object.entries(content.accounts).map(
         async ([key, value]) => {
           const user = await getUser(value.api_token, value.region);
-          if (hasCurrent) {
-            value.current = hasCurrent === key ? true : false;
+          if (content.current) {
+            value.current = content.current === key ? true : false;
           }
-          if (!hasCurrent) {
+          if (!content.current) {
             value.current = true;
-            hasCurrent = key;
+            content.current = key;
           }
-          return {
+
+          const account = {
             [key]: {
               email: user.email,
               avatar: user.avatar,
@@ -53,10 +51,14 @@ exports.readLiaraJson = async () => {
               api_token: value.api_token,
             },
           };
+
+          content.accounts[key] = account[key];
+          return account;
         }
       );
-
-      return await Promise.all(accounts);
+      const result = await Promise.all(accounts);
+      await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
+      return result;
     }
     return {};
   } catch (error) {
@@ -64,6 +66,8 @@ exports.readLiaraJson = async () => {
     return {};
   }
 };
+
+// this.readLiaraJson().then(console.log);
 
 // const contentKeys = Object.keys(content);
 // if (

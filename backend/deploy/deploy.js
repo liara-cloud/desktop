@@ -117,8 +117,6 @@ exports.deploy = async (event, args) => {
     event.sender.send('deploy',generateLog('Creating Release...\n', 'build', 'start'))
     
     body.sourceID = sourceID
-    console.log(config.app)
-    console.log(body)
     this.release.id = (await got.post(`v2/projects/${config.app}/releases`, { json: body }).json()).releaseID
     this.logs.push('Finish Release.')
     event.sender.send('deploy',generateLog('Finish Release.\n', 'build', 'pending'))
