@@ -62,6 +62,10 @@ exports.readLiaraJson = async () => {
     }
     return {};
   } catch (error) {
+    if (error.message === "TIMEOUT") {
+      logger.error("Get user data time out. It took about 10 seconds")
+      return {}
+    }
     logger.error('Not Found: .liara.json');
     return {};
   }
