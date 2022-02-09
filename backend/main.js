@@ -1,22 +1,22 @@
 const url = require('url');
 const path = require('path');
 
-const {sentry} = require('./configs/sentry');
+const { sentry } = require('./configs/sentry');
 const appRootDir = require('app-root-dir').get();
-const {autoUpdater} = require('electron-updater');
-const {app, BrowserWindow, ipcMain, shell} = require('electron');
+const { app, BrowserWindow, ipcMain, shell, dialog, globalShortcut } = require('electron');
+const { autoUpdater } = require('electron-updater');
 
 const logger = require('./configs/logger');
-const {sendLogToUser} = require('./dialog');
-const {deploy} = require('./deploy/deploy')
-const {envConfig} = require('./configs/envConfig');
-const {removeAccount} = require('./utils/removeAccount');
-const {startServer} = require('./server/startServer.js');
+const { deploy } = require('./deploy/deploy');
+const { envConfig } = require('./configs/envConfig');
+const { removeAccount } = require('./utils/remove-account');
+const { startServer } = require('./server/startServer.js');
 const cancelDeploy = require('./deploy/cancel-deployment');
-const {createEncodedUrl} = require('./utils/urlEncoder.js');
-const {readLiaraJson} = require('./utils/account.management');
-const {isDirecoty} = require('./utils/check-upload-directory');
-const {chanegCurrentAccount} = require('./utils/changeCurrent');
+const { createEncodedUrl } = require('./utils/url-encoder.js');
+const { readLiaraJson } = require('./utils/account-management');
+const { sendLogToUser, showUpdateAvailable } = require('./dialog');
+const { chanegCurrentAccount } = require('./utils/change-current');
+const { checkDirectory } = require('./utils/check-upload-directory');
 
 let mainWindow;
 async function createMainWindow() {
@@ -43,9 +43,8 @@ async function createMainWindow() {
   const urlFormatOptions = {
     protocol: 'file:',
     pathname: path.join(__dirname, '..', 'dist', 'index.html'),
-    slashes: true,
+    slashes: false,
   };
-
   if (envConfig.IS_DEV && process.argv.indexOf('--noDevServer') === -1) {
     urlFormatOptions.protocol = 'http:';
     urlFormatOptions.host = 'localhost:8080';
@@ -54,7 +53,6 @@ async function createMainWindow() {
   }
   if (envConfig.PLATFORM === 'win32') app.setAppUserModelId('liara');
   mainWindow.loadURL(url.format(urlFormatOptions));
-  autoUpdater.checkForUpdatesAndNotify();
 
   // Don't show until we are ready and loaded
   mainWindow.once('ready-to-show', () => {
@@ -80,6 +78,10 @@ async function createMainWindow() {
 }
 
 app.whenReady().then(() => {
+  envConfig.APP_VERSION = app.getVersion();
+  logger.error(envConfig.APP_VERSION)
+  globalShortcut.register('CommandOrControl+R', () => {})
+  autoUpdater.checkForUpdatesAndNotify();
   createMainWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
@@ -107,44 +109,17 @@ ipcMain.on('open-console', async (event, args) => {
 });
 
 ipcMain.on('deploy', async (event, args) => {
-  // const test = {
-  //   config: {
-  //     app: 'abc',
-  //     port: 3000,
-  //     platform: 'node',
-  //     message: 'hi',
-  //     node: { "version": "14" },
-  //     disks: [
-  //       {
-  //         name: "data",
-  //         mountTo: "uploads"
-  //       }
-  //       ],
-  //     healthCheck: {
-  //       timeout: 15,
-  //       command: "curl --fail http://localhost:3000 || exit 1"
-  //     }
-  //   },
-  //   path: 'C:\\Users\\devops\\Desktop\\nodejs-getting-started-master',
-  //   region: 'iran',
-  //   api_token:
-  //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MWM4MTYyYzNkZTI0ZTdiNzAwODIyYmQiLCJpYXQiOjE2NDM3ODQ2MjZ9.ZielTXpN3SqUlTG_Y1hUkwFA5sBTxvDxUPABuVCJy0k',
-  // }
   if (args.cancel) {
-    return await cancelDeploy(event, args)
+    return await cancelDeploy(event, test);
   }
   logger.info('Request from IPCRenderer recieved. channle=deploy deploy=true');
-
-  await deploy(event, args);
+  await deploy(event, test);
   logger.info('Response from IPCMain sent. channle=deploy deploy=true');
 });
 
 ipcMain.on('change-current', async (event, args) => {
   const { email, region } = args;
-  event.sender.send(
-    'change-current',
-    await chanegCurrentAccount(email, region)
-  );
+  event.sender.send('change-current', await chanegCurrentAccount(email, region));
 });
 
 ipcMain.on('remove-account', async (event, args) => {
@@ -166,7 +141,7 @@ ipcMain.on('console', async (event, args) => {
 });
 
 ipcMain.on('is-directory', async (event, args) => {
-  event.sender.send('is-directory', await isDirecoty(args.path));
+  event.sender.send('is-directory', await checkDirectory(args.path));
 });
 
 // Frame
@@ -182,16 +157,23 @@ ipcMain.on('app_version', (event) => {
 
 //update
 autoUpdater.on('update-available', () => {
-  console.log('update-available');
-  mainWindow.webContents.send('update_available');
+  logger.error('Update Available');
 });
-autoUpdater.on('download-progress', (progressObj) => {
-  console.log(progressObj);
+autoUpdater.on('download-progress', async (progressObj) => {
+  logger.error(progressObj);
 });
-autoUpdater.on('update-downloaded', () => {
-  console.log('update-downloaded');
-  mainWindow.webContents.send('update_downloaded');
+autoUpdater.on('update-downloaded', async(info) => {
+  logger.error(info);
+  logger.error('update-downloaded');
+  const response = await showUpdateAvailable()
+  if (response) {
+    autoUpdater.quitAndInstall()
+  }
 });
+autoUpdater.on('error', (e) => {
+  dialog.showMessageBox({message: e.message})
+  logger.error(e)
+})
 ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
