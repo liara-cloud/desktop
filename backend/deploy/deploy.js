@@ -61,7 +61,7 @@ exports.deploy = async (event, args) => {
     }
 
     body.build.args = config['build-arg']
-    // body.gitInfo = await collectGitInfo(path, logger.warn)
+    body.gitInfo = await collectGitInfo(path, logger.warn)
     body.platformConfig = mergePlatformConfigWithDefaults(path, config.platform, config[body.platform] || {}, logger.info)
 
     // 1) Preparation Build
@@ -155,10 +155,7 @@ exports.deploy = async (event, args) => {
     }
     showNotification("error");
     if (error instanceof BuildFaild) {
-      event.sender.send(
-        "deploy",
-        generateLog(error.output.line, "build", "error")
-      );
+      event.sender.send("deploy",generateLog(error.output.line, "build", "error"));
       return this.logs.push(error.output.line);
     }
     if (error instanceof BuildTimeout) {
@@ -169,8 +166,43 @@ exports.deploy = async (event, args) => {
       event.sender.send('deploy',generateLog('Release failed\n', 'build', 'error'))
       return this.logs.push('Release failed.')
     }
-    this.logs.push(`Error: ${error}`);
-    event.sender.send("deploy", generateLog(error.message, "build", "error"));
-    logger.error(error);
+    if (error.message === 'TIMEOUT') {
+      event.sender.send('deploy', generateLog('Build timed out. It took about 10 minutes.', 'build', 'error'))
+      return this.logs.push('Build timed out. It took about 10 minutes.')
+    }
+    const responseBody = error.response && error.response.statusCode >= 400 && error.response.statusCode < 500
+    ? JSON.parse(error.response.body)
+    : {};
+    if (error.response && error.response.statusCode === 404 && responseBody.message === 'project_not_found') {
+      const message = `App does not exist.
+Please open up https://console.liara.ir/apps and create the app, first.`
+      event.sender.send('deploy', generateLog(message, 'build', 'error'))
+      return this.logs.push(message)
+    }
+    if (error.response && error.response.statusCode === 400 && responseBody.message === 'frozen_project') {
+      const message = `App is frozen (not enough balance).
+Please open up https://console.liara.ir/apps and unfreeze the app.`
+      event.sender.send('deploy', generateLog(message, 'build', 'error'))
+      return this.logs.push(message)
+    }
+    if (error.response && error.response.statusCode >= 400 && error.response.statusCode < 500 && responseBody.message) {
+      const message = `CODE ${error.response.statusCode}: ${responseBody.message}`
+      event.sender.send('deploy', generateLog(message, 'build', 'error'))
+      return this.logs.push(message)
+    }
+    if(error.response && error.response.statusCode === 401) {
+      const message = `Authentication failed.
+Please login via 'liara login' command.
+If you are using API token for authentication, please consider updating your API token.`
+    event.sender.send('deploy', generateLog(message, 'build', 'error'))
+    return this.logs.push(message)
+    }
+    const message = `Deployment failed.
+    Sorry for inconvenience. If you think it's a bug, please contact us.
+    To file a ticket, please head to: https://console.liara.ir/tickets`
+    this.logs.push(message);
+    event.sender.send("deploy", generateLog(message, "build", "error"));
+    logger.error(error)
+    logger.error(error.message);
   }
 };
