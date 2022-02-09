@@ -11,7 +11,7 @@ exports.checkDirectory = async (userPath) => {
     }
 
     const isEmpty = await readdir(userPath);
-    if (isEmpty.length) {
+    if (!isEmpty.length) {
       return { isDirectory: false };
     }
 
