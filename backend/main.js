@@ -110,10 +110,10 @@ ipcMain.on('open-console', async (event, args) => {
 
 ipcMain.on('deploy', async (event, args) => {
   if (args.cancel) {
-    return await cancelDeploy(event, test);
+    return await cancelDeploy(event, args);
   }
   logger.info('Request from IPCRenderer recieved. channle=deploy deploy=true');
-  await deploy(event, test);
+  await deploy(event, args);
   logger.info('Response from IPCMain sent. channle=deploy deploy=true');
 });
 
@@ -174,9 +174,6 @@ autoUpdater.on('error', (e) => {
   dialog.showMessageBox({message: e.message})
   logger.error(e)
 })
-ipcMain.on('restart_app', () => {
-  autoUpdater.quitAndInstall();
-});
 
 // Stop error
 app.allowRendererProcessReuse = true;
