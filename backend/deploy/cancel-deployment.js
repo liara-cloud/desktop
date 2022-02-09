@@ -5,7 +5,7 @@ const logger = require('../configs/logger');
 const {default: cancelDeployment} = require('@liara/cli/lib/services/cancel-deployment');
 
 const cancelDeploy = async (event, args) => {
-  const { api_token, region, app } = args;
+  const { api_token, region } = args;
   event.sender.send('deploy',generateLog('Canceling Deployment', 'build', 'pending'));
   const retryOptions = {
     retries: 3,

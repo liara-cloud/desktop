@@ -1,11 +1,9 @@
-const http = require("http");
-
-const getPort = require("get-port");
-
-const logger = require("../configs/logger");
-const { updateLiaraJson } = require("../utils/update-liara.account");
-const { envConfig } = require("../configs/envConfig");
-const { headers } = require("../configs/headers");
+const http = require('http');
+const getPort = require('get-port');
+const logger = require('../configs/logger');
+const { headers } = require('../configs/headers');
+const { envConfig } = require('../configs/envConfig');
+const { updateLiaraJson } = require('../utils/update-liara-account');
 
 exports.startServer = async (event) => {
   const port = await getPort();
@@ -13,20 +11,19 @@ exports.startServer = async (event) => {
   logger.info(`server start listening on port: ${port}`);
   const server = http
     .createServer(async (req, res) => {
-      if (req.method === "OPTIONS") {
+      if (req.method === 'OPTIONS') {
         res.writeHead(200, headers);
         return res.end();
       }
       const buffers = [];
-      if (req.url === "/callback" && req.method === "POST") {
+      if (req.url === '/callback' && req.method === 'POST') {
         for await (const chunk of req) {
           buffers.push(chunk);
         }
-        const data = JSON.parse(Buffer.concat(buffers).toString() || "{}");
-        console.log(data);
-        event.sender.send("open-console", await updateLiaraJson(data));
-        logger.info("liara.json updated with new credentials");
-        logger.info("POST request recieved and server closed");
+        const { data } = JSON.parse(Buffer.concat(buffers).toString() || '{}');
+        event.sender.send('open-console', await updateLiaraJson(data));
+        logger.info('liara.json updated with new credentials');
+        logger.info('POST request recieved and server closed');
         res.writeHead(200, headers);
         res.end();
       }

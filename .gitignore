@@ -56,3 +56,4 @@ ehthumbs.db
 
 
 electron-builder.yml
+.prettierrc
