@@ -39,12 +39,12 @@ export const ContextAPI = (props) => {
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       setLoading(false);
-      if (arg.accounts !== undefined) {
-        setAccounts(arg.accounts);
-        setCurrent(
-          Object.values(arg.accounts).filter((item) => item.current)["0"]
-        );
-      }
+      const user = arg.map((item) => Object.values(item)[0]);
+      console.log(user);
+
+      console.log(user.filter((item) => item.current)[0]);
+      setAccounts(user);
+      setCurrent(user.filter((item) => item.current)[0]);
     });
     ipcRenderer.send("asynchronous-login", "liara-cloud");
   }, []);
@@ -77,10 +77,11 @@ export const ContextAPI = (props) => {
 
   const handleChangeCurrent = (email, region) => {
     ipcRenderer.on("change-current", (event, arg) => {
-      setAccounts(arg.accounts);
-      setCurrent(
-        Object.values(arg.accounts).filter((item) => item.current)["0"]
-      );
+      if (arg !== {}) {
+        const user = arg.map((item) => Object.values(item)[0]);
+        setAccounts(user);
+        setCurrent(user.filter((item) => item.current)[0]);
+      }
     });
     ipcRenderer.send("change-current", {
       email,
@@ -90,13 +91,12 @@ export const ContextAPI = (props) => {
 
   const handleExit = (email, region) => {
     ipcRenderer.on("remove-account", (event, arg) => {
-      if (Object.values(arg.accounts).length === 0) {
-        clearInfo();
-      }
-      setCurrent(
-        Object.values(arg.accounts).filter((item) => item.current)["0"]
-      );
-      setAccounts(arg.accounts);
+      // clearInfo();
+      let user = arg.map((item) => Object.values(item)[0]);
+      console.log(user.filter((item) => item.current));
+
+      setCurrent(user.filter((item) => item.current)[0]);
+      setAccounts(user);
     });
     ipcRenderer.send("remove-account", { email, region });
   };

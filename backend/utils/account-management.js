@@ -1,11 +1,12 @@
-const logger = require('../configs/logger');
-const { getUser } = require('./get-account');
-const { readFile, writeFile } = require('fs-extra');
-const { envConfig } = require('../configs/envConfig');
+const logger = require("../configs/logger");
+const { getUser } = require("./get-account");
+const { readFile, writeFile } = require("fs-extra");
+const { envConfig } = require("../configs/envConfig");
 
 exports.readLiaraJson = async () => {
   try {
-    const content = JSON.parse(await readFile(envConfig.GLOBAL_CONF_PATH)) || {};
+    const content =
+      JSON.parse(await readFile(envConfig.GLOBAL_CONF_PATH)) || {};
 
     if (
       content.region &&
@@ -13,7 +14,7 @@ exports.readLiaraJson = async () => {
       (!content.accounts || !Object.keys(content.accounts).length)
     ) {
       const user = await getUser(content.api_token, content.region);
-      const accountName = `${user.email.split('@')[0]}_${content.region}`;
+      const accountName = `${user.email.split("@")[0]}_${content.region}`;
       const account = {
         [accountName]: {
           email: user.email,
@@ -60,14 +61,14 @@ exports.readLiaraJson = async () => {
       await writeFile(envConfig.GLOBAL_CONF_PATH, JSON.stringify(content));
       return result;
     }
-    return {};
+    return [];
   } catch (error) {
     if (error.message === "TIMEOUT") {
-      logger.error("Get user data time out. It took about 10 seconds")
-      return {}
+      logger.error("Get user data time out. It took about 10 seconds");
+      return [];
     }
-    logger.error('Not Found: .liara.json');
-    return {};
+    logger.error("Not Found: .liara.json");
+    return [];
   }
 };
 
