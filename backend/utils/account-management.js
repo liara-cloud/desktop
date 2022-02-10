@@ -46,7 +46,7 @@ exports.readLiaraJson = async () => {
             [key]: {
               email: user.email,
               avatar: user.avatar,
-              region: user.region,
+              region: value.region,
               current: value.current,
               fullname: user.fullname,
               api_token: user.accessToken
