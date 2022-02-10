@@ -172,6 +172,7 @@ export const ContextAPI = (props) => {
     setStatus("preparation-build");
 
     setLog("");
+    setIsCancel(false);
     setCheckDirectory("");
   };
 
