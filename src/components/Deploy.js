@@ -56,7 +56,7 @@ export default function Deploy() {
     }
   });
 
-  if (status === "preparation-build") {
+  if (status === "preparation-build" && !isCancel) {
     return (
       <Layout>
         <div dir="rtl">
@@ -81,7 +81,7 @@ export default function Deploy() {
       </Layout>
     );
   }
-  if (status === "upload-progress") {
+  if (status === "upload-progress" && !isCancel) {
     return (
       <Layout>
         <div dir="rtl">
@@ -174,7 +174,7 @@ export default function Deploy() {
       </Layout>
     );
   }
-  if (status === "build") {
+  if (status === "build" && !isCancel) {
     return (
       <Layout>
         <div dir="rtl">
@@ -200,7 +200,7 @@ export default function Deploy() {
       </Layout>
     );
   }
-  if (status === "publish") {
+  if (status === "publish" && !isCancel) {
     return (
       <Layout>
         <div dir="rtl">
