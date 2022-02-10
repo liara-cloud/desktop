@@ -5,7 +5,7 @@ exports.getUser = async (apiToken, region) => {
   logger.info('Start to get user data');
   const response = await gotInstance(apiToken, region)
     .get('v1/me', {
-      timeout: 1 * 1000,
+      timeout: 10 * 1000,
     })
     .json();
   logger.info(`Get User Data: ${response.user}`);

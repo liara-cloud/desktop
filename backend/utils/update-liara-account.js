@@ -10,7 +10,7 @@ const mergeContent = async (content, accounts) => {
     delete account.token;
     return { [accountName]: account };
   });
-  
+
   logger.info('Merge Accounts');
   Object.assign(content.accounts, ...newAccounts);
   const keys = Object.keys(content.accounts);
