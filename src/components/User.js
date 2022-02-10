@@ -51,7 +51,8 @@ const User = (props) => {
               {Object.values(accounts).map((item, index) => (
                 <div
                   onClick={() => {
-                    handleChangeCurrent(item.email, item.region);
+                    item.email !== current.email &&
+                      handleChangeCurrent(item.email, item.region);
                   }}
                   key={index}
                   className={`user-item  ${
