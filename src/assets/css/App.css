@@ -116,7 +116,7 @@ input[type="number"] {
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
-  cursor: pointer;
+  border-radius: 5px;
 }
 
 /* Track */
@@ -130,8 +130,8 @@ input[type="number"] {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   cursor: pointer;
-  background: #2c333f;
-  border-radius: 0px;
+  background: #aaa;
+  border-radius: 10px;
 }
 
 a {
