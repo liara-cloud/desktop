@@ -22,7 +22,7 @@ exports.chanegCurrentAccount = async (email, region) => {
     return accounts;
   } catch (error) {
     logger.error(error);
-    return {};
+    return [];
   }
 };
 

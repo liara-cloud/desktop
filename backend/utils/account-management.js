@@ -46,7 +46,7 @@ exports.readLiaraJson = async () => {
             [key]: {
               email: user.email,
               avatar: user.avatar,
-              region: value.region,
+              region: user.region,
               current: value.current,
               fullname: user.fullname,
               api_token: user.accessToken
@@ -63,11 +63,11 @@ exports.readLiaraJson = async () => {
     }
     return [];
   } catch (error) {
-    if (error.message === "TIMEOUT") {
-      logger.error("Get user data time out. It took about 10 seconds");
+    if (error.message === 'TIMEOUT') {
+      logger.error('Get user data time out. It took about 10 seconds');
       return [];
     }
-    logger.error("Not Found: .liara.json");
+    logger.error('Not Found: .liara.json');
     return [];
   }
 };

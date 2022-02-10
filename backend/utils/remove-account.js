@@ -22,7 +22,7 @@ exports.removeAccount = async (email, region) => {
     return await readLiaraJson();
   } catch (error) {
     logger.error(error);
-    return {};
+    return [];
   }
 };
 
