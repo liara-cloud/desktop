@@ -40,11 +40,7 @@ export const ContextAPI = (props) => {
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       setLoading(false);
-      console.log(arg, "arg");
       const user = arg.map((item) => Object.values(item)[0]);
-      console.log(user, "user");
-
-      console.log(user.filter((item) => item.current)[0]);
       setAccounts(user);
       setCurrent(user.filter((item) => item.current)[0]);
     });
@@ -107,7 +103,6 @@ export const ContextAPI = (props) => {
   const deploy = () => {
     ipcRenderer.on("deploy", (event, arg) => {
       data += arg.log;
-      console.log(arg);
 
       // Check state
       arg.state == "upload-progress" && setProgressValue(arg.percent);
@@ -118,8 +113,6 @@ export const ContextAPI = (props) => {
 
       setLog({ text: data, state: arg.state, status: arg.status });
     });
-    console.log(selected.project_id, port);
-
     return ipcRenderer.send("deploy", {
       path: file,
       region: current.region,

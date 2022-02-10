@@ -42,19 +42,19 @@ export default function Deploy() {
     }
   }, [log.state, log.status]);
 
-  // useEffect(() => {
-  //   if (!preRef.current) {
-  //     preRef.current = true;
-  //   } else {
-  //     const isScrolledToBottom =
-  //       preRef.current.scrollHeight - preRef.current.clientHeight <=
-  //       preRef.current.scrollTop + 1;
-  //     if (!isScrolledToBottom) {
-  //       preRef.current.scrollTop =
-  //         preRef.current.scrollHeight - preRef.current.clientHeight;
-  //     }
-  //   }
-  // });
+  useEffect(() => {
+    if (!preRef.current) {
+      return;
+    } else {
+      const isScrolledToBottom =
+        preRef.current.scrollHeight - preRef.current.clientHeight <=
+        preRef.current.scrollTop + 1;
+      if (!isScrolledToBottom) {
+        preRef.current.scrollTop =
+          preRef.current.scrollHeight - preRef.current.clientHeight;
+      }
+    }
+  });
 
   if (status === "preparation-build") {
     return (
@@ -187,6 +187,7 @@ export default function Deploy() {
             <pre
               readOnly
               ref={preRef}
+              id="pre_build"
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
@@ -222,6 +223,7 @@ export default function Deploy() {
             <pre
               readOnly
               ref={preRef}
+              id="pre_build"
               placeholder="> Fetching the log code: 0%"
               spellCheck="false"
               dangerouslySetInnerHTML={{ __html: html }}
