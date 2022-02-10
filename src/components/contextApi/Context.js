@@ -27,6 +27,7 @@ export const ContextAPI = (props) => {
   const [position, setPosition] = useState("");
   const [error, setError] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
+  const [isconfigPort, setIsConfigPort] = useState(true);
 
   window.addEventListener("offline", () => {
     setOnline(false);
@@ -117,25 +118,14 @@ export const ContextAPI = (props) => {
 
       setLog({ text: data, state: arg.state, status: arg.status });
     });
-    if (
-      checkDirectory.config !== undefined &&
-      checkDirectory.config !== false
-    ) {
-      return ipcRenderer.send("deploy", {
-        path: file,
-        region: current.region,
-        api_token: current.api_token,
-        config: checkDirectory.config,
-      });
-    }
-    if (checkDirectory.isDirectory) {
-      return ipcRenderer.send("deploy", {
-        path: file,
-        region: current.region,
-        api_token: current.api_token,
-        config: { app: selected.project_id, port },
-      });
-    }
+    console.log(selected.project_id, port);
+
+    return ipcRenderer.send("deploy", {
+      path: file,
+      region: current.region,
+      api_token: current.api_token,
+      config: { app: selected.project_id, port },
+    });
   };
 
   const openSupport = () => {
@@ -239,7 +229,9 @@ export const ContextAPI = (props) => {
         position,
         error,
         isCancel,
+        isconfigPort,
         // setState & functions
+        setIsConfigPort,
         setCheck,
         setIsDeploy,
         setShowApps,

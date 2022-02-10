@@ -9,7 +9,6 @@ import User from "./User";
 
 function SelectApps(props) {
   const [data, setData] = useState("");
-  const [isconfigPort, setIsConfigPort] = useState(true);
 
   const context = useContext(Context);
   const {
@@ -28,6 +27,8 @@ function SelectApps(props) {
     setCheck,
     clearInfo,
     checkDirectory,
+    isconfigPort,
+    setIsConfigPort,
   } = context;
 
   //  keyCode - Use keyboard keys
@@ -77,12 +78,13 @@ function SelectApps(props) {
       });
   }, [current]);
 
-  const val =
+  const hasConfig =
     checkDirectory.config.port !== undefined &&
     checkDirectory.config.port !== false &&
-    isconfigPort
-      ? checkDirectory.config.port
-      : port;
+    isconfigPort;
+
+  const val = hasConfig ? checkDirectory.config.port : port;
+  hasConfig && setPort(checkDirectory.config.port);
 
   return (
     <Layout>

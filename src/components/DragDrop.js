@@ -18,6 +18,7 @@ function DragDrop(props) {
   } = context;
   const handleChange = (file) => {
     setFile(file.path);
+    console.log(file);
     checkIsDirectory(file.path);
   };
 
@@ -28,7 +29,7 @@ function DragDrop(props) {
     });
     setPort(checkDirectory.config.port);
   }
-
+  
   checkDirectory.isDirectory && props.history.push("/SelectApps");
 
   if (checkDirectory.isDirectory == false) {
