@@ -9,7 +9,7 @@ function Layout(props) {
   const [version, setVersion] = useState("");
 
   const context = useContext(Context);
-  const { online, loading } = context;
+  const { online, loading, openSupport } = context;
   useEffect(() => {
     if (minimize.current && close.current) {
       minimize.current.addEventListener("click", function (e) {
