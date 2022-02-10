@@ -9,7 +9,8 @@ const Login = (props) => {
   const { accounts, openConsoleLogin, openConsoleRegister, loading } = context;
   useEffect(() => {
     if (loading) return;
-    if (accounts.length != 0) {
+    console.log(accounts);
+    if (accounts.length) {
       props.history.push("/Draggable");
     }
   }, [accounts]);

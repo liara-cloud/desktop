@@ -39,8 +39,9 @@ export const ContextAPI = (props) => {
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       setLoading(false);
+      console.log(arg, "arg");
       const user = arg.map((item) => Object.values(item)[0]);
-      console.log(user);
+      console.log(user, "user");
 
       console.log(user.filter((item) => item.current)[0]);
       setAccounts(user);
@@ -51,10 +52,10 @@ export const ContextAPI = (props) => {
 
   const openConsoleLogin = () => {
     ipcRenderer.on("open-console", (event, arg) => {
-      setAccounts(arg.accounts);
-      setCurrent(
-        Object.values(arg.accounts).filter((item) => item.current)["0"]
-      );
+      const user = arg.map((item) => Object.values(item)[0]);
+
+      setAccounts(user);
+      setCurrent(user.filter((item) => item.current)[0]);
     });
     ipcRenderer.send("open-console", { page: "login" });
   };

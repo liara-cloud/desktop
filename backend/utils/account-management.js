@@ -46,10 +46,10 @@ exports.readLiaraJson = async () => {
             [key]: {
               email: user.email,
               avatar: user.avatar,
-              region: content.region,
+              region: value.region,
               current: value.current,
               fullname: user.fullname,
-              api_token: value.api_token,
+              api_token: user.accessToken
             },
           };
 
