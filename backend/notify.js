@@ -17,7 +17,7 @@ exports.showNotification = (status, url = '') => {
     body: body[status],
     icon:
       envConfig.PLATFORM === 'win32'
-        ? `${appRootDir}/assets/icon3.png`
+        ? `${appRootDir}/assets/icon.png`
         : undefined,
   });
 

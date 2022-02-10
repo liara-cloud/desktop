@@ -33,8 +33,8 @@ async function createMainWindow() {
     frame: false,
     icon:
       envConfig.PLATFORM === 'darwin'
-        ? `${appRootDir}/assets/888.icns`
-        : `${appRootDir}/assets/icon2.ico`,
+        ? `${appRootDir}/assets/liara.icns`
+        : `${appRootDir}/assets/icon.png`,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
