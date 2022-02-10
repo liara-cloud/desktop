@@ -171,7 +171,7 @@ autoUpdater.on('update-downloaded', async(info) => {
   }
 });
 autoUpdater.on('error', (e) => {
-  dialog.showMessageBox({message: e.message})
+  // dialog.showMessageBox({message: e.message})
   logger.error(e)
 })
 

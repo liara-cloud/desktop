@@ -18,8 +18,8 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.build.config.js --mode production",
     "package": "npm run build",
     "postpackage": "electron-packager ./ --out=./release-builds",
-    "builder": "electron-builder build -l --arm64 --publish never",
-    "deploy": "electron-builder build -l --x64 --publish always"
+    "builder": "electron-builder build -m --arm64 --publish never",
+    "deploy": "electron-builder build -l --x64 --arm64  --publish always"
   },
   "dependencies": {
     "@electron/remote": "^2.0.1",
