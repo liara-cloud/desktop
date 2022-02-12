@@ -23,6 +23,7 @@ body {
 
 .menubar-btn {
   -webkit-app-region: no-drag;
+  padding-top: 2px;
 }
 
 .container {
