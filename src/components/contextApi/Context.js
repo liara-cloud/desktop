@@ -164,17 +164,16 @@ export const ContextAPI = (props) => {
 
   const clearInfo = () => {
     setFile("");
-
     setPort("");
-
     setSelected("");
+    setLog("");
+    setCheckDirectory("");
 
     setStatus("preparation-build");
 
-    setLog("");
     setIsCancel(false);
     setError(false);
-    setCheckDirectory("");
+    setIsDeploy(false);
   };
 
   // check default port
