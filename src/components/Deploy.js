@@ -40,10 +40,19 @@ export default function Deploy() {
       setStatus(log.state);
     }
   }, [log.state, log.status]);
-  //
+
+  // chack disabled menu
   status !== "publish"
     ? setIsDeploy(true)
     : position === "finish" && setIsDeploy(false);
+
+  // error && setIsDeploy(false);
+  // isCancel && setIsDeploy(false);
+
+  if (isCancel || error) {
+    setIsDeploy(false);
+  }
+  // -------------
 
   useEffect(() => {
     if (!preRef.current) {
