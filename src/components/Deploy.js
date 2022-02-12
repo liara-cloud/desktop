@@ -38,9 +38,12 @@ export default function Deploy() {
   useEffect(() => {
     if (log.state) {
       setStatus(log.state);
-      setIsDeploy(false);
     }
   }, [log.state, log.status]);
+  //
+  status !== "publish"
+    ? setIsDeploy(true)
+    : position === "finish" && setIsDeploy(false);
 
   useEffect(() => {
     if (!preRef.current) {
