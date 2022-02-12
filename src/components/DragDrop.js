@@ -1,10 +1,11 @@
 import { FileUploader } from "@liara/react-drag-drop-files";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { withRouter } from "react-router";
 import { Context } from "./contextApi/Context";
 import { Folder } from "./icon";
 
 function DragDrop(props) {
+  const dropBox = useRef();
   const context = useContext(Context);
   const {
     file,
@@ -17,9 +18,14 @@ function DragDrop(props) {
     selected,
   } = context;
   const handleChange = (file) => {
-    setFile(file.path);
-    console.log(file);
-    checkIsDirectory(file.path);
+    const root_name = file.webkitRelativePath.split("/")[0];
+    const before_root_path = file.path.split(root_name)[0];
+    const path = before_root_path + root_name;
+
+    // check select or drag
+    root_name
+      ? setFile(path) + checkIsDirectory(path) 
+      : setFile(file.path) + checkIsDirectory(file.path);
   };
 
   if (checkDirectory.config !== undefined && checkDirectory.config !== false) {
@@ -29,7 +35,7 @@ function DragDrop(props) {
     });
     setPort(checkDirectory.config.port);
   }
-  
+
   checkDirectory.isDirectory && props.history.push("/SelectApps");
 
   if (checkDirectory.isDirectory == false) {
@@ -43,6 +49,8 @@ function DragDrop(props) {
       <div
         dir="rtl"
         className="drag-drop"
+        ref={dropBox}
+        id="drop-box"
         style={
           checkDirectory.isDirectory == false ? { borderColor: "#ea5167" } : {}
         }
