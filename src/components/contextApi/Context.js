@@ -89,9 +89,9 @@ export const ContextAPI = (props) => {
 
   const handleExit = (email, region) => {
     ipcRenderer.on("remove-account", (event, arg) => {
-      // clearInfo();
       let user = arg.map((item) => Object.values(item)[0]);
-      console.log(user.filter((item) => item.current));
+
+      user.length === 0 && clearInfo();
 
       setCurrent(user.filter((item) => item.current)[0]);
       setAccounts(user);
