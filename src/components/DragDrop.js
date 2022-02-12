@@ -24,15 +24,17 @@ function DragDrop(props) {
 
     // check select or drag
     root_name
-      ? setFile(path) + checkIsDirectory(path) 
+      ? setFile(path) + checkIsDirectory(path)
       : setFile(file.path) + checkIsDirectory(file.path);
   };
 
   if (checkDirectory.config !== undefined && checkDirectory.config !== false) {
-    setSelected({
-      project_id: checkDirectory.config.app,
-      type: checkDirectory.config.platform,
-    });
+    if (checkDirectory.config.platform && checkDirectory.config.app) {
+      setSelected({
+        project_id: checkDirectory.config.app,
+        type: checkDirectory.config.platform,
+      });
+    }
     setPort(checkDirectory.config.port);
   }
 
