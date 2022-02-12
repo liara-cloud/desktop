@@ -173,6 +173,7 @@ export const ContextAPI = (props) => {
 
     setLog("");
     setIsCancel(false);
+    setError(false);
     setCheckDirectory("");
   };
 
