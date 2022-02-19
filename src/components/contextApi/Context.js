@@ -59,7 +59,7 @@ export const ContextAPI = (props) => {
 
   const openConsoleRegister = () => {
     ipcRenderer.on("open-console", (event, arg) => {
-      console.log(arg);
+      // console.log(arg);
     });
     ipcRenderer.send("open-console", { page: "register" });
   };
@@ -123,7 +123,7 @@ export const ContextAPI = (props) => {
 
   const openSupport = () => {
     ipcRenderer.on("console", (event, arg) => {
-      console.log(arg);
+      // console.log(arg);
     });
     ipcRenderer.send("console", {
       support: true,
@@ -135,7 +135,7 @@ export const ContextAPI = (props) => {
 
   const openInBrowser = () => {
     ipcRenderer.on("console", (event, arg) => {
-      console.log(arg);
+      // console.log(arg);
     });
     const url =
       current.region === "iran"

@@ -19,7 +19,7 @@
     "package": "npm run build",
     "postpackage": "electron-packager ./ --out=./release-builds",
     "builder": "electron-builder build -w --x64 --publish never",
-    "deploy": "electron-builder build -l --x64 --arm64  --publish always"
+    "deploy": "electron-builder build -lwm --x64 --arm64  --publish always"
   },
   "dependencies": {
     "@electron/remote": "^2.0.1",

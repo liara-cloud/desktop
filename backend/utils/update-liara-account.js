@@ -43,6 +43,9 @@ const mergeContent = async (content, accounts) => {
 exports.updateLiaraJson = async (data) => {
   try {
     const content = JSON.parse(await readFile(envConfig.GLOBAL_CONF_PATH));
+    if (content && Object.keys(content).length === 0) {
+      content.accounts = {};
+    }
     return await mergeContent(content, data);
   } catch (error) {
     return await mergeContent({ accounts: {} }, data);

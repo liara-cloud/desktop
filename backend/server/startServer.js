@@ -12,8 +12,9 @@ exports.startServer = async (event) => {
   const server = http
     .createServer(async (req, res) => {
       if (req.method === "OPTIONS") {
-        res.writeHead(200, headers);
-        return res.end();
+        res.writeHead(204, headers);
+        res.end();
+        return;
       }
       const buffers = [];
       if (req.url === "/callback" && req.method === "POST") {
@@ -27,6 +28,7 @@ exports.startServer = async (event) => {
         logger.info("POST request recieved and server closed");
         res.writeHead(200, headers);
         res.end();
+        return
       }
       // server.close();
     })
