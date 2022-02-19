@@ -222,7 +222,7 @@ If you are using API token for authentication, please consider updating your API
     Sorry for inconvenience. If you think it's a bug, please contact us.
     To file a ticket, please head to: https://console.liara.ir/tickets`;
     this.logs.push(message);
-    event.sender.send("deploy", generateLog(message.m, "build", "error"));
+    event.sender.send("deploy", generateLog(message, "build", "error"));
     logger.error(error)
     logger.error(error.message);
   }

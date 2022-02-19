@@ -21,7 +21,8 @@ exports.startServer = async (event) => {
           buffers.push(chunk);
         }
         const { data } = JSON.parse(Buffer.concat(buffers).toString() || "[]");
-        event.sender.send("open-console", await updateLiaraJson(data));
+        const updatedUserAccounts = await updateLiaraJson(data)
+        event.sender.send("open-console", updatedUserAccounts);
         logger.info("liara.json updated with new credentials");
         logger.info("POST request recieved and server closed");
         res.writeHead(200, headers);
