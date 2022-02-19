@@ -104,7 +104,7 @@ export default function Deploy() {
             </span>
             <p style={{ paddingBottom: "0" }}>در حال آپلود سورس کد</p>
             <span>
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت ایپسوم
+              با استفاده از فایل gitignore. حجم فایل آپلودی را کاهش دهید{" "}
             </span>
           </div>
           <Progress value={progressValue} />
