@@ -1,75 +1,65 @@
-## Liara Deploy Application
+<div align="center">
+  <a href="https://liara.ir" target="blank">
+    <div>
+      <img src="https://raw.githubusercontent.com/liara-cloud/desktop/master/assets/icon.png" width="160" height="160" alt="Nest Logo" />
+    </div>
+  </a>
+      <b>The desktop app interface for Liara</b>
+</div>
 
-This is a simple boilerplate to get up and running with Electron and React. It is a customized version of [Alex Devero's](https://github.com/alexdevero/electron-react-webpack-boilerplate) repo and is used in my Electron course
+## Contents
 
-### Install
+- [How to run app](#how-to-run-app)
+- [How to build app](#how-to-build-app)
+- [How to publish the updates](#how-to-publish-the-updates)
 
-#### Clone this repo
+## How to run app
 
+To download the different version of this app and take it without having to build it locally, use this [download link](https://liara.ir). To clone and run this repository you'll need [Node.js](https://nodejs.org/en/download/) which comes with [npm](http://npmjs.com) and [Git](https://git-scm.com).
+From your command line:
+
+```bash
+# Clone this repository
+git clone https://github.com/liara-cloud/desktop.git <DestinationDirectory>
+
+# Go into the repository
+cd <DestinationDirectory>
 ```
-git clone https://github.com/liara-cloud/desktop.git
-```
 
-#### Install dependencies
+Next step, you need to install dependencies with [`npm`](https://npmjs.comg):
 
-```
+```bash
 npm install
 ```
 
-or
+Then start the app:
 
-```
-yarn
-```
-
-### Usage
-
-#### Run the app
-
-```
-npm run start
-```
-
-or
-
-```
-yarn start
-```
-
-#### Build the app (automatic)
-
-```
-npm run package
-```
-
-or
-
-```
-yarn package
-```
-
-#### Build the app (manual)
-
-```
-npm run build
-```
-
-or
-
-```
-yarn build
-```
-
-#### Test the app (after `npm run build` || `yarn run build`)
-
-```
+```bash
 npm run prod
 ```
 
-```
-yarn prod
+## How to build app
+Building an app on three platforms.
+We'll be using electron-builder since it has built-in support for Auto Update etc.
+
+```bash
+npm run builder
 ```
 
-### Change app title
+to build the app for specific platfrom navigate to package.json and find out builder script, need to add some build configuration to tell electron-builder how to build application.read [`electron-builder`](https://www.electron.build/) docs.
 
-Change the app title in the **webpack.build.config.js** and the **webpack.dev.config.js** files
+## How to publish the updates
+Build the application once don't have to wait for a build every time.
+To do this start with [how to build](#how-to-build-app) first
+Then ensure two below environment vaiables are set:
+
+```bash
+export AWS_ACCESS_KEY_ID= 'ENTER YOUR S3 ACCESS KEY';
+export AWS_SECRET_ACCESS_KEY= 'ENTER YOUR S3 SECRET KEY';
+```
+
+After you've set the env variables you can run publish command.
+
+```bash
+npm run deploy
+``` 
