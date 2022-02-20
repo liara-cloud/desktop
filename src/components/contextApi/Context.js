@@ -191,7 +191,7 @@ export const ContextAPI = (props) => {
     { name: "laravel", port: 80 },
     { name: "wordpress", port: 80 },
     { name: "django", port: 80 },
-    { name: "flask", port: 8000 },
+    { name: "flask", port: 80 },
     { name: "php", port: 80 },
     { name: "netcore", port: 80 },
   ];
