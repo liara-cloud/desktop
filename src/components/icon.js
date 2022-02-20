@@ -17,7 +17,7 @@ export function Liara() {
   );
 }
 
-export function ArrowBottom() {
+export function ArrowBottom({ color }) {
   return (
     <svg
       width="10"
@@ -28,7 +28,7 @@ export function ArrowBottom() {
     >
       <path
         d="M1.175 0L5 3.81667L8.825 0L10 1.175L5 6.175L0 1.175L1.175 0Z"
-        fill="#303030"
+        fill={color}
       />
     </svg>
   );

@@ -29,27 +29,9 @@ function SelectApps(props) {
     checkDirectory,
     isconfigPort,
     setIsConfigPort,
+    next,
+    setNext,
   } = context;
-
-  //  keyCode - Use keyboard keys
-  //  Enter(13)
-
-  // document.addEventListener("keyup", (event) => {
-  //   let unicode = event.keyCode;
-  //   if (
-  //     props.history.location.pathname === "/SelectApps" &&
-  //     port != "" &&
-  //     selected != ""
-  //   ) {
-  //     if (unicode === 13) {
-  //       props.history.push("/Deploy");
-  //       deploy();
-  //       console.log(port)
-  //     }
-  //   }
-  // });
-
-  // ***************
 
   useEffect(() => {
     setCheck(true);
@@ -86,6 +68,15 @@ function SelectApps(props) {
   const val = hasConfig ? checkDirectory.config.port : port;
   hasConfig && setPort(checkDirectory.config.port);
 
+  // kill warning
+  useEffect(() => {
+    setTimeout(() => {
+      setNext(false);
+    }, 5000);
+  }, [next]);
+
+  const checkPort = port === "" || port === undefined;
+
   return (
     <Layout>
       <div dir="rtl">
@@ -96,15 +87,30 @@ function SelectApps(props) {
         )}
         <User />
         <p className="title">انتخاب برنامه</p>
-        <p className="caption">
+        <p
+          className="caption"
+          style={next && selected == "" ? { color: "#ea5167 " } : {}}
+        >
           ﺑﺮﻧﺎﻣﻪﺍﯼ ﮐﻪ ﻣﯽﺧﻮﺍﻫﯿﺪ ﺩﺭ ﺁﻥ ﺩﯾﭙﻠﻮﯼ ﮐﻨﯿﺪ ﺭﺍ ﺍﻧﺘﺨﺎﺏ ﮐﻨﯿﺪ.
         </p>
-        <div className="apps" onClick={() => setShowApps(!showApps)}>
+        <div
+          className="apps"
+          style={
+            next && selected == ""
+              ? { border: "1px solid #ea5167", color: "#ea5167" }
+              : {}
+          }
+          onClick={() => setShowApps(!showApps)}
+        >
           {selected === "" && data.length > 0 ? (
             <>
               برنامه ای انتخاب نشده
               <span className="left-icon">
-                <ArrowBottom />
+                {next && selected != {} ? (
+                  <ArrowBottom color={`#ea5167`} />
+                ) : (
+                  <ArrowBottom color={`#303030`} />
+                )}
               </span>
             </>
           ) : (
@@ -145,13 +151,19 @@ function SelectApps(props) {
         {defaultPort.length === 0 && (
           <>
             <p className="title">ﺗﻌﯿﯿﻦ ﭘﻮﺭﺕ</p>
-            <p className="caption">ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.</p>
+            <p
+              className="caption"
+              style={next && checkPort ? { color: "#ea5167" } : {}}
+            >
+              ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.
+            </p>
             <input
               value={val}
               disabled={disabled}
               onChange={(e) => setPort(e.target.value) + setIsConfigPort(false)}
               className="port"
               type="number"
+              style={next && checkPort ? { border: "1px solid #ea5167" } : {}}
             />
           </>
         )}
@@ -169,7 +181,9 @@ function SelectApps(props) {
               </button>
             </Link>
           ) : (
-            <button className="btn main primary">بعدی</button>
+            <button className="btn main primary" onClick={() => setNext(true)}>
+              بعدی
+            </button>
           )}
           <Link to="/Draggable">
             <button className="btn main primary" onClick={() => clearInfo()}>

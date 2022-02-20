@@ -28,6 +28,7 @@ export const ContextAPI = (props) => {
   const [error, setError] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
   const [isconfigPort, setIsConfigPort] = useState(true);
+  const [next, setNext] = useState(false);
 
   window.addEventListener("offline", () => {
     setOnline(false);
@@ -174,6 +175,7 @@ export const ContextAPI = (props) => {
     setIsCancel(false);
     setError(false);
     setIsDeploy(false);
+    setNext(false);
   };
 
   // check default port
@@ -224,6 +226,7 @@ export const ContextAPI = (props) => {
         error,
         isCancel,
         isconfigPort,
+        next,
         // setState & functions
         setIsConfigPort,
         setCheck,
@@ -246,6 +249,7 @@ export const ContextAPI = (props) => {
         openInBrowser,
         checkIsDirectory,
         setCheckDirectory,
+        setNext,
       }}
     >
       {props.children}
