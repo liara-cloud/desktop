@@ -152,7 +152,6 @@ function SelectApps(props) {
               onChange={(e) => setPort(e.target.value) + setIsConfigPort(false)}
               className="port"
               type="number"
-              placeholder="80"
             />
           </>
         )}
