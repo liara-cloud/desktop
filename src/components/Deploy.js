@@ -32,7 +32,7 @@ export default function Deploy() {
   var ansi_up = new AnsiUp();
 
   var html = ansi_up.ansi_to_html(
-    log.text == undefined ? "Deploy..." : log.text
+    log.text == undefined ? "No logs yet..." : log.text
   );
 
   useEffect(() => {

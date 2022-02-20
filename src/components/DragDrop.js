@@ -38,14 +38,20 @@ function DragDrop(props) {
     setPort(checkDirectory.config.port);
   }
 
-  checkDirectory.isDirectory && props.history.push("/SelectApps");
+  if (checkDirectory.isDirectory && !checkDirectory.isEmpty) {
+    props.history.push("/SelectApps");
+  }
 
-  if (checkDirectory.isDirectory == false) {
+  if (checkDirectory.isDirectory == false || checkDirectory.isEmpty) {
     setTimeout(() => {
       setCheckDirectory("");
     }, 3000);
   }
 
+  console.log(checkDirectory);
+
+  const isEmptyFolder = checkDirectory.isDirectory && checkDirectory.isEmpty;
+  console.log(isEmptyFolder);
   return (
     <>
       <div
@@ -54,7 +60,9 @@ function DragDrop(props) {
         ref={dropBox}
         id="drop-box"
         style={
-          checkDirectory.isDirectory == false ? { borderColor: "#ea5167" } : {}
+          checkDirectory.isDirectory == false || isEmptyFolder
+            ? { borderColor: "#ea5167" }
+            : {}
         }
       >
         <FileUploader
@@ -72,7 +80,13 @@ function DragDrop(props) {
       </div>
       {checkDirectory.isDirectory == false && (
         <div className="alert-directory">
-          <p>( خطا در شناسایی فولدر پروژه )</p>
+          <p>( تنها انتخاب پوشه مجاز است )</p>
+        </div>
+      )}
+      {isEmptyFolder && (
+        <div className="alert-directory">
+          {console.log(checkDirectory.isEmpty)}
+          <p>( پوشه انتخاب شده خالی است )</p>
         </div>
       )}
     </>
