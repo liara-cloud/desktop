@@ -17,7 +17,7 @@ export function Liara() {
   );
 }
 
-export function ArrowBottom({ color }) {
+export function ArrowBottom({ color = "#303030" }) {
   return (
     <svg
       width="10"

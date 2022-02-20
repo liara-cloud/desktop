@@ -5,6 +5,7 @@ import AppsItem from "./AppsItem";
 import { Context } from "./contextApi/Context";
 import { ArrowBottom, Node, Tick } from "./icon";
 import Layout from "./Layout";
+import PlatformIcon from "./PlatformIcon";
 import User from "./User";
 
 function SelectApps(props) {
@@ -117,13 +118,7 @@ function SelectApps(props) {
             <>
               {data.length > 0 ? (
                 <>
-                  <img
-                    className="icon-platform"
-                    src={
-                      require(`../assets/images/svg/${selected.type}.svg`)
-                        .default
-                    }
-                  />
+                  <PlatformIcon platform={selected.type} />
 
                   <span className="name">{selected.project_id}</span>
                   <span className="left-icon">
