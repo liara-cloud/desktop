@@ -115,7 +115,7 @@ exports.deploy = async (event, args) => {
     this.state.upload = upload(config.app, got, sourcePath)
     const {sourceID} = await this.state.upload.on('uploadProgress', progress => {
       this.logs.push(progress.percent * 100)
-      event.sender.send('deploy', {log:'',percent: progress.percent * 100, state: 'upload-progress', status: 'pending'})
+      event.sender.send('deploy', {log:'',total: progress.total, transferred: progress.transferred, percent: progress.percent * 100, state: 'upload-progress', status: 'pending'})
     }).json()
     this.logs.push('upload finish')
     event.sender.send('deploy', {log: '',percent: 100, state: 'upload-progress', status: 'finish'})
