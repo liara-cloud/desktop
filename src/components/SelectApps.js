@@ -44,8 +44,12 @@ function SelectApps(props) {
       "0"
     ].api_token;
 
+    const API =
+      current.region === "iran"
+        ? `https://api.iran.liara.ir/v1/projects`
+        : `https://api.liara.ir/v1/projects`;
     axios
-      .get("https://api.iran.liara.ir/v1/projects", {
+      .get(API, {
         headers: {
           Authorization: `Bearer ${api_token}`,
         },
