@@ -3,7 +3,7 @@ const path = require('path');
 
 const { sentry } = require('./configs/sentry');
 const appRootDir = require('app-root-dir').get();
-const { app, BrowserWindow, ipcMain, shell, dialog, globalShortcut } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 const logger = require('./configs/logger');
@@ -79,9 +79,10 @@ async function createMainWindow() {
 
 app.whenReady().then(() => {
   envConfig.APP_VERSION = app.getVersion();
-  logger.error(envConfig.APP_VERSION)
-  globalShortcut.register('CommandOrControl+R', () => {})
-  autoUpdater.checkForUpdatesAndNotify();
+  logger.error(envConfig.APP_VERSION);
+  if (envConfig.PLATFORM === 'win32') {
+    autoUpdater.checkForUpdatesAndNotify();
+  }
   createMainWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
@@ -162,18 +163,18 @@ autoUpdater.on('update-available', () => {
 autoUpdater.on('download-progress', async (progressObj) => {
   logger.error(progressObj);
 });
-autoUpdater.on('update-downloaded', async(info) => {
+autoUpdater.on('update-downloaded', async (info) => {
   logger.error(info);
   logger.error('update-downloaded');
-  const response = await showUpdateAvailable()
+  const response = await showUpdateAvailable();
   if (response) {
-    autoUpdater.quitAndInstall()
+    autoUpdater.quitAndInstall();
   }
 });
 autoUpdater.on('error', (e) => {
   // dialog.showMessageBox({message: e.message})
-  logger.error(e)
-})
+  logger.error(e);
+});
 
 // Stop error
 app.allowRendererProcessReuse = true;
