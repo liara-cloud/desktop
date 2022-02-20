@@ -591,3 +591,10 @@ div.deploy.error pre {
   font-weight: bold;
   color: #303030;
 }
+
+.upload-size {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 120px;
+}

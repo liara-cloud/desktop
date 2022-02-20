@@ -46,9 +46,6 @@ export default function Deploy() {
     ? setIsDeploy(true)
     : position === "finish" && setIsDeploy(false);
 
-  // error && setIsDeploy(false);
-  // isCancel && setIsDeploy(false);
-
   if (isCancel || error) {
     setIsDeploy(false);
   }
@@ -67,7 +64,7 @@ export default function Deploy() {
       }
     }
   });
-
+  console.log(progressValue);
   if (status === "preparation-build" && !isCancel) {
     return (
       <Layout>
@@ -107,7 +104,11 @@ export default function Deploy() {
               با استفاده از فایل gitignore. حجم فایل آپلودی را کاهش دهید{" "}
             </span>
           </div>
-          <Progress value={progressValue} />
+          <Progress
+            percent={progressValue.percent}
+            total={progressValue.total}
+            upload={progressValue.upload}
+          />
           <button className="btn main cancel" onClick={() => cancel()}>
             لغو
           </button>

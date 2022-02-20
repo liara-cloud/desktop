@@ -20,7 +20,7 @@ export const ContextAPI = (props) => {
   const [showApps, setShowApps] = useState(false);
   const [status, setStatus] = useState("preparation-build");
   const [isDeploy, setIsDeploy] = useState(false);
-  const [progressValue, setProgressValue] = useState(0);
+  const [progressValue, setProgressValue] = useState({});
   const [check, setCheck] = useState(true);
   const [online, setOnline] = useState(true);
   const [checkDirectory, setCheckDirectory] = useState("");
@@ -104,9 +104,14 @@ export const ContextAPI = (props) => {
   const deploy = () => {
     ipcRenderer.on("deploy", (event, arg) => {
       data += arg.log;
-
+      console.log(arg);
       // Check state
-      arg.state == "upload-progress" && setProgressValue(arg.percent);
+      arg.state == "upload-progress" &&
+        setProgressValue({
+          percent: arg.percent,
+          total: arg.total,
+          upload: arg.transferred,
+        });
       arg.state == "publish" && setPosition(arg.status);
       // Check status
       arg.status === "error" && setError(true);

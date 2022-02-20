@@ -48,10 +48,8 @@ function DragDrop(props) {
     }, 3000);
   }
 
-  console.log(checkDirectory);
 
   const isEmptyFolder = checkDirectory.isDirectory && checkDirectory.isEmpty;
-  console.log(isEmptyFolder);
   return (
     <>
       <div
@@ -85,7 +83,6 @@ function DragDrop(props) {
       )}
       {isEmptyFolder && (
         <div className="alert-directory">
-          {console.log(checkDirectory.isEmpty)}
           <p>( پوشه انتخاب شده خالی است )</p>
         </div>
       )}
