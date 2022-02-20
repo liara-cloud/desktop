@@ -63,7 +63,7 @@ function DragDrop(props) {
           name="file"
         />
         <div className="select-projct">
-          <p>پروژه رو در اینجا رها کنید</p>
+          <p>پروژه را در اینجا رها کنید</p>
           <span>
             {" "}
             و یا <button className="btn select">انتخاب کنید</button>
