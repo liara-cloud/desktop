@@ -101,7 +101,7 @@ export default function Deploy() {
             </span>
             <p style={{ paddingBottom: "0" }}>در حال آپلود سورس کد</p>
             <span>
-              با استفاده از فایل gitignore. حجم فایل آپلودی را کاهش دهید{" "}
+            شما میتوانید با استفاده از فایل gitignore. حجم فایل آپلودی را کاهش دهید{" "}
             </span>
           </div>
           <Progress

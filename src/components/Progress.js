@@ -15,12 +15,8 @@ export default function Progress(props) {
         </span>
       </div>
       <div className="upload-size">
-        <span style={{ fontSize: 12, color: "#999999" }}>
-          {bytes(props.upload)} /
-        </span>
-        <span style={{ fontSize: 12, color: "#0070F3" }}>
-          {bytes(props.total)}
-        </span>
+        <span>کل: {bytes(props.total)} </span>
+        <span>آپلود شده: {bytes(props.upload)}</span>
       </div>
     </div>
   );
