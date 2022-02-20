@@ -64,7 +64,6 @@ export default function Deploy() {
       }
     }
   });
-  console.log(progressValue);
   if (status === "preparation-build" && !isCancel) {
     return (
       <Layout>

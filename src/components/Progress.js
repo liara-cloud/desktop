@@ -5,7 +5,6 @@ import "react-circular-progressbar/dist/styles.css";
 import { toPersianDigits } from "./toPersianDigits";
 
 export default function Progress(props) {
-  console.log(props);
   return (
     <div>
       <div className="CircularProgressbar-box">

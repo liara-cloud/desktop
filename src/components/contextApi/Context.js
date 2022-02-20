@@ -104,7 +104,6 @@ export const ContextAPI = (props) => {
   const deploy = () => {
     ipcRenderer.on("deploy", (event, arg) => {
       data += arg.log;
-      console.log(arg);
       // Check state
       arg.state == "upload-progress" &&
         setProgressValue({
