@@ -178,3 +178,24 @@ autoUpdater.on('error', (e) => {
 
 // Stop error
 app.allowRendererProcessReuse = true;
+
+process.on("unhandledRejection", async(error) => {
+  await dialog.showMessageBox({ 
+    message: envConfig.PLATFORM !== 'win32' ? "متاسفانه مشکلی در عملکرد برنامه رخ داده است." :  ".متاسفانه مشکلی در عملکرد برنامه رخ داده است", 
+    detail: envConfig.PLATFORM !== 'win32' ? "خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید." :  ".خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید",
+    type: "error",
+    title: 'لیارا'})
+    sentry.captureException(error, () => {
+      app.quit()
+    })
+})
+process.on("uncaughtException", async(error) => {
+  await dialog.showMessageBox({ 
+    message: envConfig.PLATFORM !== 'win32' ? "متاسفانه مشکلی در عملکرد برنامه رخ داده است." :  ".متاسفانه مشکلی در عملکرد برنامه رخ داده است", 
+    detail: envConfig.PLATFORM !== 'win32' ? "خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید." :  ".خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید",
+    type: "error",
+    title: 'لیارا'})
+    sentry.captureException(error, () => {
+      app.quit()
+    })
+})
