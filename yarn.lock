@@ -891,10 +891,10 @@
   "resolved" "https://registry.npmjs.org/@emotion/unitless/-/unitless-0.7.5.tgz"
   "version" "0.7.5"
 
-"@liara/cli@^2.23.0-beta.0":
-  "integrity" "sha512-JmAG5ImF77PtsR4Rsy6NXxzkXuSLNx4KFIJcG3NQ76DAr5BaE3z9LnS6tJzC5N7+TKLVP4ALXPiDbaxuOCAwmQ=="
-  "resolved" "https://registry.npmjs.org/@liara/cli/-/cli-2.23.0-beta.0.tgz"
-  "version" "2.23.0-beta.0"
+"@liara/cli@^2.25.0-beta.2":
+  "integrity" "sha512-3Yc0giF8h+fvDBarTjLvzydK7cJay3ftkxgqb59UfJc4Bqj59d2nrE6VbBvb46qrluKhw1xH+DL3pL95nc9vZw=="
+  "resolved" "https://registry.npmjs.org/@liara/cli/-/cli-2.25.0-beta.2.tgz"
+  "version" "2.25.0-beta.2"
   dependencies:
     "@oclif/command" "^1.5.12"
     "@oclif/config" "^1.12.12"
@@ -8367,9 +8367,9 @@
     "aproba" "^1.1.1"
 
 "rxjs@^7.2.0":
-  "integrity" "sha512-PwDt186XaL3QN5qXj/H9DGyHhP3/RYYgZZwqBv9Tv8rsAaiwFH1IsJJlcgD37J7UW5a6O67qX0KWKS3/pu0m4w=="
-  "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.5.2.tgz"
-  "version" "7.5.2"
+  "integrity" "sha512-h5M3Hk78r6wAheJF0a5YahB1yRQKCsZ4MsGdZ5O9ETbVtjPcScGfrMmoOq7EBsCRzd4BDkvDJ7ogP8Sz5tTFiQ=="
+  "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.5.4.tgz"
+  "version" "7.5.4"
   dependencies:
     "tslib" "^2.1.0"
 
@@ -10080,9 +10080,9 @@
     "async-limiter" "~1.0.0"
 
 "ws@^8.2.3":
-  "integrity" "sha512-Kbk4Nxyq7/ZWqr/tarI9yIt/+iNNFOjBXEWgTb4ydaNHBNGgvf2QHbS9fdfsndfjFlFwEd4Al+mw83YkaD10ZA=="
-  "resolved" "https://registry.npmjs.org/ws/-/ws-8.4.2.tgz"
-  "version" "8.4.2"
+  "integrity" "sha512-BWX0SWVgLPzYwF8lTzEy1egjhS4S4OEAHfsO8o65WOVsrnSRGaSiUaa9e0ggGlkMTtBlmOpEXiie9RUcBO86qg=="
+  "resolved" "https://registry.npmjs.org/ws/-/ws-8.5.0.tgz"
+  "version" "8.5.0"
 
 "xdg-basedir@^4.0.0":
   "integrity" "sha512-PSNhEJDejZYV7h50BohL09Er9VaIefr2LMAf3OEmpCkjOi34eYyQYAXUTjEQtZJTKcF0E2UKTh+osDLsgNim9Q=="
