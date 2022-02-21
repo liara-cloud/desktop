@@ -1,0 +1,36 @@
+productName: 'Liara'
+artifactName: 'liara-desktop-${version}-${os}-${arch}.${ext}'
+appId: 'liara-desktop'
+forceCodeSigning: false
+files:
+  - '**/*'
+publish:
+  provider: s3
+  endpoint: '${env.AWS_ENDPOINT}'
+  bucket: release
+directories:
+  output: release
+win:
+  icon: './assets/liara-w.ico'
+  target:
+    - 'zip'
+    - 'nsis'
+  verifyUpdateCodeSignature: false
+  publisherName: liara
+nsis:
+  oneClick: false
+  allowElevation: true
+  perMachine: true
+  installerIcon: './assets/liara-w.ico'
+  uninstallerIcon: './assets/liara-w.ico'
+  uninstallDisplayName: 'liara-uninstaller'
+  installerSidebar: './assets/install-wizard-24bits.bmp'
+  createDesktopShortcut: always
+  allowToChangeInstallationDirectory: true
+linux:
+  category: 'Development'
+  icon: './assets/512x512.icns'
+  target:
+    - 'deb'
+mac:
+  icon: './assets/liara.icns'
