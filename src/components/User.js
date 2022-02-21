@@ -38,9 +38,11 @@ const User = (props) => {
           {current !== undefined && (
             <>
               <img src={`http://${current.avatar}`} />
-              <span className="region">
-                {current.region == "iran" ? <Iran /> : <German />}
-              </span>
+              {current.region == "germany" && (
+                <span className="region">
+                  <German />
+                </span>
+              )}
               <p>{current.fullname}</p>
             </>
           )}
@@ -54,7 +56,8 @@ const User = (props) => {
               {Object.values(accounts).map((item, index) => (
                 <div
                   onClick={() => {
-                    (item.email !== current.email || item.region !== current.region) &&
+                    (item.email !== current.email ||
+                      item.region !== current.region) &&
                       handleChangeCurrent(item.email, item.region);
                   }}
                   key={index}
@@ -65,9 +68,11 @@ const User = (props) => {
                   style={{ margin: 0 }}
                 >
                   <img src={`http://${item.avatar}`} />
+
                   <span className="region">
                     {item.region == "iran" ? <Iran /> : <German />}
                   </span>
+
                   <p style={{ whiteSpace: "nowrap" }}>
                     {item.fullname.length >= 15
                       ? item.fullname.slice(0, 15) + "..."

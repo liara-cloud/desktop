@@ -175,7 +175,7 @@ function SelectApps(props) {
         >
           {port != "" && selected != "" ? (
             <Link to="/Deploy">
-              <button className="btn main primary" onClick={() => deploy()}>
+              <button className="btn main hint" onClick={() => deploy()}>
                 بعدی
               </button>
             </Link>

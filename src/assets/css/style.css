@@ -82,6 +82,13 @@
   color: white !important;
   cursor: pointer !important;
 }
+
+.btn.hint {
+  background: #0070f3;
+  color: white !important;
+  cursor: pointer !important;
+}
+
 .btn.cancel a {
   color: #fff !important;
 }

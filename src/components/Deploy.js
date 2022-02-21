@@ -244,7 +244,7 @@ export default function Deploy() {
             {position === "finish" ? (
               <div className="btn-container">
                 <button
-                  className="btn main primary"
+                  className="btn main hint"
                   onClick={() => openInBrowser()}
                 >
                   نمایش در مرورگر
