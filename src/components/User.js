@@ -38,6 +38,9 @@ const User = (props) => {
           {current !== undefined && (
             <>
               <img src={`http://${current.avatar}`} />
+              <span className="region">
+                {current.region == "iran" ? <Iran /> : <German />}
+              </span>
               <p>{current.fullname}</p>
             </>
           )}
