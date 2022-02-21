@@ -51,7 +51,7 @@ const User = (props) => {
               {Object.values(accounts).map((item, index) => (
                 <div
                   onClick={() => {
-                    item.email !== current.email &&
+                    (item.email !== current.email || item.region !== current.region) &&
                       handleChangeCurrent(item.email, item.region);
                   }}
                   key={index}
