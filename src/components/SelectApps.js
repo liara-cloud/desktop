@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ipcRenderer } from "electron";
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AppsItem from "./AppsItem";
@@ -62,6 +63,7 @@ function SelectApps(props) {
 
       .catch((error) => {
         console.error(error);
+        ipcRenderer.send("asynchronous-login", "liara-cloud");
       });
   }, [current]);
 
