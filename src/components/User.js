@@ -34,7 +34,7 @@ const User = (props) => {
   return (
     <>
       <div dir="rtl" style={isDeploy ? { opacity: "0.7" } : {}}>
-        <div className="center-current-item " onClick={handleMenu}>
+        <div className="center-current-item " onClick={!isDeploy && handleMenu}>
           {current !== undefined && (
             <>
               <img src={`http://${current.avatar}`} />
