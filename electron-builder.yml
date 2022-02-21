@@ -28,7 +28,7 @@ nsis:
   createDesktopShortcut: always
   allowToChangeInstallationDirectory: true
 linux:
-  category: 'Development'
+  category: Development
   icon: './assets/512x512.icns'
   target:
     - 'deb'

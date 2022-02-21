@@ -53,7 +53,7 @@ To build the app for specific platfrom navigate to package.json and find out bui
 Ensure you have defined the following environment variables:
 
 ```bash
-export AWS_ENDPOINT = 'ENTER YOUR S3 ENDPOINT'
+export AWS_ENDPOINT = 'ENTER YOUR S3 ENDPOINT';
 export AWS_ACCESS_KEY_ID= 'ENTER YOUR S3 ACCESS KEY';
 export AWS_SECRET_ACCESS_KEY= 'ENTER YOUR S3 SECRET KEY';
 ```
