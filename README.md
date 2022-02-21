@@ -9,24 +9,24 @@
 
 ## Contents
 
-- [How to run app](#how-to-run-app)
-- [How to build app](#how-to-build-app)
-- [How to publish the updates](#how-to-publish-the-updates)
+- [Development](#development)
+- [Build](#build)
+- [Release](#release)
 
-## How to run app
+## Development
 
-To download the different version of this app and take it without having to build it locally, use this [download link](https://liara.ir). To clone and run this repository you'll need [Node.js](https://nodejs.org/en/download/) which comes with [npm](http://npmjs.com) and [Git](https://git-scm.com).
+To clone and run this repository you'll need to have [Node.js](https://nodejs.org/en/download/) and [Git](https://git-scm.com) installed on your machine.
 From your command line:
 
 ```bash
 # Clone this repository
-git clone https://github.com/liara-cloud/desktop.git <DestinationDirectory>
+git clone https://github.com/liara-cloud/desktop.git
 
 # Go into the repository
-cd <DestinationDirectory>
+cd desktop
 ```
 
-Next step, you need to install dependencies with [`npm`](https://npmjs.comg):
+Now you need to install dependencies with [`npm`](https://npmjs.comg):
 
 ```bash
 npm install
@@ -38,20 +38,19 @@ Then start the app:
 npm run prod
 ```
 
-## How to build app
-Building an app on three platforms.
-We'll be using electron-builder since it has built-in support for Auto Update etc.
+## Build
+
+Run the following command:
 
 ```bash
 npm run builder
 ```
 
-to build the app for specific platfrom navigate to package.json and find out builder script, need to add some build configuration to tell electron-builder how to build application.read [`electron-builder`](https://www.electron.build/) docs.
+To build the app for specific platfrom navigate to package.json and find out builder script, need to add some build configuration to tell electron-builder how to build application. Read [`electron-builder`](https://www.electron.build/) docs.
 
-## How to publish the updates
-Build the application once don't have to wait for a build every time.
-To do this start with [how to build](#how-to-build-app) first.
-Then ensure three below environment vaiables are set:
+## Release
+
+Ensure you have defined the following environment variables:
 
 ```bash
 export AWS_ENDPOINT = 'ENTER YOUR S3 ENDPOINT'
@@ -59,11 +58,11 @@ export AWS_ACCESS_KEY_ID= 'ENTER YOUR S3 ACCESS KEY';
 export AWS_SECRET_ACCESS_KEY= 'ENTER YOUR S3 SECRET KEY';
 ```
 
-After you've set the env variables you can run publish command.
+Now you need to run the following command to publish the already built app:
 
 ```bash
 npm run deploy
 ``` 
 
-By default new releases store in release directory
-It's possible to change output directory in [electron-builder.yml](https://www.electron.build/configuration/configuration.html#MetadataDirectories) file
+By default new releases will be stored in the release directory.
+It's possible to change the output directory in [electron-builder.yml](https://www.electron.build/configuration/configuration.html#MetadataDirectories) file.
