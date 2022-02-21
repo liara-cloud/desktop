@@ -50,10 +50,11 @@ to build the app for specific platfrom navigate to package.json and find out bui
 
 ## How to publish the updates
 Build the application once don't have to wait for a build every time.
-To do this start with [how to build](#how-to-build-app) first
-Then ensure two below environment vaiables are set:
+To do this start with [how to build](#how-to-build-app) first.
+Then ensure three below environment vaiables are set:
 
 ```bash
+export AWS_ENDPOINT = 'ENTER YOUR S3 ENDPOINT'
 export AWS_ACCESS_KEY_ID= 'ENTER YOUR S3 ACCESS KEY';
 export AWS_SECRET_ACCESS_KEY= 'ENTER YOUR S3 SECRET KEY';
 ```
@@ -63,3 +64,6 @@ After you've set the env variables you can run publish command.
 ```bash
 npm run deploy
 ``` 
+
+By default new releases store in release directory
+It's possible to change output directory in [electron-builder.yml](https://www.electron.build/configuration/configuration.html#MetadataDirectories) file
