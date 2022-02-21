@@ -4,7 +4,7 @@
       <img src="https://raw.githubusercontent.com/liara-cloud/desktop/master/assets/icon.png" width="160" height="160" alt="Nest Logo" />
     </div>
   </a>
-      <b>The desktop app interface for Liara</b>
+      <b>The desktop interface for Liara</b>
 </div>
 
 ## Contents
