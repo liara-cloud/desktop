@@ -31,6 +31,12 @@ const User = (props) => {
     setShowApps(false);
   }
 
+  const handleClick = (item) => {
+    (item.email !== current.email || item.region !== current.region) &&
+      handleChangeCurrent(item.email, item.region);
+    setMenu(!menu);
+  };
+
   return (
     <>
       <div dir="rtl" style={isDeploy ? { opacity: "0.7" } : {}}>
@@ -55,11 +61,7 @@ const User = (props) => {
             <div className="menu">
               {Object.values(accounts).map((item, index) => (
                 <div
-                  onClick={() => {
-                    (item.email !== current.email ||
-                      item.region !== current.region) &&
-                      handleChangeCurrent(item.email, item.region);
-                  }}
+                  onClick={() => handleClick(item)}
                   key={index}
                   className={`user-item  ${
                     item.current ? `current` : `menu-item`
