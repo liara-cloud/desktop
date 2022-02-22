@@ -35,6 +35,7 @@ function SelectApps(props) {
     setNext,
   } = context;
 
+
   useEffect(() => {
     setCheck(true);
     if (Object.values(accounts).length == 0) {
@@ -87,7 +88,7 @@ function SelectApps(props) {
   return (
     <Layout>
       <div dir="rtl">
-        {check && check && (
+        {check && (
           <div className="load-container">
             <span className="load"></span> <span className="background"></span>
           </div>

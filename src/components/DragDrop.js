@@ -45,11 +45,11 @@ function DragDrop(props) {
   if (checkDirectory.isDirectory == false || checkDirectory.isEmpty) {
     setTimeout(() => {
       setCheckDirectory("");
-    }, 3000);
+    }, 1000);
   }
 
-
   const isEmptyFolder = checkDirectory.isDirectory && checkDirectory.isEmpty;
+  const handleDirectory = checkDirectory === "" && handleChange;
   return (
     <>
       <div
@@ -65,7 +65,7 @@ function DragDrop(props) {
       >
         <FileUploader
           onlyDirectory="true"
-          handleChange={handleChange}
+          handleChange={handleDirectory}
           name="file"
         />
         <div className="select-projct">
