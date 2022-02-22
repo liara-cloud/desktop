@@ -145,6 +145,10 @@ ipcMain.on('is-directory', async (event, args) => {
   event.sender.send('is-directory', await checkDirectory(args.path));
 });
 
+ipcMain.on("errorInWindow", async(event, data) => {
+  logger.error(data)
+  throw data
+})
 // Frame
 ipcMain.handle('frame', (event, args) => {
   if (args === 'minimize') mainWindow.minimize();
@@ -180,22 +184,24 @@ autoUpdater.on('error', (e) => {
 app.allowRendererProcessReuse = true;
 
 process.on("unhandledRejection", async(error) => {
+  logger.error(error)
   await dialog.showMessageBox({ 
     message: envConfig.PLATFORM !== 'win32' ? "متاسفانه مشکلی در عملکرد برنامه رخ داده است." :  ".متاسفانه مشکلی در عملکرد برنامه رخ داده است", 
     detail: envConfig.PLATFORM !== 'win32' ? "خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید." :  ".خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید",
     type: "error",
     title: 'لیارا'})
     sentry.captureException(error, () => {
-      app.quit()
+      app.exit()
     })
 })
 process.on("uncaughtException", async(error) => {
+  logger.error(error)
   await dialog.showMessageBox({ 
     message: envConfig.PLATFORM !== 'win32' ? "متاسفانه مشکلی در عملکرد برنامه رخ داده است." :  ".متاسفانه مشکلی در عملکرد برنامه رخ داده است", 
     detail: envConfig.PLATFORM !== 'win32' ? "خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید." :  ".خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید",
     type: "error",
     title: 'لیارا'})
     sentry.captureException(error, () => {
-      app.quit()
+      app.exit()
     })
 })
