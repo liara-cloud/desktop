@@ -1,6 +1,6 @@
 productName: 'Liara'
-artifactName: 'liara-desktop-${version}-${os}-${arch}.${ext}'
-appId: 'liara-desktop'
+artifactName: 'Liara-Desktop-${version}-${os}-${arch}.${ext}'
+appId: 'Liara Desktop'
 forceCodeSigning: false
 files:
   - '**/*'
@@ -23,14 +23,18 @@ nsis:
   perMachine: true
   installerIcon: './assets/liara-w.ico'
   uninstallerIcon: './assets/liara-w.ico'
-  uninstallDisplayName: 'liara-uninstaller'
+  uninstallDisplayName: 'Liara Desktop'
   installerSidebar: './assets/install-wizard-24bits.bmp'
   createDesktopShortcut: always
   allowToChangeInstallationDirectory: true
 linux:
   category: Development
+  packageCategory: Development
   icon: './assets/512x512.icns'
   target:
     - 'deb'
+deb:
+  packageName: Liara Desktop
+  packageCategory: Development
 mac:
   icon: './assets/liara.icns'
