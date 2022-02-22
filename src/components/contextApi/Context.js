@@ -134,6 +134,14 @@ export const ContextAPI = (props) => {
       support: true,
     });
   };
+  const openCreateApp = () => {
+    ipcRenderer.on("console", (event, arg) => {
+      // console.log(arg);
+    });
+    ipcRenderer.send("console", {
+      url: `https://console.liara.ir/apps/create`,
+    });
+  };
 
   // `https://${selected.project_id}.iran.liara.run`              -- iran
   // `https://${selected.project_id}.liara.run`                   -- german
@@ -254,6 +262,7 @@ export const ContextAPI = (props) => {
         checkIsDirectory,
         setCheckDirectory,
         setNext,
+        openCreateApp,
       }}
     >
       {props.children}

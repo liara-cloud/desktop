@@ -4,13 +4,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AppsItem from "./AppsItem";
 import { Context } from "./contextApi/Context";
-import { ArrowBottom, Node, Tick } from "./icon";
+import { ArrowBottom, Node, RedCircle, Tick } from "./icon";
 import Layout from "./Layout";
 import PlatformIcon from "./PlatformIcon";
 import User from "./User";
 
 function SelectApps(props) {
   const [data, setData] = useState("");
+  const [clickCreate, setClickCreate] = useState(false);
 
   const context = useContext(Context);
   const {
@@ -33,8 +34,8 @@ function SelectApps(props) {
     setIsConfigPort,
     next,
     setNext,
+    openCreateApp,
   } = context;
-
 
   useEffect(() => {
     setCheck(true);
@@ -84,6 +85,55 @@ function SelectApps(props) {
   }, [next]);
 
   const checkPort = port === "" || port === undefined;
+
+  if (data.length == 0) {
+    return (
+      <Layout>
+        <div dir="rtl">
+          {check && (
+            <div className="load-container">
+              <span className="load"></span>{" "}
+              <span className="background"></span>
+            </div>
+          )}
+          <User />
+          <div className="deploy error">
+            <RedCircle />
+            <p>برنامه ای یافت نشد.</p>
+            <span>
+              شما هیچ برنامه ای ندارید. ابتدا وارد کنسول لیارا شوید و برنامه ای
+              بسازید.
+            </span>
+          </div>
+
+          <div
+            className="btn-container"
+            style={{
+              position: "absolute",
+              bottom: 55,
+            }}
+          >
+            <button
+              className="btn main hint"
+              className={`btn main ${clickCreate ? `primary` : `hint`} `}
+              onClick={() => openCreateApp() + setClickCreate(true)}
+            >
+              ساخت برنامه
+            </button>
+
+            <Link to="/Draggable">
+              <button
+                className={`btn main ${clickCreate ? `hint` : `primary`} `}
+                onClick={() => clearInfo()}
+              >
+                قبلی
+              </button>
+            </Link>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
