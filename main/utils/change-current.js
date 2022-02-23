@@ -13,6 +13,8 @@ exports.chanegCurrentAccount = async (email, region) => {
       if (value.email === email && value.region === region && changeOne) {
         value.current = true;
         content.current = key;
+        content.api_token = value.api_token
+        content.region = value.region
         changeOne = false;
       }
       return { [key]: value };
@@ -25,26 +27,3 @@ exports.chanegCurrentAccount = async (email, region) => {
     return [];
   }
 };
-
-// this.chanegCurrentAccount('mohammadrezavashianofficial@gmail.com', 'iran').then(console.log);
-
-
-   // let OneCurrent = true;
-    // const content =
-    //   JSON.parse(await readFile(envConfig.GLOBAL_CONF_PATH)) || {};
-    // if (content.accounts && Object.keys(content.accounts).length != 0) {
-    //   for (const [key, value] of Object.entries(content.accounts)) {
-    //     value.current = false;
-    //     if (value.region == region && value.email == email && OneCurrent) {
-    //       value.current = true;
-    //       content.current = key;
-    //       OneCurrent = false;
-    //     }
-    //     if (!value.fullname || !value.avatar) {
-    //       const user = await getUser(value.api_token, value.region);
-    //       value.fullname = user.fullname;
-    //       value.avatar = user.avatar;
-    //     }
-    //   }
-    // content.current = null;
-    // }

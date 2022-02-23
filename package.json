@@ -1,7 +1,7 @@
 {
   "name": "liara-desktop",
   "version": "1.0.0",
-  "author": "Liara-Cloud <support@liara.ir> (https://liara.ir)",
+  "author": "Liara Cloud <support@liara.ir> (https://liara.ir)",
   "homepage": "https://liara.ir",
   "engines": {
     "node": ">=9.0.0",
@@ -18,7 +18,7 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.build.config.js --mode production",
     "package": "npm run build",
     "postpackage": "electron-packager ./ --out=./release-builds",
-    "builder": "electron-builder build -l --x64 --publish never",
+    "builder": "electron-builder build -lwm --x64 --arm64 --publish never",
     "deploy": "electron-builder build -lwm --x64 --arm64  --publish always"
   },
   "dependencies": {
