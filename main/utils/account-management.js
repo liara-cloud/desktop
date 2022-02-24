@@ -35,11 +35,18 @@ exports.readLiaraJson = async () => {
         async ([key, value]) => {
           const user = await getUser(value.api_token, value.region);
           if (content.current) {
-            value.current = content.current === key ? true : false;
+            value.current = false;
+            if (content.current === key) {
+              value.current = true;
+              content.api_token = value.api_token;
+              content.region = value.region;
+            }
           }
           if (!content.current) {
             value.current = true;
             content.current = key;
+            content.api_token = value.api_token;
+            content.region = value.region;
           }
 
           const account = {
@@ -49,7 +56,7 @@ exports.readLiaraJson = async () => {
               region: value.region,
               current: value.current,
               fullname: user.fullname,
-              api_token: user.accessToken,
+              api_token: value.api_token,
             },
           };
 
