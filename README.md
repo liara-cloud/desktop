@@ -66,3 +66,24 @@ npm run deploy
 
 By default new releases will be stored in the release directory.
 It's possible to change the output directory in [electron-builder.yml](https://www.electron.build/configuration/configuration.html#MetadataDirectories) file.
+
+**Note:**
+
+Following the instructions below will compress your final build app as a `zip` file.
+
+You will need to have [`mc`](https://docs.min.io/docs/minio-client-complete-guide.html) installed on your machine and set your [`alias`](https://docs.min.io/docs/minio-client-complete-guide.html#alias) too.
+
+Next step  need to make the file *`deploy.sh`* executable with 
+```bash
+chmod +X deploy.sh
+```
+
+Ensure you have defined the following environment variable:
+```bash
+export MINIO_TARGET = 'ENTER YOUR MINIO TARGET';
+```
+
+Then call the script: 
+```bash
+./deploy.sh
+```
