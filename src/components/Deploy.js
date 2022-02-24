@@ -140,7 +140,7 @@ export default function Deploy() {
               </button>
               <Link to="/Draggable">
                 <button
-                  className="btn main primary"
+                  className="btn main hint"
                   onClick={() => clearInfo()}
                 >
                   استقرار جدید
@@ -174,7 +174,7 @@ export default function Deploy() {
 
               <Link to="/Draggable">
                 <button
-                  className="btn main primary"
+                  className="btn main hint"
                   onClick={() => clearInfo()}
                 >
                   استقرار جدید
