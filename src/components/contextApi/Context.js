@@ -29,6 +29,7 @@ export const ContextAPI = (props) => {
   const [isCancel, setIsCancel] = useState(false);
   const [isconfigPort, setIsConfigPort] = useState(true);
   const [next, setNext] = useState(false);
+  const [fetchApp, setFetchApp] = useState(false);
 
   window.addEventListener("offline", () => {
     setOnline(false);
@@ -239,6 +240,8 @@ export const ContextAPI = (props) => {
         isCancel,
         isconfigPort,
         next,
+        fetchApp,
+
         // setState & functions
         setIsConfigPort,
         setCheck,
@@ -263,6 +266,7 @@ export const ContextAPI = (props) => {
         setCheckDirectory,
         setNext,
         openCreateApp,
+        setFetchApp,
       }}
     >
       {props.children}

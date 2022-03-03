@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AppsItem from "./AppsItem";
 import { Context } from "./contextApi/Context";
-import { ArrowBottom, Node, RedCircle, Tick } from "./icon";
+import { ArrowBottom, RedCircle, Reload, Tick } from "./icon";
 import Layout from "./Layout";
 import PlatformIcon from "./PlatformIcon";
 import User from "./User";
@@ -35,6 +35,8 @@ function SelectApps(props) {
     next,
     setNext,
     openCreateApp,
+    fetchApp,
+    setFetchApp,
   } = context;
 
   useEffect(() => {
@@ -67,7 +69,7 @@ function SelectApps(props) {
         console.error(error);
         ipcRenderer.send("asynchronous-login", "liara-cloud");
       });
-  }, [current]);
+  }, [current, fetchApp]);
 
   const hasConfig =
     checkDirectory.config.port !== undefined &&
@@ -151,42 +153,47 @@ function SelectApps(props) {
         >
           ﺑﺮﻧﺎﻣﻪﺍﯼ ﮐﻪ ﻣﯽﺧﻮﺍﻫﯿﺪ ﺩﺭ ﺁﻥ ﺩﯾﭙﻠﻮﯼ ﮐﻨﯿﺪ ﺭﺍ ﺍﻧﺘﺨﺎﺏ ﮐﻨﯿﺪ.
         </p>
-        <div
-          className="apps"
-          style={
-            next && selected == ""
-              ? { border: "1px solid #ea5167", color: "#ea5167" }
-              : {}
-          }
-          onClick={() => setShowApps(!showApps)}
-        >
-          {selected === "" && data.length > 0 ? (
-            <>
-              برنامه ای انتخاب نشده
-              <span className="left-icon">
-                {next && selected != {} ? (
-                  <ArrowBottom color={`#ea5167`} />
-                ) : (
-                  <ArrowBottom color={`#303030`} />
-                )}
-              </span>
-            </>
-          ) : (
-            <>
-              {data.length > 0 ? (
-                <>
-                  <PlatformIcon platform={selected.type} />
+        <div style={{ display: "flex" }}>
+          <div
+            className="apps"
+            style={
+              next && selected == ""
+                ? { border: "1px solid #ea5167", color: "#ea5167" }
+                : {}
+            }
+            onClick={() => setShowApps(!showApps)}
+          >
+            {selected === "" && data.length > 0 ? (
+              <>
+                برنامه ای انتخاب نشده
+                <span className="left-icon">
+                  {next && selected != {} ? (
+                    <ArrowBottom color={`#ea5167`} />
+                  ) : (
+                    <ArrowBottom color={`#303030`} />
+                  )}
+                </span>
+              </>
+            ) : (
+              <>
+                {data.length > 0 ? (
+                  <>
+                    <PlatformIcon platform={selected.type} />
 
-                  <span className="name">{selected.project_id}</span>
-                  <span className="left-icon">
-                    <Tick />
-                  </span>
-                </>
-              ) : (
-                "برنامه ای وجود ندارد"
-              )}
-            </>
-          )}
+                    <span className="name">{selected.project_id}</span>
+                    <span className="left-icon">
+                      <Tick />
+                    </span>
+                  </>
+                ) : (
+                  "برنامه ای وجود ندارد"
+                )}
+              </>
+            )}
+          </div>
+          <button className="reload" onClick={() => setFetchApp(!fetchApp)}>
+            <Reload />
+          </button>
         </div>
         {showApps && data.length > 0 && (
           <div className="box" style={data.length > 5 ? { height: 165 } : {}}>
