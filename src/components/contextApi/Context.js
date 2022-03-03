@@ -119,11 +119,12 @@ export const ContextAPI = (props) => {
 
       setLog({ text: data, state: arg.state, status: arg.status });
     });
+
     return ipcRenderer.send("deploy", {
       path: file,
       region: current.region,
       api_token: current.api_token,
-      config: { app: selected.project_id, port },
+      config: { app: selected.project_id, port, platform: selected.type },
     });
   };
 
