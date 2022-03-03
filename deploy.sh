@@ -14,5 +14,5 @@ for filename in Liara-Desktop*; do
 done
 
 # upload to minio
-mc cp -r latest* "${MINIO_TARGET}"/ddd 
-mc cp -r Liara-Desktop* "${MINIO_TARGET}"/ddd 
+mc cp -r latest* "${MINIO_TARGET}"/desktop 
+mc cp -r Liara-Desktop* "${MINIO_TARGET}"/desktop 

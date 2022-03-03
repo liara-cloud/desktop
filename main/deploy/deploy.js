@@ -1,6 +1,6 @@
 const fs = require("fs-extra");
 const bytes = require("bytes");
-
+const chalk = require("chalk");
 const generateLog = require("./log");
 const logger = require("../configs/logger");
 const gotInstance = require("./got-instance");
@@ -16,7 +16,6 @@ const { default: createArchive } = require("@liara/cli/lib/utils/create-archive"
 const { default: ReleaseFailed } = require("@liara/cli/lib/errors/release-failed");
 const { default: prepareTmpDirectory } = require("@liara/cli/lib/services/tmp-dir");
 const { default: collectGitInfo } = require("@liara/cli/lib/utils/collect-git-info");
-const { default: detectPlatform } = require("@liara/cli/lib/utils/detect-platform.js");
 const { default: mergePlatformConfigWithDefaults } = require("@liara/cli/lib/utils/merge-platform-config");
 
 exports.logs = [];
@@ -29,7 +28,7 @@ exports.deploy = async (event, args) => {
     this.state.upload = false
     const {path, region, api_token, config } = args;
     const got = gotInstance(api_token, region)
-    const platformDetected = config.platform || detectPlatform(path)
+    const platformDetected = config.platform
     const [ preUrl, postUrl ] = envConfig.REGION_DEPLOY_APP[region].split('api')
     
     const body = {
@@ -88,7 +87,6 @@ exports.deploy = async (event, args) => {
     }
     this.logs.push(`Creating an archive...`)
     event.sender.send('deploy',generateLog(`Creating an archive...\n`, 'preparation-build', 'pending'));
-
     if (this.state.canceled === true) {
       this.state.canceled = false
       event.sender.send('deploy', generateLog('Build canceled.', 'preparation-build', 'cancel'))
@@ -98,11 +96,11 @@ exports.deploy = async (event, args) => {
     await createArchive(sourcePath, path, platformDetected);
     const { size: sourceSize } = fs.statSync(sourcePath);
     if (sourceSize > envConfig.MAX_SOURCE_SIZE) {
-      event.sender.send("deploy", generateLog("Source is too large. (max: 200MB)\n", "preparation-build", "error"));
-      throw new Error("Source is too large. (max: 200MB)");
+      await fs.remove(sourcePath)
+      throw new Error('Source is too large.')
     }
     this.logs.push(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`)
-    event.sender.send('deploy',generateLog(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)\n`, 'preparation-build', 'finish'));
+    event.sender.send('deploy',generateLog(`Compressed size: ${bytes(sourceSize)} ${chalk.hex('#3A6EA5')('(use .gitignore to reduce the size)')}\n`, 'preparation-build', 'finish'));
 
     if (this.state.canceled === true) {
       this.state.canceled = false
@@ -115,17 +113,16 @@ exports.deploy = async (event, args) => {
     this.state.upload = upload(config.app, got, sourcePath)
     const {sourceID} = await this.state.upload.on('uploadProgress', progress => {
       this.logs.push(progress.percent * 100)
-      console.log(progress.percent * 100);
       event.sender.send('deploy', {log:'',total: progress.total, transferred: progress.transferred, percent: progress.percent * 100, state: 'upload-progress', status: 'pending'})
       if (Math.floor(progress.percent * 100) == 100) {
         this.logs.push('upload finish')
         event.sender.send('deploy', {log:'',total: progress.total, transferred: progress.transferred, percent: progress.percent * 100, state: 'upload-progress', status: 'finish'})
+        this.logs.push('Creating Release...')
+        event.sender.send('deploy',generateLog('Creating Release...\n', 'build', 'start'))
       }
     }).json()
     
     // 3) create release
-    this.logs.push('Creating Release...')
-    event.sender.send('deploy',generateLog('Creating Release...\n', 'build', 'start'))
     
     body.sourceID = sourceID
     if (this.state.canceled === true) {
@@ -169,25 +166,29 @@ exports.deploy = async (event, args) => {
   } catch (error) {
     if (error.message === 'Promise was canceled' || error instanceof BuildCanceled) {
       this.state.canceled = false
-      event.sender.send('deploy',generateLog('Build canceled.\n', 'build', 'cancel'))
+      event.sender.send('deploy',generateLog(chalk.hex('#1C4498')('Build canceled.\n'), 'build', 'cancel'))
       showNotification('cancel')
       return this.logs.push('Build canceled.')
     }
     showNotification("error");
+    if (error.message === 'Source is too large.') {
+      event.sender.send("deploy", generateLog(chalk.red("Source is too large. (max: 200MB)\n"), "build", "error"));
+      return this.logs.push('Source is too large.')
+    }
     if (error instanceof BuildFaild) {
       event.sender.send("deploy", generateLog(error.output.line, "build", "error"));
       return this.logs.push(error.output.line);
     }
     if (error instanceof BuildTimeout) {
-      event.sender.send("deploy", generateLog("Build timed out. It tool about 10 minutes\n", "build", "error"));
+      event.sender.send("deploy", generateLog(chalk.red("Build timed out. It tool about 10 minutes\n"), "build", "error"));
       return this.logs.push("Build timed out. It took about 10 minutes.");
     }
     if (error instanceof ReleaseFailed) {
-      event.sender.send("deploy", generateLog("Release failed\n", "build", "error"));
+      event.sender.send("deploy", generateLog(chalk.red("Release failed\n"), "build", "error"));
       return this.logs.push("Release failed.");
     }
     if (error.message === "TIMEOUT") {
-      event.sender.send("deploy", generateLog("Build timed out. It took about 10 minutes.", "build", "error"));
+      event.sender.send("deploy", generateLog(chalk.red("Build timed out. It took about 10 minutes."), "build", "error"));
       return this.logs.push("Build timed out. It took about 10 minutes.");
     }
     const responseBody = error.response && error.response.statusCode >= 400 && error.response.statusCode < 500
@@ -196,13 +197,13 @@ exports.deploy = async (event, args) => {
     if (error.response && error.response.statusCode === 404 && responseBody.message === "project_not_found") {
       const message = `App does not exist.
 Please open up https://console.liara.ir/apps and create the app, first.`;
-      event.sender.send("deploy", generateLog(message, "build", "error"));
+      event.sender.send("deploy", generateLog(chalk.red(message), "build", "error"));
       return this.logs.push(message);
     }
     if (error.response && error.response.statusCode === 400 && responseBody.message === "frozen_project") {
       const message = `App is frozen (not enough balance).
 Please open up https://console.liara.ir/apps and unfreeze the app.`;
-      event.sender.send("deploy", generateLog(message, "build", "error"));
+      event.sender.send("deploy", generateLog(chalk.red(message), "build", "error"));
       return this.logs.push(message);
     }
     if (error.response && error.response.statusCode >= 400 && error.response.statusCode < 500 && responseBody.message) {
@@ -214,18 +215,18 @@ Please open up https://console.liara.ir/apps and unfreeze the app.`;
       const message = `Authentication failed.
 Please login via 'liara login' command.
 If you are using API token for authentication, please consider updating your API token.`;
-      event.sender.send("deploy", generateLog(message, "build", "error"));
+      event.sender.send("deploy", generateLog(chalk.red(message), "build", "error"));
       return this.logs.push(message);
     }
     if (error.message.startsWith('The project contains')) {
-      event.sender.send('deploy', generateLog(error.message, 'preparation-build', 'error'))
+      event.sender.send('deploy', generateLog(chalk.red(error.message), 'preparation-build', 'error'))
       return this.logs.push(error.message)
     }
     const message = `Deployment failed.
     Sorry for inconvenience. If you think it's a bug, please contact us.
     To file a ticket, please head to: https://console.liara.ir/tickets`;
     this.logs.push(message);
-    event.sender.send("deploy", generateLog(message, "build", "error"));
+    event.sender.send("deploy", generateLog(chalk.red(message), "build", "error"));
     logger.error(error)
     logger.error(error.message);
   }
