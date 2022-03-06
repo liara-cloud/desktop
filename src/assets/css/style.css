@@ -681,3 +681,32 @@ div.deploy.error pre {
     transform: rotate(360deg);
   }
 }
+
+.reload-noapp {
+  text-decoration: underline;
+  color: #303030 !important;
+  cursor: pointer !important;
+}
+
+div.no-app {
+  width: 100%;
+  padding: 25px;
+}
+
+div.no-app p {
+  display: inline-block;
+  padding-right: 10px;
+  font-size: 14px;
+  padding-bottom: 24px;
+}
+div.no-app span {
+  display: inline-block;
+  color: #999;
+  font-size: 12px;
+  line-height: 25px;
+  margin-bottom: 20px;
+}
+
+div.deploy.no-app p {
+  padding-bottom: 5px;
+}

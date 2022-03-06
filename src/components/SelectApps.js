@@ -112,12 +112,15 @@ function SelectApps(props) {
             </div>
           )}
           <User />
-          <div className="deploy error">
+          <div className="no-app error">
             <RedCircle />
             <p>برنامه ای یافت نشد.</p>
             <span>
               شما هیچ برنامه ای ندارید. ابتدا وارد کنسول لیارا شوید و برنامه ای
-              بسازید.
+              بسازید.{" "}
+              <span className="reload-noapp" onClick={() => setFetchApp(true)}>
+                بارگذاری مجدد
+              </span>
             </span>
           </div>
 
@@ -173,7 +176,7 @@ function SelectApps(props) {
                 ? { border: "1px solid #ea5167", color: "#ea5167" }
                 : {}
             }
-            onClick={() => setShowApps(!showApps)}
+            onClick={() => !fetchApp && setShowApps(!showApps)}
           >
             {selected === "" && data.length > 0 ? (
               <>
