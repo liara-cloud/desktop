@@ -39,12 +39,7 @@ function SelectApps(props) {
     setFetchApp,
   } = context;
 
-  useEffect(() => {
-    setCheck(true);
-    if (Object.values(accounts).length == 0) {
-      props.history.push("/");
-    }
-
+  const getProject = () => {
     const api_token = Object.values(accounts).filter((item) => item.current)[
       "0"
     ].api_token;
@@ -53,13 +48,19 @@ function SelectApps(props) {
       current.region === "iran"
         ? `https://api.iran.liara.ir/v1/projects`
         : `https://api.liara.ir/v1/projects`;
-    axios
-      .get(API, {
-        headers: {
-          Authorization: `Bearer ${api_token}`,
-        },
-      })
+    return axios.get(API, {
+      headers: {
+        Authorization: `Bearer ${api_token}`,
+      },
+    });
+  };
 
+  useEffect(() => {
+    setCheck(true);
+    if (Object.values(accounts).length == 0) {
+      props.history.push("/");
+    }
+    getProject()
       .then((res) => {
         setData(res.data.projects);
         setCheck(false);
@@ -69,7 +70,19 @@ function SelectApps(props) {
         console.error(error);
         ipcRenderer.send("asynchronous-login", "liara-cloud");
       });
-  }, [current, fetchApp]);
+  }, [current]);
+
+  useEffect(() => {
+    getProject()
+      .then((res) => {
+        setData(res.data.projects);
+        setFetchApp(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        ipcRenderer.send("asynchronous-login", "liara-cloud");
+      });
+  }, [fetchApp]);
 
   const hasConfig =
     checkDirectory.config.port !== undefined &&
@@ -116,7 +129,6 @@ function SelectApps(props) {
             }}
           >
             <button
-              className="btn main hint"
               className={`btn main ${clickCreate ? `primary` : `hint`} `}
               onClick={() => openCreateApp() + setClickCreate(true)}
             >
@@ -155,7 +167,7 @@ function SelectApps(props) {
         </p>
         <div style={{ display: "flex" }}>
           <div
-            className="apps"
+            className={`apps ${fetchApp && `fetch`}`}
             style={
               next && selected == ""
                 ? { border: "1px solid #ea5167", color: "#ea5167" }
@@ -191,7 +203,10 @@ function SelectApps(props) {
               </>
             )}
           </div>
-          <button className="reload" onClick={() => setFetchApp(!fetchApp)}>
+          <button
+            className={`reload ${fetchApp && `fetch`}`}
+            onClick={() => setFetchApp(true)}
+          >
             <Reload />
           </button>
         </div>

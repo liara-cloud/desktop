@@ -646,11 +646,38 @@ div.deploy.error pre {
   transition: 0.3s;
 }
 
-.reload:hover svg {
-  transform: rotate(180deg) scale(1.1);
+.reload svg {
+  width: 15px;
 }
 
 .reload * {
   transition: 0.3s;
   cursor: pointer !important;
+}
+
+.apps.loading {
+  border: 1px dashed #e8e8e8;
+  opacity: 0.6;
+}
+
+.reload.fetch {
+  filter: blur(1px);
+}
+.apps.fetch {
+  filter: blur(1px);
+}
+
+.reload.fetch svg {
+  animation-name: fetch;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fetch {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
