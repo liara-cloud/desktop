@@ -118,7 +118,7 @@ exports.deploy = async (event, args) => {
         this.logs.push('upload finish')
         event.sender.send('deploy', {log:'',total: progress.total, transferred: progress.transferred, percent: progress.percent * 100, state: 'upload-progress', status: 'finish'})
         this.logs.push('Creating Release...')
-        event.sender.send('deploy',generateLog('Creating Release...\n', 'build', 'start'))
+        event.sender.send('deploy',generateLog('', 'build', 'start'))
       }
     }).json()
     
@@ -132,7 +132,6 @@ exports.deploy = async (event, args) => {
     }
     this.release.id = (await got.post(`v2/projects/${config.app}/releases`, { json: body }).json()).releaseID
     this.logs.push('Finish Release.')
-    event.sender.send('deploy',generateLog('Finish Release.\n', 'build', 'pending'))
     if (this.state.canceled === true) {
       this.state.canceled = false
       event.sender.send('deploy', generateLog('Build canceled.', 'preparation-build', 'cancel'))
@@ -160,7 +159,7 @@ exports.deploy = async (event, args) => {
     const url = `${preUrl}${config.app}${postUrl}`;
     this.logs.push(url);
     event.sender.send("deploy", generateLog("Release Created.\n", "publish", "pending"));
-    event.sender.send("deploy", generateLog("Deployment finished successfully.\n", "publish", "pending"));
+    event.sender.send("deploy", generateLog(chalk.green("Deployment finished successfully.\n"), "publish", "pending"));
     event.sender.send("deploy", generateLog(url, "publish", "finish"));
     showNotification("success", url); // change logic
   } catch (error) {
