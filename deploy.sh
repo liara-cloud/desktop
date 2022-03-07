@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # build the app
-npm run build
-npm run builder
+# npm run build
+# npm run builder
 
 cd release
 
@@ -10,6 +10,8 @@ cd release
 for filename in Liara-Desktop*; do
   if [[ ${filename} =~ (exe|deb|dmg)$ ]]; then
     zip "${filename}.zip" $filename
+    c=$(echo "$filename".zip | cut -d- -f4-)
+    copy "${filename}.zip" "Liara-Desktop-latest-$c"
   fi
 done
 
