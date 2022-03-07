@@ -1,16 +1,12 @@
-import { Link } from "react-router-dom";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-  BlueCircle,
-  GreenCircle,
-  GreyCircle,
-  RedCircle,
-} from "../components/icon";
-import Layout from "../components/Layout";
-import User from "../components/User";
+import React, { useContext, useEffect, useRef } from "react";
 import { Context } from "./contextApi/Context";
 import { AnsiUp } from "ansi-up";
-import Progress from "./Progress";
+import PreparationBuild from "./statue/preparationBuild";
+import UploadProgress from "./statue/UploadProgress";
+import Error from "./statue/Error";
+import Cancel from "./statue/Cancel";
+import Build from "./statue/Build";
+import Publish from "./statue/Publish";
 
 export default function Deploy() {
   const preRef = useRef();
@@ -65,203 +61,43 @@ export default function Deploy() {
     }
   });
   if (status === "preparation-build" && !isCancel) {
-    return (
-      <Layout>
-        <div dir="rtl">
-          <User />
-          <div className="deploy">
-            <span className="deploy-icon">
-              <BlueCircle />
-            </span>
-            <p>در حال آماده سازی</p>
-            <pre
-              readOnly
-              ref={preRef}
-              placeholder="> Fetching the log code: 0%"
-              spellCheck="false"
-              dangerouslySetInnerHTML={{ __html: html }}
-            ></pre>
-            <button className="btn main cancel " onClick={() => cancel()}>
-              لغو
-            </button>
-          </div>
-        </div>
-      </Layout>
-    );
+    return <PreparationBuild html={html} cancel={cancel} preRef={preRef} />;
   }
   if (status === "upload-progress" && !isCancel) {
-    return (
-      <Layout>
-        <div dir="rtl">
-          <User />
-          <div className="deploy">
-            <span className="deploy-icon" style={{ marginBottom: "0" }}>
-              <BlueCircle />{" "}
-            </span>
-            <p style={{ paddingBottom: "0" }}>در حال آپلود سورس کد</p>
-            <span>
-            شما میتوانید با استفاده از فایل gitignore. حجم فایل آپلودی را کاهش دهید{" "}
-            </span>
-          </div>
-          <Progress
-            percent={progressValue.percent}
-            total={progressValue.total}
-            upload={progressValue.upload}
-          />
-          <button className="btn main cancel" onClick={() => cancel()}>
-            لغو
-          </button>
-        </div>
-      </Layout>
-    );
+    return <UploadProgress progressValue={progressValue} cancel={cancel} />;
   }
   if (error) {
     return (
-      <Layout>
-        <div dir="rtl">
-          <User />
-          <div className="deploy error">
-            <RedCircle />
-            <p>ﺍﺳﺘﻘﺮﺍﺭ ﺑﺎ ﺧﻄﺎ ﻣﻮﺍﺟﻪ ﺷﺪ</p>
-            <span>
-              ﺩﺭ ﺻﻮﺭﺕ ﻧﯿﺎﺯ ﺑﻪ ﭘﺸﺘﯿﺒﺎﻧﯽ، ﻻﮒﻫﺎﯼ ﺍﯾﻦ ﺍﺳﺘﻘﺮﺍﺭ ﺭﺍ ﺩﺭﯾﺎﻓﺖ ﻭ ﺩﺭ ﺗﯿﮑﺖ
-              ﭘﯿﻮﺳﺖ ﮐﻨﯿﺪ.
-            </span>
-            <pre
-              ref={preRef}
-              readOnly
-              placeholder="> Fetching the log code: 0%"
-              spellCheck="false"
-              dangerouslySetInnerHTML={{ __html: html }}
-            ></pre>
-            <div className="btn-container">
-              <button className="btn main primary" onClick={() => serveLog()}>
-                دریافت لاگ
-              </button>
-              <Link to="/Draggable">
-                <button
-                  className="btn main hint"
-                  onClick={() => clearInfo()}
-                >
-                  استقرار جدید
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </Layout>
+      <Error
+        html={html}
+        serveLog={serveLog}
+        clearInfo={clearInfo}
+        preRef={preRef}
+      />
     );
   }
   if (isCancel) {
     return (
-      <Layout>
-        <div dir="rtl">
-          <User />
-          <div className="deploy">
-            <GreyCircle />
-            <p>ﺍﺳﺘﻘﺮﺍﺭ لغو ﺷﺪ</p>
-            <pre
-              readOnly
-              ref={preRef}
-              placeholder="> Fetching the log code: 0%"
-              spellCheck="false"
-              dangerouslySetInnerHTML={{ __html: html }}
-            ></pre>
-            <div className="btn-container">
-              <button className="btn main primary" onClick={() => serveLog()}>
-                دریافت لاگ
-              </button>
-
-              <Link to="/Draggable">
-                <button
-                  className="btn main hint"
-                  onClick={() => clearInfo()}
-                >
-                  استقرار جدید
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </Layout>
+      <Cancel
+        html={html}
+        serveLog={serveLog}
+        clearInfo={clearInfo}
+        preRef={preRef}
+      />
     );
   }
   if (status === "build" && !isCancel) {
-    return (
-      <Layout>
-        <div dir="rtl">
-          <User />
-          <div className="deploy ">
-            <span className="deploy-icon" style={{ marginBottom: "0" }}>
-              <BlueCircle />{" "}
-            </span>
-            <p>در حال ساخت</p>
-            <pre
-              readOnly
-              ref={preRef}
-              id="pre_build"
-              placeholder="> Fetching the log code: 0%"
-              spellCheck="false"
-              dangerouslySetInnerHTML={{ __html: html }}
-            ></pre>
-            <button className="btn main cancel" onClick={() => cancel()}>
-              لغو
-            </button>
-          </div>
-        </div>
-      </Layout>
-    );
+    return <Build html={html} cancel={cancel} preRef={preRef} />;
   }
   if (status === "publish" && !isCancel) {
     return (
-      <Layout>
-        <div dir="rtl">
-          <User />
-          <div className="deploy ">
-            {position === "finish" ? (
-              <>
-                <GreenCircle />
-                <p>استقرار انجام شد</p>
-              </>
-            ) : (
-              <>
-                <span className="deploy-icon" style={{ marginBottom: "0" }}>
-                  <BlueCircle />
-                </span>
-                <p>در حال انتشار</p>
-              </>
-            )}
-
-            <pre
-              readOnly
-              ref={preRef}
-              id="pre_build"
-              placeholder="> Fetching the log code: 0%"
-              spellCheck="false"
-              dangerouslySetInnerHTML={{ __html: html }}
-            ></pre>
-
-            {position === "finish" ? (
-              <div className="btn-container">
-                <button
-                  className="btn main hint"
-                  onClick={() => openInBrowser()}
-                >
-                  نمایش در مرورگر
-                </button>
-                <Link to="/Draggable">
-                  <button
-                    className="btn main primary"
-                    onClick={() => clearInfo()}
-                  >
-                    استقرار جدید
-                  </button>
-                </Link>
-              </div>
-            ) : null}
-          </div>
-        </div>
-      </Layout>
+      <Publish
+        html={html}
+        position={position}
+        preRef={preRef}
+        openInBrowser={openInBrowser}
+        clearInfo={clearInfo}
+      />
     );
   }
 }
