@@ -16,7 +16,7 @@ export default function UploadProgress({ progressValue, cancel }) {
           <p style={{ paddingBottom: "0" }}>در حال آپلود سورس کد</p>
           <span>
             شما میتوانید با استفاده از فایل gitignore. حجم فایل آپلودی را کاهش
-            دهید{" "}
+            دهید.{" "}
           </span>
         </div>
         <Progress
