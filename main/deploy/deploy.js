@@ -6,6 +6,7 @@ const logger = require("../configs/logger");
 const gotInstance = require("./got-instance");
 const { showNotification } = require("../notify");
 
+const {sleep} = require('../utils/wait')
 const { envConfig } = require("../configs/envConfig");
 const { default: upload } = require("@liara/cli/lib/services/upload");
 const { default: buildLogs } = require("@liara/cli/lib/services/build-logs");
@@ -17,7 +18,6 @@ const { default: ReleaseFailed } = require("@liara/cli/lib/errors/release-failed
 const { default: prepareTmpDirectory } = require("@liara/cli/lib/services/tmp-dir");
 const { default: collectGitInfo } = require("@liara/cli/lib/utils/collect-git-info");
 const { default: mergePlatformConfigWithDefaults } = require("@liara/cli/lib/utils/merge-platform-config");
-
 exports.logs = [];
 exports.release = { id: undefined };
 exports.state = {canceled: false, upload: false};
@@ -111,11 +111,12 @@ exports.deploy = async (event, args) => {
     this.logs.push('upload started')
     event.sender.send('deploy',{log: '', percent: 0, state: 'upload-progress', status: 'start'})
     this.state.upload = upload(config.app, got, sourcePath)
-    const {sourceID} = await this.state.upload.on('uploadProgress', progress => {
+    const {sourceID} = await this.state.upload.on('uploadProgress', async progress => {
       event.sender.send('deploy', {log:'',total: progress.total, transferred: progress.transferred, percent: progress.percent * 100, state: 'upload-progress', status: 'pending'})
       if (Math.floor(progress.percent * 100) == 100) {
         this.logs.push('upload finish')
         event.sender.send('deploy', {log:'',total: progress.total, transferred: progress.transferred, percent: progress.percent * 100, state: 'upload-progress', status: 'finish'})
+        await sleep(2000)
         this.logs.push('Creating Release...')
         event.sender.send('deploy',generateLog('', 'build', 'start'))
       }

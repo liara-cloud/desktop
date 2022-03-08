@@ -1,13 +1,33 @@
 const logger = require('../configs/logger');
 const { getUser } = require('./get-account');
-const { readFile, writeFile } = require('fs-extra');
 const { envConfig } = require('../configs/envConfig');
+const { writeFile, readJSON } = require('fs-extra');
+const existsLiaraAuthJson = require("../utils/check-global-config")
 
 exports.readLiaraJson = async () => {
   let content;
   try {
-    content = JSON.parse(await readFile(envConfig.GLOBAL_CONF_PATH)) || {};
+    if (await existsLiaraAuthJson()) {
+      const accounts = []
+      content = await readJSON(envConfig.NEW_GLOBAL_CONFIG_PATH, {throws: false}) || {}
+      if (content.accounts) {
+        let hasCurrent = false 
+        for (const account of Object.keys(content.accounts)) {
+          if (content.accounts[account].current === true) {
+            hasCurrent = true
+          }
+          accounts.push({[account]: content.accounts[account]})
+        }
 
+        if (!hasCurrent) {
+          accounts[0][Object.keys(accounts[0])].current = true
+        }
+        await writeFile(envConfig.NEW_GLOBAL_CONFIG_PATH, JSON.stringify(content));
+        return accounts
+      }
+      return []
+    }
+    content = await readJSON(envConfig.GLOBAL_CONF_PATH, {throws: false}) || {}
     if (
       content.region &&
       content.api_token &&
@@ -33,7 +53,10 @@ exports.readLiaraJson = async () => {
     if (Object.keys(content.accounts).length) {
       const accounts = Object.entries(content.accounts).map(
         async ([key, value]) => {
-          const user = await getUser(value.api_token, value.region);
+          let user 
+          if (!value.avatar || !value.fullname || !value.email) {
+            user = await getUser(value.api_token, value.region);
+          }
           if (content.current) {
             value.current = false;
             if (content.current === key) {
@@ -51,11 +74,11 @@ exports.readLiaraJson = async () => {
 
           const account = {
             [key]: {
-              email: user.email,
-              avatar: user.avatar,
+              email: user ? user.email : value.email,
+              avatar: user? user.avatar : value.avatar,
               region: value.region,
               current: value.current,
-              fullname: user.fullname,
+              fullname: user? user.fullname : value.fullname,
               api_token: value.api_token,
             },
           };

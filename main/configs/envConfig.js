@@ -27,5 +27,6 @@ exports.envConfig = {
   OPEN_PORT: undefined,
   APP_VERSION: undefined,
   GLOBAL_CONF_PATH: path.join(os.homedir(), ".liara.json"),
+  NEW_GLOBAL_CONFIG_PATH: path.join(os.homedir(), '.liara-auth.json'),
   IS_DEV: process.env.NODE_ENV === "development" ? true : false,
 };
