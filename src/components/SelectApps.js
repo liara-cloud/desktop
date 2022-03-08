@@ -269,6 +269,9 @@ function SelectApps(props) {
           </Link>
         </div>
       </div>
+      {showApps && (
+        <div className="apps-back" onClick={() => setShowApps(!showApps)}></div>
+      )}
     </Layout>
   );
 }
