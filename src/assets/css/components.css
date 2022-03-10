@@ -19,7 +19,6 @@
   position: fixed;
   bottom: 10px;
   left: 15px;
-  font-wight: 200;
 }
 .support {
   color: #999;
@@ -27,7 +26,6 @@
   position: fixed;
   bottom: 10px;
   right: 15px;
-  font-wight: 200;
 }
 
 /* btn */
@@ -41,7 +39,7 @@
   font-size: 16px;
   border-radius: 7.5px;
   border: none;
-  background: #0070f3;
+  background: hsl(212, 100%, 48%);
   outline: none;
   margin-right: 50%;
   transform: translateX(50%);
@@ -556,12 +554,6 @@ div.deploy.error pre {
   font-weight: bold;
   color: #ea5167;
 }
-/* .offline svg {
-  position: absolute;
-  top: 32%;
-  left: 50%;
-  transform: translateX(-50%);
-} */
 
 /* alert */
 .alert-directory {
@@ -632,9 +624,6 @@ div.deploy.error pre {
 
 /* reload */
 .reload {
-  display: flex;
-  align-items: center;
-  height: 25px;
   margin-top: 24px;
   margin-right: 8px;
   border: 1px solid #e8e8e8;
