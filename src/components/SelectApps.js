@@ -57,6 +57,7 @@ function SelectApps(props) {
 
   useEffect(() => {
     setCheck(true);
+    setSelected("");
     if (Object.values(accounts).length == 0) {
       props.history.push("/");
     }
