@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { Context } from "./contextApi/Context";
 import { AnsiUp } from "ansi-up";
-import PreparationBuild from "./statue/preparationBuild";
-import UploadProgress from "./statue/UploadProgress";
-import Error from "./statue/Error";
-import Cancel from "./statue/Cancel";
-import Build from "./statue/Build";
-import Publish from "./statue/Publish";
+import PreparationBuild from "./status/PreparationBuild";
+import UploadProgress from "./status/UploadProgress";
+import Error from "./status/Error";
+import Cancel from "./status/Cancel";
+import Build from "./status/Build";
+import Publish from "./status/Publish";
 
 export default function Deploy() {
   const preRef = useRef();

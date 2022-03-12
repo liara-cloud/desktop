@@ -12,6 +12,7 @@ import User from "./User";
 function SelectApps(props) {
   const [data, setData] = useState("");
   const [clickCreate, setClickCreate] = useState(false);
+  const [fetchAppEffect, setFetchAppEffect] = useState(false);
 
   const context = useContext(Context);
   const {
@@ -36,27 +37,12 @@ function SelectApps(props) {
     setNext,
     openCreateApp,
     fetchApp,
+    getProject,
     setFetchApp,
   } = context;
 
-  const getProject = () => {
-    const api_token = Object.values(accounts).filter((item) => item.current)[
-      "0"
-    ].api_token;
-
-    const API =
-      current.region === "iran"
-        ? `https://api.iran.liara.ir/v1/projects`
-        : `https://api.liara.ir/v1/projects`;
-    return axios.get(API, {
-      headers: {
-        Authorization: `Bearer ${api_token}`,
-      },
-    });
-  };
-
   useEffect(() => {
-    setCheck(true);
+    !fetchApp && setCheck(true);
     setSelected("");
     if (Object.values(accounts).length == 0) {
       props.history.push("/");
@@ -65,25 +51,14 @@ function SelectApps(props) {
       .then((res) => {
         setData(res.data.projects);
         setCheck(false);
-      })
-
-      .catch((error) => {
-        console.error(error);
-        ipcRenderer.send("asynchronous-login", "liara-cloud");
-      });
-  }, [current]);
-
-  useEffect(() => {
-    getProject()
-      .then((res) => {
-        setData(res.data.projects);
         setFetchApp(false);
       })
+
       .catch((error) => {
         console.error(error);
         ipcRenderer.send("asynchronous-login", "liara-cloud");
       });
-  }, [fetchApp]);
+  }, [current, fetchAppEffect]);
 
   const hasConfig =
     checkDirectory.config.port !== undefined &&
@@ -209,7 +184,9 @@ function SelectApps(props) {
           </div>
           <button
             className={`reload ${fetchApp && `fetch`}`}
-            onClick={() => setFetchApp(true)}
+            onClick={() =>
+              setFetchApp(true) + setFetchAppEffect(!fetchAppEffect)
+            }
           >
             <Reload />
           </button>

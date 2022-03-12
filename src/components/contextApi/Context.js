@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ipcRenderer } from "electron";
 import React, { createContext, useEffect, useState } from "react";
 
@@ -216,6 +217,22 @@ export const ContextAPI = (props) => {
     }
   }, [selected]);
 
+  const getProject = () => {
+    const [{ api_token }] = Object.values(accounts).filter(
+      (item) => item.current
+    );
+
+    const API =
+      current.region === "iran"
+        ? `https://api.iran.liara.ir/v1/projects`
+        : `https://api.liara.ir/v1/projects`;
+    return axios.get(API, {
+      headers: {
+        Authorization: `Bearer ${api_token}`,
+      },
+    });
+  };
+
   return (
     <Context.Provider
       value={{
@@ -268,6 +285,7 @@ export const ContextAPI = (props) => {
         setNext,
         openCreateApp,
         setFetchApp,
+        getProject
       }}
     >
       {props.children}
