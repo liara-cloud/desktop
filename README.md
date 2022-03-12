@@ -26,7 +26,7 @@ git clone https://github.com/liara-cloud/desktop.git
 cd desktop
 ```
 
-Now you need to install dependencies with [`npm`](https://npmjs.comg):
+Now you need to install dependencies with [`npm`](https://npmjs.com):
 
 ```bash
 npm install
