@@ -77,6 +77,11 @@ function SelectApps(props) {
 
   const checkPort = port === "" || port === undefined;
 
+  const handleFetchApp = () => {
+    setFetchApp(true);
+    setFetchAppEffect(!fetchAppEffect);
+  };
+
   if (data.length == 0) {
     return (
       <Layout>
@@ -94,7 +99,7 @@ function SelectApps(props) {
             <span>
               شما هیچ برنامه ای ندارید. ابتدا وارد کنسول لیارا شوید و برنامه ای
               بسازید.{" "}
-              <span className="reload-noapp" onClick={() => setFetchApp(true)}>
+              <span className="reload-noapp" onClick={handleFetchApp}>
                 بارگذاری مجدد
               </span>
             </span>
@@ -184,9 +189,7 @@ function SelectApps(props) {
           </div>
           <button
             className={`reload ${fetchApp && `fetch`}`}
-            onClick={() =>
-              setFetchApp(true) + setFetchAppEffect(!fetchAppEffect)
-            }
+            onClick={handleFetchApp}
           >
             <Reload />
           </button>
