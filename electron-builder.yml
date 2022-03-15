@@ -7,7 +7,7 @@ files:
 publish:
   provider: s3
   endpoint: '${env.AWS_ENDPOINT}'
-  bucket: release
+  bucket: releases
 directories:
   output: release
 win:
