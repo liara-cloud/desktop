@@ -3,7 +3,7 @@
 set -e
 
 # download mc client 
-wget https://dl.min.io/client/mc/release/linux-amd64/mc
+wget https://dl.min.io/client/mc/release/darwin-amd64/mc
 chmod +x ./mc
 
 # set alias
