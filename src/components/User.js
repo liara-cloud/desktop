@@ -12,7 +12,7 @@ const User = (props) => {
     current,
     setShowApps,
     openConsoleLogin,
-    handleExit,
+    handleLogout,
     isDeploy,
     showApps,
   } = context;
@@ -90,7 +90,7 @@ const User = (props) => {
                 افزودن حساب کاربری
               </span>
               <a
-                onClick={() => handleExit(current.email, current.region)}
+                onClick={() => handleLogout(current.email, current.region)}
                 className="exit"
               >
                 خروج

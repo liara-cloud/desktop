@@ -91,14 +91,14 @@ export const ContextAPI = (props) => {
     });
   };
 
-  const handleExit = (email, region) => {
+  const handleLogout = (email, region) => {
     ipcRenderer.on("remove-account", (event, arg) => {
       let user = arg.map((item) => Object.values(item)[0]);
 
       user.length === 0 && clearInfo();
 
-      setCurrent(user.filter((item) => item.current)[0]);
       setAccounts(user);
+      setCurrent(user.filter((item) => item.current)[0]);
     });
     ipcRenderer.send("remove-account", { email, region });
   };
@@ -276,7 +276,7 @@ export const ContextAPI = (props) => {
         deploy,
         handleChangeCurrent,
         setCurrent,
-        handleExit,
+        handleLogout,
         clearInfo,
         cancel,
         serveLog,
