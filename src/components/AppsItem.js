@@ -6,12 +6,10 @@ export default function AppsItem({ item, setSelected, setShowApps }) {
     <div
       key={item.project_id}
       className="item"
-      key={item.name}
       onClick={() => setSelected(item) + setShowApps(false)}
     >
-     <PlatformIcon platform={item.type} />
+      <PlatformIcon platform={item.type} />
       {item.project_id}
     </div>
   );
 }
-

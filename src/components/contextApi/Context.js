@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ipcRenderer } from "electron";
 import React, { createContext, useEffect, useState } from "react";
+import { Iran } from "../icon";
 
 export const Context = createContext();
 
@@ -222,10 +223,12 @@ export const ContextAPI = (props) => {
       (item) => item.current
     );
 
-    const API =
-      current.region === "iran"
-        ? `https://api.iran.liara.ir/v1/projects`
-        : `https://api.liara.ir/v1/projects`;
+    const isIran = current && current.region === "iran";
+
+    const API = isIran
+      ? `https://api.iran.liara.ir/v1/projects`
+      : `https://api.liara.ir/v1/projects`;
+
     return axios.get(API, {
       headers: {
         Authorization: `Bearer ${api_token}`,
@@ -285,7 +288,7 @@ export const ContextAPI = (props) => {
         setNext,
         openCreateApp,
         setFetchApp,
-        getProject
+        getProject,
       }}
     >
       {props.children}

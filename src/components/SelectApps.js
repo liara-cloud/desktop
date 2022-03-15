@@ -43,9 +43,6 @@ function SelectApps(props) {
 
   useEffect(() => {
     !fetchApp && setCheck(true);
-    if (Object.values(accounts).length == 0) {
-      props.history.push("/");
-    }
     getProject()
       .then((res) => {
         setData(res.data.projects);
@@ -65,8 +62,8 @@ function SelectApps(props) {
   }, [current, fetchAppEffect]);
 
   const hasConfig =
-    typeof checkDirectory.config.port !== "undefined" &&
-    checkDirectory.config.port &&
+    typeof checkDirectory.config !== "undefined" &&
+    checkDirectory.config &&
     isconfigPort;
 
   const val = hasConfig ? checkDirectory.config.port : port;
