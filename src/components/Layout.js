@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { LiaraLight, Minimize, Time, Warning } from "./icon";
-import "../assets/css/navbar.css";
 import { withRouter } from "react-router";
 import { ipcRenderer } from "electron";
 import { Context } from "./contextApi/Context";
+
+import "../assets/css/navbar.css";
 
 function Layout(props) {
   const [version, setVersion] = useState("");

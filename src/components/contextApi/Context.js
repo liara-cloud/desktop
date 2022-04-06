@@ -41,6 +41,10 @@ export const ContextAPI = (props) => {
     setOnline(true);
   });
 
+  window.onerror = (err) => {
+    ipcRenderer.send("errorInWindow", err);
+  };
+
   useEffect(() => {
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       setLoading(false);

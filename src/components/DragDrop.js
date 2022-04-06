@@ -1,8 +1,7 @@
 import { FileUploader } from "@liara/react-drag-drop-files";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { withRouter } from "react-router";
 import { Context } from "./contextApi/Context";
-import { Folder } from "./icon";
 
 function DragDrop(props) {
   const dropBox = useRef();
@@ -15,7 +14,6 @@ function DragDrop(props) {
     setCheckDirectory,
     setPort,
     setSelected,
-    selected,
   } = context;
   const handleChange = (file) => {
     const root_name = file.webkitRelativePath.split("/")[0];

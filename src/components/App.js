@@ -1,15 +1,15 @@
 import React from "react";
 import { MemoryRouter, Switch, Route } from "react-router";
-import "../assets/css/App.css";
-import "../assets/css/components.css";
 import Draggable from "./Draggable";
 import SelectApps from "./SelectApps";
 import Deploy from "./Deploy";
 import Login from "./Login";
 import { ContextAPI } from "./contextApi/Context";
 
-const App = () => {
+import "../assets/css/App.css";
+import "../assets/css/components.css";
 
+const App = () => {
   return (
     <ContextAPI>
       <MemoryRouter>

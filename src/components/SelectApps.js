@@ -9,14 +9,13 @@ import Layout from "./Layout";
 import PlatformIcon from "./PlatformIcon";
 import User from "./User";
 
-function SelectApps(props) {
+function SelectApps() {
   const [data, setData] = useState("");
   const [clickCreate, setClickCreate] = useState(false);
   const [fetchAppEffect, setFetchAppEffect] = useState(false);
 
   const context = useContext(Context);
   const {
-    accounts,
     selected,
     setSelected,
     port,
