@@ -1,6 +1,6 @@
 {
   "name": "liara-desktop",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Liara Cloud <support@liara.ir> (https://liara.ir)",
   "homepage": "https://liara.ir",
   "engines": {
@@ -22,7 +22,7 @@
     "deploy": "electron-builder build -lwm --x64 --arm64  --publish always"
   },
   "dependencies": {
-    "@liara/cli": "^2.25.0-beta.6",
+    "@liara/cli": "^2.25.0-beta.7",
     "@liara/platformicons": "^2.11.0",
     "@liara/react-drag-drop-files": "^2.2.4",
     "ansi-up": "^1.0.0",

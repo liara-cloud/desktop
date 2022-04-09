@@ -79,8 +79,8 @@ async function createMainWindow() {
 
 app.whenReady().then(() => {
   envConfig.APP_VERSION = app.getVersion();
-  logger.error(envConfig.APP_VERSION);
   if (envConfig.PLATFORM === 'win32') {
+    logger.info(envConfig.APP_VERSION);
     autoUpdater.checkForUpdatesAndNotify();
   }
   createMainWindow();
