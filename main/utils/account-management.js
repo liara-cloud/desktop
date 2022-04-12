@@ -2,32 +2,39 @@ const logger = require('../configs/logger');
 const { getUser } = require('./get-account');
 const { envConfig } = require('../configs/envConfig');
 const { writeFile, readJSON } = require('fs-extra');
-const existsLiaraAuthJson = require("../utils/check-global-config")
+const existsLiaraAuthJson = require('../utils/check-global-config');
 
 exports.readLiaraJson = async () => {
   let content;
   try {
     if (await existsLiaraAuthJson()) {
-      const accounts = []
-      content = await readJSON(envConfig.NEW_GLOBAL_CONFIG_PATH, {throws: false}) || {}
+      const accounts = [];
+      content =
+        (await readJSON(envConfig.NEW_GLOBAL_CONFIG_PATH, { throws: false })) ||
+        {};
       if (content.accounts) {
-        let hasCurrent = false 
+        let hasCurrent = false;
         for (const account of Object.keys(content.accounts)) {
           if (content.accounts[account].current === true) {
-            hasCurrent = true
+            hasCurrent = true;
           }
-          accounts.push({[account]: content.accounts[account]})
+          //TODO check api token for each account for the first time
+          accounts.push({ [account]: content.accounts[account] });
         }
 
         if (!hasCurrent) {
-          accounts[0][Object.keys(accounts[0])].current = true
+          accounts[0][Object.keys(accounts[0])].current = true;
         }
-        await writeFile(envConfig.NEW_GLOBAL_CONFIG_PATH, JSON.stringify(content));
-        return accounts
+        await writeFile(
+          envConfig.NEW_GLOBAL_CONFIG_PATH,
+          JSON.stringify(content)
+        );
+        return accounts;
       }
-      return []
+      return [];
     }
-    content = await readJSON(envConfig.GLOBAL_CONF_PATH, {throws: false}) || {}
+    content =
+      (await readJSON(envConfig.GLOBAL_CONF_PATH, { throws: false })) || {};
     if (
       content.region &&
       content.api_token &&
@@ -53,8 +60,13 @@ exports.readLiaraJson = async () => {
     if (Object.keys(content.accounts).length) {
       const accounts = Object.entries(content.accounts).map(
         async ([key, value]) => {
-          let user 
-          if (!value.avatar || !value.fullname || !value.email) {
+          let user;
+          if (
+            !value.avatar ||
+            !value.fullname ||
+            !value.email ||
+            !envConfig.CHECK_API_TOKEN
+          ) {
             user = await getUser(value.api_token, value.region);
           }
           if (content.current) {
@@ -75,10 +87,10 @@ exports.readLiaraJson = async () => {
           const account = {
             [key]: {
               email: user ? user.email : value.email,
-              avatar: user? user.avatar : value.avatar,
+              avatar: user ? user.avatar : value.avatar,
               region: value.region,
               current: value.current,
-              fullname: user? user.fullname : value.fullname,
+              fullname: user ? user.fullname : value.fullname,
               api_token: value.api_token,
             },
           };

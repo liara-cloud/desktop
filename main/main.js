@@ -93,6 +93,7 @@ app.whenReady().then(() => {
 ipcMain.on('asynchronous-login', async (event) => {
   logger.info('Request from IPCRenderer recieved. channle=asynchronous-login');
   event.sender.send('asynchronous-login', await readLiaraJson());
+  envConfig.CHECK_API_TOKEN = true;
   logger.info('Response from IPCMain sent. channle=asynchronous-login');
 });
 
