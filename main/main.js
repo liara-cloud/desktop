@@ -198,9 +198,11 @@ process.on('unhandledRejection', async (error) => {
     type: 'error',
     title: 'لیارا',
   });
-  sentry.captureException(error, () => {
-    app.exit();
-  });
+  if (!envConfig.IS_DEV) {
+    sentry.captureException(error, () => {
+      app.exit();
+    });
+  }
 });
 process.on('uncaughtException', async (error) => {
   logger.error(error);
@@ -216,7 +218,9 @@ process.on('uncaughtException', async (error) => {
     type: 'error',
     title: 'لیارا',
   });
-  sentry.captureException(error, () => {
-    app.exit();
-  });
+  if (!envConfig.IS_DEV) {
+    sentry.captureException(error, () => {
+      app.exit();
+    });
+  }
 });
