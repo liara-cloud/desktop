@@ -24,7 +24,10 @@ export default function UploadProgress({ progressValue, cancel }) {
           total={progressValue.total}
           upload={progressValue.upload}
         />
-        <button className="btn main cancel" onClick={() => cancel()}>
+        <button
+          className="umami--click--cancel-deploy btn main cancel"
+          onClick={() => cancel()}
+        >
           لغو
         </button>
       </div>

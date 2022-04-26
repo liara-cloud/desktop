@@ -234,7 +234,10 @@ function SelectApps() {
         >
           {port != "" && selected != "" ? (
             <Link to="/Deploy">
-              <button className="btn main hint" onClick={() => deploy()}>
+              <button
+                className="umami--click--start-deploy btn main hint"
+                onClick={() => deploy()}
+              >
                 بعدی
               </button>
             </Link>

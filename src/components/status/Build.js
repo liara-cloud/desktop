@@ -21,7 +21,7 @@ export default function Build({ html, cancel , preRef}) {
             spellCheck="false"
             dangerouslySetInnerHTML={{ __html: html }}
           ></pre>
-          <button className="btn main cancel" onClick={() => cancel()}>
+          <button className="umami--click--cancel-deploy btn main cancel" onClick={() => cancel()}>
             لغو
           </button>
         </div>

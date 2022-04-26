@@ -5,22 +5,33 @@ import SelectApps from "./SelectApps";
 import Deploy from "./Deploy";
 import Login from "./Login";
 import { ContextAPI } from "./contextApi/Context";
+import { Helmet } from "react-helmet";
 
 import "../assets/css/App.css";
 import "../assets/css/components.css";
 
 const App = () => {
   return (
-    <ContextAPI>
-      <MemoryRouter>
-        <Switch>
-          <Route path="/Draggable" component={Draggable} />
-          <Route exact path="/" component={Login} />
-          <Route exact path="/Deploy" component={Deploy} />
-          <Route path="/SelectApps" component={SelectApps} />
-        </Switch>
-      </MemoryRouter>
-    </ContextAPI>
+    <>
+      <Helmet>
+        <script
+          async
+          defer
+          data-website-id="5ab09345-58d0-44c3-8262-80671f21840b"
+          src="https://meta.liara.ir/umami.js"
+        ></script>
+      </Helmet>
+      <ContextAPI>
+        <MemoryRouter>
+          <Switch>
+            <Route path="/Draggable" component={Draggable} />
+            <Route exact path="/" component={Login} />
+            <Route exact path="/Deploy" component={Deploy} />
+            <Route path="/SelectApps" component={SelectApps} />
+          </Switch>
+        </MemoryRouter>
+      </ContextAPI>
+    </>
   );
 };
 export default App;
