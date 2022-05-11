@@ -194,6 +194,7 @@ function SelectApps() {
             <Reload />
           </button>
         </div>
+
         {showApps && data.length > 0 && (
           <div className="box" style={data.length > 5 ? { height: 165 } : {}}>
             {data.map((item) => (
@@ -232,7 +233,7 @@ function SelectApps() {
             bottom: 55,
           }}
         >
-          {port != "" && selected != "" ? (
+          {port && selected != "" ? (
             <Link to="/Deploy">
               <button
                 className="umami--click--start-deploy btn main hint"

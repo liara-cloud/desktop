@@ -1,11 +1,12 @@
 import { FileUploader } from "@liara/react-drag-drop-files";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { withRouter } from "react-router";
 import { Context } from "./contextApi/Context";
 
 function DragDrop(props) {
   const dropBox = useRef();
   const context = useContext(Context);
+
   const {
     file,
     setFile,
@@ -14,7 +15,10 @@ function DragDrop(props) {
     setCheckDirectory,
     setPort,
     setSelected,
+    getProject,
+    selected,
   } = context;
+  const [projectConfig, setProjectConfig] = useState({});
   const handleChange = (file) => {
     const root_name = file.webkitRelativePath.split("/")[0];
     const before_root_path = file.path.split(root_name)[0];
@@ -26,19 +30,29 @@ function DragDrop(props) {
       : setFile(file.path) + checkIsDirectory(file.path);
   };
 
-  if (checkDirectory.config !== undefined && checkDirectory.config !== false) {
-    if (checkDirectory.config.platform && checkDirectory.config.app) {
-      setSelected({
-        project_id: checkDirectory.config.app,
-        type: checkDirectory.config.platform,
+  useEffect(() => {
+    if (!!checkDirectory.config) {
+      getProject().then(({ data: { projects } }) => {
+        const filterd = projects.filter(
+          ({ project_id }) => project_id == checkDirectory.config.app
+        )[0];
+        setSelected({
+          project_id: checkDirectory.config.app,
+          type: filterd.type,
+        });
       });
-    }
-    setPort(checkDirectory.config.port);
-  }
 
-  if (checkDirectory.isDirectory && !checkDirectory.isEmpty) {
-    props.history.push("/SelectApps");
-  }
+      setPort(checkDirectory.config.port);
+    }
+
+    if (checkDirectory.isDirectory && !checkDirectory.isEmpty) {
+      if (checkDirectory.config.app) {
+        selected && props.history.push("/SelectApps");
+      } else {
+        props.history.push("/SelectApps");
+      }
+    }
+  }, [checkDirectory, selected]);
 
   if (checkDirectory.isDirectory == false || checkDirectory.isEmpty) {
     setTimeout(() => {
