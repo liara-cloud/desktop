@@ -18,7 +18,9 @@ function DragDrop(props) {
     getProject,
     selected,
   } = context;
-  const [projectConfig, setProjectConfig] = useState({});
+
+  const [appNotfound, setAppNotfound] = useState(false);
+
   const handleChange = (file) => {
     const root_name = file.webkitRelativePath.split("/")[0];
     const before_root_path = file.path.split(root_name)[0];
@@ -36,10 +38,14 @@ function DragDrop(props) {
         const filterd = projects.filter(
           ({ project_id }) => project_id == checkDirectory.config.app
         )[0];
-        setSelected({
-          project_id: checkDirectory.config.app,
-          type: filterd.type,
-        });
+        if (!!filterd) {
+          setSelected({
+            project_id: checkDirectory.config.app,
+            type: filterd.type,
+          });
+        } else {
+          setAppNotfound(true);
+        }
       });
 
       setPort(checkDirectory.config.port);
@@ -91,6 +97,11 @@ function DragDrop(props) {
       {checkDirectory.isDirectory == false && (
         <div className="alert-directory">
           <p>( تنها انتخاب پوشه مجاز است )</p>
+        </div>
+      )}
+      {appNotfound && (
+        <div className="alert-directory">
+          <p>(!برنامه یافت نشد)</p>
         </div>
       )}
       {isEmptyFolder && (
