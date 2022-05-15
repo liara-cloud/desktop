@@ -61,7 +61,7 @@ exports.deploy = async (event, args) => {
 
     body.build.args = config["build-arg"];
     body.gitInfo = await collectGitInfo(path, logger.warn);
-    body.platformConfig = mergePlatformConfigWithDefaults(path,config.platform,config[body.platform] || {},logger.info);
+    body.platformConfig = mergePlatformConfigWithDefaults(path,config.platform,config[config.platform] || {},logger.info);
 
     // 1) Preparation Build
     this.logs.push(`App: ${config.app}`);
@@ -130,6 +130,7 @@ exports.deploy = async (event, args) => {
       event.sender.send('deploy', generateLog('Build canceled.', 'preparation-build', 'cancel'))
       return this.logs.push('Build canceled.')
     }
+
     this.release.id = (await got.post(`v2/projects/${config.app}/releases`, { json: body }).json()).releaseID
     this.logs.push('Finish Release.')
     if (this.state.canceled === true) {
