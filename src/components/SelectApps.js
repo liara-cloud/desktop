@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ipcRenderer } from "electron";
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -30,8 +29,6 @@ function SelectApps() {
     setCheck,
     clearInfo,
     checkDirectory,
-    isconfigPort,
-    setIsConfigPort,
     next,
     setNext,
     openCreateApp,
@@ -213,9 +210,9 @@ function SelectApps() {
               ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.
             </p>
             <input
-              value={val}
+              placeholder={hasConfigPort && checkDirectory.config.port}
               disabled={disabled}
-              onChange={(e) => setPort(e.target.value) + setIsConfigPort(false)}
+              onChange={(e) => setPort(e.target.value)}
               className="port"
               type="number"
               style={next && checkPort ? { border: "1px solid #ea5167" } : {}}

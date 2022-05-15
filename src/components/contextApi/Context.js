@@ -29,7 +29,7 @@ export const ContextAPI = (props) => {
   const [position, setPosition] = useState("");
   const [error, setError] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
-  const [isconfigPort, setIsConfigPort] = useState(true);
+
   const [next, setNext] = useState(false);
   const [fetchApp, setFetchApp] = useState(false);
 
@@ -131,16 +131,10 @@ export const ContextAPI = (props) => {
       region: current.region,
       api_token: current.api_token,
       config: {
+        ...checkDirectory.config,
         app: selected.project_id,
         port,
         platform: selected.type,
-        volume: checkDirectory.config.volume,
-        args: checkDirectory.config.args,
-        disks: checkDirectory.config.disks,
-        laravel: checkDirectory.config.laravel,
-        node: checkDirectory.config.node,
-        healthCheck: checkDirectory.config.healthCheck,
-        cron: checkDirectory.config.cron,
       },
     });
   };
@@ -274,12 +268,9 @@ export const ContextAPI = (props) => {
         position,
         error,
         isCancel,
-        isconfigPort,
         next,
         fetchApp,
-
         // setState & functions
-        setIsConfigPort,
         setCheck,
         setIsDeploy,
         setShowApps,
