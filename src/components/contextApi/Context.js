@@ -140,6 +140,7 @@ export const ContextAPI = (props) => {
         laravel: checkDirectory.config.laravel,
         node: checkDirectory.config.node,
         healthCheck: checkDirectory.config.healthCheck,
+        cron: checkDirectory.config.cron,
       },
     });
   };
@@ -230,7 +231,7 @@ export const ContextAPI = (props) => {
       setDisabled(false);
       setPort("");
     }
-  }, [selected]);
+  }, [checkDirectory, selected]);
 
   const getProject = () => {
     const [{ api_token }] = Object.values(accounts).filter(

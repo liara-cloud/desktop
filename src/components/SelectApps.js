@@ -60,13 +60,9 @@ function SelectApps() {
       });
   }, [current, fetchAppEffect]);
 
-  const hasConfig =
-    typeof checkDirectory.config !== "undefined" &&
-    checkDirectory.config &&
-    isconfigPort;
-
-  const val = hasConfig ? checkDirectory.config.port : port;
-  hasConfig && setPort(checkDirectory.config.port);
+  const hasConfigPort = typeof checkDirectory.config.port != "undefined";
+  const val = hasConfigPort ? checkDirectory.config.port : port;
+  hasConfigPort && setPort(checkDirectory.config.port);
 
   // kill warning
   useEffect(() => {

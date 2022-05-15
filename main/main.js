@@ -39,6 +39,7 @@ async function createMainWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
+    fullscreenable: false,
   });
   const urlFormatOptions = {
     protocol: "file:",
