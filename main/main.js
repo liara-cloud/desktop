@@ -116,7 +116,6 @@ ipcMain.on("deploy", async (event, args) => {
     return await cancelDeploy(event, args);
   }
   logger.info("Request from IPCRenderer recieved. channle=deploy deploy=true");
-  console.log(args);
   await deploy(event, args);
   logger.info("Response from IPCMain sent. channle=deploy deploy=true");
 });
