@@ -101,7 +101,7 @@ function DragDrop(props) {
       )}
       {appNotfound && (
         <div className="alert-directory">
-          <p>(!برنامه یافت نشد)</p>
+          <p>(!یافت نشد {checkDirectory.config.app} برنامه)</p>
         </div>
       )}
       {isEmptyFolder && (
