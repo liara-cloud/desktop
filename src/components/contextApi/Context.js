@@ -130,7 +130,17 @@ export const ContextAPI = (props) => {
       path: file,
       region: current.region,
       api_token: current.api_token,
-      config: { app: selected.project_id, port, platform: selected.type },
+      config: {
+        app: selected.project_id,
+        port,
+        platform: selected.type,
+        volume: checkDirectory.config.volume,
+        args: checkDirectory.config.args,
+        disks: checkDirectory.config.disks,
+        laravel: checkDirectory.config.laravel,
+        node: checkDirectory.config.node,
+        healthCheck: checkDirectory.config.healthCheck,
+      },
     });
   };
 
