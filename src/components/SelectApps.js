@@ -44,13 +44,11 @@ function SelectApps() {
         setData(res.data.projects);
         setCheck(false);
         setFetchApp(false);
-
         const projects = res.data.projects.map((project) => project.project_id);
         if (!projects.includes(selected.project_id)) {
           setSelected("");
         }
       })
-
       .catch((error) => {
         console.error(error);
         ipcRenderer.send("asynchronous-login", "liara-cloud");
@@ -241,7 +239,13 @@ function SelectApps() {
             </button>
           )}
           <Link to="/Draggable">
-            <button className="btn main primary" onClick={() => clearInfo()}>
+            <button
+              className="btn main primary"
+              onClick={() => {
+                clearInfo();
+                setShowApps(false); // close Apps list
+              }}
+            >
               قبلی
             </button>
           </Link>
