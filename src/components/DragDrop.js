@@ -66,6 +66,14 @@ function DragDrop(props) {
     }, 1000);
   }
 
+  if (appNotfound) {
+    // remove warning
+    setTimeout(() => {
+      setAppNotfound(false);
+      setCheckDirectory("");
+    }, 1500);
+  }
+
   const isEmptyFolder = checkDirectory.isDirectory && checkDirectory.isEmpty;
   const handleDirectory = checkDirectory === "" && handleChange;
   return (
@@ -76,7 +84,7 @@ function DragDrop(props) {
         ref={dropBox}
         id="drop-box"
         style={
-          checkDirectory.isDirectory == false || isEmptyFolder
+          checkDirectory.isDirectory == false || isEmptyFolder || appNotfound
             ? { borderColor: "#ea5167" }
             : {}
         }
