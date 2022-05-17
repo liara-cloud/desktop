@@ -55,9 +55,11 @@ function SelectApps() {
       });
   }, [current, fetchAppEffect]);
 
+  const [isChange, setIsChange] = useState(true);
+
   const hasConfigPort = typeof checkDirectory.config.port != "undefined";
   const val = hasConfigPort ? checkDirectory.config.port : port;
-  hasConfigPort && setPort(checkDirectory.config.port);
+  hasConfigPort && isChange && setPort(checkDirectory.config.port);
 
   // kill warning
   useEffect(() => {
@@ -207,10 +209,14 @@ function SelectApps() {
             >
               ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.
             </p>
+            {console.log(port)}
             <input
               placeholder={hasConfigPort && checkDirectory.config.port}
               disabled={disabled}
-              onChange={(e) => setPort(e.target.value)}
+              onChange={(e) => {
+                setPort(e.target.value);
+                setIsChange(false);
+              }}
               className="port"
               type="number"
               style={next && checkPort ? { border: "1px solid #ea5167" } : {}}

@@ -126,6 +126,8 @@ export const ContextAPI = (props) => {
       setLog({ text: data, state: arg.state, status: arg.status });
     });
 
+    console.log(port);
+
     return ipcRenderer.send("deploy", {
       path: file,
       region: current.region,
@@ -133,8 +135,8 @@ export const ContextAPI = (props) => {
       config: {
         ...checkDirectory.config,
         app: selected.project_id,
-        port,
         platform: selected.type,
+        port,
       },
     });
   };
