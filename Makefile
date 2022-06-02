@@ -34,6 +34,5 @@ prepare:
 .PHONY:prepare
 
 build: prepare
-	export AWS_ENDPOINT=“test”
-	electron-builder build --$(D_OS) --$(D_PA) -p never
+	export AWS_ENDPOINT="test" && electron-builder build --$(D_OS) --$(D_PA) -p never
 .PHONY:build
