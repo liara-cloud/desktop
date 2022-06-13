@@ -31,6 +31,8 @@ endif
 
 prepare:
 	npm list -g --depth=0 electron-builder || npm i -g electron-builder
+	[ -d node_modules ] || npm install
+	npm run build
 .PHONY:prepare
 
 build: prepare
