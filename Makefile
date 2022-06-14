@@ -32,9 +32,16 @@ endif
 prepare:
 	npm list -g --depth=0 electron-builder || npm i -g electron-builder
 	[ -d node_modules ] || npm install
-	npm run build
+	[ -d dist ] || npm run build
 .PHONY:prepare
 
 build: prepare
 	export AWS_ENDPOINT="test" && electron-builder build --$(D_OS) --$(D_PA) -p never
 .PHONY:build
+
+force:
+	npm i -g electron-builder
+	npm install
+	npm run build
+	export AWS_ENDPOINT="test" && electron-builder build --$(D_OS) --$(D_PA) -p never
+.PHONY:force
