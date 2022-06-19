@@ -40,6 +40,8 @@ npm run prod
 
 ## Build
 
+### Manually
+
 Run the following command:
 
 ```bash
@@ -47,6 +49,15 @@ npm run builder
 ```
 
 To build the app for specific platfrom navigate to package.json and find out builder script, need to add some build configuration to tell electron-builder how to build application. Read [`electron-builder`](https://www.electron.build/) docs.
+
+### Makefile
+
+If you have installed [make](https://www.gnu.org/software/make/) on your operating system, just run the following command to build this desktop interface automatically.
+
+```bash
+make # Normal usage
+make force # Skip the checks and build from scratch
+```
 
 ## Release
 
