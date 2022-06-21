@@ -29,5 +29,6 @@ exports.envConfig = {
   CHECK_API_TOKEN: false,
   GLOBAL_CONF_PATH: path.join(os.homedir(), '.liara.json'),
   NEW_GLOBAL_CONFIG_PATH: path.join(os.homedir(), '.liara-auth.json'),
+  GLOBAL_DETAILS_PATH: path.join(os.homedir(), '.liara-details.json'),
   IS_DEV: process.env.NODE_ENV === 'development' ? true : false,
 };

@@ -1,6 +1,8 @@
 const path = require("path");
 const logger = require("../configs/logger");
-const { lstat, readFile, readdir } = require("fs-extra");
+const { lstat, readFile, readdir, pathExists } = require("fs-extra");
+const { envConfig } = require('../configs/envConfig');
+
 
 exports.checkDirectory = async (userPath) => {
   let isDirectory;
@@ -16,10 +18,12 @@ exports.checkDirectory = async (userPath) => {
     }
 
     const liaraJsonPath = path.join(userPath, "liara.json");
-    const hasLiaraJsonFile = await readFile(liaraJsonPath);
-    const config = JSON.parse(hasLiaraJsonFile) || {};
+    const hasLiaraJsonFile = await pathExists(liaraJsonPath) && await readFile(liaraJsonPath);
+    const hasLiaraDetailsFile = await pathExists(envConfig.GLOBAL_DETAILS_PATH) && await readFile(envConfig.GLOBAL_DETAILS_PATH);
+    const config = JSON.parse(hasLiaraJsonFile) || JSON.parse(hasLiaraDetailsFile)[userPath] || {};
     return { isDirectory, config, isEmpty: false };
   } catch (error) {
+    console.log(error)
     if (!isDirectory && error.code === "ENOENT") {
       return { isDirectory: false };
     }

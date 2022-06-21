@@ -99,6 +99,9 @@ exports.deploy = async (event, args) => {
       await fs.remove(sourcePath)
       throw new Error('Source is too large.')
     }
+
+    fs.writeFileSync(envConfig.GLOBAL_DETAILS_PATH, JSON.stringify({[path]: {app : config.app, port: config.port}}))
+
     this.logs.push(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`)
     event.sender.send('deploy',generateLog(`Compressed size: ${bytes(sourceSize)} ${chalk.hex('#3A6EA5')('(use .gitignore to reduce the size)')}\n`, 'preparation-build', 'finish'));
 
