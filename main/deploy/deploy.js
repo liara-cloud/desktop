@@ -104,9 +104,7 @@ exports.deploy = async (event, args) => {
     const liaraDetailsFile = await pathExists(detailsPath) && await readFile(detailsPath);
     const liaraDetailsJson = JSON.parse(liaraDetailsFile.toString())
     
-    if (!liaraDetailsJson[path]){
-      await writeFile(detailsPath, JSON.stringify({...liaraDetailsJson, [path]: {app : config.app, port: config.port}}))
-    }
+    await writeFile(detailsPath, JSON.stringify({...liaraDetailsJson, [path]: {app : config.app, port: config.port}}))
 
     this.logs.push(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`)
     event.sender.send('deploy',generateLog(`Compressed size: ${bytes(sourceSize)} ${chalk.hex('#3A6EA5')('(use .gitignore to reduce the size)')}\n`, 'preparation-build', 'finish'));
