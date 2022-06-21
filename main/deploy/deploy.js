@@ -1,4 +1,4 @@
-const fs = require("fs-extra");
+const {statSync, writeFile, remove} = require("fs-extra");
 const bytes = require("bytes");
 const chalk = require("chalk");
 const generateLog = require("./log");
@@ -94,13 +94,13 @@ exports.deploy = async (event, args) => {
     }
     const sourcePath = prepareTmpDirectory();
     await createArchive(sourcePath, path, platformDetected);
-    const { size: sourceSize } = fs.statSync(sourcePath);
+    const { size: sourceSize } = statSync(sourcePath);
     if (sourceSize > envConfig.MAX_SOURCE_SIZE) {
-      await fs.remove(sourcePath)
+      await remove(sourcePath)
       throw new Error('Source is too large.')
     }
 
-    fs.writeFileSync(envConfig.GLOBAL_DETAILS_PATH, JSON.stringify({[path]: {app : config.app, port: config.port}}))
+    await writeFile(envConfig.GLOBAL_DETAILS_PATH, JSON.stringify({[path]: {app : config.app, port: config.port}}))
 
     this.logs.push(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`)
     event.sender.send('deploy',generateLog(`Compressed size: ${bytes(sourceSize)} ${chalk.hex('#3A6EA5')('(use .gitignore to reduce the size)')}\n`, 'preparation-build', 'finish'));
