@@ -23,7 +23,6 @@ exports.checkDirectory = async (userPath) => {
     const config = JSON.parse(hasLiaraJsonFile) || JSON.parse(hasLiaraDetailsFile)[userPath] || {};
     return { isDirectory, config, isEmpty: false };
   } catch (error) {
-    console.log(error)
     if (!isDirectory && error.code === "ENOENT") {
       return { isDirectory: false };
     }
