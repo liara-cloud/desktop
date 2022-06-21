@@ -1,10 +1,10 @@
-const {statSync, writeFile, remove} = require("fs-extra");
 const bytes = require("bytes");
 const chalk = require("chalk");
 const generateLog = require("./log");
 const logger = require("../configs/logger");
 const gotInstance = require("./got-instance");
 const { showNotification } = require("../notify");
+const {statSync, writeFile, remove, pathExists, readFile} = require("fs-extra");
 
 const {sleep} = require('../utils/wait')
 const { envConfig } = require("../configs/envConfig");
@@ -30,7 +30,8 @@ exports.deploy = async (event, args) => {
     const got = gotInstance(api_token, region)
     const platformDetected = config.platform
     const [ preUrl, postUrl ] = envConfig.REGION_DEPLOY_APP[region].split('api')
-    
+    const detailsPath = envConfig.GLOBAL_DETAILS_PATH
+
     const body = {
       build: {},
       args: config.args,
@@ -99,8 +100,13 @@ exports.deploy = async (event, args) => {
       await remove(sourcePath)
       throw new Error('Source is too large.')
     }
-
-    await writeFile(envConfig.GLOBAL_DETAILS_PATH, JSON.stringify({[path]: {app : config.app, port: config.port}}))
+    
+    const liaraDetailsFile = await pathExists(detailsPath) && await readFile(detailsPath);
+    const liaraDetailsJson = JSON.parse(liaraDetailsFile.toString())
+    
+    if (!liaraDetailsJson[path]){
+      await writeFile(detailsPath, JSON.stringify({...liaraDetailsJson, [path]: {app : config.app, port: config.port}}))
+    }
 
     this.logs.push(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`)
     event.sender.send('deploy',generateLog(`Compressed size: ${bytes(sourceSize)} ${chalk.hex('#3A6EA5')('(use .gitignore to reduce the size)')}\n`, 'preparation-build', 'finish'));
