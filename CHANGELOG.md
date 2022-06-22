@@ -1,3 +1,10 @@
+# 1.0.5 (2022.5.12)
+
+#### Fixes
+
+- improve error messages
+- respect platform version from `liara.json`
+
 # 1.0.4 (2022.4.26)
 
 #### Additions
