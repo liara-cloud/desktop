@@ -30,5 +30,5 @@ const types = [
 ];
 export default function PlatformIcon({ platform }) {
   const type = types.find((type) => type.alt === platform);
-  return <img className="icon-platform" src={type.logo} />;
+  return <img className="icon-platform" src={type.logo} draggable="false"/>;
 }
