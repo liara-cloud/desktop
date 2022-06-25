@@ -46,7 +46,7 @@ const User = (props) => {
         >
           {current !== undefined && (
             <>
-              <img src={`http://${current.avatar}`} />
+              <img src={`http://${current.avatar}`} draggable="false" />
               {current.region == "germany" && (
                 <span className="region">
                   <German />
@@ -72,7 +72,7 @@ const User = (props) => {
                      `}
                   style={{ margin: 0 }}
                 >
-                  <img src={`http://${item.avatar}`} />
+                  <img src={`http://${item.avatar}`} draggable="false" />
 
                   <span className="region">
                     {item.region == "iran" ? <Iran /> : <German />}
