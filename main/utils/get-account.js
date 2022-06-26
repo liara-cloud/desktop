@@ -12,7 +12,11 @@ exports.getUser = async (apiToken, region) => {
     logger.info(`Get User Data: ${response.user}`);
     return response.user;
   } catch (error) {
-    if (error.response.statusMessage !== 'Unauthorized') {
+    if (error.code === 'EAI_AGAIN') {
+      logger.info('User network connection lost.');
+      throw error;
+    }
+    if (error.response && error.response.statusMessage !== 'Unauthorized') {
       throw err;
     }
     throw new Error(JSON.stringify({ apiToken, region }));

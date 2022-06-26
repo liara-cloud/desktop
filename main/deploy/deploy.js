@@ -18,6 +18,7 @@ const { default: ReleaseFailed } = require("@liara/cli/lib/errors/release-failed
 const { default: prepareTmpDirectory } = require("@liara/cli/lib/services/tmp-dir");
 const { default: collectGitInfo } = require("@liara/cli/lib/utils/collect-git-info");
 const { default: mergePlatformConfigWithDefaults } = require("@liara/cli/lib/utils/merge-platform-config");
+
 exports.logs = [];
 exports.release = { id: undefined };
 exports.state = {canceled: false, upload: false};
