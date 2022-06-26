@@ -30,8 +30,8 @@ exports.deploy = async (event, args) => {
     const {path, region, api_token, config } = args;
     const got = gotInstance(api_token, region)
     const platformDetected = config.platform
-    const [ preUrl, postUrl ] = envConfig.REGION_DEPLOY_APP[region].split('api')
     const cachePath = envConfig.GLOBAL_CACHE_PATH
+    const [ preUrl, postUrl ] = envConfig.REGION_DEPLOY_APP[region].split('api')
 
     const body = {
       build: {},
@@ -102,8 +102,8 @@ exports.deploy = async (event, args) => {
       throw new Error('Source is too large.')
     }
     
-    const liaraCacheJson = await pathExists(cachePath) && await readJson(cachePath);
-    
+    const liaraCacheJson = await pathExists(cachePath) && await readJson(cachePath, {throws: false});
+
     await writeJson(cachePath, {...liaraCacheJson, [path]: {app : config.app, port: config.port}})
 
     this.logs.push(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`)
