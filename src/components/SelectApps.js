@@ -209,9 +209,10 @@ function SelectApps() {
             >
               ﭘﻮﺭﺕ ﻣﻮﺭﺩ ﻧﻈﺮﺗﺎﻥ ﺭﺍ ﻭﺍﺭﺩ ﮐﻨﯿﺪ.
             </p>
-            {console.log(port)}
+
             <input
               placeholder={hasConfigPort && checkDirectory.config.port}
+              value={port}
               disabled={disabled}
               onChange={(e) => {
                 setPort(e.target.value);

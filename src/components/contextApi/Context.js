@@ -225,7 +225,7 @@ export const ContextAPI = (props) => {
       setPort(defaultPort["0"].port);
     } else {
       setDisabled(false);
-      setPort("");
+      setPort(port);
     }
   }, [checkDirectory, selected]);
 
