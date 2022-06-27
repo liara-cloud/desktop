@@ -46,6 +46,12 @@ export const ContextAPI = (props) => {
   };
 
   useEffect(() => {
+    setLoading(true);
+    if (!navigator.onLine) {
+      setLoading(false);
+      return setOnline(false);
+    }
+
     ipcRenderer.on("asynchronous-login", (event, arg) => {
       setLoading(false);
       const user = arg.map((item) => Object.values(item)[0]);
@@ -53,7 +59,7 @@ export const ContextAPI = (props) => {
       setCurrent(user.filter((item) => item.current)[0]);
     });
     ipcRenderer.send("asynchronous-login", "liara-cloud");
-  }, []);
+  }, [online]);
 
   const openConsoleLogin = () => {
     ipcRenderer.on("open-console", (event, arg) => {
@@ -125,8 +131,6 @@ export const ContextAPI = (props) => {
 
       setLog({ text: data, state: arg.state, status: arg.status });
     });
-
-    console.log(port);
 
     return ipcRenderer.send("deploy", {
       path: file,
