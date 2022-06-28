@@ -3,7 +3,7 @@ const path = require("path");
 
 const { sentry } = require("./configs/sentry");
 const appRootDir = require("app-root-dir").get();
-const { app, BrowserWindow, ipcMain, shell, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, shell, dialog , globalShortcut} = require("electron");
 const { autoUpdater } = require("electron-updater");
 
 const logger = require("./configs/logger");
@@ -19,6 +19,7 @@ const { chanegCurrentAccount } = require("./utils/change-current");
 const { checkDirectory } = require("./utils/check-upload-directory");
 
 let mainWindow;
+
 async function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 350,
@@ -77,6 +78,16 @@ async function createMainWindow() {
     mainWindow = null;
   });
 }
+
+app.on('browser-window-focus', function () {
+  globalShortcut.register("CommandOrControl+R", () => {
+      console.log("CommandOrControl+R is pressed: Shortcut Disabled");
+  });
+});
+
+app.on('browser-window-blur', function () {
+  globalShortcut.unregister('CommandOrControl+R');
+});
 
 app.whenReady().then(() => {
   envConfig.APP_VERSION = app.getVersion();
