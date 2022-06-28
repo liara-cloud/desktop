@@ -104,7 +104,7 @@ exports.deploy = async (event, args) => {
     
     const liaraCacheJson = await pathExists(cachePath) && await readJson(cachePath, {throws: false});
 
-    await writeJson(cachePath, {...liaraCacheJson, [path]: {app : config.app, port: config.port}})
+    await writeJson(cachePath, {...liaraCacheJson, [path]: {app : config.app, port: config.port, token: api_token, region}})
 
     this.logs.push(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`)
     event.sender.send('deploy',generateLog(`Compressed size: ${bytes(sourceSize)} ${chalk.hex('#3A6EA5')('(use .gitignore to reduce the size)')}\n`, 'preparation-build', 'finish'));

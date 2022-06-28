@@ -1,8 +1,8 @@
 const path = require("path");
 const logger = require("../configs/logger");
+const liaraCache = require('./handle-cache');
 const { lstat, readFile, readdir, pathExists, readJson } = require("fs-extra");
 const { envConfig } = require('../configs/envConfig');
-
 
 exports.checkDirectory = async (userPath) => {
   let isDirectory;
@@ -21,10 +21,9 @@ exports.checkDirectory = async (userPath) => {
 
     const hasLiaraJsonFile = await pathExists(liaraJsonPath) && await readJson(liaraJsonPath);
 
-    const liaraCachePath = envConfig.GLOBAL_CACHE_PATH;
+    const liaraCacheData = await liaraCache();
 
-    const hasLiaraCacheJson = await pathExists(liaraCachePath) && await readJson(liaraCachePath);
-    const config = hasLiaraJsonFile || hasLiaraCacheJson[userPath] || {};
+    const config = hasLiaraJsonFile || liaraCacheData[userPath] || {};
 
     return { isDirectory, config, isEmpty: false };
   } catch (error) {
