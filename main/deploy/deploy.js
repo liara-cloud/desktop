@@ -27,7 +27,7 @@ exports.deploy = async (event, args) => {
   try {
     this.state.canceled = false
     this.state.upload = false
-    const {path, region, api_token, config } = args;
+    const {path, region, api_token, config, account_name } = args;
     const got = gotInstance(api_token, region)
     const platformDetected = config.platform
     const cachePath = envConfig.GLOBAL_CACHE_PATH
@@ -104,7 +104,7 @@ exports.deploy = async (event, args) => {
     
     const liaraCacheJson = await pathExists(cachePath) && await readJson(cachePath, {throws: false});
 
-    await writeJson(cachePath, {...liaraCacheJson, [path]: {app : config.app, port: config.port, token: api_token, region}})
+    await writeJson(cachePath, {...liaraCacheJson, [account_name]: {[path]: { app : config.app, port: config.port, platform: platformDetected }}})
 
     this.logs.push(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`)
     event.sender.send('deploy',generateLog(`Compressed size: ${bytes(sourceSize)} ${chalk.hex('#3A6EA5')('(use .gitignore to reduce the size)')}\n`, 'preparation-build', 'finish'));

@@ -1,8 +1,7 @@
-const path = require("path");
-const logger = require("../configs/logger");
+const path = require('path');
+const logger = require('../configs/logger');
 const liaraCache = require('./handle-cache');
-const { lstat, readFile, readdir, pathExists, readJson } = require("fs-extra");
-const { envConfig } = require('../configs/envConfig');
+const { lstat, readdir, pathExists, readJson } = require('fs-extra');
 
 exports.checkDirectory = async (userPath) => {
   let isDirectory;
@@ -17,9 +16,10 @@ exports.checkDirectory = async (userPath) => {
       return { isDirectory: true, isEmpty: true };
     }
 
-    const liaraJsonPath = path.join(userPath, "liara.json");
+    const liaraJsonPath = path.join(userPath, 'liara.json');
 
-    const hasLiaraJsonFile = await pathExists(liaraJsonPath) && await readJson(liaraJsonPath);
+    const hasLiaraJsonFile =
+      (await pathExists(liaraJsonPath)) && (await readJson(liaraJsonPath));
 
     const liaraCacheData = await liaraCache();
 
@@ -27,14 +27,14 @@ exports.checkDirectory = async (userPath) => {
 
     return { isDirectory, config, isEmpty: false };
   } catch (error) {
-    if (!isDirectory && error.code === "ENOENT") {
+    if (!isDirectory && error.code === 'ENOENT') {
       return { isDirectory: false };
     }
     if (
       isDirectory &&
-      (error.code === "ENOENT" ||
-        error.message === "Unexpected end of JSON input" ||
-        error.name === "SyntaxError")
+      (error.code === 'ENOENT' ||
+        error.message === 'Unexpected end of JSON input' ||
+        error.name === 'SyntaxError')
     ) {
       return { isDirectory, config: {}, isEmpty: false };
     }
