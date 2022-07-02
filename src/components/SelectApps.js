@@ -45,7 +45,7 @@ function SelectApps() {
         setCheck(false);
         setFetchApp(false);
         const projects = res.data.projects.map((project) => project.project_id);
-        if (!projects.includes(selected.project_id)) {
+        if (!projects.includes(selected.project_id) && !selected.project_id) {
           setSelected("");
         }
       })

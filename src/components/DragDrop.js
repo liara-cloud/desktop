@@ -41,7 +41,7 @@ function DragDrop(props) {
         if (!!filterd) {
           setSelected({
             project_id: checkDirectory.config.app,
-            type: filterd.type,
+            type: checkDirectory.config.platform || filterd.platform,
           });
         } else {
           setAppNotfound(true);

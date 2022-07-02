@@ -24,7 +24,7 @@ exports.checkDirectory = async (userPath) => {
     const liaraCacheData = await liaraCache();
 
     const config = hasLiaraJsonFile || liaraCacheData[userPath] || {};
-
+    console.log({isDirectory, config, isEmpty: false});
     return { isDirectory, config, isEmpty: false };
   } catch (error) {
     if (!isDirectory && error.code === 'ENOENT') {

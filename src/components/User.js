@@ -15,6 +15,8 @@ const User = (props) => {
     handleLogout,
     isDeploy,
     showApps,
+    checkIsDirectory,
+    file,
   } = context;
 
   useEffect(() => {
@@ -31,9 +33,10 @@ const User = (props) => {
     setShowApps(false);
   }
 
-  const handleClick = (item) => {
+  const handleClick =  (item) => {
     (item.email !== current.email || item.region !== current.region) &&
       handleChangeCurrent(item.email, item.region);
+    checkIsDirectory(file);
     setMenu(!menu);
   };
 
