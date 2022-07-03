@@ -29,7 +29,6 @@ export const ContextAPI = (props) => {
   const [position, setPosition] = useState("");
   const [error, setError] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
-  const [isPortChange, setIsPortChange] = useState(false);
 
   const [next, setNext] = useState(false);
   const [fetchApp, setFetchApp] = useState(false);
@@ -254,7 +253,7 @@ export const ContextAPI = (props) => {
 
   useEffect(() => {
     if (defaultPort.length != 0) {
-      setDisabled(true);
+      // setDisabled(true);
       setPort(defaultPort["0"].port);
     } else if (
       checkDirectory.config?.port &&
@@ -335,7 +334,6 @@ export const ContextAPI = (props) => {
         openCreateApp,
         setFetchApp,
         getProject,
-        setIsPortChange,
       }}
     >
       {props.children}

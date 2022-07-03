@@ -28,14 +28,12 @@ function SelectApps() {
     check,
     setCheck,
     clearInfo,
-    checkDirectory,
     next,
     setNext,
     openCreateApp,
     fetchApp,
     getProject,
     setFetchApp,
-    setIsPortChange,
   } = context;
 
   useEffect(() => {
@@ -210,7 +208,6 @@ function SelectApps() {
               disabled={disabled}
               onChange={(e) => {
                 setPort(e.target.value);
-                setIsPortChange(false);
               }}
               className="port"
               type="number"
