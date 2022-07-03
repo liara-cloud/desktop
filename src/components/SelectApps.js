@@ -58,7 +58,6 @@ function SelectApps() {
   const [isChange, setIsChange] = useState(true);
 
   const hasConfigPort = typeof checkDirectory.config.port != "undefined";
-  const val = hasConfigPort ? checkDirectory.config.port : port;
   hasConfigPort && isChange && setPort(checkDirectory.config.port);
 
   // kill warning
@@ -211,7 +210,6 @@ function SelectApps() {
             </p>
 
             <input
-              placeholder={hasConfigPort && checkDirectory.config.port}
               value={port}
               disabled={disabled}
               onChange={(e) => {
