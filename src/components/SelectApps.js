@@ -35,6 +35,7 @@ function SelectApps() {
     fetchApp,
     getProject,
     setFetchApp,
+    setIsPortChange,
   } = context;
 
   useEffect(() => {
@@ -54,11 +55,6 @@ function SelectApps() {
         ipcRenderer.send("asynchronous-login", "liara-cloud");
       });
   }, [current, fetchAppEffect]);
-
-  const [isChange, setIsChange] = useState(true);
-
-  const hasConfigPort = typeof checkDirectory.config.port != "undefined";
-  hasConfigPort && isChange && setPort(checkDirectory.config.port);
 
   // kill warning
   useEffect(() => {
@@ -214,7 +210,7 @@ function SelectApps() {
               disabled={disabled}
               onChange={(e) => {
                 setPort(e.target.value);
-                setIsChange(false);
+                setIsPortChange(false);
               }}
               className="port"
               type="number"

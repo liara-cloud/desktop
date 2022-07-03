@@ -29,6 +29,7 @@ export const ContextAPI = (props) => {
   const [position, setPosition] = useState("");
   const [error, setError] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
+  const [isPortChange, setIsPortChange] = useState(false);
 
   const [next, setNext] = useState(false);
   const [fetchApp, setFetchApp] = useState(false);
@@ -250,10 +251,16 @@ export const ContextAPI = (props) => {
     { name: "netcore", port: 80 },
   ];
   const defaultPort = port_type.filter((item) => item.name === selected.type);
+
   useEffect(() => {
     if (defaultPort.length != 0) {
       setDisabled(true);
       setPort(defaultPort["0"].port);
+    } else if (
+      checkDirectory.config?.port &&
+      checkDirectory.config?.app == selected.project_id
+    ) {
+      setPort(checkDirectory.config.port);
     } else {
       setDisabled(false);
       setPort(port);
@@ -328,6 +335,7 @@ export const ContextAPI = (props) => {
         openCreateApp,
         setFetchApp,
         getProject,
+        setIsPortChange,
       }}
     >
       {props.children}
