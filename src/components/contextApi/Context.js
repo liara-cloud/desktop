@@ -90,7 +90,7 @@ export const ContextAPI = (props) => {
 
   const checkIsDirectory = (path) => {
     ipcRenderer.on("is-directory", (event, arg) => {
-      if (arg.config != {}) {
+      if (arg.config.app && arg.config.platform) {
         setSelected({
           project_id: arg.config.app,
           type: arg.config.platform,
