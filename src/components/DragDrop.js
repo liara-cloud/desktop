@@ -84,7 +84,7 @@ function DragDrop(props) {
         ref={dropBox}
         id="drop-box"
         style={
-          checkDirectory.isDirectory == false || isEmptyFolder || appNotfound
+          checkDirectory.isDirectory == false && file || isEmptyFolder || appNotfound
             ? { borderColor: "#ea5167" }
             : {}
         }
@@ -101,7 +101,7 @@ function DragDrop(props) {
           </span>
         </div>
       </div>
-      {checkDirectory.isDirectory == false && (
+      {checkDirectory.isDirectory == false && file && (
         <div className="alert-directory">
           <p>( تنها انتخاب پوشه مجاز است )</p>
         </div>
