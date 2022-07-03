@@ -23,9 +23,25 @@ exports.checkDirectory = async (userPath) => {
 
     const liaraCacheData = await liaraCache();
 
-    const config = hasLiaraJsonFile || liaraCacheData[userPath] || {};
-    console.log({isDirectory, config, isEmpty: false});
-    return { isDirectory, config, isEmpty: false };
+    if (hasLiaraJsonFile) {
+      return {
+        isDirectory,
+        config: hasLiaraJsonFile,
+        isEmpty: false,
+        isCache: false,
+      };
+    }
+
+    if (liaraCacheData && liaraCacheData[userPath]) {
+      return {
+        isDirectory,
+        config: liaraCacheData[userPath],
+        isEmpty: false,
+        isCache: true,
+      };
+    }
+
+    return { isDirectory, config: {}, isEmpty: false, isCache: false };
   } catch (error) {
     if (!isDirectory && error.code === 'ENOENT') {
       return { isDirectory: false };
