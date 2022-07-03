@@ -103,8 +103,14 @@ exports.deploy = async (event, args) => {
     }
     
     const liaraCacheJson = await pathExists(cachePath) && await readJson(cachePath, {throws: false});
+    if (liaraCacheJson) {
+      liaraCacheJson[account_name] = { ...liaraCacheJson[account_name], [path]: { app : config.app, port: config.port, platform: platformDetected }}
+      await writeJson(cachePath, liaraCacheJson);
+    }
 
-    await writeJson(cachePath, {...liaraCacheJson, [account_name]: {[path]: { app : config.app, port: config.port, platform: platformDetected }}})
+    if (!liaraCacheJson) {
+      await writeJson(cachePath, {...liaraCacheJson, [account_name]: {[path]: { app : config.app, port: config.port, platform: platformDetected }}})
+    }
 
     this.logs.push(`Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`)
     event.sender.send('deploy',generateLog(`Compressed size: ${bytes(sourceSize)} ${chalk.hex('#3A6EA5')('(use .gitignore to reduce the size)')}\n`, 'preparation-build', 'finish'));
