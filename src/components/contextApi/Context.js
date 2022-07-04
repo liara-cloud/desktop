@@ -173,7 +173,7 @@ export const ContextAPI = (props) => {
         ...checkDirectory.config,
         app: selected.project_id,
         platform: selected.type,
-        port,
+        port: parseInt(port),
       },
     });
   };

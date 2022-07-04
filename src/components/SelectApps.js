@@ -61,7 +61,8 @@ function SelectApps() {
     }, 5000);
   }, [next]);
 
-  const checkPort = port === "" || port === undefined || port != parseInt(port);
+  const checkPort =
+    port === "" || !(port >= 0 && port <= 65535) || port != parseInt(port);
 
   const handleFetchApp = () => {
     setFetchApp(true);
@@ -222,7 +223,7 @@ function SelectApps() {
             bottom: 55,
           }}
         >
-          {port == parseInt(port) && selected != "" ? (
+          {!checkPort && selected != "" ? (
             <Link to="/Deploy">
               <button
                 className="umami--click--start-deploy btn main hint"
