@@ -3,8 +3,7 @@ import { Context } from "./contextApi/Context";
 import PlatformIcon from "./PlatformIcon";
 
 export default function AppsItem({ item, setShowApps }) {
-  const { setPort, checkDirectory, selected, setSelected } =
-    useContext(Context);
+  const { setPort, selected, setSelected } = useContext(Context);
 
   const handleSwithApp = () => {
     setSelected(item);

@@ -33,7 +33,7 @@ function DragDrop(props) {
   };
 
   useEffect(() => {
-    if (!!checkDirectory.config) {
+    if (checkDirectory.config?.app) {
       getProject().then(({ data: { projects } }) => {
         const filterd = projects.filter(
           ({ project_id }) => project_id == checkDirectory.config.app
@@ -41,7 +41,7 @@ function DragDrop(props) {
         if (!!filterd) {
           setSelected({
             project_id: checkDirectory.config.app,
-            type: checkDirectory.config.platform || filterd.platform,
+            type: checkDirectory.config.platform || filterd.type,
           });
         } else {
           setAppNotfound(true);
@@ -84,7 +84,9 @@ function DragDrop(props) {
         ref={dropBox}
         id="drop-box"
         style={
-          checkDirectory.isDirectory == false && file || isEmptyFolder || appNotfound
+          (checkDirectory.isDirectory == false && file) ||
+          isEmptyFolder ||
+          appNotfound
             ? { borderColor: "#ea5167" }
             : {}
         }

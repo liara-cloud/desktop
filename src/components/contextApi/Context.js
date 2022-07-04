@@ -90,11 +90,17 @@ export const ContextAPI = (props) => {
 
   const checkIsDirectory = (path) => {
     ipcRenderer.on("is-directory", (event, arg) => {
-      if (arg.config?.app && arg.config?.platform) {
+      if (arg.config?.app && arg.config?.platform && arg.isCache) {
         setSelected({
           project_id: arg.config.app,
           type: arg.config.platform,
         });
+        setPort(arg.config.platform);
+      } else if (
+        !arg.isCache &&
+        arg.config?.app &&
+        arg.config?.platform == undefined
+      ) {
         setPort(arg.config.platform);
       }
       setCheckDirectory(arg);
@@ -227,7 +233,7 @@ export const ContextAPI = (props) => {
     setSelected("");
     setLog("");
     setCheckDirectory("");
-
+    setShowApps(false);
     setStatus("preparation-build");
 
     setIsCancel(false);
