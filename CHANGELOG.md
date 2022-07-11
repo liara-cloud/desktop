@@ -1,3 +1,15 @@
+# 1.0.6 (2022.7.4)
+
+#### Fixes
+
+- improve error messages
+- fix reading disks from `liara.json`
+- fix ui bugs
+
+#### Additions
+
+- caching app name and port for each user and folder
+
 # 1.0.5 (2022.5.12)
 
 #### Fixes
