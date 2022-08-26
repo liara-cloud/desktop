@@ -30,8 +30,8 @@ async function createMainWindow() {
     height: 550,
     minHeight: 550,
     maxHeight: 550,
-    show: false,
-    frame: false,
+    show: true,
+    frame: true,
     icon:
       envConfig.PLATFORM === "darwin"
         ? `${appRootDir}/assets/liara.icns`
