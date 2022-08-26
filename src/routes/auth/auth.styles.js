@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 export const AuthContainer = styled.div`
   display: flex;
@@ -11,8 +11,9 @@ export const AuthContainer = styled.div`
     margin: 18px auto;
   }
 `;
-export const LinkContainer = styled(Link)`
+export const LinkContainer = styled.a`
   color: #d0e0ef;
   margin-top: 15px;
   font-size: 14px;
+  cursor: pointer;
 `;
