@@ -1,6 +1,7 @@
 import { ipcRenderer } from "electron";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import liaraLogo from "../../assets/images/logo.svg";
 import Button from "../../components/button/button.component";
 import { user } from "../../store/authSlice";

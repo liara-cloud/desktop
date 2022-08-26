@@ -5,19 +5,16 @@ import Directory from "./routes/directory/directory.component";
 import Navigation from "./routes/navigation/navigation.component";
 
 import "./App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { ipcRenderer } from "electron";
+import { user } from "./store/authSlice";
 
 const App = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate("/directory");
-  }, []);
-
   return (
     <Routes>
       <Route path="/" element={<Navigation />}>
+        <Route index element={<Directory />} />
         <Route path="auth" element={<Auth />} />
-        <Route path="directory" element={<Directory />} />
       </Route>
     </Routes>
   );

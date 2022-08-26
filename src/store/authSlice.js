@@ -23,7 +23,7 @@ export const authSlice = createSlice({
     user: (state, { payload }) => {
       const accounts = mapArgument(payload);
       const currentAccounts = accounts.filter((item) => item.current)[0];
-      state.list = accounts;
+      state.accounts = accounts;
       state.currentAccount = currentAccounts;
       state.isLoading = false;
     }

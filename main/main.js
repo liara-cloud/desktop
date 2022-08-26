@@ -3,7 +3,14 @@ const path = require("path");
 
 const { sentry } = require("./configs/sentry");
 const appRootDir = require("app-root-dir").get();
-const { app, BrowserWindow, ipcMain, shell, dialog , globalShortcut} = require("electron");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  shell,
+  dialog,
+  globalShortcut
+} = require("electron");
 const { autoUpdater } = require("electron-updater");
 
 const logger = require("./configs/logger");
@@ -38,19 +45,19 @@ async function createMainWindow() {
         : `${appRootDir}/assets/icon.png`,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: false
     },
-    fullscreenable: false,
+    fullscreenable: false
   });
   const urlFormatOptions = {
     protocol: "file:",
     pathname: path.join(__dirname, "..", "dist", "index.html"),
-    slashes: false,
+    slashes: false
   };
   if (envConfig.IS_DEV && process.argv.indexOf("--noDevServer") === -1) {
     urlFormatOptions.protocol = "http:";
     urlFormatOptions.host = "localhost:8080";
-    urlFormatOptions.pathname = "index.html";
+    urlFormatOptions.pathname = "/";
     urlFormatOptions.slashes = true;
   }
   if (envConfig.PLATFORM === "win32") app.setAppUserModelId("liara");
@@ -65,7 +72,7 @@ async function createMainWindow() {
     if (envConfig.IS_DEV) {
       const {
         default: installExtension,
-        REACT_DEVELOPER_TOOLS,
+        REACT_DEVELOPER_TOOLS
       } = require("electron-devtools-installer");
 
       installExtension(REACT_DEVELOPER_TOOLS).catch((err) =>
@@ -79,14 +86,14 @@ async function createMainWindow() {
   });
 }
 
-app.on('browser-window-focus', function () {
+app.on("browser-window-focus", function () {
   globalShortcut.register("CommandOrControl+R", () => {
-      console.log("CommandOrControl+R is pressed: Shortcut Disabled");
+    console.log("CommandOrControl+R is pressed: Shortcut Disabled");
   });
 });
 
-app.on('browser-window-blur', function () {
-  globalShortcut.unregister('CommandOrControl+R');
+app.on("browser-window-blur", function () {
+  globalShortcut.unregister("CommandOrControl+R");
 });
 
 app.whenReady().then(() => {
@@ -211,7 +218,7 @@ process.on("unhandledRejection", async (error) => {
         ? "خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید."
         : ".خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید",
     type: "error",
-    title: "لیارا",
+    title: "لیارا"
   });
   if (!envConfig.IS_DEV) {
     sentry.captureException(error, () => {
@@ -231,7 +238,7 @@ process.on("uncaughtException", async (error) => {
         ? "خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید."
         : ".خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید",
     type: "error",
-    title: "لیارا",
+    title: "لیارا"
   });
   if (!envConfig.IS_DEV) {
     sentry.captureException(error, () => {
