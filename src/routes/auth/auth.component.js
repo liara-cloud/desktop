@@ -6,6 +6,8 @@ import { user } from "../../store/authSlice";
 import { AuthContainer, LinkContainer } from "./auth.styles";
 
 const Auth = () => {
+  const dispatch = useDispatch();
+
   const logInWithBrowser = () => {
     ipcRenderer.on("open-console", (_, arg) => {
       dispatch(user(arg));

@@ -11,10 +11,12 @@ import {
 } from "./navigation.styles";
 
 import openMenuIcon from "../../assets/images/menu-open.svg";
+import closeMenuIcon from "../../assets/images/menu-close.svg";
 import liaraLogo from "../../assets/images/logo.svg";
 
 const Navigation = () => {
   const location = useLocation();
+  const { isOpen } = useSelector((state) => state.sidebar);
   const dispatch = useDispatch();
 
   const isAuthPage = location.pathname === "/auth";
@@ -29,7 +31,11 @@ const Navigation = () => {
         <Fragment>
           <NavHeader>
             <ActionMenu onClick={handleToggleSidebar}>
-              <img src={openMenuIcon} />
+              {isOpen ? (
+                <img src={closeMenuIcon} />
+              ) : (
+                <img src={openMenuIcon} />
+              )}
             </ActionMenu>
             <img src={liaraLogo} width="70" />
           </NavHeader>
