@@ -1,14 +1,46 @@
-import React from "react";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
-import { NavContainer, NavFooter } from "./navigation.styles";
+import React, { Fragment, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useLocation } from "react-router-dom";
+import Sidebar from "../../components/sidebar/sidebar.component";
+import { toggle } from "../../store/sidebarSlice";
+import {
+  ActionMenu,
+  NavContainer,
+  NavFooter,
+  NavHeader
+} from "./navigation.styles";
+
+import openMenuIcon from "../../assets/images/menu-open.svg";
+import liaraLogo from "../../assets/images/logo.svg";
 
 const Navigation = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  const isAuthPage = location.pathname === "/auth";
+
+  const handleToggleSidebar = () => {
+    dispatch(toggle());
+  };
+
   return (
     <NavContainer>
+      {!isAuthPage && (
+        <Fragment>
+          <NavHeader>
+            <ActionMenu onClick={handleToggleSidebar}>
+              <img src={openMenuIcon} />
+            </ActionMenu>
+            <img src={liaraLogo} width="70" />
+          </NavHeader>
+          <Sidebar />
+        </Fragment>
+      )}
       <Outlet />
-      <NavFooter>نسخه 1.0.7</NavFooter>
+      <NavFooter>
+        <p>نسخه 1.0.7</p>
+        <a>ارتباط با پشتیبانی</a>
+      </NavFooter>
     </NavContainer>
   );
 };
