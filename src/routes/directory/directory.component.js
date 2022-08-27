@@ -15,8 +15,8 @@ const Directory = () => {
       dispatch(user(arg));
 
       // push to auth page
-      !arg.length && navigate("/auth");
       setIsLoading(false);
+      !arg.length && navigate("/auth");
     });
     ipcRenderer.send("asynchronous-login", "liara-cloud");
   }, []);
