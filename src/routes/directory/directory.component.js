@@ -2,6 +2,7 @@ import { ipcRenderer } from "electron";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Dropzone from "../../components/dropzone/dropzone.component";
 import { user } from "../../store/authSlice";
 
 const Directory = () => {
@@ -24,7 +25,11 @@ const Directory = () => {
     return <div>loading...</div>;
   }
 
-  return <div>Directory</div>;
+  return (
+    <div>
+      <Dropzone />
+    </div>
+  );
 };
 
 export default Directory;
