@@ -89,6 +89,12 @@ const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
   } 
+
+  button {
+    background: none;
+    border: none;
+    font-family : Yekan Bakh
+  }
 `;
 
 export default GlobalStyle;

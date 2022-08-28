@@ -1,7 +1,8 @@
 import { ipcRenderer } from "electron";
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { user } from "../../../store/authSlice";
+import sliceText from "../../../utility/sliceText.util";
 import {
   Account,
   AccountAvatar,
@@ -29,12 +30,15 @@ const handleChangeCurrent = (email, region) => {
 };
 
 const Accounts = () => {
-  const { accounts } = useSelector((state) => state.auth.user);
+  const { accounts, currentAccount } = useSelector((state) => state.auth.user);
+
   const dispatch = useDispatch();
 
   const handlechengeCurrent = (email, region) => {
     ipcRenderer.on("change-current", (_, arg) => {
-      dispatch(user(arg));
+      if (currentAccount.email !== email) {
+        dispatch(user(arg));
+      }
     });
     ipcRenderer.send("change-current", {
       email,
@@ -53,7 +57,7 @@ const Accounts = () => {
               onClick={() => handlechengeCurrent(email, region)}
             >
               <AccountAvatar src={avatar} alt={`avatar-${account_name}`} />
-              <p>{fullname}</p>
+              <p>{sliceText(fullname, 14)}</p>
               <BadgeRegion src={region} />
             </Account>
           );

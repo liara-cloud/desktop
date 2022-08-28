@@ -13,6 +13,7 @@ import {
 import openMenuIcon from "../../assets/images/menu-open.svg";
 import closeMenuIcon from "../../assets/images/menu-close.svg";
 import liaraLogo from "../../assets/images/logo.svg";
+import { ipcRenderer } from "electron";
 
 const Navigation = () => {
   const location = useLocation();
@@ -23,6 +24,12 @@ const Navigation = () => {
 
   const handleToggleSidebar = () => {
     dispatch(toggle());
+  };
+
+  const openTicketingInBrowser = () => {
+    ipcRenderer.send("console", {
+      support: true
+    });
   };
 
   return (
@@ -45,7 +52,7 @@ const Navigation = () => {
       <Outlet />
       <NavFooter>
         <p>نسخه 1.0.7</p>
-        <a>ارتباط با پشتیبانی</a>
+        <a onClick={openTicketingInBrowser}>ارتباط با پشتیبانی</a>
       </NavFooter>
     </NavContainer>
   );

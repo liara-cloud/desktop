@@ -14,3 +14,22 @@ export const SidebarContainer = styled.div`
   transition: all 0.3s;
   transform: translateX(${(props) => (props.isOpen ? `0px` : `70vw`)});
 `;
+
+export const Dividr = styled.hr`
+  width: 100%;
+  border: 1px dashed #3c5e7d77;
+  margin-top: 15px;
+  margin-bottom: 15px;
+`;
+
+export const OptionItem = styled.button`
+  color: #d0e0ef;
+  font-size: 14px;
+  padding: 8px 0;
+  cursor: pointer;
+  display: block;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;

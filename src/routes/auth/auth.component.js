@@ -1,12 +1,16 @@
 import { ipcRenderer } from "electron";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import liaraLogo from "../../assets/images/logo.svg";
 import Button from "../../components/button/button.component";
 import { user } from "../../store/authSlice";
 import { AuthContainer, LinkContainer } from "./auth.styles";
 
 const Auth = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { currentAccount } = useSelector((state) => state.auth.user);
 
   const logInWithBrowser = () => {
     ipcRenderer.on("open-console", (_, arg) => {
@@ -21,6 +25,10 @@ const Auth = () => {
     });
     ipcRenderer.send("open-console", { page: "register" });
   };
+
+  useEffect(() => {
+    if (currentAccount?.email) navigate("/");
+  }, [currentAccount]);
 
   return (
     <AuthContainer>

@@ -6,7 +6,6 @@ import { user } from "../../store/authSlice";
 
 const Directory = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const auth = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
