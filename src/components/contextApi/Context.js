@@ -253,23 +253,28 @@ export const ContextAPI = (props) => {
     { name: "django", port: 80 },
     { name: "flask", port: 80 },
     { name: "php", port: 80 },
-    { name: "netcore", port: 80 },
   ];
   const defaultPort = port_type.filter((item) => item.name === selected.type);
 
   useEffect(() => {
     if (defaultPort.length != 0) {
       // setDisabled(true);
-      setPort(defaultPort["0"].port);
-    } else if (
+      return setPort(defaultPort["0"].port);
+    } 
+    if (
       checkDirectory.config?.port &&
       checkDirectory.config?.app == selected.project_id
     ) {
-      setPort(checkDirectory.config.port);
-    } else {
-      setDisabled(false);
-      setPort(port);
+      return setPort(checkDirectory.config.port);
+    }  
+
+    setDisabled(false);
+    if (selected.type === "netcore") {
+        return setPort(80);
     }
+    
+    return setPort(port)
+    
   }, [checkDirectory, selected]);
 
   const getProject = () => {
