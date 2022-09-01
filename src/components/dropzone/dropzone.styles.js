@@ -9,7 +9,7 @@ export const DropzoneContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${(props) => props.isDragActive && `background: #757f8811; `}
+  ${(props) => props.hint && `background: #757f8811; `}
   p {
     direction: rtl;
     line-height: 32px;

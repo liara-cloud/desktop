@@ -13,18 +13,18 @@ const Auth = () => {
   const { currentAccount } = useSelector((state) => state.auth.user);
 
   const logInWithBrowser = () => {
-    ipcRenderer.on("open-console", (_, arg) => {
-      dispatch(user(arg));
-    });
     ipcRenderer.send("open-console", { page: "login" });
   };
 
   const singUpWithBrowser = () => {
+    ipcRenderer.send("open-console", { page: "register" });
+  };
+
+  useEffect(() => {
     ipcRenderer.on("open-console", (_, arg) => {
       dispatch(user(arg));
     });
-    ipcRenderer.send("open-console", { page: "register" });
-  };
+  }, []);
 
   useEffect(() => {
     if (currentAccount?.email) navigate("/");

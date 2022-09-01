@@ -1,5 +1,5 @@
 import { ipcRenderer } from "electron";
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { user } from "../../../store/authSlice";
 import sliceText from "../../../utility/sliceText.util";
@@ -10,41 +10,25 @@ import {
   BadgeRegion
 } from "./accounts.styles";
 
-const handleChangeCurrent = (email, region) => {
-  ipcRenderer.on("change-current", (event, arg) => {
-    if (arg !== {}) {
-      const user = arg.map((item) => {
-        return {
-          account_name: Object.keys(item)[0],
-          ...Object.values(item)[0]
-        };
-      });
-      setAccounts(user);
-      setCurrent(user.filter((item) => item.current)[0]);
-    }
-  });
-  ipcRenderer.send("change-current", {
-    email,
-    region
-  });
-};
-
 const Accounts = () => {
   const { accounts, currentAccount } = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
 
   const handlechengeCurrent = (email, region) => {
-    ipcRenderer.on("change-current", (_, arg) => {
-      if (currentAccount.email !== email) {
-        dispatch(user(arg));
-      }
-    });
-    ipcRenderer.send("change-current", {
-      email,
-      region
-    });
+    if (currentAccount.email !== email) {
+      ipcRenderer.send("change-current", {
+        email,
+        region
+      });
+    }
   };
+
+  useEffect(() => {
+    ipcRenderer.on("change-current", (_, arg) => {
+      dispatch(user(arg));
+    });
+  }, []);
 
   return (
     <AccountsContaienr>
