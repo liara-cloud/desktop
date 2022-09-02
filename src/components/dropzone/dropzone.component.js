@@ -1,8 +1,22 @@
-import React, { useState } from "react";
+import { ipcRenderer } from "electron";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { config } from "../../store/projectConfigSlice";
 import { DropzoneContainer } from "./dropzone.styles";
+import ErrorState from "./error-state/error-state.component";
+
+const initErrorState = {
+  isDirectory: false,
+  isEmpty: false,
+  message: ""
+};
 
 const Dropzone = () => {
   const [hint, setHint] = useState(false);
+  const [error, setError] = useState(initErrorState);
+  const [path, setPath] = useState("");
+  const dispatch = useDispatch();
+  const projectConfig = useSelector((state) => state.projectConfig);
 
   const overrideEventDefaults = (event) => {
     event.preventDefault();
@@ -12,17 +26,47 @@ const Dropzone = () => {
     event.type === "dragleave" && setHint(false);
     event.type === "drop" && setHint(false);
   };
+
   const handleDragAndDropFiles = (event) => {
     overrideEventDefaults(event);
     if (!event.dataTransfer) return;
     handleFiles(event.dataTransfer.files);
   };
+
   const handleFiles = (fileList) => {
     if (fileList) {
       let files = Array.from(fileList);
-      console.log(files);
+      setPath(files[0].path);
+      ipcRenderer.send("is-directory", {
+        path: files[0].path
+      });
     }
   };
+
+  useEffect(() => {
+    ipcRenderer.on(
+      "is-directory",
+      (_, { isDirectory, isEmpty, config: configLiaraJson }) => {
+        if (isEmpty)
+          return setError({ isEmpty: true, msg: ".پوشه انتخاب شده خالی است" });
+        if (!isDirectory)
+          return setError({
+            isDirectory: true,
+            msg: ".تنها انتخاب پوشه مجاز است"
+          });
+
+        dispatch(config({ path }));
+      }
+    );
+  }, [path]);
+
+  if (error.isEmpty || error.isDirectory) {
+    setTimeout(() => {
+      setError(initErrorState);
+    }, 3000);
+
+    return <ErrorState message={error.msg} />;
+  }
 
   return (
     <DropzoneContainer
