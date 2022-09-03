@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@liara/cli": "^2.25.0-beta.7",
-    "@liara/platformicons": "^2.11.0",
+    "@liara/platformicons": "^2.20.0",
     "@liara/react-drag-drop-files": "^2.2.4",
     "@reduxjs/toolkit": "^1.8.5",
     "ansi-up": "^1.0.0",

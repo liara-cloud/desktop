@@ -1,6 +1,7 @@
 import { ipcRenderer } from "electron";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { config } from "../../store/projectConfigSlice";
 import { DropzoneContainer } from "./dropzone.styles";
 import ErrorState from "./error-state/error-state.component";
@@ -16,7 +17,7 @@ const Dropzone = () => {
   const [error, setError] = useState(initErrorState);
   const [path, setPath] = useState("");
   const dispatch = useDispatch();
-  const projectConfig = useSelector((state) => state.projectConfig);
+  const navigate = useNavigate();
 
   const overrideEventDefaults = (event) => {
     event.preventDefault();
@@ -34,19 +35,22 @@ const Dropzone = () => {
   };
 
   const handleFiles = (fileList) => {
-    if (fileList) {
-      let files = Array.from(fileList);
-      setPath(files[0].path);
-      ipcRenderer.send("is-directory", {
-        path: files[0].path
-      });
+    if (!fileList) {
+      return;
     }
+
+    const [{ path }] = Array.from(fileList);
+    setPath(path);
+    ipcRenderer.send("is-directory", {
+      path
+    });
   };
 
   useEffect(() => {
+    if (!path) return;
     ipcRenderer.on(
       "is-directory",
-      (_, { isDirectory, isEmpty, config: configLiaraJson }) => {
+      (_, { isDirectory, isEmpty, config: configLiaraJosn }) => {
         if (isEmpty)
           return setError({ isEmpty: true, msg: ".پوشه انتخاب شده خالی است" });
         if (!isDirectory)
@@ -55,7 +59,14 @@ const Dropzone = () => {
             msg: ".تنها انتخاب پوشه مجاز است"
           });
 
-        dispatch(config({ path }));
+        dispatch(
+          config({
+            path,
+            config: configLiaraJosn,
+            projects: []
+          })
+        );
+        navigate("/config");
       }
     );
   }, [path]);

@@ -2,7 +2,7 @@ import { ipcRenderer } from "electron";
 import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { user } from "../../../store/authSlice";
-import sliceText from "../../../utility/sliceText.util";
+import sliceText from "../../../utility/sliceText.utils";
 import {
   Account,
   AccountAvatar,
