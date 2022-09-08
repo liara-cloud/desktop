@@ -3,12 +3,14 @@ import { authSlice } from "./authSlice";
 import { projectConfigSlice } from "./projectConfigSlice";
 import { sidebarSlice } from "./sidebarSlice";
 import { getDefaultMiddleware } from "@reduxjs/toolkit";
+import { deploySlice } from "./deploySlice";
 
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     sidebar: sidebarSlice.reducer,
-    projectConfig: projectConfigSlice.reducer
+    projectConfig: projectConfigSlice.reducer,
+    deploy: deploySlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

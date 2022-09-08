@@ -1,8 +1,12 @@
-import React from 'react'
+import React from "react";
 import { ButtonContainer } from "./button.styles";
 
 const Button = ({ children, variant = "standard", ...otherProps }) => {
-  return <ButtonContainer {...otherProps}>{children}</ButtonContainer>;
+  return (
+    <ButtonContainer variant={variant} {...otherProps}>
+      <span>{children}</span>
+    </ButtonContainer>
+  );
 };
 
 export default Button;

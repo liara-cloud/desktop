@@ -15,7 +15,7 @@ export const AppListContainer = styled.div`
   ${(props) =>
     props.isShow
       ? `opacity: 1; transform: scale(1)`
-      : `opacity: 0; transform: scale(.75)`};
+      : `opacity: 0; transform: scale(.75); visibility: hidden`};
   transition: all 0.15s;
   overflow-y: scroll;
 `;

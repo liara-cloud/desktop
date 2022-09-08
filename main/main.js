@@ -11,7 +11,7 @@ const {
   dialog,
   globalShortcut
 } = require("electron");
-const { autoUpdater } = require("electron-updater");
+// const { autoUpdater } = require("electron-updater");
 
 const logger = require("./configs/logger");
 const { deploy } = require("./deploy/deploy");
@@ -100,7 +100,7 @@ app.whenReady().then(() => {
   envConfig.APP_VERSION = app.getVersion();
   if (envConfig.PLATFORM === "win32") {
     logger.info(envConfig.APP_VERSION);
-    autoUpdater.checkForUpdatesAndNotify();
+    // autoUpdater.checkForUpdatesAndNotify();
   }
   createMainWindow();
   app.on("activate", () => {
@@ -184,24 +184,24 @@ ipcMain.on("app_version", (event) => {
 });
 
 //update
-autoUpdater.on("update-available", () => {
-  logger.error("Update Available");
-});
-autoUpdater.on("download-progress", async (progressObj) => {
-  logger.error(progressObj);
-});
-autoUpdater.on("update-downloaded", async (info) => {
-  logger.error(info);
-  logger.error("update-downloaded");
-  const response = await showUpdateAvailable();
-  if (response) {
-    autoUpdater.quitAndInstall();
-  }
-});
-autoUpdater.on("error", (e) => {
-  // dialog.showMessageBox({message: e.message})
-  logger.error(e);
-});
+// autoUpdater.on("update-available", () => {
+//   logger.error("Update Available");
+// });
+// autoUpdater.on("download-progress", async (progressObj) => {
+//   logger.error(progressObj);
+// });
+// autoUpdater.on("update-downloaded", async (info) => {
+//   logger.error(info);
+//   logger.error("update-downloaded");
+//   const response = await showUpdateAvailable();
+//   if (response) {
+//     autoUpdater.quitAndInstall();
+//   }
+// });
+// autoUpdater.on("error", (e) => {
+//   // dialog.showMessageBox({message: e.message})
+//   logger.error(e);
+// });
 
 // Stop error
 app.allowRendererProcessReuse = true;

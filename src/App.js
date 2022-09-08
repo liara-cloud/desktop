@@ -4,9 +4,8 @@ import GlobalStyle from "./global.style";
 import Auth from "./routes/auth/auth.component";
 import Config from "./routes/config/config.component";
 import Directory from "./routes/directory/directory.component";
+import Init from "./routes/init/init.component";
 import Navigation from "./routes/navigation/navigation.component";
-
-// import "./App.css";
 
 const App = () => {
   return (
@@ -17,6 +16,7 @@ const App = () => {
           <Route index element={<Directory />} />
           <Route path="auth" element={<Auth />} />
           <Route path="config" element={<Config />} />
+          <Route path="init" element={<Init />} />
         </Route>
       </Routes>
     </Fragment>

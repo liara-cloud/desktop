@@ -33,7 +33,12 @@ const Auth = () => {
   return (
     <AuthContainer>
       <img src={liaraLogo} />
-      <Button onClick={logInWithBrowser}>ورود با مرورگر</Button>
+      <Button
+        style={{ padding: "10px 40px", fontSize: 16 }}
+        onClick={logInWithBrowser}
+      >
+        ورود با مرورگر
+      </Button>
       <LinkContainer onClick={singUpWithBrowser}>
         .حساب ندارید؟ عضو شوید
       </LinkContainer>
