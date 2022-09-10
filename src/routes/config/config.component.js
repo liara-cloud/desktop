@@ -11,6 +11,7 @@ import Button from "../../components/button/button.component";
 import { Link, useNavigate } from "react-router-dom";
 import Title from "../../components/title/title.component";
 import ActionContainer from "../../components/action-container/action-container.component";
+import { ipcRenderer } from "electron";
 
 const initConfig = {
   app: "",
@@ -22,7 +23,9 @@ const Config = () => {
   const { region, api_token } = useSelector(
     (state) => state.auth.user.currentAccount
   );
-  const projectConfig = useSelector((state) => state.projectConfig);
+
+  const { projectConfig, auth } = useSelector((state) => state);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -47,14 +50,30 @@ const Config = () => {
   };
 
   const startDeploy = () => {
-    navigate("/init");
+    const { path, config } = projectConfig;
+
+    const { currentAccount } = auth.user;
+    ipcRenderer.send("deploy", {
+      account_name: currentAccount.account_name,
+      region: currentAccount.region,
+      api_token: currentAccount.api_token,
+      path,
+      config: {
+        ...config.config,
+        app: config.app,
+        platform: config.platform,
+        port: config.port
+      }
+    });
+
+    return navigate("/init");
   };
 
   return (
     <ConfigContainer>
       <Title
         text="انتخاب برنامه"
-        subtitle="        برنامه‌ای که میخواهید در آن دیپلوی کنید را انتخاب کنید."
+        subtitle="برنامه‌ای که میخواهید در آن دیپلوی کنید را انتخاب کنید."
       />
 
       <AppConfig />
@@ -70,17 +89,8 @@ const Config = () => {
       />
       <Gap h={35} />
       <ActionContainer>
-        <Button
-          onClick={startDeploy}
-          style={{ padding: "5px 30px", fontSize: 14 }}
-        >
-          بعدی
-        </Button>
-        <Button
-          variant="outlined"
-          style={{ padding: "5px 30px", fontSize: 14 }}
-          onClick={backToDirectory}
-        >
+        <Button onClick={startDeploy}>بعدی</Button>
+        <Button variant="outlined" onClick={backToDirectory}>
           قبلی
         </Button>
       </ActionContainer>

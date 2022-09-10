@@ -1,22 +1,23 @@
-import React, { Fragment } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+
 import ActionContainer from "../../components/action-container/action-container.component";
 import Button from "../../components/button/button.component";
 import Gap from "../../components/gap/gap.component";
 import LayoutDeploy from "../../components/layout-deploy/layout-deploy.component";
 import Title from "../../components/title/title.component";
-import UploadInfo from "../../components/upload-info/upload-info.component";
+import UploadProgress from "../../components/upload-progress/upload-progress.component";
 
-const Init = () => {
-  const { log } = useSelector((state) => state.deploy);
-
+const Upload = () => {
   return (
     <LayoutDeploy>
       <div style={{ marginBottom: 15 }}>
-        <Title text="در حال آماده‌سازی..." />
+        <Title
+          text="در حال آپلود سورس کد"
+          subtitle="شما میتوانید با استفاده از فایل gitignore. حجم فایل آپلودی را کاهش دهید."
+        />
 
         <Gap h={15} />
-        <UploadInfo log={log.toString()} disabled />
+        <UploadProgress />
         <Gap h={20} />
         <ActionContainer justifyContent="center">
           <Button>لغو</Button>
@@ -26,4 +27,4 @@ const Init = () => {
   );
 };
 
-export default Init;
+export default Upload;

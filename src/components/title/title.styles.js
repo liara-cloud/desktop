@@ -6,6 +6,6 @@ export const TitleElement = styled.h2`
   line-height: 28px;
 `;
 export const SubTitle = styled.p`
-  color: #768b9f;
+  color: #768B9F;
   font-size: 12px;
 `;

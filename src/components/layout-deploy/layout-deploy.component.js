@@ -1,37 +1,27 @@
 import { ipcRenderer } from "electron";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  deployState } from "../../store/deploySlice";
+import { useNavigate } from "react-router-dom";
+import { deployState } from "../../store/deploySlice";
 import { LayoutDeployContainer } from "./layout-deploy.styles";
 
+const statePages = {
+  init: "/init",
+  "upload-progress": "/upload",
+  build: "/build",
+  publish: "/publish",
+  error: "/error",
+  cancel: "/cancel"
+};
+
 const LayoutDeploy = ({ children }) => {
-  const { projectConfig, auth, deploy } = useSelector((state) => state);
   const dispatch = useDispatch();
-
-  const startDeploy = () => {
-    const { path, config } = projectConfig;
-    const { currentAccount } = auth.user;
-    return ipcRenderer.send("deploy", {
-      account_name: currentAccount.account_name,
-      region: currentAccount.region,
-      api_token: currentAccount.api_token,
-      path,
-      config: {
-        ...config.config,
-        app: config.project_id,
-        platform: config.type,
-        port: config.port
-      }
-    });
-  };
-
-  useEffect(() => {
-    startDeploy(); // Handle Deploy
-  }, []);
+  const navigate = useNavigate();
 
   useEffect(() => {
     ipcRenderer.on("deploy", (_, arg) => {
       const { log, state, status, percent, total, transferred } = arg;
+
       dispatch(
         deployState({
           log,
@@ -42,6 +32,8 @@ const LayoutDeploy = ({ children }) => {
           transferred
         })
       );
+
+      if (status === "start") return navigate(statePages[state]);
     });
   }, []);
 
