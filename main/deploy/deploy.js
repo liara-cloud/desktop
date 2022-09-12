@@ -273,7 +273,7 @@ exports.deploy = async (event, args) => {
         }
       })
       .json();
-    throw new Error("slam");
+
     // 3) create release
 
     body.sourceID = sourceID;

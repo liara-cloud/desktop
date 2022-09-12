@@ -4,7 +4,7 @@ import AppPlatform from "./app-item.component";
 import { AppListContainer, ProjectItem } from "./app-list.styles";
 import { config } from "../../store/projectConfigSlice";
 
-const AppListConfig = ({ isShow }) => {
+const AppListConfig = ({ ...otherProps }) => {
   const projectConfig = useSelector((state) => state.projectConfig);
   const dispatch = useDispatch();
 
@@ -18,7 +18,7 @@ const AppListConfig = ({ isShow }) => {
   };
 
   return (
-    <AppListContainer isShow={isShow}>
+    <AppListContainer {...otherProps}>
       {projectConfig.projects.map(({ project_id, type }) => (
         <ProjectItem
           key={project_id}

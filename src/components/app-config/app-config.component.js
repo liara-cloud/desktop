@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   AppConfigContainer,
   RefetchContainer,
@@ -34,7 +34,9 @@ const AppConfig = ({ onRefetch }) => {
       <RefetchContainer onClick={handleGetProject}>
         <RefetchIcon src={refetchIcon} isLoading={isLoading} />
       </RefetchContainer>
-      <AppListConfig isShow={showList} />
+      <AppListConfig
+        style={showList ? { opacity: 1, display: "block" } : { opacity: 0 }}
+      />
     </AppConfigContainer>
   );
 };

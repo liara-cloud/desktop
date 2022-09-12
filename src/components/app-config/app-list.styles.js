@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const AppListContainer = styled.div`
+  display: none;
   position: absolute;
   top: 43px;
   width: 300px;
@@ -12,10 +13,6 @@ export const AppListContainer = styled.div`
   );
   border: 1px solid rgba(161, 201, 238, 0.1);
   border-radius: 8px;
-  ${(props) =>
-    props.isShow
-      ? `opacity: 1; transform: scale(1)`
-      : `opacity: 0; transform: scale(.75); visibility: hidden`};
   transition: all 0.15s;
   overflow-y: scroll;
 `;

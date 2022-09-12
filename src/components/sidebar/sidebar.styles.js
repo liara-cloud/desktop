@@ -12,7 +12,6 @@ export const SidebarContainer = styled.div`
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(11.952px);
   transition: all 0.3s;
-  transform: translateX(${(props) => (props.isOpen ? `0px` : `70vw`)});
 `;
 
 export const Dividr = styled.hr`

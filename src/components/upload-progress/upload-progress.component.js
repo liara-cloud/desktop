@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useState } from "react";
+import { CircularProgressbar } from "react-circular-progressbar";
 import { useSelector } from "react-redux";
 import byteSize from "../../utility/byteSize.utlis";
 import UploadInfo from "../upload-info/upload-info.component";
@@ -8,7 +10,6 @@ import {
   UploadDetails,
   ValueContainer
 } from "./upload-progress.styles";
-
 const UploadProgress = () => {
   const { percent, total, transferred } = useSelector((state) => state.deploy);
 
@@ -18,10 +19,11 @@ const UploadProgress = () => {
   return (
     <UploadInfo as="div" style={{ overflow: "none" }}>
       <LoadedContainer>
-        <div>
-          <Progress rotate={value}>
-            <li />
+        <div onClick={() => setNum(num + 1)}>
+          <Progress>
+            <li style={{ transform: `rotate(${value}deg)` }} />
           </Progress>
+
           <ValueContainer>{rounded}%</ValueContainer>
         </div>
         <UploadDetails>

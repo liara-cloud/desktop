@@ -36,7 +36,9 @@ const Sidebar = () => {
   };
 
   return (
-    <SidebarContainer isOpen={isOpen}>
+    <SidebarContainer
+      style={{ transform: `translateX(${isOpen ? 0 : `70vw`})` }}
+    >
       <img src={liaraLogo} width="70" />
       <Accounts />
       <Dividr />

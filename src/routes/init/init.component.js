@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import ActionContainer from "../../components/action-container/action-container.component";
 import Button from "../../components/button/button.component";
-import LayoutDeploy from "../../components/layout-deploy/layout-deploy.component";
+import { LayoutDeployContainer } from "../../components/layout-deploy/layout-deploy.styles";
 import Title from "../../components/title/title.component";
 import UploadInfo from "../../components/upload-info/upload-info.component";
 import handleCancel from "../../utility/cancelDeploy.utlis";
@@ -15,7 +15,7 @@ const Init = () => {
   } = useSelector((state) => state);
 
   return (
-    <LayoutDeploy>
+    <LayoutDeployContainer>
       <div style={{ marginBottom: 15 }}>
         <Title text="در حال آماده‌سازی..." />
 
@@ -25,7 +25,7 @@ const Init = () => {
           <Button onClick={() => handleCancel(projectConfig, auth)}>لغو</Button>
         </ActionContainer>
       </div>
-    </LayoutDeploy>
+    </LayoutDeployContainer>
   );
 };
 

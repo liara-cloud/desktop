@@ -3,28 +3,30 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deployState } from "../../store/deploySlice";
-import { LayoutDeployContainer } from "./layout-deploy.styles";
 
 const PAGES = {
   state: {
     init: "/init",
     "upload-progress": "/upload",
-    // build: "/build",
-    // publish: "/publish"
+    build: "/build",
+    publish: "/publish"
   },
   status: {
-    // cancel: "/cancel",
-    // error: "/error"
+    cancel: "/cancel",
+    error: "/error"
   }
 };
 
-const LayoutDeploy = ({ children }) => {
+const useDeploy = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("object");
     ipcRenderer.on("deploy", (_, arg) => {
       const { log, state, status, percent, total, transferred } = arg;
+
+      console.log({ state, status });
 
       dispatch(
         deployState({
@@ -42,8 +44,6 @@ const LayoutDeploy = ({ children }) => {
         return navigate(PAGES.status[status]);
     });
   }, []);
-
-  return <LayoutDeployContainer>{children}</LayoutDeployContainer>;
 };
 
-export default LayoutDeploy;
+export default useDeploy;

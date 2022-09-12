@@ -11,18 +11,22 @@ import Init from "./routes/init/init.component";
 import Navigation from "./routes/navigation/navigation.component";
 import Publish from "./routes/publish/publish.component";
 import Upload from "./routes/upload/upload.component";
+import useDeploy from "./utility/hooks/useDeploy.hook";
 
 const App = () => {
+  useDeploy(); //Navigate to Deploy states
+
   return (
     <Fragment>
       <GlobalStyle />
+
       <Routes>
         <Route path="/" element={<Navigation />}>
           <Route index element={<Directory />} />
           <Route path="auth" element={<Auth />} />
           <Route path="config" element={<Config />} />
 
-          {/* deploy state */}
+          {/* Deploy states */}
           <Route path="init" element={<Init />} />
           <Route path="upload" element={<Upload />} />
           <Route path="build" element={<Build />} />

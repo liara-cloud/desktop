@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import ActionContainer from "../../components/action-container/action-container.component";
 import Button from "../../components/button/button.component";
-import LayoutDeploy from "../../components/layout-deploy/layout-deploy.component";
+import { LayoutDeployContainer } from "../../components/layout-deploy/layout-deploy.styles";
 import Title from "../../components/title/title.component";
 import UploadProgress from "../../components/upload-progress/upload-progress.component";
 import handleCancel from "../../utility/cancelDeploy.utlis";
@@ -11,7 +11,7 @@ const Upload = () => {
   const { projectConfig, auth } = useSelector((state) => state);
 
   return (
-    <LayoutDeploy>
+    <LayoutDeployContainer>
       <div style={{ marginBottom: 15 }}>
         <Title
           text="در حال آپلود سورس کد"
@@ -22,7 +22,7 @@ const Upload = () => {
           <Button onClick={() => handleCancel(projectConfig, auth)}>لغو</Button>
         </ActionContainer>
       </div>
-    </LayoutDeploy>
+    </LayoutDeployContainer>
   );
 };
 

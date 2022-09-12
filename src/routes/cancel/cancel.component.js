@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ActionContainer from "../../components/action-container/action-container.component";
 import Button from "../../components/button/button.component";
-import LayoutDeploy from "../../components/layout-deploy/layout-deploy.component";
+import { LayoutDeployContainer } from "../../components/layout-deploy/layout-deploy.styles";
 import Title from "../../components/title/title.component";
 import UploadInfo from "../../components/upload-info/upload-info.component";
 import { deployState, initialStateDeploy } from "../../store/deploySlice";
@@ -21,7 +21,7 @@ const Cancel = () => {
   };
 
   return (
-    <LayoutDeploy>
+    <LayoutDeployContainer>
       <div style={{ marginBottom: 15 }}>
         <Title text="استقرار لغو شد" />
 
@@ -33,7 +33,7 @@ const Cancel = () => {
           </Button>
         </ActionContainer>
       </div>
-    </LayoutDeploy>
+    </LayoutDeployContainer>
   );
 };
 

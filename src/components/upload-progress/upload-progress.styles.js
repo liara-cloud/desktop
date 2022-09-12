@@ -1,12 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import percentageContainer from "../../assets/images/percentage-container.svg";
 
-const rotateAnimation = (rotate = 0) => keyframes`
-    100% {
-      transform: rotate(${rotate}deg);
-    }
-  `;
-
 export const LoadedContainer = styled.div`
   padding-top: 25px;
   position: relative;
@@ -55,8 +49,7 @@ export const Progress = styled.ul`
     transform-origin: 50% 0;
     z-index: 4;
     border-color: #50dae1;
-    animation-name: ${(props) => rotateAnimation(props.rotate)};
-    animation-fill-mode: forwards;
+
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     backface-visibility: hidden;
