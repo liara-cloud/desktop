@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppConfig from "../../components/app-config/app-config.component";
 import { getProjects } from "../../utility/getApps.utlis";
@@ -24,6 +24,8 @@ const Config = () => {
     (state) => state.auth.user.currentAccount
   );
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const { projectConfig, auth } = useSelector((state) => state);
 
   const navigate = useNavigate();
@@ -32,6 +34,7 @@ const Config = () => {
   const fetchProject = async () => {
     const res = await getProjects(region, api_token);
     dispatch(config({ ...projectConfig, projects: res.data.projects }));
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -69,6 +72,8 @@ const Config = () => {
     return navigate("/init");
   };
 
+  if (isLoading) return <div>loading...</div>;
+
   return (
     <ConfigContainer>
       <Title
@@ -76,8 +81,7 @@ const Config = () => {
         subtitle="برنامه‌ای که میخواهید در آن دیپلوی کنید را انتخاب کنید."
       />
 
-      <AppConfig />
-      <Gap h={90} />
+      <AppConfig onRefetch={fetchProject} />
       <Title text="تعیین پورت" subtitle="پورت مورد نظرتان را وارد کنید." />
 
       <Gap h={18} />

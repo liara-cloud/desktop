@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+export const initialStateDeploy = {
   log: [],
   state: "",
   status: "",
@@ -12,7 +12,7 @@ const initialState = {
 let data = [];
 export const deploySlice = createSlice({
   name: "deploy",
-  initialState,
+  initialState: initialStateDeploy,
   reducers: {
     deployState: (state, { payload }) => {
       data += payload.log;

@@ -12,25 +12,29 @@ const Directory = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    ipcRenderer.on("asynchronous-login", (_, arg) => {
-      dispatch(user(arg));
+    let isMounted = true;
 
-      // push to auth page
-      setIsLoading(false);
-      !arg.length && navigate("/auth");
-    });
+    if (isMounted)
+      ipcRenderer.on("asynchronous-login", (_, arg) => {
+        dispatch(user(arg));
+
+        // push to auth page
+        setIsLoading(false);
+        !arg.length && navigate("/auth");
+      });
+
     ipcRenderer.send("asynchronous-login", "liara-cloud");
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (isLoading) {
     return <div>loading...</div>;
   }
 
-  return (
-    <div>
-      <Dropzone />
-    </div>
-  );
+  return <Dropzone />;
 };
 
 export default Directory;

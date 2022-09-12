@@ -20,7 +20,7 @@ const Navigation = () => {
   const { isOpen } = useSelector((state) => state.sidebar);
   const dispatch = useDispatch();
 
-  const isAuthPage = location.pathname === "/auth";
+  const isAuthPage = location?.pathname === "/auth";
 
   const handleToggleSidebar = () => {
     dispatch(toggle());

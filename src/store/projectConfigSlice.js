@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+export const initialStateConfig = {
   path: "",
   projects: [],
   config: {
@@ -12,7 +12,7 @@ const initialState = {
 
 export const projectConfigSlice = createSlice({
   name: "projectConfig",
-  initialState,
+  initialState: initialStateConfig,
   reducers: {
     config: (state, { payload }) => {
       state.path = payload.path;

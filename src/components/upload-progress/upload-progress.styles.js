@@ -7,11 +7,14 @@ const rotateAnimation = (rotate = 0) => keyframes`
     }
   `;
 
-export const SemiContainer = styled.div`
-  margin-top: -45px;
+export const LoadedContainer = styled.div`
+  padding-top: 25px;
+  position: relative;
+  height: 100%;
 `;
 
 export const Progress = styled.ul`
+  list-style-type: none;
   margin: 0 auto;
   position: relative;
   width: 190px;
@@ -73,4 +76,28 @@ export const ValueContainer = styled.div`
   align-items: center;
   font-size: 22px;
   padding-top: 5px;
+`;
+
+export const UploadDetails = styled.div`
+  border-top: 1px dashed #324358;
+  padding-top: 8px;
+  height: 38px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  color: #d0e0ef;
+  div {
+    direction: rtl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  span {
+    color: #768b9f;
+    direction: ltr;
+    padding: 0px 3px;
+  }
 `;

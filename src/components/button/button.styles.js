@@ -25,8 +25,7 @@ const ButtonContainer = styled.button`
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-
-  ${(props) => props.variant === "outlined" && outlinedStyle}
+  ${(props) => props.variant === "outlined" && outlinedStyle};
 `;
 
 export { ButtonContainer };

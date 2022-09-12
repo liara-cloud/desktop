@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
 import {
   AppConfigContainer,
-  Refetch,
+  RefetchContainer,
+  RefetchIcon,
   SelectAppContainer
 } from "./app-config.styles";
 import refetchIcon from "../../assets/images/refetch.svg";
 import { useSelector } from "react-redux";
 import AppPlatform from "./app-item.component";
 import AppListConfig from "./app-list.component";
-const AppConfig = () => {
+import regeneratorRuntime from "regenerator-runtime";
+
+const AppConfig = ({ onRefetch }) => {
   const [showList, setShowList] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { app, platform } = useSelector((state) => state.projectConfig.config);
+
+  const handleGetProject = async () => {
+    setIsLoading(true);
+    await onRefetch();
+    setIsLoading(false);
+  };
 
   return (
     <AppConfigContainer>
@@ -21,9 +31,9 @@ const AppConfig = () => {
           " برنامه ای انتخاب نشده"
         )}
       </SelectAppContainer>
-      <Refetch>
-        <img src={refetchIcon} />
-      </Refetch>
+      <RefetchContainer onClick={handleGetProject}>
+        <RefetchIcon src={refetchIcon} isLoading={isLoading} />
+      </RefetchContainer>
       <AppListConfig isShow={showList} />
     </AppConfigContainer>
   );

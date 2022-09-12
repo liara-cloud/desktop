@@ -5,9 +5,8 @@ import Button from "../../components/button/button.component";
 import LayoutDeploy from "../../components/layout-deploy/layout-deploy.component";
 import Title from "../../components/title/title.component";
 import UploadInfo from "../../components/upload-info/upload-info.component";
-import handleCancel from "../../utility/cancelDeploy.utlis";
 
-const Init = () => {
+const Build = () => {
   const {
     projectConfig,
     auth,
@@ -17,10 +16,8 @@ const Init = () => {
   return (
     <LayoutDeploy>
       <div style={{ marginBottom: 15 }}>
-        <Title text="در حال آماده‌سازی..." />
-
+        <Title text="در حال ساخت..." />
         <UploadInfo log={log.toString()} disabled />
-
         <ActionContainer justifyContent="center">
           <Button onClick={() => handleCancel(projectConfig, auth)}>لغو</Button>
         </ActionContainer>
@@ -29,4 +26,4 @@ const Init = () => {
   );
 };
 
-export default Init;
+export default Build;

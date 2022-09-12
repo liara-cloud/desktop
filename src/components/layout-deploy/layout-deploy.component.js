@@ -1,17 +1,21 @@
 import { ipcRenderer } from "electron";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deployState } from "../../store/deploySlice";
 import { LayoutDeployContainer } from "./layout-deploy.styles";
 
-const statePages = {
-  init: "/init",
-  "upload-progress": "/upload",
-  build: "/build",
-  publish: "/publish",
-  error: "/error",
-  cancel: "/cancel"
+const PAGES = {
+  state: {
+    init: "/init",
+    "upload-progress": "/upload",
+    // build: "/build",
+    // publish: "/publish"
+  },
+  status: {
+    // cancel: "/cancel",
+    // error: "/error"
+  }
 };
 
 const LayoutDeploy = ({ children }) => {
@@ -33,7 +37,9 @@ const LayoutDeploy = ({ children }) => {
         })
       );
 
-      if (status === "start") return navigate(statePages[state]);
+      if (status === "start") return navigate(PAGES.state[state]);
+      if (status === "cancel" || status === "error")
+        return navigate(PAGES.status[status]);
     });
   }, []);
 

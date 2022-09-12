@@ -6,6 +6,8 @@ const divElStyle = css`
 `;
 
 export const InfoContainer = styled.textarea`
+  margin-top: 15px;
+  margin-bottom: 20px;
   direction: ltr;
   width: 100%;
   min-width: 100%;
