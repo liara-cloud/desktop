@@ -14,7 +14,7 @@ const currentAccountStyle = css`
 `;
 
 export const AccountsContainer = styled.div`
-  padding: 10px 25px 15px;
+  padding: 10px 25px 15px 20px;
   border-bottom: 1px solid #142537;
   overflow-y: scroll;
   max-height: 200px;

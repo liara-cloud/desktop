@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppConfig from "../../components/app-config/app-config.component";
 import { getProjects } from "../../utility/get-apps.utlis";
@@ -24,7 +24,7 @@ const Config = () => {
     (state) => state.auth.user.currentAccount
   );
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState({ fetch: true, refetch: false });
 
   const { projectConfig, auth } = useSelector((state) => state);
 
@@ -32,9 +32,10 @@ const Config = () => {
   const dispatch = useDispatch();
 
   const fetchProject = async () => {
+    setIsLoading({ ...isLoading, refetch: true });
     const res = await getProjects(region, api_token);
     dispatch(config({ ...projectConfig, projects: res.data.projects }));
-    setIsLoading(false);
+    setIsLoading({ fetch: false, refetch: false });
   };
 
   useEffect(() => {
@@ -72,7 +73,25 @@ const Config = () => {
     return navigate("/init");
   };
 
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading.fetch) return <div>loading...</div>;
+
+  if (!projectConfig.projects.length)
+    return (
+      <ConfigContainer>
+        <Title
+          text="برنامه ای یافت نشد."
+          subtitle="شما هیچ برنامه ای ندارید. ابتدا وارد کنسول لیارا شوید و برنامه ای
+        بسازید."
+        />
+        <Button
+          style={{ marginTop: 25, padding: "5px 15px" }}
+          variant="outlined"
+          onClick={fetchProject}
+        >
+          {isLoading.refetch ? "در حال بررسی..." : " بارگذاری مجدد"}
+        </Button>
+      </ConfigContainer>
+    );
 
   return (
     <ConfigContainer>
@@ -80,7 +99,6 @@ const Config = () => {
         text="انتخاب برنامه"
         subtitle="برنامه‌ای که میخواهید در آن دیپلوی کنید را انتخاب کنید."
       />
-
       <AppConfig onRefetch={fetchProject} />
       <Title text="تعیین پورت" subtitle="پورت مورد نظرتان را وارد کنید." />
 

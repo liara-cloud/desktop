@@ -8,7 +8,7 @@ export const SidebarContainer = styled.div`
   z-index: 10;
   width: 70vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.60);
   backdrop-filter: blur(11.952px);
   transition: all 0.3s;
 `;

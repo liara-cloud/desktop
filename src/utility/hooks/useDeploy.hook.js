@@ -23,7 +23,6 @@ const useDeploy = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("object");
     ipcRenderer.on("deploy", (_, arg) => {
       const { log, state, status, percent, total, transferred } = arg;
 

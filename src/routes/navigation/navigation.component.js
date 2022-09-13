@@ -1,6 +1,7 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation } from "react-router-dom";
+import { ipcRenderer } from "electron";
 import Sidebar from "../../components/sidebar/sidebar.component";
 import { toggle } from "../../store/sidebarSlice";
 import {
@@ -13,9 +14,9 @@ import {
 import openMenuIcon from "../../assets/images/menu-open.svg";
 import closeMenuIcon from "../../assets/images/menu-close.svg";
 import liaraLogo from "../../assets/images/logo.svg";
-import { ipcRenderer } from "electron";
 
 const Navigation = () => {
+  const [version, setVersion] = useState(null);
   const location = useLocation();
   const { isOpen } = useSelector((state) => state.sidebar);
   const dispatch = useDispatch();
@@ -31,6 +32,13 @@ const Navigation = () => {
       support: true
     });
   };
+
+  useEffect(() => {
+    ipcRenderer.on("app_version", (_, arg) => {
+      setVersion(arg.version);
+    });
+    ipcRenderer.send("app_version", "liara-cloud");
+  }, []);
 
   return (
     <NavContainer>
@@ -51,7 +59,7 @@ const Navigation = () => {
       )}
       <Outlet />
       <NavFooter>
-        <p>نسخه 1.0.7</p>
+        <p>نسخه {version}</p>
         <a onClick={openTicketingInBrowser}>ارتباط با پشتیبانی</a>
       </NavFooter>
     </NavContainer>
