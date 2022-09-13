@@ -1,7 +1,15 @@
-// background: radial-gradient(99.29% 113.09% at 0.71% 50.52%, rgba(32, 106, 190, 0.38) 0%, rgba(13, 30, 51, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-// transform: rotate(90deg);
-
 import styled from "styled-components";
+
+export const OfflineContainer = styled.div`
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(11.952px);
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 99;
+`;
 
 export const NavContainer = styled.div`
   background: radial-gradient(
@@ -45,4 +53,27 @@ export const ActionMenu = styled.button`
   cursor: pointer;
   background: none;
   border: none;
+`;
+
+export const OfflineAlert = styled.div`
+  direction: rtl;
+  background: #0a0d0e;
+  border: 1px dashed #ffd569;
+  border-radius: 8px;
+  padding: 5px;
+  width: 300px;
+  height: 58px;
+  position: absolute;
+  bottom: 25px;
+  color: #ffd569;
+  left: 50%;
+  transform: translate(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+
+  p {
+    padding: 5px 10px 0;
+  }
 `;

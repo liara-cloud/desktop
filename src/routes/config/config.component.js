@@ -84,9 +84,10 @@ const Config = () => {
         بسازید."
         />
         <Button
-          style={{ marginTop: 25, padding: "5px 15px" }}
+          style={{ marginTop: 10, padding: "5px 15px" }}
           variant="outlined"
           onClick={fetchProject}
+          disabled={isLoading}
         >
           {isLoading.refetch ? "در حال بررسی..." : " بارگذاری مجدد"}
         </Button>

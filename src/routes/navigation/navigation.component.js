@@ -8,15 +8,19 @@ import {
   ActionMenu,
   NavContainer,
   NavFooter,
-  NavHeader
+  NavHeader,
+  OfflineAlert,
+  OfflineContainer
 } from "./navigation.styles";
 
 import openMenuIcon from "../../assets/images/menu-open.svg";
 import closeMenuIcon from "../../assets/images/menu-close.svg";
 import liaraLogo from "../../assets/images/logo.svg";
+import OfflineIcon from "./offline-icon.component";
 
 const Navigation = () => {
   const [version, setVersion] = useState(null);
+  const [online, setOnline] = useState(true);
   const location = useLocation();
   const { isOpen } = useSelector((state) => state.sidebar);
   const dispatch = useDispatch();
@@ -38,10 +42,25 @@ const Navigation = () => {
       setVersion(arg.version);
     });
     ipcRenderer.send("app_version", "liara-cloud");
+
+    window.addEventListener("offline", () => {
+      setOnline(false);
+    });
+    window.addEventListener("online", () => {
+      setOnline(true);
+    });
   }, []);
 
   return (
     <NavContainer>
+      {!online && (
+        <OfflineContainer>
+          <OfflineAlert>
+            <OfflineIcon />
+            <p>لطفا دسترسی به اینترنت خود را بررسی کنید.</p>
+          </OfflineAlert>
+        </OfflineContainer>
+      )}
       {!isAuthPage && (
         <Fragment>
           <NavHeader>
