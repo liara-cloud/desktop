@@ -1,11 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import ActionContainer from "../../components/action-container/action-container.component";
 import Button from "../../components/button/button.component";
 import { LayoutDeployContainer } from "../../components/layout-deploy/layout-deploy.styles";
 import Title from "../../components/title/title.component";
 import UploadInfo from "../../components/upload-info/upload-info.component";
-import handleCancel from "../../utility/cancelDeploy.utlis";
+import handleCancel from "../../utility/cancel-deploy.utlis";
 
 const Init = () => {
   const {

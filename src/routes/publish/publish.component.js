@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import ActionContainer from "../../components/action-container/action-container.component";
 import Button from "../../components/button/button.component";
@@ -7,6 +7,8 @@ import Title from "../../components/title/title.component";
 import UploadInfo from "../../components/upload-info/upload-info.component";
 
 const Publish = () => {
+  const { log } = useSelector((state) => state.deploy);
+
   return (
     <LayoutDeployContainer>
       <div style={{ marginBottom: 15 }}>

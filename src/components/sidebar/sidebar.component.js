@@ -6,6 +6,7 @@ import liaraLogo from "../../assets/images/logo.svg";
 import { ipcRenderer } from "electron";
 import { user } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import CurrentSection from "./current-section/current-section.component";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -39,14 +40,17 @@ const Sidebar = () => {
     <SidebarContainer
       style={{ transform: `translateX(${isOpen ? 0 : `70vw`})` }}
     >
-      <img src={liaraLogo} width="70" />
+      <CurrentSection />
+
       <Accounts />
-      <Dividr />
-      <OptionItem onClick={logInWithBrowser}>افزودن حساب کاربری</OptionItem>
-      <OptionItem onClick={openTicketingInBrowser}>
-        ارتباط با پشتیبانی
-      </OptionItem>
-      <OptionItem onClick={handleLogout}>خروج</OptionItem>
+
+      <div style={{ padding: "10px 25px" }}>
+        <OptionItem onClick={logInWithBrowser}>افزودن حساب کاربری</OptionItem>
+        <OptionItem onClick={openTicketingInBrowser}>
+          ارتباط با پشتیبانی
+        </OptionItem>
+        <OptionItem onClick={handleLogout}>خروج</OptionItem>
+      </div>
     </SidebarContainer>
   );
 };

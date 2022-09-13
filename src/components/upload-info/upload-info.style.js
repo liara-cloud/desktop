@@ -3,9 +3,10 @@ import styled, { css } from "styled-components";
 const divElStyle = css`
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
-export const InfoContainer = styled.textarea`
+export const InfoContainer = styled.pre`
   margin-top: 15px;
   margin-bottom: 20px;
   direction: ltr;
@@ -16,8 +17,11 @@ export const InfoContainer = styled.textarea`
   max-height: 250px;
   min-height: 250px;
   padding: 10px;
-  display: flex;
-  align-items: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  align-items: start;
+  white-space: pre-wrap;
+  flex-wrap: wrap;
   font-size: 12px;
   line-height: 19px;
   color: #d0e0ef;

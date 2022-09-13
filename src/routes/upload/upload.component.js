@@ -5,7 +5,7 @@ import Button from "../../components/button/button.component";
 import { LayoutDeployContainer } from "../../components/layout-deploy/layout-deploy.styles";
 import Title from "../../components/title/title.component";
 import UploadProgress from "../../components/upload-progress/upload-progress.component";
-import handleCancel from "../../utility/cancelDeploy.utlis";
+import handleCancel from "../../utility/cancel-deploy.utlis";
 
 const Upload = () => {
   const { projectConfig, auth } = useSelector((state) => state);

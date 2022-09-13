@@ -10,6 +10,7 @@ import Error from "./routes/error/erorr.component";
 import Init from "./routes/init/init.component";
 import Navigation from "./routes/navigation/navigation.component";
 import Publish from "./routes/publish/publish.component";
+import Success from "./routes/success/success.component";
 import Upload from "./routes/upload/upload.component";
 import useDeploy from "./utility/hooks/useDeploy.hook";
 
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="cancel" element={<Cancel />} />
           <Route path="error" element={<Error />} />
           <Route path="publish" element={<Publish />} />
+          <Route path="success" element={<Success />} />
         </Route>
       </Routes>
     </Fragment>

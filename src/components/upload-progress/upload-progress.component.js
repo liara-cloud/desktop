@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { CircularProgressbar } from "react-circular-progressbar";
+
 import { useSelector } from "react-redux";
-import byteSize from "../../utility/byteSize.utlis";
+import byteSize from "../../utility/byte-size.utlis";
 import UploadInfo from "../upload-info/upload-info.component";
 import {
   LoadedContainer,
@@ -19,13 +19,12 @@ const UploadProgress = () => {
   return (
     <UploadInfo as="div" style={{ overflow: "none" }}>
       <LoadedContainer>
-        <div onClick={() => setNum(num + 1)}>
-          <Progress>
-            <li style={{ transform: `rotate(${value}deg)` }} />
-          </Progress>
+        <Progress>
+          <li style={{ transform: `rotate(${value}deg)` }} />
+        </Progress>
 
-          <ValueContainer>{rounded}%</ValueContainer>
-        </div>
+        <ValueContainer>{rounded}%</ValueContainer>
+
         <UploadDetails>
           <div>
             <p>کل: </p> <span> {byteSize(total)} </span>

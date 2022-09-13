@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AnsiUp } from "ansi-up";
 
 export const initialStateDeploy = {
   log: [],
@@ -10,12 +11,14 @@ export const initialStateDeploy = {
 };
 
 let data = [];
+let ansi_up = new AnsiUp();
 export const deploySlice = createSlice({
   name: "deploy",
   initialState: initialStateDeploy,
   reducers: {
     deployState: (state, { payload }) => {
-      data += payload.log;
+      let html = ansi_up.ansi_to_html(payload.log);
+      data += html;
 
       state.status = payload.status;
       state.state = payload.state;

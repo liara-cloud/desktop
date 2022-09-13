@@ -1,17 +1,15 @@
 import { ipcRenderer } from "electron";
-import React, { memo, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { user } from "../../../store/authSlice";
-import sliceText from "../../../utility/sliceText.utils";
-import {
-  Account,
-  AccountAvatar,
-  AccountsContaienr,
-  BadgeRegion
-} from "./accounts.styles";
+import sliceText from "../../../utility/slice-text.utils";
+import { Account, AccountAvatar, AccountsContainer, BadgeRegion } from "./accounts.styles";
 
 const Accounts = () => {
   const { accounts, currentAccount } = useSelector((state) => state.auth.user);
+  const withoutCurrentAccount = accounts.filter(
+    (account) => account !== currentAccount
+  );
 
   const dispatch = useDispatch();
 
@@ -31,8 +29,8 @@ const Accounts = () => {
   }, []);
 
   return (
-    <AccountsContaienr>
-      {accounts.map(
+    <AccountsContainer>
+      {withoutCurrentAccount.map(
         ({ account_name, current, email, region, avatar, fullname }) => {
           return (
             <Account
@@ -47,7 +45,7 @@ const Accounts = () => {
           );
         }
       )}
-    </AccountsContaienr>
+    </AccountsContainer>
   );
 };
 

@@ -95,6 +95,47 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     font-family : Yekan Bakh
   }
+
+  ::selection {
+    background: transparent;
+  }
+  ::-moz-selection {
+    background: transparent;
+  }
+  
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  
+  /* width */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    cursor: pointer;
+    box-shadow: inherit;
+    border-radius: 10px;
+    margin: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: #666;
+    border-radius: 10px;
+  }
+  
+
 `;
 
 export default GlobalStyle;

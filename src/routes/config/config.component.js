@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppConfig from "../../components/app-config/app-config.component";
-import { getProjects } from "../../utility/getApps.utlis";
+import { getProjects } from "../../utility/get-apps.utlis";
 import { ConfigContainer } from "./config.styles";
 import regeneratorRuntime from "regenerator-runtime";
 import { config } from "../../store/projectConfigSlice";

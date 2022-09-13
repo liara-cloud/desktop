@@ -8,18 +8,12 @@ export const SidebarContainer = styled.div`
   z-index: 10;
   width: 70vw;
   height: 100vh;
-  padding: 20px 25px;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(11.952px);
   transition: all 0.3s;
 `;
 
-export const Dividr = styled.hr`
-  width: 100%;
-  border: 1px dashed #3c5e7d77;
-  margin-top: 15px;
-  margin-bottom: 15px;
-`;
+
 
 export const OptionItem = styled.button`
   color: #d0e0ef;

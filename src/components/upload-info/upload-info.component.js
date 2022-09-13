@@ -1,11 +1,20 @@
 import React from "react";
 import { InfoContainer } from "./upload-info.style";
 
-const UploadInfo = ({ as = "textarea", log, children, ...otherProps }) => {
+const UploadInfo = ({ as = "pre", log, children, ...otherProps }) => {
+  if (as == "div") {
+    return (
+      <InfoContainer as={as} {...otherProps}>
+        {children}
+      </InfoContainer>
+    );
+  }
+
   return (
-    <InfoContainer as={as} value={log} {...otherProps}>
-      {children}
-    </InfoContainer>
+    <InfoContainer
+      dangerouslySetInnerHTML={{ __html: log }}
+      {...otherProps}
+    ></InfoContainer>
   );
 };
 

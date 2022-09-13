@@ -13,7 +13,8 @@ const PAGES = {
   },
   status: {
     cancel: "/cancel",
-    error: "/error"
+    error: "/error",
+    success: "/success"
   }
 };
 
@@ -42,6 +43,8 @@ const useDeploy = () => {
       if (status === "start") return navigate(PAGES.state[state]);
       if (status === "cancel" || status === "error")
         return navigate(PAGES.status[status]);
+      if (state === "publish" && status === "finish")
+        return navigate(PAGES.status["success"]);
     });
   }, []);
 };

@@ -13,9 +13,13 @@ const currentAccountStyle = css`
   }
 `;
 
-export const AccountsContaienr = styled.div`
-  margin-top: 15px;
+export const AccountsContainer = styled.div`
+  padding: 10px 25px 15px;
+  border-bottom: 1px solid #142537;
+  overflow-y: scroll;
+  max-height: 200px;
 `;
+
 export const Account = styled.button`
   position: relative;
   padding: 8px 10px;
