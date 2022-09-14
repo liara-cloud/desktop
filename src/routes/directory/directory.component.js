@@ -2,7 +2,9 @@ import { ipcRenderer } from "electron";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { BlurContainer } from "../../components/blur-container/blur-container.styles";
 import Dropzone from "../../components/dropzone/dropzone.component";
+import Spinner from "../../components/sppiner/spinner.component";
 import { user } from "../../store/authSlice";
 
 const Directory = () => {
@@ -30,9 +32,12 @@ const Directory = () => {
     };
   }, []);
 
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
+  if (isLoading)
+    return (
+      <BlurContainer justify="center">
+        <Spinner />
+      </BlurContainer>
+    );
 
   return <Dropzone />;
 };

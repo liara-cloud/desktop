@@ -12,6 +12,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Title from "../../components/title/title.component";
 import ActionContainer from "../../components/action-container/action-container.component";
 import { ipcRenderer } from "electron";
+import Spinner from "../../components/sppiner/spinner.component";
+import { BlurContainer } from "../../components/blur-container/blur-container.styles";
 
 const initConfig = {
   app: "",
@@ -73,7 +75,12 @@ const Config = () => {
     return navigate("/init");
   };
 
-  if (isLoading.fetch) return <div>loading...</div>;
+  if (isLoading.fetch)
+    return (
+      <BlurContainer justify="center">
+        <Spinner />
+      </BlurContainer>
+    );
 
   if (!projectConfig.projects.length)
     return (

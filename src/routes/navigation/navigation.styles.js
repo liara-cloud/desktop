@@ -1,15 +1,5 @@
 import styled from "styled-components";
 
-export const OfflineContainer = styled.div`
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(11.952px);
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  z-index: 99;
-`;
 
 export const NavContainer = styled.div`
   background: radial-gradient(

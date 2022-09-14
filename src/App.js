@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Route, Routes } from "react-router-dom";
+import Spinner from "./components/sppiner/spinner.component";
 import GlobalStyle from "./global.style";
 import Auth from "./routes/auth/auth.component";
 import Build from "./routes/build/build.component";
@@ -20,7 +21,6 @@ const App = () => {
   return (
     <Fragment>
       <GlobalStyle />
-
       <Routes>
         <Route path="/" element={<Navigation />}>
           <Route index element={<Directory />} />

@@ -17,6 +17,7 @@ import openMenuIcon from "../../assets/images/menu-open.svg";
 import closeMenuIcon from "../../assets/images/menu-close.svg";
 import liaraLogo from "../../assets/images/logo.svg";
 import OfflineIcon from "./offline-icon.component";
+import { BlurContainer } from "../../components/blur-container/blur-container.styles";
 
 const Navigation = () => {
   const [version, setVersion] = useState(null);
@@ -54,12 +55,12 @@ const Navigation = () => {
   return (
     <NavContainer>
       {!online && (
-        <OfflineContainer>
+        <BlurContainer>
           <OfflineAlert>
             <OfflineIcon />
             <p>لطفا دسترسی به اینترنت خود را بررسی کنید.</p>
           </OfflineAlert>
-        </OfflineContainer>
+        </BlurContainer>
       )}
       {!isAuthPage && (
         <Fragment>
