@@ -1,19 +1,19 @@
 import styled, { keyframes } from "styled-components";
 
 const topMoveAnimate = keyframes`
- 0% {top: 0}
- 50% {top : -16px}
- 100% {top: 0px}
+ 0% {  transform: translate(-50% , 0)}
+ 50% { transform: translate(-50% , -16px)}
+ 100% { transform: translate(-50% , 0)}
 `;
 const leftMoveAnimate = keyframes`
- 0% {left: 0}
- 50% {left : -8px}
- 100% {left: 0px}
+0% {transform: translateX(0)}
+50% {transform: translateX(-8px)}
+100% {transform: translateX(0)}
 `;
 const rightMoveAnimate = keyframes`
- 0% {right: 0}
- 50% {right : -8px}
- 100% {right: 0px}
+ 0% {transform: translateX(0)}
+ 50% {transform: translateX(8px)}
+ 100% {transform: translateX(0)}
 `;
 
 export const SpinnerContainer = styled.div`

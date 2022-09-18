@@ -119,7 +119,9 @@ const Config = () => {
       />
       <Gap h={35} />
       <ActionContainer>
-        <Button onClick={startDeploy}>بعدی</Button>
+        <Button onClick={startDeploy} className="umami--click--start-deploy">
+          بعدی
+        </Button>
         <Button variant="outlined" onClick={backToDirectory}>
           قبلی
         </Button>

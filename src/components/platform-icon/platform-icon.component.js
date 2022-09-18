@@ -1,16 +1,17 @@
 import React from "react";
 
-import vueIcon from "@liara/platformicons/svg/vue.svg";
-import phpIcon from "@liara/platformicons/svg/php.svg";
-import nodeIcon from "@liara/platformicons/svg/nodejs.svg";
-import reactIcon from "@liara/platformicons/svg/react.svg";
-import flaskIcon from "@liara/platformicons/svg/flask.svg";
-import staticIcon from "@liara/platformicons/svg/HTML5.svg";
-import dockerIcon from "@liara/platformicons/svg/docker.svg";
-import djangoIcon from "@liara/platformicons/svg/django.svg";
-import netcoreIcon from "@liara/platformicons/svg/dotnet.svg";
-import laravelIcon from "@liara/platformicons/svg/laravel.svg";
-import angularIcon from "@liara/platformicons/svg/angularjs.svg";
+import vueIcon from "@liara/platformicons/png/vue.png";
+import phpIcon from "@liara/platformicons/png/php.png";
+import nodeIcon from "@liara/platformicons/png/node.png";
+import reactIcon from "@liara/platformicons/png/react.png";
+import flaskIcon from "@liara/platformicons/png/flask.png";
+import staticIcon from "@liara/platformicons/png/static.png";
+import dockerIcon from "@liara/platformicons/png/docker.png";
+import djangoIcon from "@liara/platformicons/png/django.png";
+import netcoreIcon from "@liara/platformicons/png/dotnet.png";
+import laravelIcon from "@liara/platformicons/png/laravel.png";
+import angularIcon from "@liara/platformicons/png/angular.png";
+import { PlatformContaienr } from "./platform-icon.styles";
 
 const types = [
   // Apps
@@ -29,7 +30,7 @@ const types = [
 
 const PlatfromIcon = ({ platform }) => {
   const type = types.find((type) => type.alt === platform);
-  return <img src={type.logo} draggable="false" />;
+  return <PlatformContaienr src={type.logo} draggable="false" />;
 };
 
 export default PlatfromIcon;

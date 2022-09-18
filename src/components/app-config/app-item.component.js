@@ -2,7 +2,7 @@ import React from "react";
 import PlatfromIcon from "../platform-icon/platform-icon.component";
 import { AppPlatformContainer } from "./app-item.styles";
 
-const AppPlatform = ({ app = "react-preos", platform = "react" }) => {
+const AppPlatform = ({ app, platform }) => {
   return (
     <AppPlatformContainer>
       <PlatfromIcon platform={platform} />

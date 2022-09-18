@@ -1,7 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
+import { Helmet } from "react-helmet";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 import store from "./store/store";
 
@@ -11,9 +12,17 @@ document.body.appendChild(root);
 
 render(
   <Provider store={store}>
-    <BrowserRouter>
+    <Helmet>
+      <script
+        async
+        defer
+        data-website-id="5ab09345-58d0-44c3-8262-80671f21840b"
+        src="https://meta.liara.ir/umami.js"
+      ></script>
+    </Helmet>
+    <MemoryRouter>
       <App />
-    </BrowserRouter>
+    </MemoryRouter>
   </Provider>,
   document.getElementById("root")
 );

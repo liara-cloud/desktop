@@ -3,6 +3,9 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deployState } from "../../store/deploySlice";
+import { AnsiUp } from "ansi-up";
+
+let ansi_up = new AnsiUp();
 
 const PAGES = {
   state: {
@@ -30,7 +33,7 @@ const useDeploy = () => {
 
       dispatch(
         deployState({
-          log,
+          log: ansi_up.ansi_to_html(log),
           state,
           status,
           percent,
