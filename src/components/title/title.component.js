@@ -1,12 +1,17 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { SubTitle, TitleElement } from "./title.styles";
 
-const Title = ({ text, subtitle }) => {
+const Title = ({ text, subtitle, error }) => {
   return (
-    <Fragment>
-      <TitleElement>{text}</TitleElement>
-      {subtitle && <SubTitle>{subtitle}</SubTitle>}
-    </Fragment>
+    <div>
+      <TitleElement>
+        {text}
+      </TitleElement>
+      {subtitle &&
+        <SubTitle style={error ? { color: "#FF6C6C" } : {}}>
+          {subtitle}
+        </SubTitle>}
+    </div>
   );
 };
 

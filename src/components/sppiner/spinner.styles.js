@@ -1,9 +1,9 @@
 import styled, { keyframes } from "styled-components";
 
 const topMoveAnimate = keyframes`
- 0% {  transform: translate(-50% , 0)}
- 50% { transform: translate(-50% , -16px)}
- 100% { transform: translate(-50% , 0)}
+ 0% {  transform: translate(-50% , 0);left: 50%;}
+ 50% { transform: translate(-50% , -16px);left: 50%;}
+ 100% { transform: translate(-50% , 0);left: 50%;}
 `;
 const leftMoveAnimate = keyframes`
 0% {transform: translateX(0)}

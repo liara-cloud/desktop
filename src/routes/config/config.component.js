@@ -8,7 +8,7 @@ import { config } from "../../store/projectConfigSlice";
 import Gap from "../../components/gap/gap.component";
 import TextField from "../../components/text-field/text-field.component";
 import Button from "../../components/button/button.component";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Title from "../../components/title/title.component";
 import ActionContainer from "../../components/action-container/action-container.component";
 import { ipcRenderer } from "electron";
@@ -20,15 +20,18 @@ const initConfig = {
   port: "",
   type: ""
 };
+const initEmpty = { app: false, port: false };
 
 const Config = () => {
   const { region, api_token } = useSelector(
-    (state) => state.auth.user.currentAccount
+    state => state.auth.user.currentAccount
   );
 
   const [isLoading, setIsLoading] = useState({ fetch: true, refetch: false });
+  const [isEmpty, setIsEmpty] = useState(initEmpty);
 
-  const { projectConfig, auth } = useSelector((state) => state);
+  const { projectConfig, auth } = useSelector(state => state);
+  const { app, port } = projectConfig.config;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,11 +43,14 @@ const Config = () => {
     setIsLoading({ fetch: false, refetch: false });
   };
 
-  useEffect(() => {
-    fetchProject();
-  }, [api_token]);
+  useEffect(
+    () => {
+      fetchProject();
+    },
+    [api_token]
+  );
 
-  const handleSetPort = (port) => {
+  const handleSetPort = port => {
     dispatch(
       config({ ...projectConfig, config: { ...projectConfig.config, port } })
     );
@@ -56,6 +62,8 @@ const Config = () => {
   };
 
   const startDeploy = () => {
+    if (!app || !port)
+      return setIsEmpty({ port: !Boolean(port), app: !Boolean(app) });
     const { path, config } = projectConfig;
 
     const { currentAccount } = auth.user;
@@ -74,6 +82,12 @@ const Config = () => {
 
     return navigate("/init");
   };
+
+  if (isEmpty.app || isEmpty.port) {
+    setTimeout(() => {
+      setIsEmpty(initEmpty);
+    }, 2000);
+  }
 
   if (isLoading.fetch)
     return (
@@ -104,11 +118,16 @@ const Config = () => {
   return (
     <ConfigContainer>
       <Title
+        error={isEmpty.app}
         text="انتخاب برنامه"
         subtitle="برنامه‌ای که میخواهید در آن دیپلوی کنید را انتخاب کنید."
       />
       <AppConfig onRefetch={fetchProject} />
-      <Title text="تعیین پورت" subtitle="پورت مورد نظرتان را وارد کنید." />
+      <Title
+        error={isEmpty.port}
+        text="تعیین پورت"
+        subtitle="پورت مورد نظرتان را وارد کنید."
+      />
 
       <Gap h={18} />
       <TextField
