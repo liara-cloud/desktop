@@ -19,7 +19,7 @@ export const projectConfigSlice = createSlice({
       state.projects = payload.projects;
       state.config.app = payload.config?.app;
       state.config.platform = payload.config?.platform;
-      state.config.port = payload.config?.port;
+      state.config.port = payload.config?.port
     }
   }
 });

@@ -14,6 +14,7 @@ import ActionContainer from "../../components/action-container/action-container.
 import { ipcRenderer } from "electron";
 import Spinner from "../../components/sppiner/spinner.component";
 import { BlurContainer } from "../../components/blur-container/blur-container.styles";
+import portTypes from "../../utility/ports/port-types";
 
 const initConfig = {
   app: "",
@@ -29,9 +30,10 @@ const Config = () => {
 
   const [isLoading, setIsLoading] = useState({ fetch: true, refetch: false });
   const [isEmpty, setIsEmpty] = useState(initEmpty);
+  const [hasDefaultPort, setHasDefaultPort] = useState(false);
 
   const { projectConfig, auth } = useSelector(state => state);
-  const { app, port } = projectConfig.config;
+  const { app, port, platform } = projectConfig.config;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -48,6 +50,25 @@ const Config = () => {
       fetchProject();
     },
     [api_token]
+  );
+
+  useEffect(
+    () => {
+      if (platform) {
+        const [item] = portTypes.filter(item => item.name === platform);
+
+        if (!Boolean(item)) return setHasDefaultPort(false);
+
+        dispatch(
+          config({
+            ...projectConfig,
+            config: { ...projectConfig.config, port: item.port }
+          })
+        );
+        setHasDefaultPort(true);
+      }
+    },
+    [platform]
   );
 
   const handleSetPort = port => {
@@ -123,20 +144,24 @@ const Config = () => {
         subtitle="برنامه‌ای که میخواهید در آن دیپلوی کنید را انتخاب کنید."
       />
       <AppConfig onRefetch={fetchProject} />
-      <Title
-        error={isEmpty.port}
-        text="تعیین پورت"
-        subtitle="پورت مورد نظرتان را وارد کنید."
-      />
 
-      <Gap h={18} />
-      <TextField
-        type="number"
-        value={projectConfig.config?.port || ""}
-        min="1"
-        onChange={({ target }) => handleSetPort(target.value)}
-      />
-      <Gap h={35} />
+      {!hasDefaultPort &&
+        <Fragment>
+          <Title
+            error={isEmpty.port}
+            text="تعیین پورت"
+            subtitle="پورت مورد نظرتان را وارد کنید."
+          />
+
+          <Gap h={18} />
+          <TextField
+            type="number"
+            value={projectConfig.config?.port || ""}
+            min="1"
+            onChange={({ target }) => handleSetPort(target.value)}
+          />
+        </Fragment>}
+      <Gap h={hasDefaultPort ? 101 + 35 : 35} />
       <ActionContainer>
         <Button onClick={startDeploy} className="umami--click--start-deploy">
           بعدی
