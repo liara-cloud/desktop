@@ -1,6 +1,6 @@
+import React, { useEffect, useState, useRef } from "react";
 import { ipcRenderer } from "electron";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { config } from "../../store/projectConfigSlice";
 import { DropzoneContainer } from "./dropzone.styles";
@@ -18,8 +18,9 @@ const Dropzone = () => {
   const [path, setPath] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const inputEl = useRef();
 
-  const overrideEventDefaults = (event) => {
+  const overrideEventDefaults = event => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -28,48 +29,60 @@ const Dropzone = () => {
     event.type === "drop" && setHint(false);
   };
 
-  const handleDragAndDropFiles = (event) => {
+  const handleDragAndDropFiles = event => {
     overrideEventDefaults(event);
     if (!event.dataTransfer) return;
     handleFiles(event.dataTransfer.files);
   };
 
-  const handleFiles = (fileList) => {
+  const handleFiles = fileList => {
     if (!fileList) {
       return;
     }
 
-    const [{ path }] = Array.from(fileList);
-    setPath(path);
-    ipcRenderer.send("is-directory", {
-      path
+    const [{ path, webkitRelativePath }] = Array.from(fileList);
+
+    const [root] = webkitRelativePath.split("/");
+    const [beforeRoot] = path.split(root);
+    const splitedPath = beforeRoot + root;
+
+    webkitRelativePath ? setPath(splitedPath) : setPath(path);
+
+    return ipcRenderer.send("is-directory", {
+      path: webkitRelativePath ? splitedPath : path
     });
   };
 
-  useEffect(() => {
-    if (!path) return;
-    ipcRenderer.on(
-      "is-directory",
-      (_, { isDirectory, isEmpty, config: configLiaraJosn }) => {
-        if (isEmpty)
-          return setError({ isEmpty: true, msg: ".پوشه انتخاب شده خالی است" });
-        if (!isDirectory)
-          return setError({
-            isDirectory: true,
-            msg: ".تنها انتخاب پوشه مجاز است"
-          });
+  useEffect(
+    () => {
+      if (!path) return;
+      ipcRenderer.on(
+        "is-directory",
+        (_, { isDirectory, isEmpty, config: configLiaraJosn }) => {
+          if (isEmpty)
+            return setError({
+              isEmpty: true,
+              msg: ".پوشه انتخاب شده خالی است"
+            });
+          if (!isDirectory)
+            return setError({
+              isDirectory: true,
+              msg: ".تنها انتخاب پوشه مجاز است"
+            });
 
-        dispatch(
-          config({
-            path,
-            config: configLiaraJosn,
-            projects: []
-          })
-        );
-        navigate("/config");
-      }
-    );
-  }, [path]);
+          dispatch(
+            config({
+              path,
+              config: configLiaraJosn,
+              projects: []
+            })
+          );
+          navigate("/config");
+        }
+      );
+    },
+    [path]
+  );
 
   if (error.isEmpty || error.isDirectory) {
     setTimeout(() => {
@@ -87,10 +100,18 @@ const Dropzone = () => {
       onDragOver={overrideEventDefaults}
       hint={hint}
     >
-      {/* <input type="file" webkitdirectory="true" /> */}
+      <input
+        ref={inputEl}
+        onChange={({ target }) => handleFiles(target.files)}
+        type="file"
+        webkitdirectory="true"
+      />
       <p>
         پروژه را در اینجا رها کنید
-        <br />و یا <b> انتخاب کنید.</b>
+        <br />و یا
+        <span onClick={() => inputEl.current.click()}>
+          <b> انتخاب کنید.</b>
+        </span>
       </p>
     </DropzoneContainer>
   );

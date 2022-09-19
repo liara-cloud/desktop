@@ -13,8 +13,6 @@ export const SidebarContainer = styled.div`
   transition: all 0.3s;
 `;
 
-
-
 export const OptionItem = styled.button`
   color: #d0e0ef;
   font-size: 14px;
@@ -25,4 +23,12 @@ export const OptionItem = styled.button`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+export const CloseContainer = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
 `;

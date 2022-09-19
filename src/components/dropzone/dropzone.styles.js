@@ -15,14 +15,17 @@ export const DropzoneContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${(props) => props.hint && `background: #757f8811; `}
-  ${(props) => props.isError && errorStyle}
-  p {
+  ${props => props.hint && `background: #757f8811; `} ${props =>
+      props.isError && errorStyle} p {
     direction: rtl;
     line-height: 32px;
     b {
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+  input {
+    visibility: hidden;
+    position: absolute;
   }
 `;

@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppConfig from "../../components/app-config/app-config.component";
 import { getProjects } from "../../utility/get-apps.utlis";
-import { ConfigContainer } from "./config.styles";
+import { ConfigContainer, RefetchText } from "./config.styles";
 import regeneratorRuntime from "regenerator-runtime";
 import { config } from "../../store/projectConfigSlice";
 import Gap from "../../components/gap/gap.component";
@@ -104,6 +104,13 @@ const Config = () => {
     return navigate("/init");
   };
 
+
+  const openConsole = () => {
+    ipcRenderer.send("console", {
+      url: `https://console.liara.ir/apps/create`,
+    });
+  }
+
   if (isEmpty.app || isEmpty.port) {
     setTimeout(() => {
       setIsEmpty(initEmpty);
@@ -125,14 +132,22 @@ const Config = () => {
           subtitle="شما هیچ برنامه ای ندارید. ابتدا وارد کنسول لیارا شوید و برنامه ای
         بسازید."
         />
-        <Button
-          style={{ marginTop: 10, padding: "5px 15px" }}
+        <RefetchText
           variant="outlined"
           onClick={fetchProject}
-          disabled={isLoading}
+          disabled={isLoading.refetch}
         >
           {isLoading.refetch ? "در حال بررسی..." : " بارگذاری مجدد"}
+        </RefetchText>
+        <Gap h={220} />
+        <ActionContainer>
+        <Button onClick={openConsole} style={{padding : "5px 20px"}} className="umami--click--create-app">
+        ساخت برنامه
         </Button>
+        <Button variant="outlined" onClick={backToDirectory}>
+          قبلی
+        </Button>
+      </ActionContainer>
       </ConfigContainer>
     );
 

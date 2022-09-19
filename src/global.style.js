@@ -78,6 +78,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: Yekan Bakh;
     background: #111;
     color: #fff;
+    cursor: default;
   }
   
   * {

@@ -1,18 +1,24 @@
 import React from "react";
 import Accounts from "./accounts/accounts.component";
 import { useDispatch, useSelector } from "react-redux";
-import { SidebarContainer, Dividr, OptionItem } from "./sidebar.styles";
-import liaraLogo from "../../assets/images/logo.svg";
+import {
+  SidebarContainer,
+  Dividr,
+  OptionItem,
+  CloseContainer
+} from "./sidebar.styles";
 import { ipcRenderer } from "electron";
 import { user } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import CurrentSection from "./current-section/current-section.component";
+import { Fragment } from "react";
+import { toggle } from "../../store/sidebarSlice";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isOpen } = useSelector((state) => state.sidebar);
-  const { currentAccount } = useSelector((state) => state.auth.user);
+  const { isOpen } = useSelector(state => state.sidebar);
+  const { currentAccount } = useSelector(state => state.auth.user);
 
   const logInWithBrowser = () => {
     ipcRenderer.on("open-console", (_, arg) => {
@@ -36,22 +42,29 @@ const Sidebar = () => {
     ipcRenderer.send("remove-account", { email, region });
   };
 
+  const closeSidebar = () => {
+    dispatch(toggle());
+  };
+
   return (
-    <SidebarContainer
-      style={{ transform: `translateX(${isOpen ? 0 : `70vw`})` }}
-    >
-      <CurrentSection />
+    <Fragment>
+      {isOpen && <CloseContainer onClick={closeSidebar} />}
+      <SidebarContainer
+        style={{ transform: `translateX(${isOpen ? 0 : `70vw`})` }}
+      >
+        <CurrentSection />
 
-      <Accounts />
+        <Accounts />
 
-      <div style={{ padding: "10px 25px" }}>
-        <OptionItem onClick={logInWithBrowser}>افزودن حساب کاربری</OptionItem>
-        <OptionItem onClick={openTicketingInBrowser}>
-          ارتباط با پشتیبانی
-        </OptionItem>
-        <OptionItem onClick={handleLogout}>خروج</OptionItem>
-      </div>
-    </SidebarContainer>
+        <div style={{ padding: "10px 25px" }}>
+          <OptionItem onClick={logInWithBrowser}>افزودن حساب کاربری</OptionItem>
+          <OptionItem onClick={openTicketingInBrowser}>
+            ارتباط با پشتیبانی
+          </OptionItem>
+          <OptionItem onClick={handleLogout}>خروج</OptionItem>
+        </div>
+      </SidebarContainer>
+    </Fragment>
   );
 };
 
