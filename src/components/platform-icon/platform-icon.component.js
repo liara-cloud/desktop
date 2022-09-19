@@ -11,6 +11,7 @@ import djangoIcon from "@liara/platformicons/png/django.png";
 import netcoreIcon from "@liara/platformicons/png/dotnet.png";
 import laravelIcon from "@liara/platformicons/png/laravel.png";
 import angularIcon from "@liara/platformicons/png/angular.png";
+import nextIcon from "@liara/platformicons/png/next.png";
 import { PlatformContaienr } from "./platform-icon.styles";
 
 const types = [
@@ -25,11 +26,12 @@ const types = [
   { logo: djangoIcon, alt: "django" },
   { logo: laravelIcon, alt: "laravel" },
   { logo: netcoreIcon, alt: "netcore" },
-  { logo: angularIcon, alt: "angular" }
+  { logo: angularIcon, alt: "angular" },
+  { logo: nextIcon, alt: "next" }
 ];
 
 const PlatfromIcon = ({ platform }) => {
-  const type = types.find((type) => type.alt === platform);
+  const type = types.find(type => type.alt === platform);
   return <PlatformContaienr src={type.logo} draggable="false" />;
 };
 
