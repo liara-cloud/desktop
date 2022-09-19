@@ -44,7 +44,7 @@ const Accounts = () => {
                 current={current}
                 onClick={() => handlechengeCurrent(email, region)}
               >
-                <AccountAvatar src={avatar} alt={`avatar-${account_name}`} />
+                <AccountAvatar src={`https:${avatar}`} alt={`avatar-${account_name}`} />
                 <p>{sliceText(fullname, 14)}</p>
                 <BadgeRegion src={region} />
               </Account>

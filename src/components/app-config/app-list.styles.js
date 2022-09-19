@@ -5,7 +5,7 @@ export const AppListContainer = styled.div`
   position: absolute;
   top: 43px;
   width: 300px;
-  height: 78px;
+  max-height: 78px;
   background: linear-gradient(
     180deg,
     rgba(98, 161, 254, 0.0231) 0%,
