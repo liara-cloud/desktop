@@ -9,7 +9,7 @@ let ansi_up = new AnsiUp();
 
 const PAGES = {
   state: {
-    init: "/init",
+    "preparation-build": "/upload",
     "upload-progress": "/upload",
     build: "/build",
     publish: "/publish"
@@ -28,8 +28,6 @@ const useDeploy = () => {
   useEffect(() => {
     ipcRenderer.on("deploy", (_, arg) => {
       const { log, state, status, percent, total, transferred } = arg;
-
-      console.log({ state, status });
 
       dispatch(
         deployState({

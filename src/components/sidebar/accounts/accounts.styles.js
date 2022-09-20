@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-import IRLogo from "../../../assets/images/iran.svg";
 import DELogo from "../../../assets/images/germany.svg";
 
 const currentAccountStyle = css`
@@ -36,9 +35,7 @@ export const Account = styled.button`
   align-items: center;
   background: none;
 
-  ${(props) => props.current && currentAccountStyle}
-
-  &:hover {
+  ${props => props.current && currentAccountStyle} &:hover {
     background: linear-gradient(92deg, #87fcc420 0%, #28c1f520 98.77%);
   }
 `;
@@ -56,5 +53,5 @@ export const BadgeRegion = styled.span`
   right: 35px;
   bottom: 10px;
   border-radius: 50%;
-  background-image: url(${(props) => (props.src === "iran" ? IRLogo : DELogo)});
+  background-image: url(${props => props.src !== "iran" && DELogo});
 `;

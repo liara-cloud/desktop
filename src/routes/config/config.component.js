@@ -108,7 +108,7 @@ const Config = () => {
       }
     });
 
-    return navigate("/init");
+    return navigate("/upload");
   };
 
   const openConsole = () => {

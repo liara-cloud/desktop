@@ -26,7 +26,6 @@ const Navigation = () => {
   const dispatch = useDispatch();
 
   const isAuthPage = location?.pathname === "/auth";
- 
 
   const handleToggleSidebar = () => {
     dispatch(toggle());

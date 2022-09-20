@@ -46,7 +46,7 @@ const Sidebar = () => {
     dispatch(toggle());
   };
 
-  if (!currentAccount?.email) {
+  if (!currentAccount?.email || !currentAccount?.region ) {
     return null;
   }
 
