@@ -6,6 +6,12 @@ export const TitleElement = styled.h2`
   line-height: 28px;
 `;
 export const SubTitle = styled.p`
-  color: #768B9F;
+  color: #768b9f;
   font-size: 12px;
+`;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;

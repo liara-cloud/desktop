@@ -60,7 +60,7 @@ async function createMainWindow() {
     urlFormatOptions.pathname = "/";
     urlFormatOptions.slashes = true;
   }
-  if (envConfig.PLATFORM === "win32") app.setAppUserModelId("liara");
+  if (envConfig.PLATFORM === "win32") app.setAppUserModelId("Liara");
   mainWindow.loadURL(url.format(urlFormatOptions));
 
   // Don't show until we are ready and loaded

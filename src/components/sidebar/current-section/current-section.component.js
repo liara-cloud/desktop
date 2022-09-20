@@ -5,7 +5,7 @@ import { BadgeRegion } from "../accounts/accounts.styles";
 import sliceText from "../../../utility/slice-text.utils";
 
 const CurrentSection = () => {
-  const { avatar, region, fullname = "", email = "" } = useSelector(
+  const { avatar = "", region, fullname = "", email = "" } = useSelector(
     state => state.auth.user.currentAccount
   );
 

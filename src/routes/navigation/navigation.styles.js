@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const NavContainer = styled.div`
   background: radial-gradient(
     87.68% 101.73% at 51.86% -0.36%,

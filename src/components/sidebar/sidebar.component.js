@@ -46,6 +46,10 @@ const Sidebar = () => {
     dispatch(toggle());
   };
 
+  if (!currentAccount?.email) {
+    return null;
+  }
+
   return (
     <Fragment>
       {isOpen && <CloseContainer onClick={closeSidebar} />}

@@ -2,18 +2,9 @@ import styled from "styled-components";
 
 export const AppListContainer = styled.div`
   display: none;
-  position: absolute;
-  top: 43px;
-  width: 300px;
   max-height: 78px;
-  background: linear-gradient(
-    180deg,
-    rgba(98, 161, 254, 0.0231) 0%,
-    rgba(37, 38, 45, 0.2046) 100%
-  );
-  border: 1px solid rgba(161, 201, 238, 0.1);
-  border-radius: 8px;
   transition: all 0.15s;
+  width: 100%;
   overflow-y: scroll;
 `;
 

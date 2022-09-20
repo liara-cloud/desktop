@@ -2,7 +2,12 @@ import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppConfig from "../../components/app-config/app-config.component";
 import { getProjects } from "../../utility/get-apps.utlis";
-import { ConfigContainer, RefetchText } from "./config.styles";
+import {
+  ConfigContainer,
+  RefetchContainer,
+  RefetchIcon,
+  RefetchText
+} from "./config.styles";
 import regeneratorRuntime from "regenerator-runtime";
 import { config } from "../../store/projectConfigSlice";
 import Gap from "../../components/gap/gap.component";
@@ -15,6 +20,8 @@ import { ipcRenderer } from "electron";
 import Spinner from "../../components/sppiner/spinner.component";
 import { BlurContainer } from "../../components/blur-container/blur-container.styles";
 import portTypes from "../../utility/ports/port-types";
+
+import refetchIcon from "../../assets/images/refetch.svg";
 
 const initConfig = {
   app: "",
@@ -104,12 +111,11 @@ const Config = () => {
     return navigate("/init");
   };
 
-
   const openConsole = () => {
     ipcRenderer.send("console", {
-      url: `https://console.liara.ir/apps/create`,
+      url: `https://console.liara.ir/apps/create`
     });
-  }
+  };
 
   if (isEmpty.app || isEmpty.port) {
     setTimeout(() => {
@@ -131,23 +137,25 @@ const Config = () => {
           text="برنامه ای یافت نشد."
           subtitle="شما هیچ برنامه ای ندارید. ابتدا وارد کنسول لیارا شوید و برنامه ای
         بسازید."
-        />
-        <RefetchText
-          variant="outlined"
-          onClick={fetchProject}
-          disabled={isLoading.refetch}
         >
-          {isLoading.refetch ? "در حال بررسی..." : " بارگذاری مجدد"}
-        </RefetchText>
-        <Gap h={220} />
+          <RefetchContainer onClick={fetchProject}>
+            <RefetchIcon src={refetchIcon} isLoading={isLoading.refetch} />
+          </RefetchContainer>
+        </Title>
+
+        <Gap h={265} />
         <ActionContainer>
-        <Button onClick={openConsole} style={{padding : "5px 20px"}} className="umami--click--create-app">
-        ساخت برنامه
-        </Button>
-        <Button variant="outlined" onClick={backToDirectory}>
-          قبلی
-        </Button>
-      </ActionContainer>
+          <Button
+            onClick={openConsole}
+            style={{ padding: "5px 20px" }}
+            className="umami--click--create-app"
+          >
+            ساخت برنامه
+          </Button>
+          <Button variant="outlined" onClick={backToDirectory}>
+            قبلی
+          </Button>
+        </ActionContainer>
       </ConfigContainer>
     );
 
@@ -157,9 +165,12 @@ const Config = () => {
         error={isEmpty.app}
         text="انتخاب برنامه"
         subtitle="برنامه‌ای که میخواهید در آن دیپلوی کنید را انتخاب کنید."
-      />
+      >
+        <RefetchContainer onClick={fetchProject}>
+          <RefetchIcon src={refetchIcon} isLoading={isLoading.refetch} />
+        </RefetchContainer>
+      </Title>
       <AppConfig onRefetch={fetchProject} />
-
       {!hasDefaultPort &&
         <Fragment>
           <Title
@@ -173,6 +184,7 @@ const Config = () => {
             type="number"
             value={projectConfig.config?.port || ""}
             min="1"
+            style={{ cursor: "text" }}
             onChange={({ target }) => handleSetPort(target.value)}
           />
         </Fragment>}

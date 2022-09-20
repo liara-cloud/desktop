@@ -16,7 +16,7 @@ win:
     - 'zip'
     - 'nsis'
   verifyUpdateCodeSignature: false
-  publisherName: liara
+  publisherName: Liara
 nsis:
   oneClick: false
   allowElevation: true

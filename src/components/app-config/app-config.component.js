@@ -1,42 +1,51 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import {
   AppConfigContainer,
-  RefetchContainer,
-  RefetchIcon,
+  AppItem,
   SelectAppContainer
 } from "./app-config.styles";
-import refetchIcon from "../../assets/images/refetch.svg";
 import { useSelector } from "react-redux";
 import AppPlatform from "./app-item.component";
 import AppListConfig from "./app-list.component";
-import regeneratorRuntime from "regenerator-runtime";
+import arrow from "../../assets/images/arrow.svg";
+import tick from "../../assets/images/tick.svg";
+import Gap from "../gap/gap.component";
 
-const AppConfig = ({ onRefetch }) => {
+const AppConfig = () => {
   const [showList, setShowList] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { app, platform } = useSelector((state) => state.projectConfig.config);
-
-  const handleGetProject = async () => {
-    setIsLoading(true);
-    await onRefetch();
-    setIsLoading(false);
-  };
+  const { app, platform } = useSelector(state => state.projectConfig.config);
 
   return (
     <AppConfigContainer>
-      <SelectAppContainer onClick={() => setShowList(!showList)}>
-        {app ? (
-          <AppPlatform platform={platform} app={app} />
-        ) : (
-          " برنامه ای انتخاب نشده"
-        )}
-      </SelectAppContainer>
-      <RefetchContainer onClick={handleGetProject}>
-        <RefetchIcon src={refetchIcon} isLoading={isLoading} />
-      </RefetchContainer>
-      <AppListConfig
-        style={showList ? { opacity: 1, display: "block" } : { opacity: 0 }}
-      />
+      <div>
+        <SelectAppContainer
+          absolute={true}
+          onClick={() => setShowList(!showList)}
+        >
+          <div style={{ padding: "10px 10px 2px" }}>
+            <AppItem>
+              {app
+                ? <Fragment>
+                    <AppPlatform platform={platform} app={app} />
+                    <img src={tick} style={{ marginTop: "-2px" }} width={15} />
+                  </Fragment>
+                : <Fragment>
+                    <span> برنامه ای انتخاب نشده</span>
+                    <img src={arrow} />
+                  </Fragment>}
+            </AppItem>
+          </div>
+          <div>
+            <AppListConfig
+              onClose={() => setShowList(false)}
+              style={
+                showList ? { opacity: 1, display: "block" } : { opacity: 0 }
+              }
+            />
+          </div>
+        </SelectAppContainer>
+        <Gap h={36} />
+      </div>
     </AppConfigContainer>
   );
 };

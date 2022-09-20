@@ -18,11 +18,11 @@ const Directory = () => {
 
     if (isMounted)
       ipcRenderer.on("asynchronous-login", (_, arg) => {
-        dispatch(user(arg));
+        !arg.length && navigate("/auth");
 
         // push to auth page
         setIsLoading(false);
-        !arg.length && navigate("/auth");
+        dispatch(user(arg));
       });
 
     ipcRenderer.send("asynchronous-login", "liara-cloud");

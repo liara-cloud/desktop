@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Outlet, useLocation } from "react-router-dom";
 import { ipcRenderer } from "electron";
 import Sidebar from "../../components/sidebar/sidebar.component";
@@ -14,7 +14,6 @@ import {
 } from "./navigation.styles";
 
 import openMenuIcon from "../../assets/images/menu-open.svg";
-import closeMenuIcon from "../../assets/images/menu-close.svg";
 import liaraLogo from "../../assets/images/logo.svg";
 import OfflineIcon from "./offline-icon.component";
 import { BlurContainer } from "../../components/blur-container/blur-container.styles";
@@ -23,10 +22,11 @@ const Navigation = () => {
   const [version, setVersion] = useState(null);
   const [online, setOnline] = useState(true);
   const location = useLocation();
-  const { isOpen } = useSelector((state) => state.sidebar);
+
   const dispatch = useDispatch();
 
   const isAuthPage = location?.pathname === "/auth";
+ 
 
   const handleToggleSidebar = () => {
     dispatch(toggle());
@@ -54,32 +54,28 @@ const Navigation = () => {
 
   return (
     <NavContainer>
-      {!online && (
+      {!online &&
         <BlurContainer>
           <OfflineAlert>
             <OfflineIcon />
             <p>لطفا دسترسی به اینترنت خود را بررسی کنید.</p>
           </OfflineAlert>
-        </BlurContainer>
-      )}
-      {!isAuthPage && (
+        </BlurContainer>}
+      {!isAuthPage &&
         <Fragment>
           <NavHeader>
             <ActionMenu onClick={handleToggleSidebar}>
-              {isOpen ? (
-                <img src={closeMenuIcon} />
-              ) : (
-                <img src={openMenuIcon} />
-              )}
+              <img src={openMenuIcon} />
             </ActionMenu>
             <img src={liaraLogo} width="70" />
           </NavHeader>
           <Sidebar />
-        </Fragment>
-      )}
+        </Fragment>}
       <Outlet />
       <NavFooter>
-        <p>نسخه {version}</p>
+        <p>
+          نسخه {version}
+        </p>
         <a onClick={openTicketingInBrowser}>ارتباط با پشتیبانی</a>
       </NavFooter>
     </NavContainer>

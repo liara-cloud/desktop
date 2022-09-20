@@ -136,7 +136,6 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 10px;
   }
   
-
 `;
 
 export default GlobalStyle;
