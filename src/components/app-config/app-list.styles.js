@@ -26,3 +26,9 @@ export const ProjectItem = styled.div`
     }
   }
 `;
+
+export const EmptyText = styled.p`
+  padding: 0px 15px;
+  margin-bottom: -10px;
+  color: #4b6d97;
+`;

@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppPlatform from "./app-item.component";
-import { AppListContainer, ProjectItem } from "./app-list.styles";
+import { AppListContainer, EmptyText, ProjectItem } from "./app-list.styles";
 import { config } from "../../store/projectConfigSlice";
 
-const AppListConfig = ({ onClose, ...otherProps }) => {
+const AppListConfig = ({ currentApp, onClose, ...otherProps }) => {
   const projectConfig = useSelector(state => state.projectConfig);
   const dispatch = useDispatch();
 
@@ -18,9 +18,21 @@ const AppListConfig = ({ onClose, ...otherProps }) => {
     onClose();
   };
 
+  const filteredProject = projectConfig.projects.filter(
+    item => item.project_id !== currentApp
+  );
+
+  if (!filteredProject.length) {
+    return (
+      <AppListContainer {...otherProps}>
+        <EmptyText>برنامه دیگری وجود ندارد</EmptyText>;
+      </AppListContainer>
+    );
+  }
+
   return (
     <AppListContainer {...otherProps}>
-      {projectConfig.projects.map(({ project_id, type }) =>
+      {filteredProject.map(({ project_id, type }) =>
         <ProjectItem
           key={project_id}
           onClick={() => handleSelectProject(project_id, type)}

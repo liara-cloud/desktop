@@ -37,6 +37,7 @@ const AppConfig = () => {
           </div>
           <div>
             <AppListConfig
+              currentApp={app}
               onClose={() => setShowList(false)}
               style={
                 showList ? { opacity: 1, display: "block" } : { opacity: 0 }
