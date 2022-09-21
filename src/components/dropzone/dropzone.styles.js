@@ -20,7 +20,6 @@ export const DropzoneContainer = styled.div`
     direction: rtl;
     line-height: 32px;
     b {
-      text-decoration: underline;
       cursor: pointer;
     }
   }
