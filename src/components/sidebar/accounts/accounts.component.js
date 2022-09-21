@@ -18,8 +18,8 @@ const Accounts = () => {
 
   const dispatch = useDispatch();
 
-  const handlechengeCurrent = (email, region) => {
-    if (currentAccount.email !== email) {
+  const handleChangeCurrent = (account_name, email, region) => {
+    if (currentAccount.account_name !== account_name) {
       ipcRenderer.send("change-current", {
         email,
         region
@@ -42,7 +42,7 @@ const Accounts = () => {
               <Account
                 key={account_name}
                 current={current}
-                onClick={() => handlechengeCurrent(email, region)}
+                onClick={() => handleChangeCurrent(account_name, email, region)}
               >
                 <AccountAvatar src={`https:${avatar}`} alt={`avatar-${account_name}`} />
                 <p>{sliceText(fullname, 14)}</p>

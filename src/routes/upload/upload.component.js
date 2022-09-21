@@ -15,7 +15,7 @@ const Upload = () => {
       <div style={{ marginBottom: 15 }}>
         <Title
           text="در حال آپلود سورس کد"
-          subtitle="شما میتوانید با استفاده از فایل gitignore. حجم فایل آپلودی را کاهش دهید."
+          subtitle="شما می‌توانید با استفاده از فایل gitignore. حجم فایل آپلودی را کاهش دهید."
         />
         <UploadProgress />
         <ActionContainer justifyContent="center">

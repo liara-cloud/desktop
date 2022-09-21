@@ -29,7 +29,8 @@ const Error = () => {
     <LayoutDeployContainer>
       <div style={{ marginBottom: 15 }}>
         <Title
-          text="استقرار با خطا مواجد شد"
+          error
+          text="استقرار با خطا مواجه شد"
           subtitle="  ﺩﺭ ﺻﻮﺭﺕ ﻧﯿﺎﺯ ﺑﻪ ﭘﺸﺘﯿﺒﺎﻧﯽ، ﻻﮒﻫﺎﯼ ﺍﯾﻦ ﺍﺳﺘﻘﺮﺍﺭ ﺭﺍ ﺩﺭﯾﺎﻓﺖ ﻭ
 ﺩﺭ ﺗﯿﮑﺖ ﭘﯿﻮﺳﺖ ﮐﻨﯿﺪ."
         />

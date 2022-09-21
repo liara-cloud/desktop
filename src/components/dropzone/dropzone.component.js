@@ -110,7 +110,7 @@ const Dropzone = () => {
         پروژه را در اینجا رها کنید
         <br />و یا
         <span onClick={() => inputEl.current.click()}>
-          <b> انتخاب کنید.</b>
+          <b>انتخاب کنید</b>
         </span>
       </p>
     </DropzoneContainer>

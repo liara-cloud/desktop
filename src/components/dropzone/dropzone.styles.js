@@ -19,8 +19,17 @@ export const DropzoneContainer = styled.div`
       props.isError && errorStyle} p {
     direction: rtl;
     line-height: 32px;
-    b {
-      cursor: pointer;
+    span {
+      background: linear-gradient(92deg, #87fcc420 0%, #28c1f520 98.77%);
+      padding: 4px 6px;
+      border-radius: 6px;
+      margin: 0 5px;
+      b {
+        background: linear-gradient(92deg, #87fcc4 0%, #28c1f5 98.77%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        cursor: pointer;
+      }
     }
   }
   input {

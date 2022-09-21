@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Accounts from "./accounts/accounts.component";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -21,9 +21,6 @@ const Sidebar = () => {
   const { currentAccount } = useSelector(state => state.auth.user);
 
   const logInWithBrowser = () => {
-    ipcRenderer.on("open-console", (_, arg) => {
-      dispatch(user(arg));
-    });
     ipcRenderer.send("open-console", { page: "login" });
   };
 
@@ -35,16 +32,23 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     const { email, region } = currentAccount;
-    ipcRenderer.on("remove-account", (_, arg) => {
-      dispatch(user(arg));
-      if (!arg.length) navigate("/auth");
-    });
     ipcRenderer.send("remove-account", { email, region });
   };
 
   const closeSidebar = () => {
     dispatch(toggle());
   };
+
+  useEffect(() => {
+    ipcRenderer.on("open-console", (_, arg) => {
+      dispatch(user(arg));
+    });
+
+    ipcRenderer.on("remove-account", (_, arg) => {
+      dispatch(user(arg));
+      if (!arg.length) navigate("/auth");
+    });
+  }, []);
 
   if (!currentAccount?.email || !currentAccount?.region ) {
     return null;

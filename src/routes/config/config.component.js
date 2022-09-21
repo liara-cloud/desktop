@@ -184,7 +184,7 @@ const Config = () => {
             type="number"
             value={projectConfig.config?.port || ""}
             min="1"
-            style={{ cursor: "text" }}
+            style={{ cursor: "text", direction: 'ltr' }}
             onChange={({ target }) => handleSetPort(target.value)}
           />
         </Fragment>}
