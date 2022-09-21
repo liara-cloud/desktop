@@ -14,6 +14,11 @@ const RefatchIconStlye = css`
   animation-iteration-count: infinite;
 `;
 
+export const AppContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const ConfigContainer = styled.div`
   direction: rtl;
   padding-top: 20px;

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AppConfig from "../../components/app-config/app-config.component";
 import { getProjects } from "../../utility/get-apps.utlis";
 import {
+  AppContainer,
   ConfigContainer,
   RefetchContainer,
   RefetchIcon,
@@ -165,12 +166,13 @@ const Config = () => {
         error={isEmpty.app}
         text="انتخاب برنامه"
         subtitle="برنامه‌ای که میخواهید در آن دیپلوی کنید را انتخاب کنید."
-      >
-        <RefetchContainer onClick={fetchProject}>
+      />
+      <AppContainer>
+        <AppConfig onRefetch={fetchProject} />
+        <RefetchContainer style={{ marginTop: 18 }} onClick={fetchProject}>
           <RefetchIcon src={refetchIcon} isLoading={isLoading.refetch} />
         </RefetchContainer>
-      </Title>
-      <AppConfig onRefetch={fetchProject} />
+      </AppContainer>
       {!hasDefaultPort &&
         <Fragment>
           <Title
@@ -182,9 +184,9 @@ const Config = () => {
           <Gap h={18} />
           <TextField
             type="number"
-            value={projectConfig.config?.port || ""}
+            // value={projectConfig.config?.port || ""}
             min="1"
-            style={{ cursor: "text", direction: 'ltr' }}
+            style={{ cursor: "text", direction: "ltr" }}
             onChange={({ target }) => handleSetPort(target.value)}
           />
         </Fragment>}

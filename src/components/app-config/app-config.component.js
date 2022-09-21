@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import {
   AppConfigContainer,
   AppItem,
+  CloseContainer,
   SelectAppContainer
 } from "./app-config.styles";
 import { useSelector } from "react-redux";
@@ -17,6 +18,7 @@ const AppConfig = () => {
 
   return (
     <AppConfigContainer>
+      {showList && <CloseContainer onClick={() => setShowList(false)} />}
       <div>
         <SelectAppContainer
           absolute={true}

@@ -1,7 +1,7 @@
 <div align="center">
   <a href="https://liara.ir" target="blank">
     <div>
-      <img src="https://raw.githubusercontent.com/liara-cloud/desktop/master/assets/icon.png" width="160" height="160" alt="Nest Logo" />
+      <img src="https://raw.githubusercontent.com/liara-cloud/desktop/master/assets/liara.png" width="160" height="160" alt="Nest Logo" />
     </div>
   </a>
       <b>The desktop interface for Liara</b>
