@@ -27,6 +27,8 @@ const { checkDirectory } = require("./utils/check-upload-directory");
 
 let mainWindow;
 
+const isWin = process.platform === "win32";
+
 async function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 350,
@@ -37,8 +39,8 @@ async function createMainWindow() {
     height: 550,
     minHeight: 550,
     maxHeight: 550,
-    show: true,
-    frame: true,
+    show: !isWin,
+    frame: !isWin,
     icon:
       envConfig.PLATFORM === "darwin"
         ? `${appRootDir}/assets/liara.icns`
@@ -75,24 +77,24 @@ async function createMainWindow() {
         REACT_DEVELOPER_TOOLS
       } = require("electron-devtools-installer");
 
-      installExtension(REACT_DEVELOPER_TOOLS).catch((err) =>
+      installExtension(REACT_DEVELOPER_TOOLS).catch(err =>
         console.log("Error loading React DevTools: ", err)
       );
       mainWindow.webContents.openDevTools();
     }
   });
-  mainWindow.on("close", (e) => {
+  mainWindow.on("close", e => {
     mainWindow = null;
   });
 }
 
-app.on("browser-window-focus", function () {
+app.on("browser-window-focus", function() {
   globalShortcut.register("CommandOrControl+R", () => {
     console.log("CommandOrControl+R is pressed: Shortcut Disabled");
   });
 });
 
-app.on("browser-window-blur", function () {
+app.on("browser-window-blur", function() {
   globalShortcut.unregister("CommandOrControl+R");
 });
 
@@ -109,7 +111,7 @@ app.whenReady().then(() => {
   });
 });
 
-ipcMain.on("asynchronous-login", async (event) => {
+ipcMain.on("asynchronous-login", async event => {
   logger.info("Request from IPCRenderer recieved. channle=asynchronous-login");
   event.sender.send("asynchronous-login", await readLiaraJson());
   envConfig.CHECK_API_TOKEN = true;
@@ -179,7 +181,7 @@ ipcMain.handle("frame", (event, args) => {
 });
 
 // version
-ipcMain.on("app_version", (event) => {
+ipcMain.on("app_version", event => {
   event.sender.send("app_version", { version: app.getVersion() });
 });
 
@@ -206,7 +208,7 @@ ipcMain.on("app_version", (event) => {
 // Stop error
 app.allowRendererProcessReuse = true;
 
-process.on("unhandledRejection", async (error) => {
+process.on("unhandledRejection", async error => {
   logger.error(error);
   await dialog.showMessageBox({
     message:
@@ -226,7 +228,7 @@ process.on("unhandledRejection", async (error) => {
     });
   }
 });
-process.on("uncaughtException", async (error) => {
+process.on("uncaughtException", async error => {
   logger.error(error);
   await dialog.showMessageBox({
     message:

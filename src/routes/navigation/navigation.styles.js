@@ -1,11 +1,14 @@
 import styled from "styled-components";
 
-export const NavContainer = styled.div`
+export const WindowsContainer = styled.div`
   background: radial-gradient(
     87.68% 101.73% at 51.86% -0.36%,
     rgba(32, 106, 190, 0.38) 0%,
     rgba(13, 30, 51, 0) 100%
   );
+`;
+
+export const NavContainer = styled.div`
   width: 100%;
   height: 100vh;
   padding: 20px 25px;
@@ -64,5 +67,45 @@ export const OfflineAlert = styled.div`
 
   p {
     padding: 5px 10px 0;
+  }
+`;
+
+export const ActionContainer = styled.div`
+  height: 35px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5.976px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+
+  p {
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 14px;
+  }
+`;
+
+export const ActionNav = styled.div`
+  display: flex;
+  height: 35px;
+  overflow: hidden;
+  div {
+    padding: 0px 10px;
+
+    img {
+      padding-top: 8px;
+    }
+  }
+
+  div:first-child {
+    &:hover {
+      background: #99999922;
+    }
+  }
+  div:last-child {
+    &:hover {
+      background: #ec6060;
+    }
   }
 `;

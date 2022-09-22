@@ -29,12 +29,11 @@ const AppConfig = () => {
               {app
                 ? <Fragment>
                     <AppPlatform platform={platform} app={app} />
-                    <img src={tick} style={{ marginTop: "-2px" }} width={15} />
                   </Fragment>
                 : <Fragment>
                     <span> برنامه ای انتخاب نشده</span>
-                    <img src={arrow} />
                   </Fragment>}
+              <img src={arrow} />
             </AppItem>
           </div>
           <div>

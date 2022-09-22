@@ -184,7 +184,7 @@ const Config = () => {
           <Gap h={18} />
           <TextField
             type="number"
-            // value={projectConfig.config?.port || ""}
+            value={projectConfig.config?.port || ""}
             min="1"
             style={{ cursor: "text", direction: "ltr" }}
             onChange={({ target }) => handleSetPort(target.value)}

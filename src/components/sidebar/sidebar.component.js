@@ -54,10 +54,14 @@ const Sidebar = () => {
     return null;
   }
 
+  const platformOS = window.navigator.platform;
+  const isWin = platformOS === "Win32" || platformOS === "Win64";
+
   return (
     <Fragment>
       {isOpen && <CloseContainer onClick={closeSidebar} />}
       <SidebarContainer
+        isWin={isWin}
         style={{ transform: `translateX(${isOpen ? 0 : `70vw`})` }}
       >
         <CurrentSection />

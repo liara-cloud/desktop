@@ -11,10 +11,10 @@ import {
   ValueContainer
 } from "./upload-progress.styles";
 const UploadProgress = () => {
-  const { percent, total, transferred } = useSelector((state) => state.deploy);
+  const { percent, total, transferred } = useSelector(state => state.deploy);
 
   const rounded = percent ? Math.round(percent) : 0;
-  const value = (rounded / 100) * 180;
+  const value = rounded / 100 * 180;
 
   return (
     <UploadInfo as="div" style={{ overflow: "none" }}>
@@ -23,14 +23,16 @@ const UploadProgress = () => {
           <li style={{ transform: `rotate(${value}deg)` }} />
         </Progress>
 
-        <ValueContainer>{rounded}%</ValueContainer>
+        <ValueContainer>
+          {rounded}%
+        </ValueContainer>
 
         <UploadDetails>
           <div>
-            <p>کل: </p> <span> {byteSize(total)} </span>
+            <p>کل: </p> <span> {byteSize(total || 0)} </span>
           </div>
           <div>
-            <p>آپلود شده: </p> <span> {byteSize(transferred)} </span>
+            <p>آپلود شده: </p> <span> {byteSize(transferred || 0)} </span>
           </div>
         </UploadDetails>
       </LoadedContainer>

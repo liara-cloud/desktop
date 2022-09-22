@@ -79,6 +79,7 @@ const GlobalStyle = createGlobalStyle`
     background: #111;
     color: #fff;
     cursor: default;
+    overflow: hidden;
   }
   
   * {

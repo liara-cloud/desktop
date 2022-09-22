@@ -4,10 +4,10 @@ export const SidebarContainer = styled.div`
   direction: rtl;
   position: fixed;
   right: 0;
-  top: 0;
+  bottom: 0;
   z-index: 10;
   width: 70vw;
-  height: 100vh;
+  height: ${props => (props.isWin ? "94vh" : "100vh")};
   background: rgba(0, 0, 0, 0.60);
   backdrop-filter: blur(11.952px);
   transition: all 0.3s;
