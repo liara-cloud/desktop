@@ -28,9 +28,8 @@ const Navigation = () => {
   const [online, setOnline] = useState(true);
   const location = useLocation();
   const dispatch = useDispatch();
-  // const isAuthPage = location?.pathname === "/auth";
-  const isAuthPage = false;
-
+  const isAuthPage = location?.pathname === "/auth";
+ 
   const minimize = useRef();
   const close = useRef();
 
