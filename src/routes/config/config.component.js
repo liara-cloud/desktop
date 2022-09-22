@@ -41,20 +41,30 @@ const Config = () => {
   const [isEmpty, setIsEmpty] = useState(initEmpty);
   const [hasDefaultPort, setHasDefaultPort] = useState(false);
 
-  const { projectConfig, auth , projects} = useSelector(state => state);
+  const { projectConfig, auth, projects } = useSelector(state => state);
   const { app, port, platform } = projectConfig.config;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const fetchProject = async () => {
-    setIsLoading({...isLoading, refetch: true });
-    const res = await getProjects(region, api_token);
-    dispatch(allProjects(res.data.projects));     
-    setIsLoading({fetch : false , refetch: false });
+    setIsLoading({ ...isLoading, refetch: true });
+
+    const initialSpin = new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, 700);
+    });
+
+    const [_, res] = await Promise.allSettled([
+      initialSpin,
+      getProjects(region, api_token)
+    ]);
+
+    setIsLoading({ fetch: false, refetch: false });
+
+    dispatch(allProjects(res.value.data.projects));
   };
-
-
 
   useEffect(
     () => {
@@ -81,7 +91,6 @@ const Config = () => {
     },
     [platform]
   );
-
 
   const handleSetPort = port => {
     dispatch(
@@ -193,7 +202,7 @@ const Config = () => {
           <Gap h={18} />
           <TextField
             type="number"
-            value={projectConfig.config?.port || ""}
+            value={projectConfig.config?.port || ""} 
             min="1"
             style={{ cursor: "text", direction: "ltr" }}
             onChange={({ target }) => handleSetPort(target.value)}
