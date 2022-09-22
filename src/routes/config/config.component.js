@@ -165,7 +165,7 @@ const Config = () => {
       <Title
         error={isEmpty.app}
         text="انتخاب برنامه"
-        subtitle="برنامه‌ای که میخواهید در آن دیپلوی کنید را انتخاب کنید."
+        subtitle="برنامه‌ای که می‌خواهید در آن دیپلوی کنید را انتخاب کنید."
       />
       <AppContainer>
         <AppConfig onRefetch={fetchProject} />
