@@ -9,7 +9,7 @@ export const AppConfigContainer = styled.div`
   margin-bottom: 90px;
 `;
 export const SelectAppContainer = styled.div`
-  width: 262px;
+  width: 300px;
   font-size: 12px;
   line-height: 19px;
   color: #d0e0ef;

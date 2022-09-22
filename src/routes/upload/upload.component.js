@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ActionContainer from "../../components/action-container/action-container.component";
 import Button from "../../components/button/button.component";
 import { LayoutDeployContainer } from "../../components/layout-deploy/layout-deploy.styles";
 import Title from "../../components/title/title.component";
 import UploadProgress from "../../components/upload-progress/upload-progress.component";
-import handleCancel from "../../utility/cancel-deploy.utlis";
+import cancel from "../../utility/cancel-deploy.utlis";
 
 const Upload = () => {
-  const { projectConfig, auth: { user } } = useSelector((state) => state);
+  const { projectConfig, auth: { user } } = useSelector(state => state);
+
+  const [disabled, setDisabled] = useState(false);
+
+  const handleCancel = () => {
+    cancel(projectConfig, user);
+    setDisabled(true);
+  };
 
   return (
     <LayoutDeployContainer>
@@ -19,7 +26,9 @@ const Upload = () => {
         />
         <UploadProgress />
         <ActionContainer justifyContent="center">
-          <Button onClick={() => handleCancel(projectConfig, user)}>لغو</Button>
+          <Button disabled={disabled} onClick={handleCancel}>
+            لغو
+          </Button>
         </ActionContainer>
       </div>
     </LayoutDeployContainer>

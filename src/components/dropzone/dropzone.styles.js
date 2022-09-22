@@ -15,8 +15,12 @@ export const DropzoneContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${props => props.hint && `background: #757f8811; `} ${props =>
-      props.isError && errorStyle} p {
+  ${props => props.hint && `background: #757f8811 `};
+  ${props => props.isError && errorStyle};
+  p {
+    position: absolute;
+    z-index: -1;
+
     direction: rtl;
     line-height: 32px;
     span {

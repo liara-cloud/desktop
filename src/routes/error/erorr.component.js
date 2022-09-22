@@ -11,13 +11,13 @@ import { deployState, initialStateDeploy } from "../../store/deploySlice";
 import { config, initialStateConfig } from "../../store/projectConfigSlice";
 
 const Error = () => {
-  const { log } = useSelector((state) => state.deploy);
+  const { log } = useSelector(state => state.deploy);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const backToDirectory = () => {
     navigate("/");
-    dispatch(deployState(initialStateDeploy));
+    dispatch(deployState({ ...initialStateDeploy, status: "redeploy" }));
     dispatch(config(initialStateConfig));
   };
 

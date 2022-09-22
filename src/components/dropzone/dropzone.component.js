@@ -73,10 +73,10 @@ const Dropzone = () => {
           dispatch(
             config({
               path,
-              config: configLiaraJosn,
-              projects: []
+              config: configLiaraJosn
             })
           );
+          setPath("");
           navigate("/config");
         }
       );

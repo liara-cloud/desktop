@@ -84,6 +84,13 @@ export const ActionContainer = styled.div`
     margin-left: 5px;
     font-size: 14px;
   }
+
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+
+  div {
+    -webkit-app-region: no-drag;
+  }
 `;
 
 export const ActionNav = styled.div`

@@ -22,7 +22,8 @@ import Spinner from "../../components/sppiner/spinner.component";
 import { BlurContainer } from "../../components/blur-container/blur-container.styles";
 import portTypes from "../../utility/ports/port-types";
 
-import refetchIcon from "../../assets/images/refetch.svg";
+import refetchIcon from "../../assets/images/revoke.svg";
+import { allProjects } from "../../store/projectsSlice";
 
 const initConfig = {
   app: "",
@@ -40,18 +41,20 @@ const Config = () => {
   const [isEmpty, setIsEmpty] = useState(initEmpty);
   const [hasDefaultPort, setHasDefaultPort] = useState(false);
 
-  const { projectConfig, auth } = useSelector(state => state);
+  const { projectConfig, auth , projects} = useSelector(state => state);
   const { app, port, platform } = projectConfig.config;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const fetchProject = async () => {
-    setIsLoading({ ...isLoading, refetch: true });
+    setIsLoading({...isLoading, refetch: true });
     const res = await getProjects(region, api_token);
-    dispatch(config({ ...projectConfig, projects: res.data.projects }));
-    setIsLoading({ fetch: false, refetch: false });
+    dispatch(allProjects(res.data.projects));     
+    setIsLoading({fetch : false , refetch: false });
   };
+
+
 
   useEffect(
     () => {
@@ -78,6 +81,7 @@ const Config = () => {
     },
     [platform]
   );
+
 
   const handleSetPort = port => {
     dispatch(
@@ -131,7 +135,7 @@ const Config = () => {
       </BlurContainer>
     );
 
-  if (!projectConfig.projects.length)
+  if (!projects.data.length)
     return (
       <ConfigContainer>
         <Title
@@ -139,9 +143,11 @@ const Config = () => {
           subtitle="شما هیچ برنامه ای ندارید. ابتدا وارد کنسول لیارا شوید و برنامه ای
         بسازید."
         >
-          <RefetchContainer onClick={fetchProject}>
-            <RefetchIcon src={refetchIcon} isLoading={isLoading.refetch} />
-          </RefetchContainer>
+          <RefetchIcon
+            src={refetchIcon}
+            onClick={fetchProject}
+            isLoading={isLoading.refetch}
+          />
         </Title>
 
         <Gap h={265} />
@@ -166,12 +172,15 @@ const Config = () => {
         error={isEmpty.app}
         text="انتخاب برنامه"
         subtitle="برنامه‌ای که می‌خواهید در آن دیپلوی کنید را انتخاب کنید."
-      />
+      >
+        <RefetchIcon
+          src={refetchIcon}
+          onClick={fetchProject}
+          isLoading={isLoading.refetch}
+        />
+      </Title>
       <AppContainer>
         <AppConfig onRefetch={fetchProject} />
-        <RefetchContainer style={{ marginTop: 18 }} onClick={fetchProject}>
-          <RefetchIcon src={refetchIcon} isLoading={isLoading.refetch} />
-        </RefetchContainer>
       </AppContainer>
       {!hasDefaultPort &&
         <Fragment>

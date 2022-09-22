@@ -2,7 +2,7 @@ import styled, { css, keyframes } from "styled-components";
 
 const rotateAnimate = keyframes`
   from {
-    transform: rotate(0deg);
+    transform: rotate(30deg);
   }
   to {
     transform: rotate(360deg);
@@ -12,6 +12,7 @@ const RefatchIconStlye = css`
   animation-name: ${rotateAnimate};
   animation-duration: 1s;
   animation-iteration-count: infinite;
+  opacity: 1;
 `;
 
 export const AppContainer = styled.div`
@@ -31,17 +32,14 @@ export const RefetchText = styled.div`
   display: inline-block;
 `;
 
-export const RefetchContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(92deg, #87fcc415 0%, #28c1f515 98.77%);
-  cursor: pointer;
-  border-radius: 6px;
-`;
-
 export const RefetchIcon = styled.img`
+  cursor: pointer;
+  opacity: .7;
+  padding: 5px;
+  transition: .2s;
   ${props => props.isLoading && RefatchIconStlye};
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1) rotate(30deg);
+  }
 `;

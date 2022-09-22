@@ -9,17 +9,21 @@ export const initialStateDeploy = {
   transferred: 0
 };
 
-let data = [];
+export let logs = [];
 export const deploySlice = createSlice({
   name: "deploy",
   initialState: initialStateDeploy,
   reducers: {
     deployState: (state, { payload }) => {
-      data += payload.log;
+      logs += payload.log;
+
+      if (payload.status === "redeploy") {
+        logs = [];
+      }
 
       state.status = payload.status;
       state.state = payload.state;
-      state.log = data;
+      state.log = logs;
       state.percent = payload.percent;
       state.total = payload.total;
       state.transferred = payload.total;

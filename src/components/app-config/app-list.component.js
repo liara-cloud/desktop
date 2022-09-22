@@ -5,7 +5,7 @@ import { AppListContainer, EmptyText, ProjectItem } from "./app-list.styles";
 import { config } from "../../store/projectConfigSlice";
 
 const AppListConfig = ({ currentApp, onClose, ...otherProps }) => {
-  const projectConfig = useSelector(state => state.projectConfig);
+  const { projectConfig, projects } = useSelector(state => state);
   const dispatch = useDispatch();
 
   const handleSelectProject = (app, platform) => {
@@ -18,7 +18,7 @@ const AppListConfig = ({ currentApp, onClose, ...otherProps }) => {
     onClose();
   };
 
-  const filteredProject = projectConfig.projects.filter(
+  const filteredProject = projects.data.filter(
     item => item.project_id !== currentApp
   );
 
