@@ -44,6 +44,8 @@ exports.release = { id: undefined };
 exports.state = { canceled: false, upload: false };
 
 exports.deploy = async (event, args) => {
+  let isFinished = false;
+
   try {
     this.state.canceled = false;
     this.state.upload = false;
@@ -268,6 +270,9 @@ exports.deploy = async (event, args) => {
             status: "finish"
           });
           await sleep(2000);
+          if(this.state.canceled === true || isFinished) {
+            return;
+          }
           this.logs.push("Creating Release...");
           event.sender.send("deploy", generateLog("", "build", "start"));
         }
@@ -481,5 +486,7 @@ If you are using API token for authentication, please consider updating your API
     );
     logger.error(error);
     logger.error(error.message);
+  } finally {
+    isFinished = true;
   }
 };

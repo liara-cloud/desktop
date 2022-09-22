@@ -9,7 +9,7 @@ import handleCancel from "../../utility/cancel-deploy.utlis";
 const Build = () => {
   const {
     projectConfig,
-    auth,
+    auth: { user },
     deploy: { log }
   } = useSelector((state) => state);
 
@@ -19,7 +19,7 @@ const Build = () => {
         <Title text="در حال ساخت..." />
         <UploadInfo log={log.toString()} disabled />
         <ActionContainer justifyContent="center">
-          <Button onClick={() => handleCancel(projectConfig, auth)}>لغو</Button>
+          <Button onClick={() => handleCancel(projectConfig, user)}>لغو</Button>
         </ActionContainer>
       </div>
     </LayoutDeployContainer>

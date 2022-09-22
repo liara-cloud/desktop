@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron";
 
-const handleCancel = (projectConfig, auth) => {
-  const { region, api_token } = auth;
+const handleCancel = (projectConfig, user) => {
+  const { region, api_token } = user.currentAccount;
   const {
     path,
     config: { app, port }
@@ -13,7 +13,7 @@ const handleCancel = (projectConfig, auth) => {
     app,
     port,
     path,
-    cancel: true
+    cancel: true,
   });
 };
 

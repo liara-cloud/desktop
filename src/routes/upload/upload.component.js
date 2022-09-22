@@ -8,7 +8,7 @@ import UploadProgress from "../../components/upload-progress/upload-progress.com
 import handleCancel from "../../utility/cancel-deploy.utlis";
 
 const Upload = () => {
-  const { projectConfig, auth } = useSelector((state) => state);
+  const { projectConfig, auth: { user } } = useSelector((state) => state);
 
   return (
     <LayoutDeployContainer>
@@ -19,7 +19,7 @@ const Upload = () => {
         />
         <UploadProgress />
         <ActionContainer justifyContent="center">
-          <Button onClick={() => handleCancel(projectConfig, auth)}>لغو</Button>
+          <Button onClick={() => handleCancel(projectConfig, user)}>لغو</Button>
         </ActionContainer>
       </div>
     </LayoutDeployContainer>
