@@ -36,6 +36,9 @@ const Config = () => {
     state => state.auth.user.currentAccount
   );
 
+  const platformOS = window.navigator.platform;
+  const isWin = platformOS === "Win32" || platformOS === "Win64";
+
   const [isLoading, setIsLoading] = useState({ fetch: true, refetch: false });
   const [isEmpty, setIsEmpty] = useState(initEmpty);
   const [hasDefaultPort, setHasDefaultPort] = useState(false);
@@ -65,7 +68,7 @@ const Config = () => {
     );
 
     if (!project?.type) {
-       dispatch(
+      dispatch(
         config({
           ...projectConfig,
           config: initConfig
@@ -75,7 +78,7 @@ const Config = () => {
       dispatch(
         config({
           ...projectConfig,
-          config: { app, platform : project.type, port }
+          config: { app, platform: project.type, port }
         })
       );
     }
@@ -95,7 +98,6 @@ const Config = () => {
   useEffect(
     () => {
       if (platform) {
-
         dispatch(
           config({
             ...projectConfig,
@@ -113,7 +115,7 @@ const Config = () => {
             config: { ...projectConfig.config, port: item.port }
           })
         );
-        if(!item.show){
+        if (!item.show) {
           setHasDefaultPort(true);
         }
       }
@@ -168,7 +170,7 @@ const Config = () => {
 
   if (isLoading.fetch)
     return (
-      <BlurContainer justify="center">
+      <BlurContainer height={!isWin ? '100vh' : '94vh'} justify="center">
         <Spinner />
       </BlurContainer>
     );

@@ -28,7 +28,7 @@ export const OptionItem = styled.button`
 export const CloseContainer = styled.div`
   position: fixed;
   width: 100vw;
-  height: 100vh;
+  height: ${props => props.height};
   top: 0;
   left: 0;
 `;

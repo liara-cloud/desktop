@@ -11,9 +11,9 @@ export const BlurContainer = styled.div`
   backdrop-filter: blur(11.952px);
   position: fixed;
   width: 100vw;
-  height: 100vh;
-  top: 0;
+  height: ${props => props.height};
+  bottom: 0;
   left: 0;
   z-index: 99;
-  ${(props) => props.justify === "center" && centerStyle}
+  ${props => props.justify === "center" && centerStyle};
 `;

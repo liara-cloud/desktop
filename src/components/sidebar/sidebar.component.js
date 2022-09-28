@@ -59,7 +59,7 @@ const Sidebar = () => {
 
   return (
     <Fragment>
-      {isOpen && <CloseContainer onClick={closeSidebar} />}
+      {isOpen && <CloseContainer height={isWin ? '94vh' : '100vh'} onClick={closeSidebar} />}
       <SidebarContainer
         isWin={isWin}
         style={{ transform: `translateX(${isOpen ? 0 : `70vw`})` }}

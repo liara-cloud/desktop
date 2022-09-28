@@ -8,6 +8,9 @@ import Spinner from "../../components/sppiner/spinner.component";
 import { user } from "../../store/authSlice";
 
 const Directory = () => {
+  const platformOS = window.navigator.platform;
+  const isWin = platformOS === "Win32" || platformOS === "Win64";
+
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -34,7 +37,7 @@ const Directory = () => {
 
   if (isLoading)
     return (
-      <BlurContainer justify="center">
+      <BlurContainer height={!isWin ? "100vh" : "94vh"} justify="center">
         <Spinner />
       </BlurContainer>
     );

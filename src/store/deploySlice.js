@@ -26,7 +26,7 @@ export const deploySlice = createSlice({
       state.log = logs;
       state.percent = payload.percent;
       state.total = payload.total;
-      state.transferred = payload.total;
+      state.transferred = payload.transferred;
     }
   }
 });

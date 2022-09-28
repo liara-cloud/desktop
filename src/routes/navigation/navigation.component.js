@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation } from "react-router-dom";
 import { ipcRenderer } from "electron";
 import Sidebar from "../../components/sidebar/sidebar.component";
@@ -17,6 +17,7 @@ import {
 } from "./navigation.styles";
 
 import openMenuIcon from "../../assets/images/menu-open.svg";
+import closeMenuIcon from "../../assets/images/menu-close.svg";
 import liaraLogo from "../../assets/images/logo.svg";
 import closeIcon from "../../assets/images/close.svg";
 import minimizeIcon from "../../assets/images/minimize.svg";
@@ -28,8 +29,11 @@ const Navigation = () => {
   const [online, setOnline] = useState(true);
   const location = useLocation();
   const dispatch = useDispatch();
+
+  const { isOpen } = useSelector(state => state.sidebar);
+
   const isAuthPage = location?.pathname === "/auth";
- 
+
   const minimize = useRef();
   const close = useRef();
 
@@ -72,10 +76,9 @@ const Navigation = () => {
     <WindowsContainer>
       {isWin &&
         <ActionContainer>
-          <div>
-            {/* <img src={logo} width={"20"} /> */}
-            <p>Liara Desktop</p>
-          </div>
+          {/* <img src={logo} width={"20"} /> */}
+          <p>Liara Desktop</p>
+
           <ActionNav>
             <div ref={minimize}>
               <img src={minimizeIcon} width={"19"} />
@@ -87,7 +90,7 @@ const Navigation = () => {
         </ActionContainer>}
       <NavContainer>
         {!online &&
-          <BlurContainer>
+          <BlurContainer height={!isWin ? "100vh" : "94vh"}>
             <OfflineAlert>
               <OfflineIcon />
               <p>لطفا دسترسی به اینترنت خود را بررسی کنید.</p>
@@ -98,7 +101,7 @@ const Navigation = () => {
           <Fragment>
             <NavHeader>
               <ActionMenu onClick={handleToggleSidebar}>
-                <img src={openMenuIcon} />
+                <img src={isOpen ? closeMenuIcon : openMenuIcon} />
               </ActionMenu>
               <img src={liaraLogo} width="70" />
             </NavHeader>
