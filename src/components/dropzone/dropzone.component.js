@@ -36,7 +36,7 @@ const Dropzone = () => {
   };
 
   const handleFiles = fileList => {
-    if (!fileList) {
+    if (!fileList.length) {
       return;
     }
 
@@ -99,6 +99,7 @@ const Dropzone = () => {
       onDragLeave={overrideEventDefaults}
       onDragOver={overrideEventDefaults}
       hint={hint}
+      onClick={() => inputEl.current.click()}
     >
       <input
         ref={inputEl}
@@ -109,7 +110,7 @@ const Dropzone = () => {
       <p>
         پروژه را در اینجا رها کنید
         <br />و یا
-        <span onClick={() => inputEl.current.click()}>
+        <span>
           <b>انتخاب کنید</b>
         </span>
       </p>

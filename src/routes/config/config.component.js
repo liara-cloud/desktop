@@ -28,10 +28,9 @@ import { allProjects } from "../../store/projectsSlice";
 const initConfig = {
   app: "",
   port: "",
-  type: ""
+  platform: ""
 };
 const initEmpty = { app: false, port: false };
-
 const Config = () => {
   const { region, api_token } = useSelector(
     state => state.auth.user.currentAccount
@@ -61,6 +60,26 @@ const Config = () => {
       getProjects(region, api_token)
     ]);
 
+    const [project] = res.value.data.projects.filter(
+      item => item.project_id === app
+    );
+
+    if (!project?.type) {
+       dispatch(
+        config({
+          ...projectConfig,
+          config: initConfig
+        })
+      );
+    } else {
+      dispatch(
+        config({
+          ...projectConfig,
+          config: { app, platform : project.type, port }
+        })
+      );
+    }
+
     setIsLoading({ fetch: false, refetch: false });
 
     dispatch(allProjects(res.value.data.projects));
@@ -76,6 +95,14 @@ const Config = () => {
   useEffect(
     () => {
       if (platform) {
+
+        dispatch(
+          config({
+            ...projectConfig,
+            config: { ...projectConfig.config, port: "" }
+          })
+        );
+
         const [item] = portTypes.filter(item => item.name === platform);
 
         if (!Boolean(item)) return setHasDefaultPort(false);
@@ -86,7 +113,9 @@ const Config = () => {
             config: { ...projectConfig.config, port: item.port }
           })
         );
-        setHasDefaultPort(true);
+        if(!item.show){
+          setHasDefaultPort(true);
+        }
       }
     },
     [platform]
@@ -202,7 +231,7 @@ const Config = () => {
           <Gap h={18} />
           <TextField
             type="number"
-            value={projectConfig.config?.port || ""} 
+            value={projectConfig.config?.port || ""}
             min="1"
             style={{ cursor: "text", direction: "ltr" }}
             onChange={({ target }) => handleSetPort(target.value)}

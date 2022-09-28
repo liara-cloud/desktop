@@ -15,12 +15,12 @@ export const DropzoneContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   ${props => props.hint && `background: #757f8811 `};
   ${props => props.isError && errorStyle};
   p {
     position: absolute;
-    z-index: -1;
-
+    pointer-events: none;
     direction: rtl;
     line-height: 32px;
     span {
@@ -32,7 +32,6 @@ export const DropzoneContainer = styled.div`
         background: linear-gradient(92deg, #87fcc4 0%, #28c1f5 98.77%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        cursor: pointer;
       }
     }
   }
