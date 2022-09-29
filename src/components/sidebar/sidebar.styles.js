@@ -29,6 +29,6 @@ export const CloseContainer = styled.div`
   position: fixed;
   width: 100vw;
   height: ${props => props.height};
-  top: 0;
+  bottom: 0;
   left: 0;
 `;

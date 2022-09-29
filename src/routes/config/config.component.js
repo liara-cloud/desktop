@@ -43,8 +43,9 @@ const Config = () => {
   const [isEmpty, setIsEmpty] = useState(initEmpty);
   const [hasDefaultPort, setHasDefaultPort] = useState(false);
 
-  const { projectConfig, auth, projects } = useSelector(state => state);
+  const { projectConfig, auth, projects , path : {path} } = useSelector(state => state);
   const { app, port, platform } = projectConfig.config;
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -68,16 +69,15 @@ const Config = () => {
     );
 
     if (!project?.type) {
+
       dispatch(
         config({
-          ...projectConfig,
           config: initConfig
         })
       );
     } else {
       dispatch(
         config({
-          ...projectConfig,
           config: { app, platform: project.type, port }
         })
       );
@@ -100,7 +100,6 @@ const Config = () => {
       if (platform) {
         dispatch(
           config({
-            ...projectConfig,
             config: { ...projectConfig.config, port: "" }
           })
         );
@@ -111,7 +110,6 @@ const Config = () => {
 
         dispatch(
           config({
-            ...projectConfig,
             config: { ...projectConfig.config, port: item.port }
           })
         );
@@ -125,19 +123,19 @@ const Config = () => {
 
   const handleSetPort = port => {
     dispatch(
-      config({ ...projectConfig, config: { ...projectConfig.config, port } })
+      config({ config: { ...projectConfig.config, port } })
     );
   };
 
   const backToDirectory = () => {
-    dispatch(config({ ...projectConfig, config: initConfig }));
+    dispatch(config({ config: initConfig }));
     navigate("/");
   };
 
   const startDeploy = () => {
     if (!app || !port)
       return setIsEmpty({ port: !Boolean(port), app: !Boolean(app) });
-    const { path, config } = projectConfig;
+    const { config } = projectConfig;
 
     const { currentAccount } = auth.user;
     ipcRenderer.send("deploy", {
@@ -174,6 +172,9 @@ const Config = () => {
         <Spinner />
       </BlurContainer>
     );
+
+
+  
 
   if (!projects.data.length)
     return (

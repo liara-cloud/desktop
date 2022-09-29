@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { config } from "../../store/projectConfigSlice";
 import { DropzoneContainer } from "./dropzone.styles";
 import ErrorState from "./error-state/error-state.component";
+import { pathConfig } from "../../store/pathSlice";
 
 const initErrorState = {
   isDirectory: false,
@@ -56,6 +57,9 @@ const Dropzone = () => {
   useEffect(
     () => {
       if (!path) return;
+
+      dispatch(pathConfig({ path: "" }));
+
       ipcRenderer.on(
         "is-directory",
         (_, { isDirectory, isEmpty, config: configLiaraJosn }) => {
@@ -72,11 +76,14 @@ const Dropzone = () => {
 
           dispatch(
             config({
-              path,
               config: configLiaraJosn
             })
           );
-          setPath("");
+          dispatch(
+            pathConfig({
+              path
+            })
+          );
           navigate("/config");
         }
       );
