@@ -5,7 +5,7 @@ module.exports = (api_token, region) => {
   const config = {
     headers: {
       Authorization: `Bearer ${api_token}`,
-      'User-Agent': `Desktop/${envConfig.APP_VERSION} (${envConfig.PLATFORM}-${envConfig.ARCH})`,
+      'User-Agent': `Liara Desktop/${envConfig.APP_VERSION} (${envConfig.PLATFORM}-${envConfig.ARCH})`,
     },
     prefixUrl: envConfig.REGION_API_URL[region],
   };
