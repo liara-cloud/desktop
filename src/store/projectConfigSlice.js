@@ -13,9 +13,7 @@ export const projectConfigSlice = createSlice({
   initialState: initialStateConfig,
   reducers: {
     config: (state, { payload }) => {
-      state.config.app = payload.config?.app;
-      state.config.platform = payload.config?.platform;
-      state.config.port = payload.config?.port
+      state.config = payload.config;
     }
   }
 });

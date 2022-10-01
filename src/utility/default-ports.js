@@ -1,4 +1,4 @@
-const portTypes = [
+const ports = [
   { name: "static", port: 80 },
   { name: "react", port: 80 },
   { name: "vue", port: 80 },
@@ -9,7 +9,7 @@ const portTypes = [
   { name: "flask", port: 80 },
   { name: "next", port: 3000 },
   { name: "php", port: 80 },
-  { name: "netcore", port: 80, show: true }
+  { name: "netcore", port: 80, showInput: true },
 ];
 
-export default portTypes;
+export default ports;

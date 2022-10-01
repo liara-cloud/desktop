@@ -20,7 +20,7 @@ import ActionContainer from "../../components/action-container/action-container.
 import { ipcRenderer } from "electron";
 import Spinner from "../../components/sppiner/spinner.component";
 import { BlurContainer } from "../../components/blur-container/blur-container.styles";
-import portTypes from "../../utility/ports/port-types";
+import defaultPorts from "../../utility/default-ports";
 
 import refetchIcon from "../../assets/images/revoke.svg";
 import { allProjects } from "../../store/projectsSlice";
@@ -41,11 +41,12 @@ const Config = () => {
 
   const [isLoading, setIsLoading] = useState({ fetch: true, refetch: false });
   const [isEmpty, setIsEmpty] = useState(initEmpty);
-  const [hasDefaultPort, setHasDefaultPort] = useState(false);
+  const [showPortInput, setShowPortInput] = useState(true);
 
   const { projectConfig, auth, projects , path : {path} } = useSelector(state => state);
   const { app, port, platform } = projectConfig.config;
 
+  const [initialPort] = useState(port);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -69,16 +70,18 @@ const Config = () => {
     );
 
     if (!project?.type) {
-
       dispatch(
         config({
-          config: initConfig
+          config: {
+            ...projectConfig.config,
+            ...initConfig,
+          }
         })
       );
     } else {
       dispatch(
         config({
-          config: { app, platform: project.type, port }
+          config: { ...projectConfig.config, app, platform: project.type, port }
         })
       );
     }
@@ -97,26 +100,29 @@ const Config = () => {
 
   useEffect(
     () => {
-      if (platform) {
-        dispatch(
-          config({
-            config: { ...projectConfig.config, port: "" }
-          })
-        );
-
-        const [item] = portTypes.filter(item => item.name === platform);
-
-        if (!Boolean(item)) return setHasDefaultPort(false);
-
-        dispatch(
-          config({
-            config: { ...projectConfig.config, port: item.port }
-          })
-        );
-        if (!item.show) {
-          setHasDefaultPort(true);
-        }
+      if ( ! platform) {
+        return;
       }
+
+      dispatch(
+        config({
+          config: { ...projectConfig.config, port: initialPort }
+        })
+      );
+
+      const [defaultPort] = defaultPorts.filter(p => p.name === platform);
+
+      setShowPortInput(Boolean(!defaultPort || defaultPort?.showInput));
+
+      if( ! defaultPort) {
+        return;
+      }
+
+      dispatch(
+        config({
+          config: { ...projectConfig.config, port: defaultPort.port }
+        })
+      );
     },
     [platform]
   );
@@ -143,12 +149,7 @@ const Config = () => {
       region: currentAccount.region,
       api_token: currentAccount.api_token,
       path,
-      config: {
-        ...config.config,
-        app: config.app,
-        platform: config.platform,
-        port: config.port
-      }
+      config,
     });
 
     return navigate("/upload");
@@ -223,7 +224,7 @@ const Config = () => {
       <AppContainer>
         <AppConfig onRefetch={fetchProject} />
       </AppContainer>
-      {!hasDefaultPort &&
+      {showPortInput &&
         <Fragment>
           <Title
             error={isEmpty.port}
@@ -240,7 +241,7 @@ const Config = () => {
             onChange={({ target }) => handleSetPort(target.value)}
           />
         </Fragment>}
-      <Gap h={hasDefaultPort ? 101 + 35 : 35} />
+      <Gap h={!showPortInput ? 101 + 35 : 35} />
       <ActionContainer>
         <Button onClick={startDeploy} className="umami--click--start-deploy">
           بعدی

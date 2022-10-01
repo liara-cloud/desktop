@@ -62,7 +62,7 @@ const Dropzone = () => {
 
       ipcRenderer.on(
         "is-directory",
-        (_, { isDirectory, isEmpty, config: configLiaraJosn }) => {
+        (_, { isDirectory, isEmpty, config: configLiaraJson }) => {
           if (isEmpty)
             return setError({
               isEmpty: true,
@@ -76,7 +76,7 @@ const Dropzone = () => {
 
           dispatch(
             config({
-              config: configLiaraJosn
+              config: configLiaraJson
             })
           );
           dispatch(

@@ -31,7 +31,7 @@ const AppConfig = () => {
                     <AppPlatform platform={platform} app={app} />
                   </Fragment>
                 : <Fragment>
-                    <span> برنامه ای انتخاب نشده</span>
+                    <span> برنامه‌ای انتخاب نشده</span>
                   </Fragment>}
               <img src={arrow} />
             </AppItem>

@@ -63,7 +63,6 @@ exports.deploy = async (event, args) => {
       disks: config.disks,
       type: platformDetected,
       message: config.message,
-      mountPoint: config.volume
     };
 
     if (config.healthCheck && !config.healthCheck.command) {
@@ -103,7 +102,7 @@ exports.deploy = async (event, args) => {
 
     body.build.args = config["build-arg"];
     body.gitInfo = await collectGitInfo(path, logger.warn);
-    body.platformConfig = mergePlatformConfigWithDefaults(
+    body.platformConfig = await mergePlatformConfigWithDefaults(
       path,
       config.platform,
       config[config.platform] || {},
@@ -136,19 +135,6 @@ exports.deploy = async (event, args) => {
       generateLog(`Port: ${config.port}\n`, "preparation-build", "pending")
     );
 
-    if (config.volume) {
-      this.logs.push(
-        `"volume" field is deprecated. Please use "disks" instead: https://docs.liara.ir/apps/disks`
-      );
-      event.sender.send(
-        "deploy",
-        generateLog(
-          `"volume" field is deprecated. Please use "disks" instead: https://docs.liara.ir/apps/disks\n`,
-          "preparation-build",
-          "pending"
-        )
-      );
-    }
     if (config.disks) {
       this.logs.push("Disks:");
       event.sender.send(
