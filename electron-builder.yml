@@ -6,7 +6,7 @@ files:
   - '**/*'
 publish:
   provider: s3
-  endpoint: 'test'
+  endpoint: '${env.AWS_ENDPOINT}'
   bucket: releases
 directories:
   output: release
