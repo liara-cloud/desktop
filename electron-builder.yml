@@ -6,7 +6,7 @@ files:
   - '**/*'
 publish:
   provider: s3
-  endpoint: '${env.AWS_ENDPOINT}'
+  endpoint: 'test'
   bucket: releases
 directories:
   output: release
@@ -16,7 +16,7 @@ win:
     - 'zip'
     - 'nsis'
   verifyUpdateCodeSignature: false
-  publisherName: liara
+  publisherName: Liara
 nsis:
   oneClick: false
   allowElevation: true

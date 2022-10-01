@@ -3,8 +3,15 @@ const path = require("path");
 
 const { sentry } = require("./configs/sentry");
 const appRootDir = require("app-root-dir").get();
-const { app, BrowserWindow, ipcMain, shell, dialog , globalShortcut} = require("electron");
-const { autoUpdater } = require("electron-updater");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  shell,
+  dialog,
+  globalShortcut
+} = require("electron");
+// const { autoUpdater } = require("electron-updater");
 
 const logger = require("./configs/logger");
 const { deploy } = require("./deploy/deploy");
@@ -20,6 +27,8 @@ const { checkDirectory } = require("./utils/check-upload-directory");
 
 let mainWindow;
 
+const isWin = process.platform === "win32";
+
 async function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 350,
@@ -30,30 +39,30 @@ async function createMainWindow() {
     height: 550,
     minHeight: 550,
     maxHeight: 550,
-    show: false,
-    frame: false,
+    show: !isWin,
+    frame: !isWin,
     icon:
       envConfig.PLATFORM === "darwin"
         ? `${appRootDir}/assets/liara.icns`
-        : `${appRootDir}/assets/icon.png`,
+        : `${appRootDir}/assets/liara.png`,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: false
     },
-    fullscreenable: false,
+    fullscreenable: false
   });
   const urlFormatOptions = {
     protocol: "file:",
     pathname: path.join(__dirname, "..", "dist", "index.html"),
-    slashes: false,
+    slashes: false
   };
   if (envConfig.IS_DEV && process.argv.indexOf("--noDevServer") === -1) {
     urlFormatOptions.protocol = "http:";
     urlFormatOptions.host = "localhost:8080";
-    urlFormatOptions.pathname = "index.html";
+    urlFormatOptions.pathname = "/";
     urlFormatOptions.slashes = true;
   }
-  if (envConfig.PLATFORM === "win32") app.setAppUserModelId("liara");
+  if (envConfig.PLATFORM === "win32") app.setAppUserModelId("Liara");
   mainWindow.loadURL(url.format(urlFormatOptions));
 
   // Don't show until we are ready and loaded
@@ -65,35 +74,35 @@ async function createMainWindow() {
     if (envConfig.IS_DEV) {
       const {
         default: installExtension,
-        REACT_DEVELOPER_TOOLS,
+        REACT_DEVELOPER_TOOLS
       } = require("electron-devtools-installer");
 
-      installExtension(REACT_DEVELOPER_TOOLS).catch((err) =>
+      installExtension(REACT_DEVELOPER_TOOLS).catch(err =>
         console.log("Error loading React DevTools: ", err)
       );
       mainWindow.webContents.openDevTools();
     }
   });
-  mainWindow.on("close", (e) => {
+  mainWindow.on("close", e => {
     mainWindow = null;
   });
 }
 
-app.on('browser-window-focus', function () {
+app.on("browser-window-focus", function() {
   globalShortcut.register("CommandOrControl+R", () => {
-      console.log("CommandOrControl+R is pressed: Shortcut Disabled");
+    console.log("CommandOrControl+R is pressed: Shortcut Disabled");
   });
 });
 
-app.on('browser-window-blur', function () {
-  globalShortcut.unregister('CommandOrControl+R');
+app.on("browser-window-blur", function() {
+  globalShortcut.unregister("CommandOrControl+R");
 });
 
 app.whenReady().then(() => {
   envConfig.APP_VERSION = app.getVersion();
   if (envConfig.PLATFORM === "win32") {
     logger.info(envConfig.APP_VERSION);
-    autoUpdater.checkForUpdatesAndNotify();
+    // autoUpdater.checkForUpdatesAndNotify();
   }
   createMainWindow();
   app.on("activate", () => {
@@ -102,7 +111,7 @@ app.whenReady().then(() => {
   });
 });
 
-ipcMain.on("asynchronous-login", async (event) => {
+ipcMain.on("asynchronous-login", async event => {
   logger.info("Request from IPCRenderer recieved. channle=asynchronous-login");
   event.sender.send("asynchronous-login", await readLiaraJson());
   envConfig.CHECK_API_TOKEN = true;
@@ -172,34 +181,34 @@ ipcMain.handle("frame", (event, args) => {
 });
 
 // version
-ipcMain.on("app_version", (event) => {
+ipcMain.on("app_version", event => {
   event.sender.send("app_version", { version: app.getVersion() });
 });
 
 //update
-autoUpdater.on("update-available", () => {
-  logger.error("Update Available");
-});
-autoUpdater.on("download-progress", async (progressObj) => {
-  logger.error(progressObj);
-});
-autoUpdater.on("update-downloaded", async (info) => {
-  logger.error(info);
-  logger.error("update-downloaded");
-  const response = await showUpdateAvailable();
-  if (response) {
-    autoUpdater.quitAndInstall();
-  }
-});
-autoUpdater.on("error", (e) => {
-  // dialog.showMessageBox({message: e.message})
-  logger.error(e);
-});
+// autoUpdater.on("update-available", () => {
+//   logger.error("Update Available");
+// });
+// autoUpdater.on("download-progress", async (progressObj) => {
+//   logger.error(progressObj);
+// });
+// autoUpdater.on("update-downloaded", async (info) => {
+//   logger.error(info);
+//   logger.error("update-downloaded");
+//   const response = await showUpdateAvailable();
+//   if (response) {
+//     autoUpdater.quitAndInstall();
+//   }
+// });
+// autoUpdater.on("error", (e) => {
+//   // dialog.showMessageBox({message: e.message})
+//   logger.error(e);
+// });
 
 // Stop error
 app.allowRendererProcessReuse = true;
 
-process.on("unhandledRejection", async (error) => {
+process.on("unhandledRejection", async error => {
   logger.error(error);
   await dialog.showMessageBox({
     message:
@@ -211,7 +220,7 @@ process.on("unhandledRejection", async (error) => {
         ? "خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید."
         : ".خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید",
     type: "error",
-    title: "لیارا",
+    title: "لیارا"
   });
   if (!envConfig.IS_DEV) {
     sentry.captureException(error, () => {
@@ -219,7 +228,7 @@ process.on("unhandledRejection", async (error) => {
     });
   }
 });
-process.on("uncaughtException", async (error) => {
+process.on("uncaughtException", async error => {
   logger.error(error);
   await dialog.showMessageBox({
     message:
@@ -231,7 +240,7 @@ process.on("uncaughtException", async (error) => {
         ? "خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید."
         : ".خطا به تیم فنی گزارش داده شد. در حال حاضر، شما می‌توانید برنامه را ببندید و دوباره آن را اجرا کنید",
     type: "error",
-    title: "لیارا",
+    title: "لیارا"
   });
   if (!envConfig.IS_DEV) {
     sentry.captureException(error, () => {

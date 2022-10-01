@@ -28,7 +28,7 @@ module.exports = {
   },
   target: "electron-renderer",
   plugins: [
-    new HtmlWebpackPlugin({ title: "liara" }),
+    new HtmlWebpackPlugin({ title: "Liara Desktop" }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development"),
     }),
