@@ -35,7 +35,7 @@ npm install
 Then start the app:
 
 ```bash
-npm run prod
+npm start
 ```
 
 ## Build
