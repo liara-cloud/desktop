@@ -18,30 +18,17 @@ exports.checkDirectory = async (userPath) => {
 
     const liaraJsonPath = path.join(userPath, 'liara.json');
 
-    const hasLiaraJsonFile =
+    const liaraJson =
       (await pathExists(liaraJsonPath)) && (await readJson(liaraJsonPath));
 
     const liaraCacheData = await liaraCache();
 
-    if (hasLiaraJsonFile) {
-      return {
-        isDirectory,
-        config: hasLiaraJsonFile,
-        isEmpty: false,
-        isCache: false,
-      };
-    }
+    return {
+      isDirectory,
+      config: {...liaraCacheData?.[userPath], ...liaraJson},
+      isEmpty: false,
+    };
 
-    if (liaraCacheData && liaraCacheData[userPath]) {
-      return {
-        isDirectory,
-        config: liaraCacheData[userPath],
-        isEmpty: false,
-        isCache: true,
-      };
-    }
-
-    return { isDirectory, config: {}, isEmpty: false, isCache: false };
   } catch (error) {
     if (!isDirectory && error.code === 'ENOENT') {
       return { isDirectory: false };
