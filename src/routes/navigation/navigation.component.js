@@ -24,6 +24,9 @@ import minimizeIcon from "../../assets/images/minimize.svg";
 import OfflineIcon from "./offline-icon.component";
 import { BlurContainer } from "../../components/blur-container/blur-container.styles";
 
+const deployState =['preparation-build', 'upload-progress', 'build']
+const deployStatus =['pending', 'start', 'finish']
+
 const Navigation = () => {
   const [version, setVersion] = useState(null);
   const [online, setOnline] = useState(true);
@@ -31,6 +34,9 @@ const Navigation = () => {
   const dispatch = useDispatch();
 
   const { isOpen } = useSelector(state => state.sidebar);
+  const { state , status} = useSelector(state => state.deploy);
+  
+  const checkDeployProcess = deployState.includes(state) && deployStatus.includes(status)
 
   const isAuthPage = location?.pathname === "/auth";
 
@@ -100,7 +106,7 @@ const Navigation = () => {
         {!isAuthPage &&
           <Fragment>
             <NavHeader>
-              <ActionMenu onClick={handleToggleSidebar}>
+              <ActionMenu disabled={checkDeployProcess} onClick={handleToggleSidebar}>
                 <img src={isOpen ? closeMenuIcon : openMenuIcon} />
               </ActionMenu>
               <img src={liaraLogo} width="70" />

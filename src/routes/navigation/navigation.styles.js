@@ -42,7 +42,8 @@ export const NavHeader = styled.div`
 `;
 
 export const ActionMenu = styled.button`
-  cursor: pointer;
+  cursor: ${props => (props.disabled ? "default" : "pointer")};
+  opacity: ${props => (props.disabled ? ".4" : "1")};
   background: none;
   border: none;
 `;

@@ -79,9 +79,9 @@ const Config = () => {
         })
       );
     } else {
-      dispatch(
+      !platform && dispatch(
         config({
-          config: { ...projectConfig.config, app, platform: project.type, port }
+          config: { ...projectConfig.config, platform: project.type, }
         })
       );
     }
