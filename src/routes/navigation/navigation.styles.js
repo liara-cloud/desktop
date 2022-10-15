@@ -48,7 +48,7 @@ export const ActionMenu = styled.button`
   border: none;
 `;
 
-export const OfflineAlert = styled.div`
+export const Alert = styled.div`
   direction: rtl;
   background: #0a0d0e;
   border: 1px dashed #ffd569;
@@ -68,6 +68,16 @@ export const OfflineAlert = styled.div`
 
   p {
     padding: 5px 10px 0;
+  }
+  button {
+    cursor: pointer;
+    margin-right: 5px;
+    margin-left: 5px;
+    color: #181818;
+    font-size: 12px;
+    background: #26c2ee;
+    padding: 4px 10px;
+    border-radius: 4px;
   }
 `;
 

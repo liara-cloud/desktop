@@ -54,3 +54,5 @@ ehthumbs.db
 *.lnk
 
 .prettierrc
+
+.npmrc

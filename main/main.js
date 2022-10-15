@@ -1,5 +1,6 @@
 const url = require("url");
 const path = require("path");
+const os = require("os");
 
 const { sentry } = require("./configs/sentry");
 const appRootDir = require("app-root-dir").get();
@@ -180,6 +181,16 @@ ipcMain.handle("frame", (event, args) => {
   if (args === "close") mainWindow.close();
 });
 
+// Platform
+ipcMain.handle("platform", async () => {
+  return { arch: os.arch(), platform: os.platform() };
+});
+
+// OpenUrl
+ipcMain.handle("openUrl", (_, args) => {
+  return shell.openExternal(args.page);
+});
+
 // version
 ipcMain.on("app_version", event => {
   event.sender.send("app_version", { version: app.getVersion() });
@@ -189,10 +200,10 @@ ipcMain.on("app_version", event => {
 autoUpdater.on("update-available", () => {
   logger.error("Update Available");
 });
-autoUpdater.on("download-progress", async (progressObj) => {
+autoUpdater.on("download-progress", async progressObj => {
   logger.error(progressObj);
 });
-autoUpdater.on("update-downloaded", async (info) => {
+autoUpdater.on("update-downloaded", async info => {
   logger.error(info);
   logger.error("update-downloaded");
   const response = await showUpdateAvailable();
@@ -200,7 +211,7 @@ autoUpdater.on("update-downloaded", async (info) => {
     autoUpdater.quitAndInstall();
   }
 });
-autoUpdater.on("error", (e) => {
+autoUpdater.on("error", e => {
   // dialog.showMessageBox({message: e.message})
   logger.error(e);
 });

@@ -16,4 +16,22 @@ export const BlurContainer = styled.div`
   left: 0;
   z-index: 99;
   ${props => props.justify === "center" && centerStyle};
+
+  button.close {
+    direction: rtl;
+    position: absolute;
+    bottom: 100px;
+    left: 25px;
+    padding: 4px 12px;
+    border: 1px solid #fff;
+    font-size: 12px;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 6px;
+    opacity: .6;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;
