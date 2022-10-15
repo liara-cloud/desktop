@@ -36,7 +36,7 @@ const links = {
   darwin_arm64: "http://desktop.liara.ir/releases/Liara-Desktop-latest-mac-arm64.dmg.zip",
   darwin_x64: "http://desktop.liara.ir/releases/Liara-Desktop-latest-mac-x64.dmg.zip",
   linux_arm64: "http://desktop.liara.ir/releases/Liara-Desktop-latest-linux-arm64.deb.zip",
-  linux_amd64: "http://desktop.liara.ir/releases/Liara-Desktop-latest-linux-amd64.deb.zip",
+  linux_x64: "http://desktop.liara.ir/releases/Liara-Desktop-latest-linux-amd64.deb.zip",
   other: "https://docs.liara.ir/desktop/install",
 }
 
@@ -143,7 +143,7 @@ const Navigation = () => {
           </BlurContainer>}
         {showUpdateAppModal &&
           <BlurContainer height={!isWin ? "100vh" : "94vh"}>
-            <button className="close">فعلا نه :(</button>
+            {/* <button className="close">فعلا نه :(</button> */}
             <Alert style={{color: "#26C2EE" , borderColor: "#26C2EE"}}>
               <img src={info} width={20} style={{marginTop: 4}} />
               <p>به‌روزرسانی جدید در دسترس است.</p>
