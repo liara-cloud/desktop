@@ -110,7 +110,9 @@ const Navigation = () => {
   }, [])
 
 
-  const isWin = platformInfo.platform === "Win32" || platformInfo.platform  === "Win64";
+
+  const platformOS = window.navigator.platform;
+  const isWin = platformOS === "Win32" || platformOS === "Win64";
 
   const handleOpenLink = () => {
     ipcRenderer.invoke("openUrl", { page: downlaodLink });
