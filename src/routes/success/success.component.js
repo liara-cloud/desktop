@@ -42,7 +42,7 @@ const Success = () => {
             onClick={openProjectInBrowser}
             style={{ padding: "5px 10px" }}
           >
-            نمایش در مروگر
+            نمایش در مرورگر
           </Button>
           <Button
             variant="outlined"
