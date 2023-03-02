@@ -54,8 +54,8 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.9.4",
     "babel-loader": "^8.1.0",
     "babili-webpack-plugin": "^0.1.2",
