@@ -51,7 +51,6 @@
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "styled-components": "^5.3.5",
-    "typescript": "^4.8.2",
     "winston": "^3.8.2"
   },
   "devDependencies": {
@@ -61,7 +60,7 @@
     "babel-loader": "^8.1.0",
     "babili-webpack-plugin": "^0.1.2",
     "chalk": "^4.1.2",
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
     "css-loader": "^3.5.3",
     "electron": "^16.2.8",
     "electron-builder": "^22.14.13",
