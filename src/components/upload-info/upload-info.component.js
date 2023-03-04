@@ -6,7 +6,7 @@ const UploadInfo = ({ as = "pre", log, children, ...otherProps }) => {
 
   useEffect(() => {
     if (!preRef.current) {
-      return null;
+      return;
     }
     const isScrolledToBottom =
       preRef.current.scrollHeight - preRef.current.clientHeight <=
