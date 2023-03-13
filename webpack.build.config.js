@@ -1,45 +1,43 @@
-const webpack = require("webpack");
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const BabiliPlugin = require("babili-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BabiliPlugin = require('babili-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.jsx?$/,
-        use: [{ loader: "babel-loader", query: { compact: false } }],
+        use: [{ loader: 'babel-loader', options: { compact: false } }],
       },
       {
         test: /\.(jpe?g|png|gif)$/,
-        use: [{ loader: "file-loader?name=img/[name]__[hash:base64:5].[ext]" }],
+        use: [{ loader: 'file-loader?name=img/[name]__[hash:base64:5].[ext]' }],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
-        use: [
-          { loader: "file-loader?name=font/[name]__[hash:base64:5].[ext]" },
-        ],
+        use: [{ loader: 'file-loader?name=font/[name]__[hash:base64:5].[ext]' }],
       },
     ],
   },
-  target: "electron-renderer",
+  target: 'electron-renderer',
   plugins: [
-    new HtmlWebpackPlugin({ title: "Liara Desktop" }),
+    new HtmlWebpackPlugin({ title: 'Liara Desktop' }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: "bundle.css",
-      chunkFilename: "[id].css",
+      filename: 'bundle.css',
+      chunkFilename: '[id].css',
     }),
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify("production"),
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-    new BabiliPlugin(),
+    // new BabiliPlugin(),
   ],
   stats: {
     colors: true,

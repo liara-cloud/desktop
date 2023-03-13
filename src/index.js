@@ -1,16 +1,17 @@
 import React from "react";
-import { render } from "react-dom";
-import { Helmet } from "react-helmet";
-import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 import store from "./store/store";
+import { Helmet } from "react-helmet";
+import { Provider } from "react-redux";
+import { createRoot } from 'react-dom/client';
+import { MemoryRouter } from "react-router-dom";
 
-let root = document.createElement("div");
-root.id = "root";
-document.body.appendChild(root);
+const container = document.createElement("div");
+container.id = "root";
+document.body.appendChild(container);
+const root = createRoot(container);
 
-render(
+root.render(
   <Provider store={store}>
     <Helmet>
       <script
@@ -23,6 +24,5 @@ render(
     <MemoryRouter>
       <App />
     </MemoryRouter>
-  </Provider>,
-  document.getElementById("root")
+  </Provider>
 );
