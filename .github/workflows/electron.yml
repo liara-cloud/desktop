@@ -21,7 +21,7 @@ jobs:
 
       - name: Install app dependencies
         run: |
-          npm install
+          npm install -f
 
       - name: Grant execute permission for deploy
         run: chmod +x deploy.sh
