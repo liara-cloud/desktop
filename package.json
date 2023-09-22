@@ -54,7 +54,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.20",
     "@babel/preset-env": "^7.22.20",
-    "@babel/preset-react": "^7.9.4",
+    "@babel/preset-react": "^7.22.15",
     "@babel/runtime": "^7.21.0",
     "babel-loader": "^9.1.2",
     "babili-webpack-plugin": "^0.1.2",
