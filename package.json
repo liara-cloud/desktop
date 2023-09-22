@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@liara/cli": "^3.3.0",
-    "@liara/platformicons": "^3.4.0",
+    "@liara/platformicons": "^3.8.0",
     "@liara/react-drag-drop-files": "^2.2.4",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
