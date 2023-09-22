@@ -22,7 +22,7 @@
     "deploy": "electron-builder build -lwm --x64 --arm64  --publish always"
   },
   "dependencies": {
-    "@liara/cli": "^3.3.0",
+    "@liara/cli": "^5.0.0",
     "@liara/platformicons": "^3.8.0",
     "@liara/react-drag-drop-files": "^2.2.4",
     "@reduxjs/toolkit": "^1.9.3",
