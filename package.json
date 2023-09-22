@@ -52,7 +52,7 @@
     "winston": "^3.10.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.0",
+    "@babel/core": "^7.22.20",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.21.0",
