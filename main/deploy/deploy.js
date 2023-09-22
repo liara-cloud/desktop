@@ -462,9 +462,7 @@ If you are using API token for authentication, please consider updating your API
       );
       return this.logs.push(error.message);
     }
-    const message = `Deployment failed.
-    Sorry for inconvenience. If you think it's a bug, please contact us.
-    To file a ticket, please head to: https://console.liara.ir/tickets`;
+    const message = `To get help, visit our documentation at: https://docs.liara.ir`;
     this.logs.push(message);
     event.sender.send(
       "deploy",
