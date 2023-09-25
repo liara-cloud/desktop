@@ -4,7 +4,7 @@ const { dialog } = require('electron');
 const { writeFile } = require('fs-extra');
 const { logs } = require('./deploy/deploy');
 const appRootDir = require('app-root-dir').get()
-const {autoUpdater} =require('electron-updater')
+// const {autoUpdater} =require('electron-updater')
 const { envConfig } = require('./configs/envConfig');
 
 exports.sendLogToUser = async () => {
