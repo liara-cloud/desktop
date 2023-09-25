@@ -14,8 +14,6 @@ exports.readLiaraJson = async () => {
     const content =
       (await readJSON(envConfig.NEW_GLOBAL_CONFIG_PATH, { throws: false })) || {};
 
-    console.log(content);
-    console.log(Object.values(content.accounts).length);
     if (!content.accounts || !Object.values(content.accounts).length) {
       return [];
     }
