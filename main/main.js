@@ -142,8 +142,6 @@ ipcMain.on('open-console', async (event, args) => {
 });
 
 ipcMain.on('deploy', async (event, args) => {
-  mainWindow.setSize(800, 800);
-
   if (args.cancel) {
     return await cancelDeploy(event, args);
   }
@@ -154,7 +152,10 @@ ipcMain.on('deploy', async (event, args) => {
 
 ipcMain.on('change-current', async (event, args) => {
   const { email, region } = args;
-  event.sender.send('change-current', await chanegCurrentAccount(email, region));
+  event.sender.send(
+    'change-current',
+    await chanegCurrentAccount(email, region)
+  );
 });
 
 ipcMain.on('remove-account', async (event, args) => {

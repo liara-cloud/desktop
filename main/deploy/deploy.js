@@ -4,16 +4,28 @@ const generateLog = require('./log');
 const logger = require('../configs/logger');
 const gotInstance = require('./got-instance');
 const { showNotification } = require('../notify');
-const { statSync, remove, pathExists, readJson, writeJson } = require('fs-extra');
+const {
+  statSync,
+  remove,
+  pathExists,
+  readJson,
+  writeJson,
+} = require('fs-extra');
 
 const { sleep } = require('../utils/wait');
 const { envConfig } = require('../configs/envConfig');
 const { default: upload } = require('@liara/cli/lib/services/upload');
 const { default: buildLogs } = require('@liara/cli/lib/services/build-logs');
 const { default: BuildFaild } = require('@liara/cli/lib/errors/build-failed');
-const { default: BuildCanceled } = require('@liara/cli/lib/errors/build-cancel');
-const { default: BuildTimeout } = require('@liara/cli/lib/errors/build-timeout');
-const { default: createArchive } = require('@liara/cli/lib/utils/create-archive');
+const {
+  default: BuildCanceled,
+} = require('@liara/cli/lib/errors/build-cancel');
+const {
+  default: BuildTimeout,
+} = require('@liara/cli/lib/errors/build-timeout');
+const {
+  default: createArchive,
+} = require('@liara/cli/lib/utils/create-archive');
 const {
   default: ReleaseFailed,
 } = require('@liara/cli/lib/errors/release-failed');
@@ -191,7 +203,9 @@ exports.deploy = async (event, args) => {
     }
 
     this.logs.push(
-      `Compressed size: ${bytes(sourceSize)} (use .gitignore to reduce the size)`
+      `Compressed size: ${bytes(
+        sourceSize
+      )} (use .gitignore to reduce the size)`
     );
     event.sender.send(
       'deploy',
@@ -220,40 +234,53 @@ exports.deploy = async (event, args) => {
       state: 'upload-progress',
       status: 'start',
     });
-    this.state.upload = upload(config.app, got, sourcePath);
-    const { sourceID } = await this.state.upload
-      .on('uploadProgress', async (progress) => {
-        event.sender.send('deploy', {
-          log: '',
-          total: progress.total,
-          transferred: progress.transferred,
-          percent: progress.percent * 100,
-          state: 'upload-progress',
-          status: 'pending',
-        });
-        if (Math.floor(progress.percent * 100) == 100) {
-          this.logs.push('upload finish');
+
+    let source;
+    try {
+      this.state.upload = upload(config.app, got, sourcePath);
+      source = await this.state.upload
+        .on('uploadProgress', async (progress) => {
           event.sender.send('deploy', {
             log: '',
             total: progress.total,
             transferred: progress.transferred,
             percent: progress.percent * 100,
             state: 'upload-progress',
-            status: 'finish',
+            status: 'pending',
           });
-          await sleep(2000);
-          if (this.state.canceled === true || isFinished) {
-            return;
+          if (Math.floor(progress.percent * 100) == 100) {
+            this.logs.push('upload finish');
+            event.sender.send('deploy', {
+              log: '',
+              total: progress.total,
+              transferred: progress.transferred,
+              percent: progress.percent * 100,
+              state: 'upload-progress',
+              status: 'finish',
+            });
+            await sleep(2000);
+            if (this.state.canceled === true || isFinished) {
+              return;
+            }
+            this.logs.push('Creating Release...');
+            event.sender.send('deploy', generateLog('', 'build', 'start'));
           }
-          this.logs.push('Creating Release...');
-          event.sender.send('deploy', generateLog('', 'build', 'start'));
-        }
-      })
-      .json();
+        })
+        .json();
+    } catch (error) {
+      this.logs.push('upload failed');
+      event.sender.send('deploy', {
+        log: `${error.message}\n`,
+        state: 'upload-progress',
+        status: 'failed',
+      });
+
+      throw error;
+    }
 
     // 3) create release
 
-    body.sourceID = sourceID;
+    body.sourceID = source.sourceID;
     if (this.state.canceled === true) {
       this.state.canceled = false;
       event.sender.send(
@@ -264,7 +291,9 @@ exports.deploy = async (event, args) => {
     }
 
     this.release.id = (
-      await got.post(`v2/projects/${config.app}/releases`, { json: body }).json()
+      await got
+        .post(`v2/projects/${config.app}/releases`, { json: body })
+        .json()
     ).releaseID;
     this.logs.push('Finish Release.');
     if (this.state.canceled === true) {
@@ -279,7 +308,10 @@ exports.deploy = async (event, args) => {
     await buildLogs(got, this.release.id, false, (output) => {
       if (output.state === 'BUILDING' && output.line) {
         this.logs.push(output.line);
-        event.sender.send('deploy', generateLog(output.line, 'build', 'pending'));
+        event.sender.send(
+          'deploy',
+          generateLog(output.line, 'build', 'pending')
+        );
       }
       if (output.state === 'PUSHING') {
         this.logs.push('Build finished.');
@@ -327,7 +359,11 @@ exports.deploy = async (event, args) => {
       this.state.canceled = false;
       event.sender.send(
         'deploy',
-        generateLog(chalk.hex('#1C4498')('Build canceled.\n'), 'build', 'cancel')
+        generateLog(
+          chalk.hex('#1C4498')('Build canceled.\n'),
+          'build',
+          'cancel'
+        )
       );
       showNotification('cancel');
       return this.logs.push('Build canceled.');
