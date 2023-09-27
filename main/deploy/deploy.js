@@ -272,7 +272,7 @@ exports.deploy = async (event, args) => {
       event.sender.send('deploy', {
         log: `${error.message}\n`,
         state: 'upload-progress',
-        status: 'failed',
+        status: 'error',
       });
 
       throw error;
