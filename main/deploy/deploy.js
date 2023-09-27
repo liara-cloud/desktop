@@ -372,7 +372,6 @@ exports.deploy = async (event, args) => {
 
     if (error instanceof UploadFailed) {
       event.sender.send('deploy', error.data);
-      this.logs.push('upload failed');
 
       return this.logs.push('upload failed.');
     }
