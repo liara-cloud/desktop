@@ -24,6 +24,8 @@ import defaultPorts from "../../utility/default-ports";
 
 import refetchIcon from "../../assets/images/revoke.svg";
 import { allProjects } from "../../store/projectsSlice";
+import { Alert } from "../navigation/navigation.styles";
+import OfflineIcon from "../navigation/offline-icon.component";
 
 const initConfig = {
   app: "",
@@ -41,15 +43,23 @@ const Config = () => {
 
   const [isLoading, setIsLoading] = useState({ fetch: true, refetch: false });
   const [isEmpty, setIsEmpty] = useState(initEmpty);
+  const [isConnectionFailed, setIsConnectionFailed] = useState(false);
   const [showPortInput, setShowPortInput] = useState(true);
 
-  const { projectConfig, auth, projects , path : {path} } = useSelector(state => state);
+  const { projectConfig, auth, projects, path: { path } } = useSelector(
+    state => state
+  );
   const { app, port, platform } = projectConfig.config;
 
   const [initialPort] = useState(port);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleTryConnectionFailed = () => {
+    setIsConnectionFailed(false);
+    fetchProject();
+  };
 
   const fetchProject = async () => {
     setIsLoading({ ...isLoading, refetch: true });
@@ -60,35 +70,42 @@ const Config = () => {
       }, 700);
     });
 
-    const [_, res] = await Promise.allSettled([
-      initialSpin,
-      getProjects(region, api_token)
-    ]);
+    try {
+      const [_, res] = await Promise.allSettled([
+        initialSpin,
+        getProjects(region, api_token)
+      ]);
 
-    const [project] = res.value.data.projects.filter(
-      item => item.project_id === app
-    );
+      const [project] = res.value.data.projects.filter(
+        item => item.project_id === app
+      );
 
-    if (!project?.type) {
-      dispatch(
-        config({
-          config: {
-            ...projectConfig.config,
-            ...initConfig,
-          }
-        })
-      );
-    } else {
-      !platform && dispatch(
-        config({
-          config: { ...projectConfig.config, platform: project.type, }
-        })
-      );
+      if (!project?.type) {
+        // ?
+        dispatch(
+          config({
+            config: {
+              ...projectConfig.config,
+              ...initConfig
+            }
+          })
+        );
+      } else {
+        !platform &&
+          dispatch(
+            config({
+              config: { ...projectConfig.config, platform: project.type }
+            })
+          );
+      }
+
+      setIsLoading({ fetch: false, refetch: false });
+
+      dispatch(allProjects(res.value.data.projects));
+    } catch (error) {
+      setIsLoading({ fetch: false, refetch: false });
+      setIsConnectionFailed(true);
     }
-
-    setIsLoading({ fetch: false, refetch: false });
-
-    dispatch(allProjects(res.value.data.projects));
   };
 
   useEffect(
@@ -100,7 +117,7 @@ const Config = () => {
 
   useEffect(
     () => {
-      if ( ! platform) {
+      if (!platform) {
         return;
       }
 
@@ -112,9 +129,9 @@ const Config = () => {
 
       const [defaultPort] = defaultPorts.filter(p => p.name === platform);
 
-      setShowPortInput(Boolean(!defaultPort || defaultPort?.showInput));
+      setShowPortInput(Boolean(!defaultPort || defaultPort?.showInput)); // ?
 
-      if( ! defaultPort) {
+      if (!defaultPort) {
         return;
       }
 
@@ -128,9 +145,7 @@ const Config = () => {
   );
 
   const handleSetPort = port => {
-    dispatch(
-      config({ config: { ...projectConfig.config, port } })
-    );
+    dispatch(config({ config: { ...projectConfig.config, port } }));
   };
 
   const backToDirectory = () => {
@@ -149,7 +164,7 @@ const Config = () => {
       region: currentAccount.region,
       api_token: currentAccount.api_token,
       path,
-      config,
+      config
     });
 
     return navigate("/upload");
@@ -167,19 +182,36 @@ const Config = () => {
     }, 2000);
   }
 
+
   if (isLoading.fetch)
     return (
-      <BlurContainer height={!isWin ? '100vh' : '94vh'} justify="center">
+      <BlurContainer height={!isWin ? "100vh" : "94vh"} justify="center">
         <Spinner />
       </BlurContainer>
     );
 
-
-  
-
   if (!projects.data.length)
     return (
       <ConfigContainer>
+        {isConnectionFailed &&
+          <BlurContainer height={!isWin ? "100vh" : "94vh"}>
+            <Alert>
+              <OfflineIcon />
+              <p>
+                مشکلی در اتصال وجود دارد
+                <span
+                  style={{
+                    marginRight: 6,
+                    textDecoration: "underline",
+                    cursor: "pointer"
+                  }}
+                  onClick={handleTryConnectionFailed}
+                >
+                  تلاش مجدد
+                </span>
+              </p>
+            </Alert>
+          </BlurContainer>}
         <Title
           text="برنامه ای یافت نشد."
           subtitle="شما هیچ برنامه ای ندارید. ابتدا وارد کنسول لیارا شوید و برنامه ای
@@ -210,6 +242,25 @@ const Config = () => {
 
   return (
     <ConfigContainer>
+      {isConnectionFailed &&
+        <BlurContainer height={!isWin ? "100vh" : "94vh"}>
+          <Alert>
+            <OfflineIcon />
+            <p>
+              مشکلی در اتصال وجود دارد
+              <span
+                onClick={handleTryConnectionFailed}
+                style={{
+                  marginRight: 6,
+                  textDecoration: "underline",
+                  cursor: "pointer"
+                }}
+              >
+                تلاش مجدد
+              </span>
+            </p>
+          </Alert>
+        </BlurContainer>}
       <Title
         error={isEmpty.app}
         text="انتخاب برنامه"
@@ -235,7 +286,7 @@ const Config = () => {
           <Gap h={18} />
           <TextField
             type="number"
-            value={projectConfig.config?.port || ""}
+            value={projectConfig.config?.port || ""} // ?
             min="1"
             style={{ cursor: "text", direction: "ltr" }}
             onChange={({ target }) => handleSetPort(target.value)}

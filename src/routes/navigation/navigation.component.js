@@ -63,11 +63,6 @@ const Navigation = () => {
     dispatch(toggle());
   };
 
-  const openTicketingInBrowser = () => {
-    ipcRenderer.send("console", {
-      support: true
-    });
-  };
 
   useEffect(() => {
     ipcRenderer.send("app_version", "liara-cloud");
@@ -94,19 +89,19 @@ const Navigation = () => {
   }, []);
 
   useEffect(() => {
-      ipcRenderer.on("app_version", async (_, arg) => {
-        setVersion(arg.version);
-        const lastVersion = await getLastVersion()
-        if(!isWin && (arg.version !== lastVersion)) {
-          setShowUpdateAppModal(true);
-          
-          ipcRenderer.invoke('platform').then(({ arch, platform }) =>{
-            setPlatformInfo({ arch, platform })
-            const link = links[`${platform}_${arch}`] || links.other
-            setDownlaodLink(link)
-          })
-        }
-      });
+    ipcRenderer.on("app_version", async (_, arg) => {
+      setVersion(arg.version);
+      const lastVersion = await getLastVersion()
+      if(!isWin && (arg.version !== lastVersion)) {
+        setShowUpdateAppModal(true);
+        
+        ipcRenderer.invoke('platform').then(({ arch, platform }) =>{
+          setPlatformInfo({ arch, platform })
+          const link = links[`${platform}_${arch}`] || links.other
+          setDownlaodLink(link)
+        })
+      }
+    });
   }, [])
 
 
@@ -168,7 +163,6 @@ const Navigation = () => {
           <p>
             نسخه {version}
           </p>
-          <a onClick={openTicketingInBrowser}>ارتباط با پشتیبانی</a>
         </NavFooter>
       </NavContainer>
     </WindowsContainer>

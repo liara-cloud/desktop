@@ -11,3 +11,23 @@ export const LayoutDeployContainer = styled.div`
     width: 100%;
   }
 `;
+
+export const ResizeButton = styled.button`
+  display: flex;
+  color: #fff;
+  gap: 5px;
+  align-items: center;
+  background: #ffffff0d;
+  padding: 2px 10px;
+  border-radius: 12px;
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+  font-size: 10px;
+  direction: rtl;
+  cursor: pointer;
+  img {
+    width: 9px;
+  }
+`;
