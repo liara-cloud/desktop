@@ -51,11 +51,7 @@ const Cancel = () => {
   if (isMaxScreen) {
     return (
       <div style={{ height: "100%", paddingBottom: 100, position: "relative" }}>
-        <UploadInfo
-          styled={`height: 100%; max-height: 100%`}
-          log={log.toString()}
-          disabled
-        />
+        <UploadInfo zoomMode={true} log={log.toString()} disabled />
         <ResizeButton onClick={handleScreenDefault}>
           <img src={resizeIcon} />
           کوچک‌نمایی
