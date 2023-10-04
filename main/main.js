@@ -35,6 +35,7 @@ async function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 350,
     minWidth: 350,
+    resizable: true,
     autoHideMenuBar: true,
     maximizable: false,
     maxWidth: 350,
@@ -167,16 +168,13 @@ ipcMain.on("show-dialog", () => {
   sendLogToUser();
 });
 
-ipcMain.on("console", async (event, args) => {
+ipcMain.on("console", async (_, args) => {
   if (args.url) {
     return await shell.openExternal(args.url);
   }
-  if (args.support) {
-    return await shell.openExternal(envConfig.LIARA_TICKET_PAGE);
-  }
 });
 
-ipcMain.on("screen-size", async (event, args) => {
+ipcMain.on("screen-size", async (_, args) => {
   const { width, height, maxWidth, maxHeight, resizable = false } = args;
   mainWindow.setResizable(resizable);
   mainWindow.setMinimumSize(width, height);
@@ -188,12 +186,12 @@ ipcMain.on("is-directory", async (event, args) => {
   event.sender.send("is-directory", await checkDirectory(args.path));
 });
 
-ipcMain.on("errorInWindow", async (event, data) => {
+ipcMain.on("errorInWindow", async (_, data) => {
   logger.error(data);
   throw data;
 });
 // Frame
-ipcMain.handle("frame", (event, args) => {
+ipcMain.handle("frame", (_, args) => {
   if (args === "minimize") mainWindow.minimize();
   if (args === "close") mainWindow.close();
 });
