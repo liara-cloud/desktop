@@ -14,9 +14,9 @@ const UploadInfo = ({
   const [style, setStyle] = useState({});
 
   useEffect(() => {
-    ipcRenderer.invoke("platform").then(({ arch }) => {
+    ipcRenderer.invoke("platform").then(({  platform }) => {
       if (zoomMode) {
-        arch.includes("win")
+        platform.includes("win")
           ? setStyle({ maxHeight: "94%", height: "94%" })
           : setStyle({ maxHeight: "100%", height: "100%" });
       }
