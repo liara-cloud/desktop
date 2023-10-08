@@ -17,7 +17,7 @@ export const ResizeButton = styled.button`
   color: #fff;
   gap: 5px;
   align-items: center;
-  background: #ffffff0d;
+  background: #2f3e4d;
   padding: 2px 10px;
   border-radius: 12px;
   position: absolute;
