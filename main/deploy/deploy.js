@@ -435,7 +435,7 @@ exports.deploy = async (event, args) => {
         error.response &&
         error.response.statusCode >= 400 &&
         error.response.statusCode < 500
-          ? error.response.body
+          ? JSON.parse(error.response.body)
           : {};
     } catch (error) {
       responseBody = {};
