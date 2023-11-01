@@ -39,8 +39,6 @@ const {
   default: mergePlatformConfigWithDefaults,
 } = require('@liara/cli/lib/utils/merge-platform-config');
 
-const UploadFailed = require('../errors/uploadFailed');
-
 exports.logs = [];
 exports.release = { id: undefined };
 exports.state = { canceled: false, upload: false };
@@ -270,11 +268,15 @@ exports.deploy = async (event, args) => {
         })
         .json();
     } catch (error) {
-      throw new UploadFailed('upload failed', {
+      event.sender.send('deploy', {
         log: `${error.message}\n`,
         state: 'upload-progress',
         status: 'error',
       });
+
+      this.logs.push('upload failed.');
+
+      throw error;
     }
 
     // 3) create release
@@ -369,12 +371,6 @@ exports.deploy = async (event, args) => {
     }
 
     showNotification('error');
-
-    if (error instanceof UploadFailed) {
-      event.sender.send('deploy', error.data);
-
-      return this.logs.push('upload failed.');
-    }
 
     if (error.message === 'Source is too large.') {
       event.sender.send(
