@@ -33,5 +33,5 @@ export const InfoContainer = styled.pre`
   border: 1px solid rgba(161, 201, 238, 0.1);
   border-radius: 20px;
   outline: none;
-  ${(props) => props.as == "div" && divElStyle}
+  ${props => props.as == "div" && divElStyle} ${props => props.styled};
 `;

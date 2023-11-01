@@ -8,6 +8,7 @@ const errorStyle = css`
 
 export const DropzoneContainer = styled.div`
   width: 100%;
+  direction: rtl;
   border: 1px dashed #757f88;
   border-radius: 16px;
   height: 394px;

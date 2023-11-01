@@ -10,6 +10,7 @@ export const getProjects = (region, api_token) => {
   return axios.get(API, {
     headers: {
       Authorization: `Bearer ${api_token}`
-    }
+    },
+    timeout: 10_000
   });
 };

@@ -26,7 +26,7 @@ const Sidebar = () => {
 
   const openTicketingInBrowser = () => {
     ipcRenderer.send("console", {
-      support: true
+      url: `https://console.liara.ir/help`
     });
   };
 
@@ -71,7 +71,7 @@ const Sidebar = () => {
         <div style={{ padding: "10px 25px" }}>
           <OptionItem onClick={logInWithBrowser}>افزودن حساب کاربری</OptionItem>
           <OptionItem onClick={openTicketingInBrowser}>
-            ارتباط با پشتیبانی
+          راهنما
           </OptionItem>
           <OptionItem onClick={handleLogout}>خروج</OptionItem>
         </div>

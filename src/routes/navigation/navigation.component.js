@@ -45,6 +45,8 @@ const Navigation = () => {
   const [online, setOnline] = useState(true);
   const [platformInfo, setPlatformInfo] = useState({platform: "", arch: ""});
   const [downlaodLink, setDownlaodLink] = useState("");
+  const [innerWidth, setInnerWidth] = useState("");
+
   const [showUpdateAppModal, setShowUpdateAppModal] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
@@ -52,7 +54,7 @@ const Navigation = () => {
   const { isOpen } = useSelector(state => state.sidebar);
   const { state , status} = useSelector(state => state.deploy);
   
-  const checkDeployProcess = deployState.includes(state) && deployStatus.includes(status)
+  const disabledMenu = deployState.includes(state) && deployStatus.includes(status) || innerWidth > 350
 
   const isAuthPage = location?.pathname === "/auth";
 
@@ -63,11 +65,21 @@ const Navigation = () => {
     dispatch(toggle());
   };
 
-  const openTicketingInBrowser = () => {
-    ipcRenderer.send("console", {
-      support: true
-    });
-  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const innerWidth = window.innerWidth;
+      setInnerWidth(innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); 
+
+
 
   useEffect(() => {
     ipcRenderer.send("app_version", "liara-cloud");
@@ -94,19 +106,19 @@ const Navigation = () => {
   }, []);
 
   useEffect(() => {
-      ipcRenderer.on("app_version", async (_, arg) => {
-        setVersion(arg.version);
-        const lastVersion = await getLastVersion()
-        if(!isWin && (arg.version !== lastVersion)) {
-          setShowUpdateAppModal(true);
-          
-          ipcRenderer.invoke('platform').then(({ arch, platform }) =>{
-            setPlatformInfo({ arch, platform })
-            const link = links[`${platform}_${arch}`] || links.other
-            setDownlaodLink(link)
-          })
-        }
-      });
+    ipcRenderer.on("app_version", async (_, arg) => {
+      setVersion(arg.version);
+      const lastVersion = await getLastVersion()
+      if(!isWin && (arg.version !== lastVersion)) {
+        setShowUpdateAppModal(true);
+        
+        ipcRenderer.invoke('platform').then(({ arch, platform }) =>{
+          setPlatformInfo({ arch, platform })
+          const link = links[`${platform}_${arch}`] || links.other
+          setDownlaodLink(link)
+        })
+      }
+    });
   }, [])
 
 
@@ -144,7 +156,7 @@ const Navigation = () => {
             </Alert>
           </BlurContainer>}
         {showUpdateAppModal &&
-          <BlurContainer height={!isWin ? "100vh" : "94vh"}>
+          <BlurContainer height={!isWin ? "100vh" : "94vh"}>http://localhost:8080/font/menu-open__wEZGI.svg
             {/* <button className="close">فعلا نه :(</button> */}
             <Alert style={{color: "#26C2EE" , borderColor: "#26C2EE"}}>
               <img src={info} width={20} style={{marginTop: 4}} />
@@ -156,7 +168,7 @@ const Navigation = () => {
         {!isAuthPage &&
           <Fragment>
             <NavHeader>
-              <ActionMenu disabled={checkDeployProcess} onClick={handleToggleSidebar}>
+              <ActionMenu disabled={disabledMenu} onClick={handleToggleSidebar}>
                 <img src={isOpen ? closeMenuIcon : openMenuIcon} />
               </ActionMenu>
               <img src={liaraLogo} width="70" />
@@ -168,7 +180,6 @@ const Navigation = () => {
           <p>
             نسخه {version}
           </p>
-          <a onClick={openTicketingInBrowser}>ارتباط با پشتیبانی</a>
         </NavFooter>
       </NavContainer>
     </WindowsContainer>

@@ -62,7 +62,23 @@ const Dropzone = () => {
 
       ipcRenderer.on(
         "is-directory",
-        (_, { isDirectory, isEmpty, config: configLiaraJson }) => {
+        (
+          _,
+          {
+            isDirectory,
+            isEmpty,
+            config: configLiaraJson,
+            liaraJsonSyntaxError
+          }
+        ) => {
+          if (liaraJsonSyntaxError) {
+            return setError({
+              isEmpty: true,
+              msg:
+                "طفا فایل liara.json را بازبینی کنید و از ساختار صحیح آن مطمئن شوید."
+            });
+          }
+
           if (isEmpty)
             return setError({
               isEmpty: true,

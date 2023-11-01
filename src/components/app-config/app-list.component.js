@@ -25,7 +25,7 @@ const AppListConfig = ({ currentApp, onClose, ...otherProps }) => {
   if (!filteredProject.length) {
     return (
       <AppListContainer {...otherProps}>
-        <EmptyText>برنامه دیگری وجود ندارد</EmptyText>;
+        <EmptyText>برنامه دیگری وجود ندارد</EmptyText>
       </AppListContainer>
     );
   }

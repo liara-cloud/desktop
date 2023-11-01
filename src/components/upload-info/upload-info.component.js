@@ -1,8 +1,27 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { InfoContainer } from "./upload-info.style";
+import { ipcRenderer } from "electron";
 
-const UploadInfo = ({ as = "pre", log, children, ...otherProps }) => {
+const UploadInfo = ({
+  as = "pre",
+  log,
+  children,
+  zoomMode = false,
+  ...otherProps
+}) => {
   const preRef = useRef();
+
+  const [style, setStyle] = useState({});
+
+  useEffect(() => {
+    ipcRenderer.invoke("platform").then(({  platform }) => {
+      if (zoomMode) {
+        platform.includes("win")
+          ? setStyle({ maxHeight: "94%", height: "94%" })
+          : setStyle({ maxHeight: "100%", height: "100%" });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (!preRef.current) {
@@ -29,6 +48,7 @@ const UploadInfo = ({ as = "pre", log, children, ...otherProps }) => {
     <InfoContainer
       dangerouslySetInnerHTML={{ __html: log }}
       ref={preRef}
+      style={style}
       {...otherProps}
     />
   );

@@ -3,24 +3,15 @@ const { envConfig } = require('../configs/envConfig');
 const logger = require('../configs/logger');
 
 async function liaraCache() {
-  let liaraAuthJson;
-
   const liaraCachePath = envConfig.GLOBAL_CACHE_PATH;
 
   try {
-    liaraAuthJson =
+    const liaraAuthJson =
       ((await fs.pathExists(envConfig.NEW_GLOBAL_CONFIG_PATH)) &&
         (await fs.readJSON(envConfig.NEW_GLOBAL_CONFIG_PATH, {
           throws: false,
         }))) ||
       {};
-
-    if (!liaraAuthJson.accounts) {
-      liaraAuthJson =
-        ((await fs.pathExists(envConfig.GLOBAL_CONF_PATH)) &&
-          (await fs.readJSON(envConfig.GLOBAL_CONF_PATH, { throws: false }))) ||
-        {};
-    }
 
     const liaraCacheJson =
       ((await fs.pathExists(liaraCachePath)) &&
