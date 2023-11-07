@@ -1,6 +1,13 @@
+# 2.1.1 (2023.11.1)
+
+#### Fixes
+
+- update packages
+- better error handling
+
 # 2.1.0 (2023.3.13)
 
-#### Fixed
+#### Fixes
 
 - update packages
 
