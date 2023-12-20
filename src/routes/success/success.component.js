@@ -28,10 +28,10 @@ const Success = () => {
   };
 
   const openProjectInBrowser = () => {
-    const { region } = auth.user.currentAccount;
-    const { app } = projectConfig.config;
+    const { app, network } = projectConfig.config;
+
     ipcRenderer.send("console", {
-      url: liaraDomianProject(region, app)
+      url: liaraDomianProject(network, app)
     });
   };
 

@@ -8,11 +8,11 @@ const AppListConfig = ({ currentApp, onClose, ...otherProps }) => {
   const { projectConfig, projects } = useSelector(state => state);
   const dispatch = useDispatch();
 
-  const handleSelectProject = (app, platform) => {
+  const handleSelectProject = ({app, platform, network }) => {
     dispatch(
       config({
         ...projectConfig,
-        config: { ...projectConfig.config, app, platform }
+        config: { ...projectConfig.config, app, platform, network }
       })
     );
     onClose();
@@ -30,12 +30,13 @@ const AppListConfig = ({ currentApp, onClose, ...otherProps }) => {
     );
   }
 
+
   return (
     <AppListContainer {...otherProps}>
-      {filteredProject.map(({ project_id, type }) =>
+      {filteredProject.map(({ project_id, type, network }) =>
         <ProjectItem
           key={project_id}
-          onClick={() => handleSelectProject(project_id, type)}
+          onClick={() => handleSelectProject({ app: project_id, platform: type, network: network?._id })}
         >
           <AppPlatform app={project_id} platform={type} />
         </ProjectItem>

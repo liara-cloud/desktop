@@ -81,6 +81,15 @@ const Config = () => {
       );
 
 
+      if(project?.network) {
+        dispatch(
+          config({
+            config: { ...projectConfig.config, platform: project.type, network: project.network._id }
+          })
+        );
+      }
+
+
       if (!project?.type) {
         dispatch(
           config({
@@ -91,13 +100,6 @@ const Config = () => {
           })
         );
       } else {
-        if(!platform && project.network) {
-          dispatch(
-            config({
-              config: { ...projectConfig.config, platform: project.type, network: project.network }
-            })
-          );
-        }
         !platform &&
           dispatch(
             config({
