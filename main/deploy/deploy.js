@@ -54,7 +54,6 @@ exports.deploy = async (event, args) => {
     const platformDetected = config.platform;
     const cachePath = envConfig.GLOBAL_CACHE_PATH;
     const [preUrl, postUrl] = envConfig.REGION_DEPLOY_APP[region].split('api');
-
     const body = {
       build: {},
       args: config.args,
@@ -336,7 +335,11 @@ exports.deploy = async (event, args) => {
     });
     this.logs.push('Release Created.');
     this.logs.push('Deployment finished successfully.');
-    const url = `${preUrl}${config.app}${postUrl}`;
+
+    const url = `${preUrl}${config.app}${
+      config.network ? '.liara.run' : postUrl
+    }`;
+
     this.logs.push(url);
     event.sender.send(
       'deploy',
